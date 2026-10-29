@@ -1,0 +1,83 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { media, areas } from "../lib/site";
+
+const imgs: Record<string, string> = { back: "2024/12/bp-1.webp", neck: "2024/12/Neck-Pain.svg", shoulder: "2024/12/Shoulder-Pain.svg", knee: "2024/12/Knee-Pain.svg" };
+const how = [
+  ["clipboard", "Answer clinically designed questions", "About your symptoms, triggers and history — 5–10 minutes."],
+  ["activity", "Get a preliminary diagnosis", "A differential analysis points to the most likely root cause."],
+  ["target", "Receive your care toolkit", "Posture, recovery, fitness and nutrition protocols, plus physio-picked essentials."],
+];
+---
+<Base title="Pain Assessments" description="Free, physio-designed pain assessments for back, neck, shoulder and knee pain. Get a preliminary diagnosis and a personalized care toolkit in 5–10 minutes.">
+  <section class="ql-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Pain assessments</span></nav>
+      <div class="ql-head">
+        <span class="badge badge-sun">Free · 5–10 minutes · physio-designed</span>
+        <h1 class="h1">Choose your <span class="hl">health concern</span></h1>
+        <p class="lead">Designed by our experts to understand your symptoms and find the root cause — before small issues become chronic problems.</p>
+      </div>
+      <div class="ql-grid">
+        {areas.map((a, i) => (
+          <a class="ql-card card card-hover" href={a.assessment} data-reveal style={`--d:${i * 0.06}s`}>
+            <div class="ql-img"><img src={media(`/wp-content/uploads/${imgs[a.key]}`)} alt="" loading={i < 2 ? "eager" : "lazy"} /></div>
+            <div class="ql-body">
+              <h2 class="h3">{a.label}</h2>
+              <p class="soft">{a.stat}</p>
+              <span class="btn btn-sm">Take assessment <Icon name="arrow" class="arrow" /></span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <ol class="ql-how">
+        {how.map(([ic, t, d], i) => <li><span class="n">{i + 1}</span><Icon name={ic} size={26} /><strong>{t}</strong><p class="muted">{d}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="ql-more">
+        <div>
+          <p class="eyebrow">Level 2 · Health assessments</p>
+          <h2 class="h2">Already pain-free? Measure your strength, balance & mobility.</h2>
+          <p class="soft">Guided movement tests that give you a health score out of 10 to track over time in your betterYou corner.</p>
+        </div>
+        <ul>
+          {areas.map((a) => <li><a href={a.health}><Icon name={a.key} size={22} /> {a.name} health <Icon name="arrow" size={18} /></a></li>)}
+          <li><a href="/assessment-longevity-goals/"><Icon name="target" size={22} /> Set your longevity goals <Icon name="arrow" size={18} /></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ql-hero { padding: 32px 0 48px; background: radial-gradient(70% 70% at 100% 0%, var(--sun-100), transparent 60%), linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .ql-head { max-width: 760px; display: grid; gap: 14px; justify-items: start; margin: 28px 0 36px; }
+  .ql-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .ql-card { display: flex; flex-direction: column; }
+  .ql-img { aspect-ratio: 1; background: var(--plum-50); display: grid; place-items: center; overflow: hidden; }
+  .ql-img img { width: 100%; height: 100%; object-fit: cover; }
+  .ql-body { padding: 20px; display: grid; gap: 10px; flex: 1; align-content: start; }
+  .ql-body .btn { justify-self: start; margin-top: 6px; }
+  .ql-how { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .ql-how li { position: relative; padding: 26px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); display: grid; gap: 8px; color: var(--plum-700); }
+  .ql-how strong { color: var(--ink); font-family: var(--font-display); font-size: 18px; }
+  .ql-how .n { position: absolute; right: 20px; top: 14px; font: 800 44px var(--font-display); color: var(--plum-100); }
+  .ql-more { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: clamp(24px, 4vw, 48px); border-radius: var(--r-xl); background: var(--plum-900); color: #fff; align-items: center; }
+  .ql-more .eyebrow { color: var(--sun-500); }
+  .ql-more .soft { color: rgba(255, 255, 255, 0.75); margin-top: 12px; }
+  .ql-more ul { list-style: none; display: grid; gap: 8px; }
+  .ql-more a { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: var(--r-md); background: rgba(255, 255, 255, 0.07); font-weight: 600; transition: all 0.2s; }
+  .ql-more a :global(svg:last-child) { margin-left: auto; }
+  .ql-more a:hover { background: #fff; color: var(--plum-800); }
+  @media (max-width: 960px) { .ql-grid { grid-template-columns: 1fr 1fr; } .ql-how, .ql-more { grid-template-columns: 1fr; } }
+</style>

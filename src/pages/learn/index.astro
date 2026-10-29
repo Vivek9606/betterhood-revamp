@@ -1,0 +1,288 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import PostCard from "../../components/PostCard.astro";
+import Newsletter from "../../components/Newsletter.astro";
+import { posts, postsIn, taxonomies, formatDate } from "../../lib/data";
+import { media } from "../../lib/site";
+
+const banner = postsIn("post-section-tags", "learn-page-banner")[0] ?? posts[0];
+const trending = posts.filter((p) => p.image && p.slug !== banner.slug).slice(0, 3);
+const mustKnows = postsIn("post-section-tags", "absolute-must-knows").slice(0, 6);
+const expert = postsIn("post-section-tags", "expert-section").slice(0, 12);
+const explainers = postsIn("post-section-tags", "explainer-series").slice(0, 8);
+const first = posts.slice(0, 12);
+
+const groups = [
+  { key: "w", title: "By what's inside", terms: taxonomies["by-what-inside"] },
+  { key: "h", title: "By health concern", terms: taxonomies["by-health-concern"] },
+  { key: "o", title: "By solution", terms: taxonomies["by-solution"] },
+];
+const types = taxonomies.category.filter((t) => t.slug !== "uncategorized");
+---
+<Base title="Learn — Expert-led articles on pain, posture & recovery" description="1000+ physio-backed articles and videos on back, neck, shoulder, knee and feet pain, posture, recovery and healthy ageing from betterhood.">
+  <section class="l-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Learn</span></nav>
+      <div class="l-hero-grid">
+        <div>
+          <p class="eyebrow">The better library</p>
+          <h1 class="h1">Understand your pain. <span class="hl">Then outsmart it.</span></h1>
+          <p class="lead">Expert-led articles, explainers and exercise videos — reviewed with physiotherapists, written for real life.</p>
+          <form class="l-search" role="search" id="search" onsubmit="return false">
+            <Icon name="search" size={20} />
+            <label for="q" class="sr-only">Search articles</label>
+            <input id="q" type="search" placeholder="Search “sciatica”, “knee cap”, “desk posture”…" autocomplete="off" />
+          </form>
+          <div class="l-quick">
+            {taxonomies["by-health-concern"].map((t) => <a class="chip" href={`/learn/by-health-concern/${t.slug}/`}>{t.name}</a>)}
+          </div>
+        </div>
+        <a class="l-banner card card-hover" href={`/learn/${banner.slug}/`}>
+          <div class="media"><img src={media(banner.image?.src)} alt={banner.image?.alt ?? ""} fetchpriority="high" /></div>
+          <div class="l-banner-body">
+            <span class="badge badge-sun">Featured</span>
+            <p class="h3">{banner.title}</p>
+            <p class="muted">By {banner.author} · {formatDate(banner.date)}</p>
+            <span class="link">Read article <Icon name="arrow" /></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">What's trending</p><h2 class="h2">Fresh from the library</h2></div></div>
+      <div class="grid cols-3">{trending.map((p) => <PostCard post={p} eager />)}</div>
+    </div>
+  </section>
+
+  <!-- Browse with filters -->
+  <section class="section bg-white" id="browse">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="eyebrow">Browse everything</p><h2 class="h2">All articles & videos</h2></div>
+        <button class="btn btn-ghost btn-sm f-toggle" aria-expanded="false" aria-controls="filters"><Icon name="filter" /> Filter</button>
+      </div>
+      <div class="browse">
+        <aside class="filters" id="filters">
+          <div class="f-group">
+            <p class="f-t">Type</p>
+            <div class="f-chips" data-group="c" data-single>
+              <button class="chip" aria-pressed="true" data-v="">All</button>
+              {types.map((t) => <button class="chip" aria-pressed="false" data-v={t.slug}>{t.name}</button>)}
+            </div>
+          </div>
+          {groups.map((g) => (
+            <div class="f-group">
+              <p class="f-t">{g.title}</p>
+              <div class="f-chips" data-group={g.key}>
+                {g.terms.map((t) => <button class="chip" aria-pressed="false" data-v={t.slug}>{t.name}</button>)}
+              </div>
+            </div>
+          ))}
+          <button class="link f-reset" type="button">Reset filters</button>
+        </aside>
+        <div>
+          <p class="b-count muted" aria-live="polite"><span data-count>{posts.length}</span> results</p>
+          <div class="grid b-grid" data-grid>
+            {first.map((p) => <PostCard post={p} />)}
+          </div>
+          <div class="b-more"><button class="btn btn-ghost" data-more>Load more</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {mustKnows.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">by betterhood™</p><h2 class="h2">Absolute must knows</h2></div>
+          <a class="link" href="/learn/post-section-tags/absolute-must-knows/">See all <Icon name="arrow" /></a>
+        </div>
+        <div class="grid cols-3">{mustKnows.map((p) => <PostCard post={p} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section bg-plum expert">
+    <div class="wrap expert-grid">
+      <div class="expert-card">
+        <img src={media("/wp-content/uploads/2025/07/1556541848567-2.webp")} alt="Shayamal Vallabhjee" loading="lazy" />
+        <p class="eyebrow">Insights from our expert</p>
+        <h2 class="h2">Shayamal Vallabhjee</h2>
+        <p class="soft">Chief Science Officer, betterhood<br />Performance Psychologist | Sports Scientist</p>
+        <a class="btn btn-sun" href="/learn/post-section-tags/expert-section/">All expert insights <Icon name="arrow" class="arrow" /></a>
+      </div>
+      <ol class="expert-list">
+        {expert.map((p) => (
+          <li><a href={`/learn/${p.slug}/`}><span class="muted">{formatDate(p.date, "short")}</span><strong>{p.title}</strong><Icon name="arrow-up-right" size={18} /></a></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {explainers.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">Explainer series</p><h2 class="h2">Pain, explained simply</h2></div>
+          <a class="link" href="/learn/post-section-tags/explainer-series/">See all <Icon name="arrow" /></a>
+        </div>
+        <div class="scroller">{explainers.map((p) => <div style="width:min(320px,80vw)"><PostCard post={p} /></div>)}</div>
+      </div>
+    </section>
+  )}
+  <Newsletter />
+</Base>
+
+<template id="card-tpl">
+  <article class="pc card card-hover">
+    <a class="pc-link"></a>
+    <div class="media pc-media"><img loading="lazy" width="768" height="432" alt="" /></div>
+    <div class="pc-body">
+      <div class="pc-meta"><span class="badge badge-plum"></span><span class="muted pc-date"></span></div>
+      <h3 class="pc-title"></h3>
+      <p class="pc-ex"></p>
+      <div class="pc-foot muted"><span class="pc-mins"></span><span class="pc-go">→</span></div>
+    </div>
+  </article>
+</template>
+
+<style>
+  .l-hero { padding: 32px 0 56px; background: linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .l-hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; margin-top: 28px; }
+  .l-hero .lead { margin: 16px 0 26px; }
+  .l-search { display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 20px; border-radius: var(--r-pill); background: #fff; border: 1.5px solid var(--line-strong); box-shadow: var(--shadow-sm); color: var(--ink-mute); transition: border-color 0.2s, box-shadow 0.2s; }
+  .l-search:focus-within { border-color: var(--plum-500); box-shadow: 0 0 0 4px var(--plum-100); }
+  .l-search input { flex: 1; border: 0; outline: 0; background: none; min-height: 48px; font-size: 16.5px; color: var(--ink); min-width: 0; }
+  .l-quick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .l-banner { display: grid; }
+  .l-banner .media { aspect-ratio: 16 / 9; }
+  .l-banner-body { padding: 22px 24px 24px; display: grid; gap: 10px; justify-items: start; }
+
+  .browse { display: grid; grid-template-columns: 260px 1fr; gap: 40px; align-items: start; }
+  .filters { position: sticky; top: calc(var(--header-h) + 20px); display: grid; gap: 24px; }
+  .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
+  .f-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .f-reset { background: none; border: 0; padding: 0; justify-self: start; }
+  .f-toggle { display: none; }
+  .b-count { margin-bottom: 16px; font-size: 14.5px; }
+  .b-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+  .b-more { display: flex; justify-content: center; margin-top: 36px; }
+  @media (max-width: 900px) {
+    .l-hero-grid { grid-template-columns: 1fr; }
+    .browse { grid-template-columns: 1fr; }
+    .f-toggle { display: inline-flex; }
+    .filters { position: static; display: none; padding: 20px; border-radius: var(--r-lg); background: var(--plum-50); }
+    .filters.open { display: grid; }
+  }
+
+  .expert-grid { display: grid; grid-template-columns: 360px 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+  .expert-card { display: grid; gap: 12px; justify-items: start; position: sticky; top: calc(var(--header-h) + 24px); }
+  .expert-card img { width: 120px; height: 120px; border-radius: 36px; object-fit: cover; margin-bottom: 8px; }
+  .expert-card .btn { margin-top: 10px; }
+  .expert-list { list-style: none; counter-reset: x; }
+  .expert-list a { display: grid; grid-template-columns: 110px 1fr auto; gap: 16px; align-items: center; padding: 18px 4px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); transition: all 0.2s; }
+  .expert-list a:hover { padding-left: 12px; color: var(--sun-500); }
+  .expert-list .muted { color: rgba(255, 255, 255, 0.5); font-size: 14px; }
+  .expert-list strong { font: 600 clamp(17px, 1.8vw, 20px)/1.3 var(--font-display); }
+  @media (max-width: 860px) { .expert-grid { grid-template-columns: 1fr; } .expert-card { position: static; } .expert-list a { grid-template-columns: 1fr auto; } .expert-list .muted { grid-column: 1 / -1; } }
+</style>
+
+<script>
+  import { media } from "../../lib/site";
+  import { track } from "../../scripts/tracker";
+  type Row = { s: string; t: string; d: string; e: string; i: string; c: string[]; h: string[]; w: string[]; o: string[]; m: number; v: boolean };
+  const grid = document.querySelector<HTMLElement>("[data-grid]")!;
+  const count = document.querySelector<HTMLElement>("[data-count]")!;
+  const more = document.querySelector<HTMLButtonElement>("[data-more]")!;
+  const tpl = document.getElementById("card-tpl") as HTMLTemplateElement;
+  const q = document.getElementById("q") as HTMLInputElement;
+  const PAGE = 12;
+  const concernNames: Record<string, string> = {};
+  document.querySelectorAll<HTMLElement>('[data-group="h"] [data-v]').forEach((b) => (concernNames[b.dataset.v!] = b.textContent!.trim()));
+
+  let rows: Row[] = [];
+  let shown = PAGE;
+  const sel: Record<string, Set<string>> = { c: new Set(), w: new Set(), h: new Set(), o: new Set() };
+  const load = fetch("/posts-index.json").then((r) => r.json()).then((d) => (rows = d));
+
+  const fmt = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  function card(r: Row) {
+    const n = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+    const a = n.querySelector("a")!; a.href = `/learn/${r.s}/`; a.setAttribute("aria-label", r.t);
+    const img = n.querySelector("img")!;
+    if (r.i) img.src = media(r.i); else img.remove();
+    const tag = n.querySelector(".badge") as HTMLElement;
+    r.h[0] ? (tag.textContent = concernNames[r.h[0]] ?? r.h[0]) : tag.remove();
+    n.querySelector(".pc-date")!.textContent = fmt(r.d);
+    n.querySelector(".pc-title")!.textContent = r.t;
+    n.querySelector(".pc-ex")!.textContent = r.e;
+    n.querySelector(".pc-mins")!.textContent = r.v ? "▶ Video" : `${r.m} min read`;
+    return n;
+  }
+  function filtered() {
+    const words = q.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    return rows.filter((r) =>
+      (["c", "w", "h", "o"] as const).every((k) => !sel[k].size || (r[k] as string[]).some((x) => sel[k].has(x))) &&
+      words.every((w) => (r.t + " " + r.e).toLowerCase().includes(w)),
+    );
+  }
+  async function render(reset = true) {
+    await load;
+    if (reset) shown = PAGE;
+    const list = filtered();
+    count.textContent = String(list.length);
+    grid.replaceChildren(...list.slice(0, shown).map(card));
+    if (!list.length) grid.innerHTML = `<p class="empty" style="grid-column:1/-1">No articles match that yet. Try fewer filters or a different word.</p>`;
+    more.hidden = shown >= list.length;
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-group]").forEach((g) => {
+    const key = g.dataset.group!;
+    g.addEventListener("click", (e) => {
+      const b = (e.target as Element).closest<HTMLButtonElement>("[data-v]");
+      if (!b) return;
+      if (g.hasAttribute("data-single")) {
+        g.querySelectorAll("[data-v]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+        sel[key] = new Set(b.dataset.v ? [b.dataset.v] : []);
+      } else {
+        const on = b.getAttribute("aria-pressed") !== "true";
+        b.setAttribute("aria-pressed", String(on));
+        on ? sel[key].add(b.dataset.v!) : sel[key].delete(b.dataset.v!);
+      }
+      render();
+      track("filter", { where: "learn", group: key, value: b.dataset.v || "all" });
+    });
+  });
+  document.querySelector(".f-reset")!.addEventListener("click", () => {
+    Object.values(sel).forEach((s) => s.clear());
+    document.querySelectorAll("[data-group] [data-v]").forEach((b) => b.setAttribute("aria-pressed", String(b.closest("[data-single]") && !(b as HTMLElement).dataset.v)));
+    q.value = "";
+    render();
+  });
+  // log a search once the visitor stops typing, with how many articles it found (0 = content gap)
+  let st: number | undefined, lastQ = "";
+  q.addEventListener("input", () => {
+    clearTimeout(st);
+    st = window.setTimeout(async () => {
+      const term = q.value.trim();
+      if (term.length < 2 || term === lastQ) return;
+      lastQ = term;
+      await load;
+      track("search", { where: "learn", q: term, results: filtered().length });
+    }, 1200);
+  });
+  let t: number | undefined;
+  q.addEventListener("input", () => {
+    clearTimeout(t);
+    t = window.setTimeout(() => { render(); if (q.value) document.getElementById("browse")!.scrollIntoView({ behavior: "smooth" }); }, 250);
+  });
+  more.addEventListener("click", () => { shown += PAGE; render(false); });
+  const ft = document.querySelector<HTMLButtonElement>(".f-toggle")!;
+  ft.addEventListener("click", () => { const f = document.getElementById("filters")!; f.classList.toggle("open"); ft.setAttribute("aria-expanded", String(f.classList.contains("open"))); });
+  if (location.hash === "#search") q.focus();
+</script>

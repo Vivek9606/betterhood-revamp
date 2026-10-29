@@ -1,0 +1,75 @@
+---
+// "{Area} Protocols": the area's articles grouped by solution (Posture & Support / Relief & Recovery).
+import Base from "../layouts/Base.astro";
+import Icon from "./Icon.astro";
+import PostCard from "./PostCard.astro";
+import { posts } from "../lib/data";
+import { areas } from "../lib/site";
+
+interface Props { area: "back" | "neck" | "shoulder" | "knee"; title: string; tagline: string }
+const { area, title, tagline } = Astro.props;
+const a = areas.find((x) => x.key === area)!;
+const mine = posts.filter((p) => p.concern.includes(a.concern));
+const groups = [
+  { key: "posture", name: "Posture & Support", line: "Prevent the wear and tear of your muscles and joints", icon: "posture" },
+  { key: "recovery", name: "Relief & Recovery", line: "Help your body heal itself the right way", icon: "leaf" },
+].map((g) => ({ ...g, items: mine.filter((p) => p.solution.includes(g.key)) }));
+---
+<Base title={title} description={`${tagline}. Physio-backed posture, support, relief and recovery protocols from betterhood.`}>
+  <section class="pr-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href={a.corner}>betterYou corner</a><span aria-hidden="true">/</span><span>{title}</span></nav>
+      <div class="pr-head">
+        <div>
+          <p class="eyebrow">betterhood™ protocols</p>
+          <h1 class="h1">{title}</h1>
+          <p class="lead">{tagline}</p>
+        </div>
+        <nav class="pr-jump" aria-label="Protocol types">
+          {groups.map((g) => <a class="chip" href={`#${g.key}`}><Icon name={g.icon} size={16} /> {g.name} <span class="muted">{g.items.length}</span></a>)}
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  {groups.map((g, gi) => (
+    <section class:list={["section-tight", { "bg-white": gi % 2 === 1 }]} id={g.key}>
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">{g.name} protocols</p><h2 class="h2">{g.line}</h2></div>
+          <a class="link" href={`/learn/by-solution/${g.key}/`}>All {g.name.toLowerCase()} <Icon name="arrow" /></a>
+        </div>
+        <div class="grid cols-3" data-pager={g.key}>
+          {g.items.map((p, i) => <div hidden={i >= 9}><PostCard post={p} /></div>)}
+        </div>
+        {g.items.length > 9 && <div class="pr-more"><button class="btn btn-ghost" data-more={g.key}>Show more</button></div>}
+      </div>
+    </section>
+  ))}
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="pr-cta">
+        <div><p class="eyebrow">Personalize it</p><h2 class="h3">Get protocols matched to the root cause of your {a.label.toLowerCase()}.</h2></div>
+        <a class="btn btn-sun btn-lg" href={a.assessment}>Take the free assessment <Icon name="arrow" class="arrow" /></a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .pr-hero { padding: 32px 0 40px; background: radial-gradient(70% 70% at 100% 0%, var(--plum-100), transparent 60%), var(--cream); }
+  .pr-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px; margin-top: 24px; }
+  .pr-head > div { max-width: 720px; }
+  .pr-head .lead { margin-top: 12px; }
+  .pr-jump { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pr-more { display: flex; justify-content: center; margin-top: 32px; }
+  .pr-cta { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: center; padding: clamp(24px, 4vw, 44px); border-radius: var(--r-xl); background: var(--plum-900); color: #fff; }
+  .pr-cta .eyebrow { color: var(--sun-500); }
+</style>
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-more]").forEach((b) => b.addEventListener("click", () => {
+    const hidden = [...document.querySelectorAll<HTMLElement>(`[data-pager="${b.dataset.more}"] > [hidden]`)];
+    hidden.slice(0, 9).forEach((h) => (h.hidden = false));
+    if (hidden.length <= 9) b.remove();
+  }));
+</script>

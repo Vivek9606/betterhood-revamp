@@ -1,0 +1,103 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import PostCard from "../components/PostCard.astro";
+import { posts, postsIn, isVideo, taxonomies } from "../lib/data";
+
+const rails = [
+  { slug: "care-to-age-better-campaign", title: "Care To Age Better Campaign" },
+  { slug: "gems-from-our-socials", title: "Gems From Our Socials" },
+  { slug: "explainer-series", title: "Explainer Series" },
+].map((r) => ({ ...r, items: postsIn("post-section-tags", r.slug).slice(0, 8) })).filter((r) => r.items.length);
+const library = posts.filter((p) => !isVideo(p) && p.image).slice(0, 10);
+const tv = posts.filter((p) => p.category.includes("videos")).slice(0, 15);
+const seasons = taxonomies["podcast-season"].map((s) => ({ ...s, items: postsIn("podcast-season", s.slug) }));
+---
+<Base title="Wellness Hub" description="betterhood's wellness hub: the better library, explainer series, Care To Age Better campaign, betterhood TV exercise videos and our podcast.">
+  <section class="wh-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Wellness hub</span></nav>
+      <div class="wh-head">
+        <div>
+          <p class="eyebrow">Wellness hub</p>
+          <h1 class="h1">Watch, read & listen <span class="hl">your way to better.</span></h1>
+        </div>
+        <nav class="wh-jump" aria-label="Sections">
+          {rails.map((r) => <a class="chip" href={`#${r.slug}`}>{r.title}</a>)}
+          <a class="chip" href="#library">The better Library</a><a class="chip" href="#tv">betterhood TV</a><a class="chip" href="#podcast">Podcast</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  {rails.map((r, i) => (
+    <section class:list={["section-tight", { "bg-white": i % 2 === 0 }]} id={r.slug}>
+      <div class="wrap">
+        <div class="section-head"><div><p class="eyebrow">Series</p><h2 class="h2">{r.title}</h2></div><a class="link" href={`/learn/post-section-tags/${r.slug}/`}>See all <Icon name="arrow" /></a></div>
+        <div class="scroller">{r.items.map((p) => <div class="rail"><PostCard post={p} /></div>)}</div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section-tight" id="library">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Read</p><h2 class="h2">The better Library</h2></div><a class="link" href="/learn/">Explore more <Icon name="arrow" /></a></div>
+      <div class="grid cols-3">{library.slice(0, 6).map((p) => <PostCard post={p} />)}</div>
+    </div>
+  </section>
+
+  <section class="section bg-plum" id="tv">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Watch</p><h2 class="h2">betterhood TV</h2><p class="lead">Short, physio-guided exercise videos you can do at home.</p></div><a class="btn btn-sun btn-sm" href="/learn/category/videos/">All videos</a></div>
+      <div class="tv">
+        {tv.map((p) => (
+          <a class="tv-item" href={`/learn/${p.slug}/`}>
+            <span class="tv-thumb">{p.videos[0] ? <img src={`https://i.ytimg.com/vi/${p.videos[0]}/hqdefault.jpg`} alt="" loading="lazy" /> : null}<span class="tv-play"><Icon name="play" size={18} /></span></span>
+            <span class="tv-t">{p.title}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" id="podcast">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Listen</p><h2 class="h2">Podcast</h2></div><a class="link" href="/learn/post-section-tags/podcast/">All episodes <Icon name="arrow" /></a></div>
+      <div class="seasons">
+        {seasons.map((s) => (
+          <div class="season card">
+            <div class="season-h"><span class="season-ic"><Icon name="mic" size={22} /></span><div><h3 class="h3">{s.name}</h3><p class="muted">{s.items.length} episodes</p></div><a class="link" href={`/learn/podcast-season/${s.slug}/`}>Open <Icon name="arrow" /></a></div>
+            <ol>{s.items.map((p, i) => <li><a href={`/learn/${p.slug}/`}><span class="ep">E{i + 1}</span>{p.title}<Icon name="play" size={14} /></a></li>)}</ol>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .wh-hero { padding: 32px 0 40px; background: radial-gradient(70% 80% at 100% 0%, var(--sun-100), transparent 55%), linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .wh-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px; margin-top: 24px; }
+  .wh-head > div { max-width: 640px; }
+  .wh-jump { display: flex; flex-wrap: wrap; gap: 8px; max-width: 560px; }
+  .rail { width: min(320px, 80vw); }
+  .tv { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .tv-item { display: grid; gap: 10px; }
+  .tv-thumb { position: relative; aspect-ratio: 16 / 10; border-radius: var(--r-md); overflow: hidden; background: var(--plum-800); }
+  .tv-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease); }
+  .tv-item:hover img { transform: scale(1.06); }
+  .tv-play { position: absolute; left: 10px; bottom: 10px; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--sun-500); color: var(--plum-900); }
+  .tv-t { font-weight: 600; font-size: 15px; line-height: 1.35; }
+  .tv-item:hover .tv-t { color: var(--sun-500); }
+  .seasons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .season { padding: 24px; }
+  .season-h { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+  .season-h .link { margin-left: auto; }
+  .season-ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: var(--plum-700); color: #fff; }
+  .season ol { list-style: none; display: grid; }
+  .season li a { display: flex; gap: 12px; align-items: center; padding: 12px 4px; border-top: 1px solid var(--line); font-weight: 550; }
+  .season li a :global(svg) { margin-left: auto; color: var(--plum-500); flex: none; }
+  .season li a:hover { color: var(--plum-700); }
+  .ep { font: 700 13px var(--font-display); color: var(--plum-500); background: var(--plum-50); padding: 4px 8px; border-radius: 8px; flex: none; }
+  @media (max-width: 760px) { .seasons { grid-template-columns: 1fr; } }
+</style>

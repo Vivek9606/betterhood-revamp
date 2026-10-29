@@ -1,0 +1,35 @@
+---
+import Icon from "./Icon.astro";
+interface Props { items: { q: string; a: string }[]; title?: string; schema?: boolean }
+const { items, title = "Frequently asked questions", schema = true } = Astro.props;
+const ld = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: items.map((i) => ({ "@type": "Question", name: i.q, acceptedAnswer: { "@type": "Answer", text: i.a } })) };
+---
+<div class="faq">
+  <div class="faq-head">
+    <p class="eyebrow">FAQ</p>
+    <h2 class="h2">{title}</h2>
+  </div>
+  <div class="faq-list">
+    {items.map((i, n) => (
+      <details open={n === 0}>
+        <summary>{i.q}<span class="faq-ic"><Icon name="plus" size={18} /></span></summary>
+        <p>{i.a}</p>
+      </details>
+    ))}
+  </div>
+</div>
+{schema && <script type="application/ld+json" set:html={JSON.stringify(ld)} />}
+
+<style>
+  .faq { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(24px, 5vw, 72px); align-items: start; }
+  .faq-head { position: sticky; top: calc(var(--header-h) + 24px); }
+  .faq-list { display: grid; gap: 10px; }
+  details { background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); transition: border-color 0.2s, box-shadow 0.2s; }
+  details[open] { border-color: var(--plum-200); box-shadow: var(--shadow-sm); }
+  summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; font: 600 17px/1.35 var(--font-display); }
+  summary::-webkit-details-marker { display: none; }
+  .faq-ic { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--plum-50); color: var(--plum-700); transition: transform 0.3s var(--ease), background 0.2s; }
+  details[open] .faq-ic { transform: rotate(45deg); background: var(--plum-700); color: #fff; }
+  details p { padding: 0 22px 20px; color: var(--ink-soft); font-size: 16px; }
+  @media (max-width: 860px) { .faq { grid-template-columns: 1fr; } .faq-head { position: static; } }
+</style>

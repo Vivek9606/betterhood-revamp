@@ -1,0 +1,96 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import ProductCard from "../components/ProductCard.astro";
+import LeadDialog from "../components/LeadDialog.astro";
+import recommendations from "../data/recommendations.json";
+import { productsByHandle } from "../lib/data";
+import { media, SHOP } from "../lib/site";
+import { toolkit } from "../lib/care";
+
+const products = productsByHandle((recommendations as Record<string, string[]>)["longevity-toolkit"] ?? []).slice(0, 12);
+const sheets = [
+  { k: "posture", t: "Posture", img: "2025/01/posture_icon_img.png", d: "Learn essential tips for maintaining proper posture, reducing strain, and preventing pain, ensuring long-term spinal health and comfort." },
+  { k: "recovery", t: "Recovery", img: "2025/01/recover_icon_img.png", d: "Daily essential stretches for full-body mobility" },
+  { k: "fitness", t: "Fitness", img: "2024/08/Fitness-protocols_icon.svg", d: "Learn essential tips for maintaining proper posture, reducing strain, and preventing pain, ensuring long-term spinal health and comfort." },
+  { k: "nutrition", t: "Nutrition", img: "2024/08/Nutrition-protocols_icon.svg", d: "Learn essential tips for maintaining proper posture, reducing strain, and preventing pain, ensuring long-term spinal health and comfort." },
+];
+---
+<Base title="Longevity Toolkit" description="Expert-designed toolkit for a long life of your muscles, bones, and joints: the Aging Matters eBook, care-protocol cheat sheets, assessments and health-goal monitoring.">
+  <section class="lt-hero">
+    <div class="wrap lt-grid">
+      <div class="stack" style="--stack:18px">
+        <p class="eyebrow">Longevity toolkit</p>
+        <h1 class="h1">Expert-designed toolkit for a long life <span class="hl">of your muscles, bones, and joints</span></h1>
+        <a class="btn btn-lg" href="/quiz-landing-page/">Build my toolkit <Icon name="arrow" class="arrow" /></a>
+      </div>
+      <article class="ebook">
+        <img src={media("/wp-content/uploads/2024/10/aging-matters.webp")} alt="The Aging Matters eBook cover" fetchpriority="high" />
+        <div>
+          <span class="badge badge-sun">Free eBook</span>
+          <h2 class="h3">eBook on The Aging Matters</h2>
+          <p class="soft">A comprehensive guide to the long life of your muscles, bones, and joints. Unlock the secrets to a pain-free and active life. Get your copy now.</p>
+          <button class="btn" data-lead="ebook-aging-matters" data-lead-title="Get The Aging Matters eBook">Share with me <Icon name="arrow" class="arrow" /></button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Cheat sheet for care protocols</p><h2 class="h2">Four habits. One long, active life.</h2></div></div>
+      <div class="grid cols-4">
+        {sheets.map((s) => (
+          <article class="sheet card">
+            <img src={media(`/wp-content/uploads/${s.img}`)} alt="" loading="lazy" />
+            <h3 class="h3">{s.t}</h3>
+            <p class="soft">{s.d}</p>
+            <button class="btn btn-ghost btn-sm" data-lead={`cheat-sheet-${s.k}`} data-lead-title={`Get the ${s.t} cheat sheet`}><Icon name="whatsapp" /> WhatsApp me</button>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="lt-pers">
+        <div>
+          <p class="eyebrow">Personalized care protocols</p>
+          <h2 class="h2">For your chronic pain relief and the long life of muscles and joints</h2>
+          <p class="soft">Understand more about your pain and get the personalized care protocols for posture, recovery, fitness and nutrition. Track the progress with the help of our proprietary health scores.</p>
+          <a class="btn btn-sun btn-lg" href="/quiz-landing-page/">Build my toolkit <Icon name="arrow" class="arrow" /></a>
+        </div>
+        <ul>{toolkit.map((t) => <li><img src={media(t.icon)} alt="" loading="lazy" />{t.t}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  {products.length > 0 && (
+    <section class="section-tight bg-white">
+      <div class="wrap">
+        <div class="section-head"><div><p class="eyebrow">Featured products</p><h2 class="h2">Physio-reviewed essentials</h2></div><a class="link" href={`${SHOP}/collections/all`}>View all <Icon name="arrow" /></a></div>
+        <div class="scroller">{products.map((p) => <div style="width:min(240px,70vw)"><ProductCard product={p} /></div>)}</div>
+      </div>
+    </section>
+  )}
+  <LeadDialog />
+</Base>
+
+<style>
+  .lt-hero { padding: clamp(40px, 6vw, 80px) 0; background: radial-gradient(60% 80% at 100% 0%, var(--sun-100), transparent 60%), linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .lt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .ebook { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: center; padding: 24px; border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-md); }
+  .ebook img { border-radius: var(--r-md); transform: rotate(-4deg); box-shadow: var(--shadow-md); }
+  .ebook > div { display: grid; gap: 10px; justify-items: start; }
+  .sheet { padding: 24px; display: grid; gap: 10px; align-content: start; justify-items: start; }
+  .sheet img { width: 56px; height: 56px; object-fit: contain; }
+  .lt-pers { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding: clamp(24px, 4vw, 48px); border-radius: var(--r-xl); background: var(--plum-900); color: #fff; }
+  .lt-pers .eyebrow { color: var(--sun-500); }
+  .lt-pers .soft { color: rgba(255, 255, 255, 0.75); margin: 14px 0 22px; }
+  .lt-pers ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lt-pers li { display: flex; gap: 12px; align-items: center; padding: 14px; border-radius: var(--r-md); background: rgba(255, 255, 255, 0.95); color: var(--ink); font-weight: 600; font-size: 14.5px; }
+  .lt-pers img { width: 34px; height: 34px; }
+  @media (max-width: 900px) { .lt-grid, .lt-pers { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .ebook { grid-template-columns: 1fr; } .ebook img { max-width: 160px; } }
+</style>

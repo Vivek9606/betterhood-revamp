@@ -1,0 +1,191 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import Faq from "../components/Faq.astro";
+
+const personas = [
+  ["🦐", "Shrimp", "0-40", "Full curl mode! Time to straighten up and fix that slouch"],
+  ["❓", "Question Mark", "41-55", "Even your posture is confused! Let's fix this"],
+  ["🐢", "Turtle", "56-65", "Hiding in your shell? Time to come out strong"],
+  ["🦩", "Flamingo", "66-80", "Standing tall and looking good! Almost there"],
+  ["🦒", "Giraffe", "81-90", "Reaching for the stars with that spine!"],
+  ["🦦", "Meerkat", "91-95", "Always on lookout, always standing tall!"],
+  ["🦚", "Peacock", "96-100", "Posture royalty! Your spine is a work of art"],
+];
+const steps = [
+  ["📸", "Catch Them Red-Handed", "Snap a photo of your friend, colleague, or partner when they're slouching (they never see it coming!)"],
+  ["🦐", "Watch Them Get Roasted", "Our algorithm analyses their posture and assigns them a hilarious animal persona (Shrimp, Turtle, or Peacock) with a fun roast message"],
+  ["💬", "Share the Shame (or Glory)", "Send their “Caught Card” via WhatsApp and spread the playful posture awareness"],
+];
+const why = [
+  ["😂", "It's Hilariously Fun", "Catching someone as a “Shrimp” or “Question Mark” creates laugh-out-loud moments while spreading awareness."],
+  ["🎯", "People Don't Notice", "Most people have no idea how bad their posture is. Your “catch” might be their first wake-up call!"],
+  ["💬", "Starts Conversations", "Sharing on WhatsApp creates viral challenges. “Can you beat my posture score?” spreads like wildfire."],
+  ["🏢", "Office Culture Changer", "Turn workplace slouching into a fun game. Colleagues start self-correcting just to avoid being caught!"],
+  ["❤️", "You Actually Help Them", "Behind the roast is real awareness. Your catch could prevent their future chronic pain. That's friendship!"],
+  ["🎮", "Gamified Awareness", "When health becomes a game, people pay attention. You're spreading wellness without being preachy."],
+];
+const features = [
+  ["🎭", "7 Hilarious Personas", "From Shrimp to Peacock – each persona comes with a fun roast that's shareable and memorable"],
+  ["⚡", "Instant Catch & Expose", "Snap a photo, get results in 10 seconds. No waiting, no signup – just pure catching action"],
+  ["📲", "WhatsApp Ready", "One-tap sharing to WhatsApp with pre-written roast message. Your friend gets their report card instantly"],
+  ["🏆", "Challenge Mode", "“Can you beat my 67/100 score?” creates viral challenges that spread organically"],
+  ["📊", "Detailed Shame Report", "Neck, shoulders, back, hips – each area gets exposed with star ratings they can't ignore"],
+  ["🛡️", "Privacy Protected", "Photos are analyzed and deleted instantly. We don't store anyone's embarrassing moments!"],
+];
+const faqs = [
+  { q: "Is Slouch Catcher really free?", a: "Yes! 100% free forever. Catch unlimited friends, share unlimited roasts. No hidden charges, no subscriptions. We believe posture awareness should be accessible (and fun) for everyone." },
+  { q: "Can I catch someone without them knowing?", a: "Absolutely! That's half the fun. Snap them when they're deeply focused on their phone or laptop – that's when the slouch is most obvious. Then surprise them with their Shrimp card!" },
+  { q: "Do you store the photos I take?", a: "No. We respect privacy. Photos are analyzed instantly and immediately deleted. We don't store anyone's embarrassing slouching moments on our servers." },
+  { q: "Won't people get offended by the roasts?", a: "Our roasts are playful, not mean! Each persona comes with motivational tips too. Most people laugh and immediately want to challenge you back. It's all in good fun." },
+  { q: "How do I share their results on WhatsApp?", a: "After catching someone, tap “Share on WhatsApp” and we'll generate a ready-to-send message with their score, persona, and a challenge link. One tap and they're roasted!" },
+  { q: "Can I catch myself too?", a: "Of course! You can use it on yourself first to see if you're worthy of being the Posture Police. Then go catch your friends and show them your superior Peacock status!" },
+  { q: "What if they actually fix their posture after being caught?", a: "That's the goal! Behind every roast is real health awareness. If your catch motivates someone to sit straighter and avoid future pain, you're a true friend (and Posture Police hero)." },
+  { q: "Can I use this for office challenges?", a: "Perfect for it! Create a “Slouch of the Week” board, run posture improvement contests, or just keep colleagues on their toes. Offices love gamifying health!" },
+];
+---
+<Base title="Slouch Catcher — Caught Your Friend Slouching?" description="Upload their photo and reveal their posture animal. Warning: they might turn out to be a shrimp. Join the Slouch Catcher waitlist from betterhood.">
+  <section class="sc-hero">
+    <div class="wrap sc-grid">
+      <div class="stack" style="--stack:20px">
+        <span class="badge badge-dark">🚨 Posture Police · Free to roast</span>
+        <h1 class="display">Caught your friend <span class="wiggle">slouching?</span></h1>
+        <p class="lead">Upload their photo and reveal their posture animal. Warning: they might turn out to be a shrimp. 🦐</p>
+        <button class="btn btn-lg" data-open-waitlist>Join the waitlist <Icon name="arrow" class="arrow" /></button>
+      </div>
+      <div class="phone" aria-hidden="true">
+        <div class="screen">
+          <p class="caught">CAUGHT!</p>
+          <p class="emoji" data-emoji>🦐</p>
+          <p class="persona" data-persona>Shrimp</p>
+          <p class="score"><span data-score>34</span>/100</p>
+          <div class="bars"><span style="--w:30%">Neck</span><span style="--w:42%">Shoulders</span><span style="--w:25%">Back</span><span style="--w:55%">Hips</span></div>
+          <span class="wa"><Icon name="whatsapp" size={16} /> Share the shame</span>
+        </div>
+      </div>
+    </div>
+    <ul class="wrap sc-stats">
+      <li><strong>12K+</strong><span>Friends caught</span></li>
+      <li><strong>73%</strong><span>Were shrimps</span></li>
+      <li><strong>8K+</strong><span>WhatsApp shares</span></li>
+      <li><strong>100%</strong><span>Free to roast</span></li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head center" style="justify-content:center"><div><p class="eyebrow no-line">How to catch a sloucher</p><h2 class="h2">Expose your friends' terrible posture in 3 simple steps</h2></div></div>
+      <ol class="steps">{steps.map(([e, t, d], i) => <li class="card"><span class="n">{i + 1}</span><span class="e">{e}</span><h3 class="h3">{t}</h3><p class="soft">{d}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="section bg-plum">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Discover your posture persona</p><h2 class="h2">From Shrimp to Peacock – which one are you?</h2></div></div>
+      <ol class="personas">
+        {personas.map(([e, n, s, d]) => <li><span class="pe">{e}</span><strong>{n}</strong><span class="ps">Score: {s}</span><p>{d}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Why be the posture police?</p><h2 class="h2">The fun way to spread posture awareness <span class="hl">(and roast your friends)</span></h2></div></div>
+      <div class="grid cols-3">{why.map(([e, t, d]) => <article class="tile card"><span class="e">{e}</span><h3 class="h3">{t}</h3><p class="soft">{d}</p></article>)}</div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">What makes Slouch Catcher viral</p><h2 class="h2">Everything you need to catch, roast, and spread the posture revolution</h2></div></div>
+      <div class="grid cols-3">{features.map(([e, t, d]) => <article class="tile card alt"><span class="e">{e}</span><h3 class="h3">{t}</h3><p class="soft">{d}</p></article>)}</div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="ready">
+        <h2 class="h2">Ready to catch a sloucher?</h2>
+        <p class="lead">Join 12,000+ people spreading posture awareness the fun way</p>
+        <button class="btn btn-dark btn-lg" data-open-waitlist>Catch your first friend <Icon name="arrow" class="arrow" /></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section"><div class="wrap"><Faq items={faqs} /></div></section>
+
+  <dialog class="wl" id="waitlist" aria-labelledby="wl-t">
+    <form class="wl-form" data-bh-form="slouch-catcher-waitlist" data-success="You're on the list! We'll WhatsApp you the moment Slouch Catcher goes live. 🦚">
+      <button type="button" class="wl-x" aria-label="Close" data-close-waitlist><Icon name="close" /></button>
+      <span class="e">🦐</span>
+      <h2 class="h3" id="wl-t">Join the waitlist</h2>
+      <div class="field"><label for="wl-n">Your name *</label><input class="input" id="wl-n" name="name" required autocomplete="name" placeholder="Your Name" /></div>
+      <div class="field"><label for="wl-p">Phone *</label><input class="input" id="wl-p" name="phone" type="tel" required pattern="[0-9+ ]{10,15}" autocomplete="tel" placeholder="Your Phone Number" /></div>
+      <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+      <button class="btn btn-block btn-lg" type="submit">Join the waitlist</button>
+      <p data-note hidden></p>
+    </form>
+  </dialog>
+</Base>
+
+<style>
+  .sc-hero { padding: clamp(40px, 6vw, 80px) 0 40px; background: radial-gradient(70% 90% at 85% 20%, var(--sun-200), transparent 60%), var(--sun-100); overflow: hidden; }
+  .sc-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; }
+  .wiggle { display: inline-block; color: var(--plum-600); transform-origin: 50% 100%; animation: slouch 3.2s var(--ease) infinite; }
+  @keyframes slouch { 0%, 60%, 100% { transform: none; } 70% { transform: skewX(-12deg) translateY(4px); } 85% { transform: skewX(4deg); } }
+  .phone { justify-self: center; width: 280px; padding: 14px; border-radius: 44px; background: var(--plum-900); box-shadow: var(--shadow-lg); transform: rotate(4deg); }
+  .screen { border-radius: 32px; background: #fff; padding: 28px 22px; text-align: center; display: grid; gap: 6px; }
+  .caught { font: 800 14px var(--font-display); letter-spacing: 0.3em; color: var(--coral-500); }
+  .emoji { font-size: 84px; line-height: 1.1; transition: transform 0.4s var(--ease); }
+  .persona { font: 700 28px var(--font-display); }
+  .score { font: 700 18px var(--font-display); color: var(--plum-600); }
+  .bars { display: grid; gap: 8px; margin: 14px 0; text-align: left; font-size: 12.5px; }
+  .bars span { position: relative; padding: 4px 10px; border-radius: 8px; background: var(--plum-50); overflow: hidden; }
+  .bars span::before { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--sun-200); z-index: 0; transition: width 0.6s var(--ease); }
+  .bars span { isolation: isolate; } .bars span::before { z-index: -1; }
+  .wa { display: inline-flex; gap: 6px; justify-content: center; align-items: center; padding: 10px; border-radius: var(--r-pill); background: #25d366; color: #fff; font-weight: 600; font-size: 14px; }
+  .sc-stats { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 48px; }
+  .sc-stats li { background: #fff; border-radius: var(--r-lg); padding: 18px 22px; display: grid; }
+  .sc-stats strong { font: 700 32px var(--font-display); color: var(--plum-700); }
+  .sc-stats span { color: var(--ink-mute); font-size: 14px; }
+  .steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .steps li { padding: 28px; display: grid; gap: 10px; position: relative; }
+  .steps .n { position: absolute; top: 20px; right: 22px; font: 800 54px var(--font-display); color: var(--plum-100); }
+  .e { font-size: 40px; line-height: 1; }
+  .personas { list-style: none; display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
+  .personas li { display: grid; gap: 6px; align-content: start; padding: 20px 16px; border-radius: var(--r-lg); background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); text-align: center; transition: transform 0.3s var(--ease), background 0.3s; }
+  .personas li:hover { transform: translateY(-6px) rotate(-1.5deg); background: rgba(255, 255, 255, 0.12); }
+  .pe { font-size: 46px; }
+  .personas strong { font-family: var(--font-display); font-size: 18px; }
+  .ps { font-size: 12.5px; color: var(--sun-500); font-weight: 700; }
+  .personas p { font-size: 13.5px; color: rgba(255, 255, 255, 0.72); }
+  .tile { padding: 26px; display: grid; gap: 10px; align-content: start; }
+  .tile.alt { background: var(--cream); }
+  .ready { text-align: center; display: grid; gap: 14px; justify-items: center; padding: clamp(32px, 5vw, 64px); border-radius: var(--r-xl); background: var(--sun-500); }
+  .ready .lead { color: var(--plum-900); }
+  .wl { border: 0; padding: 0; border-radius: var(--r-xl); width: min(440px, 92vw); box-shadow: var(--shadow-lg); }
+  .wl::backdrop { background: rgba(27, 8, 32, 0.6); backdrop-filter: blur(3px); }
+  .wl-form { padding: 32px; display: grid; gap: 14px; position: relative; }
+  .wl-x { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--plum-50); display: grid; place-items: center; }
+  @media (max-width: 1100px) { .personas { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 860px) { .sc-grid, .steps { grid-template-columns: 1fr; } .sc-stats { grid-template-columns: 1fr 1fr; } .personas { grid-template-columns: repeat(2, 1fr); } .phone { width: 240px; } }
+</style>
+
+<script>
+  const dlg = document.getElementById("waitlist") as HTMLDialogElement;
+  document.querySelectorAll("[data-open-waitlist]").forEach((b) => b.addEventListener("click", () => dlg.showModal()));
+  dlg.querySelector("[data-close-waitlist]")!.addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+
+  // the demo phone cycles through personas
+  const P = [["🦐", "Shrimp", 34], ["❓", "Question Mark", 49], ["🐢", "Turtle", 61], ["🦩", "Flamingo", 74], ["🦒", "Giraffe", 86], ["🦦", "Meerkat", 93], ["🦚", "Peacock", 98]] as const;
+  const em = document.querySelector<HTMLElement>("[data-emoji]")!, pn = document.querySelector<HTMLElement>("[data-persona]")!, sc = document.querySelector<HTMLElement>("[data-score]")!;
+  const bars = [...document.querySelectorAll<HTMLElement>(".bars span")];
+  let i = 0;
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(() => {
+    i = (i + 1) % P.length;
+    const [e, n, s] = P[i];
+    em.textContent = e; pn.textContent = n; sc.textContent = String(s);
+    bars.forEach((b, j) => b.style.setProperty("--w", `${Math.min(100, s - 10 + j * 7)}%`));
+  }, 2200);
+</script>

@@ -1,0 +1,18 @@
+---
+import Base from "../layouts/Base.astro";
+import AssessmentRunner from "./AssessmentRunner.astro";
+import { bySlug } from "../lib/assessments";
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+const a = bySlug(slug);
+const desc =
+  a.kind === "pain"
+    ? `Free, physio-designed ${a.title.toLowerCase()} assessment. Answer a few clinically designed questions and get a preliminary diagnosis with a personalized care toolkit in 5–10 minutes.`
+    : a.kind === "health"
+      ? `Measure your ${a.title.toLowerCase()} — strength, balance and mobility — with guided movement tests from betterhood physiotherapists.`
+      : "Set personalized targets for your musculoskeletal health based on the life you envision at 70 and beyond.";
+---
+<Base title={`Assessment | ${a.title}${a.kind === "health" ? " Level 2" : a.kind === "pain" ? " Level 1" : ""}`} description={desc}>
+  <AssessmentRunner slug={slug} />
+</Base>

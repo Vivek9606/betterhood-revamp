@@ -1,0 +1,4515 @@
+{
+ "slug": "assessment-lower-back-pain",
+ "formId": 5,
+ "pageTitles": [],
+ "intro": "",
+ "fields": [
+  {
+   "id": 427,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper frontpage\"> <h2 class=\"assessment_heading\">Assess <span> your Back Pain</span></h2> <p>Hey there! This assessment tool is designed by our experts. We will ask you a series of questions to better understand your symptoms. Based on a differential analysis of your responses, this tool will generate a preliminary diagnosis for you. This process should take about 5–10 minutes. Find a quiet corner, and let’s get started! </p> </div>"
+  },
+  {
+   "id": 428,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "consent_text",
+   "html": "Please note that your information shared here is completely safe and is used only for arriving at the assessment results. The assessment results are indicative and do not substitute medical expert consultation in any way. Appropriate user discretion is advised. You may refer to our <a href=\"/terms-of-services/\">Terms of Service</a> for further clarity."
+  },
+  {
+   "id": 78,
+   "type": "select",
+   "page": 2,
+   "label": "Gender",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "choices": [
+    {
+     "value": "Select",
+     "label": "Select"
+    },
+    {
+     "value": "Male",
+     "label": "Male"
+    },
+    {
+     "value": "Female",
+     "label": "Female"
+    }
+   ]
+  },
+  {
+   "id": 79,
+   "type": "number",
+   "page": 2,
+   "label": "Age (in years)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Age",
+   "default": ""
+  },
+  {
+   "id": 80,
+   "type": "number",
+   "page": 2,
+   "label": "Weight (in kgs)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Weight",
+   "default": ""
+  },
+  {
+   "id": 81,
+   "type": "number",
+   "page": 2,
+   "label": "Height (in cms)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Height",
+   "default": ""
+  },
+  {
+   "id": 17,
+   "type": "checkbox",
+   "page": 2,
+   "label": "1. Where is your lower back pain located?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Localized in one or more spots",
+     "label": "Localized in one or more spots"
+    },
+    {
+     "value": "Spread across the entire lower back",
+     "label": "Spread across the entire lower back"
+    },
+    {
+     "value": "Extends into the buttocks & thighs, but stop at the knee",
+     "label": "Extends into the buttocks & thighs, but stop at the knee"
+    },
+    {
+     "value": "Extends below the knee as well into calf muscles & feet",
+     "label": "Extends below the knee as well into calf muscles & feet"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 418,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Muscle knots, also known as myofascial trigger points, are tight, contracted areas within muscle fibers that develop when muscles are overused, injured, or subjected to prolonged tension.</p> </div>"
+  },
+  {
+   "id": 21,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 25,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 26,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 27,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 28,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 29,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 30,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 31,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 32,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 33,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 34,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 35,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 36,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 37,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 38,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 39,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 45,
+   "type": "quiz",
+   "page": 3,
+   "label": "2. Do you experience unbearable pain or stiffness in other joints of the body as well?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "Yes"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "No"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 44,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Arthritis is a condition where the joints become swollen, painful, and stiff, making movement harder. It can happen for different reasons, with osteoarthritis (wear and tear arthritis) and rheumatoid arthritis (auto-immune arthritis) being the most common.</p> </div>"
+  },
+  {
+   "id": 46,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 47,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 48,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 49,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 50,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 51,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 52,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 53,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 110,
+   "type": "checkbox",
+   "page": 4,
+   "label": "3. How would you describe your symptoms?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Dull and achy pain",
+     "label": "Dull and achy pain"
+    },
+    {
+     "value": "Sharp and stabbing pain",
+     "label": "Sharp and stabbing pain"
+    },
+    {
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)",
+     "label": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    },
+    {
+     "value": "Grinding sensations when you bend or move your spine",
+     "label": "Grinding sensations when you bend or move your spine"
+    },
+    {
+     "value": "Pain post long sitting in the bottom-most area of your spine, behind your buttocks",
+     "label": "Pain post long sitting in the bottom-most area of your spine, behind your buttocks"
+    },
+    {
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain",
+     "label": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 108,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Tailbone pain, or coccydynia, happens when the coccyx (tailbone) gets bruised or stressed from sitting on hard surfaces, an injury, or childbirth, making it painful to sit or stand up. </p> </div>"
+  },
+  {
+   "id": 112,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 113,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 114,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A1. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 111,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A1. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 115,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 116,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 118,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A2. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 117,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A2. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 127,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 128,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A3. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 129,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A3. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 130,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A3. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 139,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 140,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A4. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 141,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A4. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 142,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A4. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 143,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A5. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 144,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A5. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 145,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A5. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 146,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A5. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 147,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A6. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 148,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A6. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 149,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A6. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 150,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A6. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 423,
+   "type": "checkbox",
+   "page": 5,
+   "label": "4. Do you experience the following symptoms ?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Difficulty in urinating or in bowel movements",
+     "label": "Difficulty in urinating or in bowel movements"
+    },
+    {
+     "value": "Morning stiffness in lower back",
+     "label": "Morning stiffness in lower back"
+    },
+    {
+     "value": "Any loss of muscle tone or muscle size in your legs",
+     "label": "Any loss of muscle tone or muscle size in your legs"
+    },
+    {
+     "value": "Severe overall fatigue",
+     "label": "Severe overall fatigue"
+    },
+    {
+     "value": "None of these",
+     "label": "None of these"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 163,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Back pain, especially in the lower back, can sometimes be linked to issues with urination, as pressure on nerves or the bladder can interfere with normal urinary function.</p> </div>"
+  },
+  {
+   "id": 166,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 167,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 168,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A1. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 164,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A1. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 169,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 170,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 171,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A2. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 172,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A2. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 173,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 174,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A3. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 175,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A3. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 176,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A3. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 177,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 178,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A4. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 179,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A4. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 180,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A4. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 181,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A5. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 182,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A5. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 183,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A5. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 184,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A5. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 185,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A6. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 186,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A6. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 187,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A6. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 188,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A6. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 189,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A7. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 190,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A7. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 191,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A7. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 192,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A7. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 193,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A8. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 194,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A8. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 195,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A8. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 196,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A8. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 199,
+   "type": "quiz",
+   "page": 6,
+   "label": "5. Pain on a scale - 1 being the least amount of pain and 10 being the highest (Options to presented as a visual scale)",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz999ce04bd",
+     "label": "0 - No pain"
+    },
+    {
+     "value": "gquiz165e91c9eac",
+     "label": "1 - Mild - Pain is very mild, barely noticeable"
+    },
+    {
+     "value": "gquiz165b70dba30",
+     "label": "2 - Minor - Annoying and may have occassional sudden bouts of the localized pain"
+    },
+    {
+     "value": "gquiz16556d76aea",
+     "label": "3 - Uncomfortable - Pain is noticeable and distracting but bearable"
+    },
+    {
+     "value": "gquiz199cd5a13f6",
+     "label": "4 - Moderate - Distracting when not involved in an activity"
+    },
+    {
+     "value": "gquiz199cc81ee3c",
+     "label": "5 - Distracting - Moderately strong pain, it cant be ignored for more than a few minutes"
+    },
+    {
+     "value": "gquiz199ba8a7f02",
+     "label": "6 - Distressing - Moderately strong pain that interferes with daily activities"
+    },
+    {
+     "value": "gquiz199ca2d32f7",
+     "label": "7 - Severe - Pain that limits your ability to perform daily activity"
+    },
+    {
+     "value": "gquiz199a4766717",
+     "label": "8 - Intense - Physical activity is severely limited"
+    },
+    {
+     "value": "gquiz1995e52fedb",
+     "label": "9 - Excruciating - Unable to converse. Crying out uncontrollably"
+    },
+    {
+     "value": "gquiz199b907fbf0",
+     "label": "10 - Unspeakable - Bedridden & possibly delirious"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 198,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Sciatica is pain that shoots down your leg, starting from your lower back. It happens when something presses on the nerve that runs from your back to your legs, causing pain, tingling, or numbness. </p> </div>"
+  },
+  {
+   "id": 424,
+   "type": "checkbox",
+   "page": 7,
+   "label": "6. Is your back pain accompanied with or has started post any of the below?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Injuries from falls, accidents, trauma, or sports",
+     "label": "Injuries from falls, accidents, trauma, or sports"
+    },
+    {
+     "value": "Abdominal pain",
+     "label": "Abdominal pain"
+    },
+    {
+     "value": "Any fever or infections",
+     "label": "Any fever or infections"
+    },
+    {
+     "value": "Pregnancy",
+     "label": "Pregnancy"
+    },
+    {
+     "value": "Any autoimmune disorder (such as rheumatoid arthritis, Multiple sclerosis)",
+     "label": "Any autoimmune disorder (such as rheumatoid arthritis, Multiple sclerosis)"
+    },
+    {
+     "value": "Known Spinal deformities (uneven shoulders/hips/waist OR hunchback OR unusual forward curve in neck/lowerback)",
+     "label": "Known Spinal deformities (uneven shoulders/hips/waist OR hunchback OR unusual forward curve in neck/lowerback)"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 207,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Back pain during pregnancy is common, as the growing belly puts extra strain on the lower back, while hormonal changes loosen the ligaments, making the spine more vulnerable. </p> </div>"
+  },
+  {
+   "id": 210,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 209,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 212,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A1. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 211,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A1. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 213,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 214,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 215,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A2. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 216,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A2. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 217,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 218,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 219,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 220,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 221,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A6. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 222,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A6. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 223,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A6. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 224,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A6. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 225,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A7. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 226,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 227,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 228,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 247,
+   "type": "checkbox",
+   "page": 8,
+   "label": "7. Which activities seem to trigger or worsen your pain?",
+   "description": "Choose all that apply.",
+   "required": false,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Leaning forward while sitting",
+     "label": "Leaning forward while sitting"
+    },
+    {
+     "value": "Leaning backwards while sitting",
+     "label": "Leaning backwards while sitting"
+    },
+    {
+     "value": "Sleeping",
+     "label": "Sleeping"
+    },
+    {
+     "value": "Standing upright",
+     "label": "Standing upright"
+    },
+    {
+     "value": "Climbing stairs",
+     "label": "Climbing stairs"
+    },
+    {
+     "value": "None of these",
+     "label": "None of these"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 246,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Bending forward may help relieve back pain related to disc issues by increasing space between the vertebrae, while bending backward may help when pain originates from the facet joints by reducing pressure on them.</p> </div>"
+  },
+  {
+   "id": 248,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 249,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 250,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A1. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 251,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A1. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 252,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 253,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 254,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A2. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 255,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A2. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 256,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 257,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A3. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 258,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A3. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 259,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A3. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 260,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 261,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A4. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 262,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A4. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 263,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A4. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 264,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A5. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 265,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A5. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 266,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A5. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 267,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A5. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 268,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A6. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 269,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A6. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 270,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A6. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 271,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A6. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 272,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A7. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 273,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A7. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 274,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A7. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 275,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A7. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 276,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A8. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 277,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A8. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 278,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A8. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 279,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A8. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 280,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A9. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 281,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A9. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 282,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A9. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 283,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A9. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 284,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A10. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 285,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A10. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 286,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A10. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 287,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A10. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 288,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A11. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 289,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A11. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 290,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A11. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 291,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A11. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 292,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A12. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 293,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A12. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 294,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A12. (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 295,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A12. (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 14,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 40,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 41,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Bone)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 42,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Joint)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 419,
+   "type": "textarea",
+   "page": 9,
+   "label": "Critical Advisory",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<div class=\"critical_text\">Critical advisory: Some of your responses indicate probable complications which need thourough medical assessment. Please visit your medical practitioner for the same. Post initial rest and recovery period recommended by your medical practioner, you should start on the betterhood routine recommended here. </div>"
+  },
+  {
+   "id": 416,
+   "type": "html",
+   "page": 9,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper\"> <h2 class=\"assessment_heading\">You are done!<span>Get your personalized assessment.</span></h2> </div>"
+  },
+  {
+   "id": 55,
+   "type": "text",
+   "page": 9,
+   "label": "First Name",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "First Name"
+  },
+  {
+   "id": 56,
+   "type": "email",
+   "page": 9,
+   "label": "Email",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "email",
+   "placeholder": "Email"
+  },
+  {
+   "id": 57,
+   "type": "phone",
+   "page": 9,
+   "label": "Phone Number",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "tel",
+   "placeholder": "Phone Number"
+  },
+  {
+   "id": 63,
+   "type": "text",
+   "page": 9,
+   "label": "Result (Created By Debraj)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 61,
+   "type": "text",
+   "page": 9,
+   "label": "Result",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 65,
+   "type": "text",
+   "page": 9,
+   "label": "User ID",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 68,
+   "type": "number",
+   "page": 9,
+   "label": "Is Visited",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "",
+   "default": "0"
+  },
+  {
+   "id": 69,
+   "type": "textarea",
+   "page": 9,
+   "label": "Muscle Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Muscular Imbalance</span> arising due to the deconditioning of your back muscles because of years of wear & tear and neglect. To keep your back functioning optimally, it's essential to balance muscle length and strength between opposing muscle groups. As you age, the muscles, tendons, and ligaments become thicker and less flexible, increasing the risk of injury. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate spinal misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 73,
+   "type": "textarea",
+   "page": 9,
+   "label": "Muscle Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/backpain-1.webp\">"
+  },
+  {
+   "id": 70,
+   "type": "textarea",
+   "page": 9,
+   "label": "Nerve Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Compressed Nerves</span> due to various underlying muskuloskeletal issues. Your spine is the key pathway for your spinal cord, linking your brain to nerves in your arms, legs, and trunk. With 31 pairs of nerves branching from the spinal cord, any compression or damage can lead to pain. This often results from wear and tear on spinal bones, joints, or disks. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate spinal misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 75,
+   "type": "textarea",
+   "page": 9,
+   "label": "Nerve Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/backpain-2.webp\">"
+  },
+  {
+   "id": 71,
+   "type": "textarea",
+   "page": 9,
+   "label": "Bone Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Spinal Instability</span> arising due to the poor bone health. As you age, bone density decreases (osteoporosis), making bones more prone to fractures. Spinal fractures can cause instability, leading to painful vertebra slippage. Additionally, aging causes your spinal disks to flatten or break down, worsening spinal instability. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate spinal misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 76,
+   "type": "textarea",
+   "page": 9,
+   "label": "Bone Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/backpain-3.webp\">"
+  },
+  {
+   "id": 72,
+   "type": "textarea",
+   "page": 9,
+   "label": "Joint Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the excessive<span> wear and tear of spinal joints.</span> Your spine consists of 33 different bones connected by spinal joints. As you age, excessive strain on spinal joints from improper posture or weak muscles wear down the protective tissues, leading to osteoarthritis and pain. The bony outgrowths that form as a result can further increase the pain. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate spinal misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 77,
+   "type": "textarea",
+   "page": 9,
+   "label": "Joint Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/backpain-4.webp\">"
+  },
+  {
+   "id": 422,
+   "type": "textarea",
+   "page": 9,
+   "label": "Product Price Division Table",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<div class=\"personalized_toolkit\"> <div class=\"item\"> <p class=\"item_name\"> <b>betterhood<sup>TM</sup> back-care essentials</b> </p> <p class=\"item_price\"> <b>Extra 10% off on orders ₹2999+</b> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Posture & Support Protocols </p> <p class=\"item_price\"> FREE <s>₹ 800</s> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Relief & Recovery Protocols </p> <p class=\"item_price\"> FREE <s>₹ 1500</s> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Health Goals Monitoring </p> <p class=\"item_price\"> FREE <s>₹ 1500</s> </p> </div> </div>"
+  }
+ ],
+ "formulas": {
+  "14": "{Q1. A1. (Muscle):21}+{Q1. A2. (Muscle):28}+{Q1. A3. (Muscle):32}+{Q1. A4. (Muscle):36}+{Q2. A1. (Muscle):46}+{Q2. A2. (Muscle):50}+{Q3. A1. (Muscle):86}+{Q3. A2. (Muscle):99}+{Q3. A3. (Muscle):103}+{Q4. A1. (Muscle):112}+{Q4. A2. (Muscle):115}+{Q4. A3. (Muscle):127}+{Q4. A5. (Muscle):143}+{Q4. A4. (Muscle):139}+{Q4. A6. (Muscle):147}+{Q5. A1. (Muscle):154}+{Q5. A2. (Muscle):158}+{Q6. A1. (Muscle):166}+{Q6. A2. (Muscle):169}+{Q6. A3. (Muscle):173}+{Q6. A4. (Muscle):177}+{Q6. A5. (Muscle):181}+{Q6. A6. (Muscle):185}+{Q6. A7. (Muscle):189}+{Q6. A8. (Muscle):193}+{Q10. A1. (Muscle):210}+{Q10. A2. (Muscle):213}+{Q10. A3. (Muscle):217}+{Q10. A4. (Muscle):221}+{Q10. A5. (Muscle):225}+{Q11. A1. (Muscle):236}+{Q11. A2. (Muscle):237}+{Q11. A3. (Muscle):241}+{Q12. A1. (Muscle):248}+{Q12. A2. (Muscle):252}+{Q12. A3. (Muscle):256}+{Q12. A4. (Muscle):260}+{Q12. A5. (Muscle):264}+{Q12. A6. (Muscle):268}+{Q12. A7. (Muscle):272}+{Q12. A8. (Muscle):276}+{Q12. A9. (Muscle):280}+{Q12. A10. (Muscle):284}+{Q12. A11. (Muscle):288}+{Q12. A12. (Muscle):292}+{Q13. A1. (Muscle):300}+{Q13. A2. (Muscle):303}+{Q13. A3. (Muscle):307}+{Q13. A4. (Muscle):311}+{Q13. A5. (Muscle):315}+{Q14 A1. (Muscle):391}+{Q14 A2. (Muscle):403}+{Q14 A3. (Muscle):411}",
+  "21": "5",
+  "26": "1",
+  "27": "1",
+  "30": "1",
+  "32": "1",
+  "33": "1",
+  "34": "1",
+  "35": "5",
+  "37": "5",
+  "40": "{Q1. A1. (Nerve):25} + {Q1. A2. (Nerve):29} + {Q1. A3. (Nerve):33} + {Q1. A4. (Nerve):37} + {Q2. A1. (Nerve):47} + {Q2. A2. (Nerve):51} + {Q3. A1. (Nerve):87} +  {Q3. A4. (Nerve):100} + {Q3. A5. (Nerve):104} + {Q4. A1. (Nerve):113} + {Q4. A2. (Nerve):116} + {Q4. A3. (Nerve):120} + {Q4. A4. (Nerve):124} + {Q4. A5. (Nerve):128} + {Q4. A6. (Nerve):132} + {Q4. A7. (Nerve):136} + {Q4. A8. (Nerve):140} + {Q4. A9. (Nerve):144} + {Q4. A10. (Nerve):148} + {Q5. A1. (Nerve):155} + {Q5. A2. (Nerve):159} + {Q6. A1. (Nerve):167} + {Q6. A2. (Nerve):170} + {Q6. A4. (Nerve):178} + {Q6. A6. (Nerve):186} + {Q6. A7. (Nerve):190} + {Q6. A8. (Nerve):194} + {Q10. A1. (Nerve):209} + {Q10. A2. (Nerve):214} + {Q10. A3. (Nerve):218} + {Q10. A4. (Nerve):222} + {Q10. A5. (Nerve):226} + {Q11. A1. (Nerve):235} + {Q11. A2. (Nerve):238} + {Q11. A3. (Nerve):242} + {Q12. A1. (Nerve):249} + {Q12. A2. (Nerve):253} + {Q12. A3. (Nerve):257} + {Q12. A4. (Nerve):261} + {Q12. A5. (Nerve):265} + {Q12. A6. (Nerve):269} + {Q12. A7. (Nerve):273} + {Q12. A8. (Nerve):277} + {Q12. A9. (Nerve):281} + {Q12. A10. (Nerve):285} + {Q12. A11. (Nerve):289} + {Q12. A12. (Nerve):293} + {Q13. A1. (Nerve):301} + {Q13. A2. (Nerve):304} + {Q13. A3. (Nerve):308} + {Q13. A4. (Nerve):312} + {Q13. A5. (Nerve):316} + {Q14 A1. (Nerve):392}+{Q14 A2. (Nerve):404}+{Q14 A3. (Nerve):412}",
+  "41": "{Q1. A1. (Bone):26} + {Q1. A2. (Bone):30} + {Q1. A3. (Bone):34} + {Q1. A4. (Bone):38} + {Q2. A1. (Bone):48} + {Q2. A2. (Bone):52} + {Q3. A1. (Bone):88} + {Q3. A4. (Bone):101} + {Q3. A5. (Bone):105} + {Q4. A1. (Bone):114} + {Q4. A2. (Bone):118} + {Q4. A3. (Bone):121} + {Q4. A4. (Bone):125} + {Q4. A5. (Bone):129} + {Q4. A6. (Bone):133} + {Q4. A7. (Bone):137} + {Q4. A8. (Bone):141} + {Q4. A9. (Bone):145} + {Q4. A10. (Bone):149} + {Q5. A1. (Bone):156} + {Q5. A2. (Bone):160} + {Q6. A1. (Bone):168} + {Q6. A2. (Bone):171} +  {Q6. A4. (Bone):179} + {Q6. A6. (Bone):187} + {Q6. A7. (Bone):191} + {Q6. A8. (Bone):195} + {Q10. A1. (Bone):212} + {Q10. A2. (Bone):215} + {Q10. A3. (Bone):219} + {Q10. A4. (Bone):223} + {Q10. A5. (Bone):227} + {Q11. A1. (Bone):234} + {Q11. A2. (Bone):239} + {Q11. A3. (Bone):243} + {Q12. A1. (Bone):250} + {Q12. A2. (Bone):254} + {Q12. A3. (Bone):258} + {Q12. A4. (Bone):262} + {Q12. A5. (Bone):266} + {Q12. A6. (Bone):270} + {Q12. A7. (Bone):274} + {Q12. A8. (Bone):278} + {Q12. A9. (Bone):282} + {Q12. A10. (Bone):286} + {Q12. A11. (Bone):290} + {Q12. A11. (Bone):294} + {Q13. A1. (Bone):302} + {Q13. A2. (Bone):305} + {Q13. A3. (Bone):309} + {Q13. A4. (Bone):313} + {Q13. A5. (Bone):317} + {Q14 A1. (Bone):393}+{Q14 A2. (Bone):405}+{Q14 A3. (Bone):413}",
+  "42": "{Q1 A1. (Joint):27} + {Q1 A2. (Joint):31} + {Q1 A3. (Joint):35} + {Q1 A4. (Joint):39} + {Q2 A1. (Joint):49} + {Q2 A2. (Joint):53} + {Q3 A1. (Joint):89} + {Q3 A4. (Joint):102} + {Q3 A5. (Joint):106} + {Q4 A1. (Joint):111} + {Q4 A2. (Joint):117} + {Q4 A3. (Joint):122} + {Q4 A4. (Joint):126} + {Q4 A5. (Joint):130} + {Q4 A6. (Joint):134} + {Q4 A7. (Joint):138} + {Q4 A8. (Joint):142} + {Q4 A9. (Joint):146} + {Q4 A10. (Joint):150} + {Q5 A1. (Joint):157} + {Q5 A2. (Joint):161} + {Q6 A1. (Joint):164} + {Q6 A2. (Joint):172} + {Q6 A4. (Joint):180} + {Q6 A6. (Joint):188} + {Q6 A7. (Joint):192} + {Q6 A8. (Joint):196} + {Q10 A1. (Joint):211} + {Q10 A2. (Joint):216} + {Q10 A3. (Joint):220} + {Q10 A4. (Joint):224} + {Q10 A5. (Joint):228} + {Q11 A1. (Joint):233} + {Q11 A2. (Joint):240} + {Q11 A3. (Joint):244} + {Q12 A1. (Joint):251} + {Q12 A2. (Joint):255} + {Q12 A3. (Joint):259} + {Q12 A4. (Joint):263} + {Q12 A5. (Joint):267} + {Q12 A6. (Joint):271} + {Q12 A7. (Joint):275} + {Q12 A8. (Joint):279} + {Q12 A9. (Joint):283} + {Q12 A10. (Joint):287} + {Q12 A11. (Joint):291} + {Q12 A11. (Joint):295} + {Q13 A1. (Joint):299} + {Q13 A2. (Joint):306} + {Q13 A3. (Joint):310} + {Q13 A4. (Joint):314} + {Q13 A5. (Joint):318} + {Q14 A1. (Joint):394}+{Q14 A2. (Joint):406}+{Q14 A3. (Joint):414}",
+  "49": "15",
+  "50": "1",
+  "51": "1",
+  "52": "1",
+  "111": "1",
+  "114": "5",
+  "116": "5",
+  "117": "1",
+  "127": "5",
+  "129": "1",
+  "130": "1",
+  "142": "5",
+  "146": "5",
+  "148": "15",
+  "149": "1",
+  "167": "5",
+  "169": "1",
+  "172": "5",
+  "173": "1",
+  "174": "1",
+  "177": "5",
+  "181": "1",
+  "185": "1",
+  "186": "1",
+  "189": "5",
+  "193": "1",
+  "220": "5",
+  "223": "5",
+  "225": "1",
+  "226": "1",
+  "227": "1",
+  "249": "1",
+  "251": "5",
+  "255": "5",
+  "257": "1",
+  "258": "5",
+  "259": "1",
+  "260": "5",
+  "261": "1",
+  "262": "1",
+  "264": "1",
+  "267": "5",
+  "268": "1",
+  "269": "1",
+  "273": "5",
+  "275": "1",
+  "277": "1",
+  "280": "1",
+  "283": "5",
+  "286": "5",
+  "287": "1",
+  "290": "1",
+  "291": "5"
+ },
+ "logic": {
+  "21": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Localized in one or more spots"
+    }
+   ]
+  },
+  "25": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Localized in one or more spots"
+    }
+   ]
+  },
+  "26": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Localized in one or more spots"
+    }
+   ]
+  },
+  "27": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Localized in one or more spots"
+    }
+   ]
+  },
+  "28": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Spread across the entire lower back"
+    }
+   ]
+  },
+  "29": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Spread across the entire lower back"
+    }
+   ]
+  },
+  "30": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Spread across the entire lower back"
+    }
+   ]
+  },
+  "31": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Spread across the entire lower back"
+    }
+   ]
+  },
+  "32": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends into the buttocks & thighs, but stop at the knee"
+    }
+   ]
+  },
+  "33": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends into the buttocks & thighs, but stop at the knee"
+    }
+   ]
+  },
+  "34": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends into the buttocks & thighs, but stop at the knee"
+    }
+   ]
+  },
+  "35": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends into the buttocks & thighs, but stop at the knee"
+    }
+   ]
+  },
+  "36": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends below the knee as well into calf muscles & feet"
+    }
+   ]
+  },
+  "37": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends below the knee as well into calf muscles & feet"
+    }
+   ]
+  },
+  "38": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends below the knee as well into calf muscles & feet"
+    }
+   ]
+  },
+  "39": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends below the knee as well into calf muscles & feet"
+    }
+   ]
+  },
+  "46": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "47": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "48": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "49": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "50": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "51": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "52": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "53": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "111": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Dull and achy pain"
+    }
+   ]
+  },
+  "112": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Dull and achy pain"
+    }
+   ]
+  },
+  "113": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Dull and achy pain"
+    }
+   ]
+  },
+  "114": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Dull and achy pain"
+    }
+   ]
+  },
+  "115": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Sharp and stabbing pain"
+    }
+   ]
+  },
+  "116": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Sharp and stabbing pain"
+    }
+   ]
+  },
+  "117": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Sharp and stabbing pain"
+    }
+   ]
+  },
+  "118": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Sharp and stabbing pain"
+    }
+   ]
+  },
+  "127": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "128": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "129": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "130": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "139": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Grinding sensation when you bend or move your spine"
+    }
+   ]
+  },
+  "140": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Grinding sensation when you bend or move your spine"
+    }
+   ]
+  },
+  "141": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Grinding sensation when you bend or move your spine"
+    }
+   ]
+  },
+  "142": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Grinding sensation when you bend or move your spine"
+    }
+   ]
+  },
+  "143": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Pain post long sitting in the bottom-most area of your spine, behind your buttocks"
+    }
+   ]
+  },
+  "144": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Pain post long sitting in the bottom-most area of your spine, behind your buttocks"
+    }
+   ]
+  },
+  "145": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Pain post long sitting in the bottom-most area of your spine, behind your buttocks"
+    }
+   ]
+  },
+  "146": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Pain post long sitting in the bottom-most area of your spine, behind your buttocks"
+    }
+   ]
+  },
+  "147": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain"
+    }
+   ]
+  },
+  "148": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain"
+    }
+   ]
+  },
+  "149": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain"
+    }
+   ]
+  },
+  "150": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "110",
+     "operator": "is",
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain"
+    }
+   ]
+  },
+  "164": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Difficulty in urinating or in bowel movements"
+    }
+   ]
+  },
+  "166": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Difficulty in urinating or in bowel movements"
+    }
+   ]
+  },
+  "167": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Difficulty in urinating or in bowel movements"
+    }
+   ]
+  },
+  "168": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Difficulty in urinating or in bowel movements"
+    }
+   ]
+  },
+  "169": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Morning stiffness in lower back"
+    }
+   ]
+  },
+  "170": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Morning stiffness in lower back"
+    }
+   ]
+  },
+  "171": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Morning stiffness in lower back"
+    }
+   ]
+  },
+  "172": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Morning stiffness in lower back"
+    }
+   ]
+  },
+  "173": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your legs"
+    }
+   ]
+  },
+  "174": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your legs"
+    }
+   ]
+  },
+  "175": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your legs"
+    }
+   ]
+  },
+  "176": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your legs"
+    }
+   ]
+  },
+  "177": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Severe overall fatigue"
+    }
+   ]
+  },
+  "178": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Severe overall fatigue"
+    }
+   ]
+  },
+  "179": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Severe overall fatigue"
+    }
+   ]
+  },
+  "180": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "181": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Any muscle weakness such as not being able to stand on one leg or a loss of power on walking"
+    }
+   ]
+  },
+  "182": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "183": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "184": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "185": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your legs"
+    }
+   ]
+  },
+  "186": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your legs"
+    }
+   ]
+  },
+  "187": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your legs"
+    }
+   ]
+  },
+  "188": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your legs"
+    }
+   ]
+  },
+  "189": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Severe overall fatigue"
+    }
+   ]
+  },
+  "190": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Severe overall fatigue"
+    }
+   ]
+  },
+  "191": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Severe overall fatigue"
+    }
+   ]
+  },
+  "192": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "Severe overall fatigue"
+    }
+   ]
+  },
+  "193": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "194": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "195": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "196": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "423",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "209": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "210": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "211": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "212": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "213": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Abdominal pain"
+    }
+   ]
+  },
+  "214": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Abdominal pain"
+    }
+   ]
+  },
+  "215": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Abdominal pain"
+    }
+   ]
+  },
+  "216": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Abdominal pain"
+    }
+   ]
+  },
+  "217": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Any autoimmune disorder (such as rheumatoid arthritis, Mutiple sclerosis)"
+    }
+   ]
+  },
+  "218": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Any autoimmune disorder (such as rheumatoid arthritis, Mutiple sclerosis)"
+    }
+   ]
+  },
+  "219": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Any autoimmune disorder (such as rheumatoid arthritis, Mutiple sclerosis)"
+    }
+   ]
+  },
+  "220": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Any autoimmune disorder (such as rheumatoid arthritis, Mutiple sclerosis)"
+    }
+   ]
+  },
+  "221": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Known Spinal deformities (uneven shoulders/hips/waist OR hunchback OR unusal forward curve in neck/lowerback)"
+    }
+   ]
+  },
+  "222": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Known Spinal deformities (uneven shoulders/hips/waist OR hunchback OR unusal forward curve in neck/lowerback)"
+    }
+   ]
+  },
+  "223": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Known Spinal deformities (uneven shoulders/hips/waist OR hunchback OR unusal forward curve in neck/lowerback)"
+    }
+   ]
+  },
+  "224": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "225": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "226": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "227": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "228": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "424",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "248": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Leaning forward while sitting"
+    }
+   ]
+  },
+  "249": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Leaning forward while sitting"
+    }
+   ]
+  },
+  "250": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Leaning forward while sitting"
+    }
+   ]
+  },
+  "251": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Leaning forward while sitting"
+    }
+   ]
+  },
+  "252": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Leaning backwards while sitting"
+    }
+   ]
+  },
+  "253": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Leaning backwards while sitting"
+    }
+   ]
+  },
+  "254": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Leaning backwards while sitting"
+    }
+   ]
+  },
+  "255": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Leaning backwards while sitting"
+    }
+   ]
+  },
+  "256": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Sleeping"
+    }
+   ]
+  },
+  "257": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Sleeping"
+    }
+   ]
+  },
+  "258": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Sleeping"
+    }
+   ]
+  },
+  "259": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Sleeping"
+    }
+   ]
+  },
+  "260": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing upright"
+    }
+   ]
+  },
+  "261": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing upright"
+    }
+   ]
+  },
+  "262": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing upright"
+    }
+   ]
+  },
+  "263": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing upright"
+    }
+   ]
+  },
+  "264": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "265": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "266": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "267": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "268": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Bending forwards"
+    }
+   ]
+  },
+  "269": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Bending forwards"
+    }
+   ]
+  },
+  "270": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Bending forwards"
+    }
+   ]
+  },
+  "271": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Bending forwards"
+    }
+   ]
+  },
+  "272": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Bending backwards"
+    }
+   ]
+  },
+  "273": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Bending backwards"
+    }
+   ]
+  },
+  "274": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Bending backwards"
+    }
+   ]
+  },
+  "275": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Bending backwards"
+    }
+   ]
+  },
+  "276": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Coughing or sneezing"
+    }
+   ]
+  },
+  "277": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Coughing or sneezing"
+    }
+   ]
+  },
+  "278": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Coughing or sneezing"
+    }
+   ]
+  },
+  "279": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Coughing or sneezing"
+    }
+   ]
+  },
+  "280": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "281": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "282": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "283": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "284": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Walking or running"
+    }
+   ]
+  },
+  "285": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Walking or running"
+    }
+   ]
+  },
+  "286": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Walking or running"
+    }
+   ]
+  },
+  "287": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Walking or running"
+    }
+   ]
+  },
+  "288": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing on one leg"
+    }
+   ]
+  },
+  "289": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing on one leg"
+    }
+   ]
+  },
+  "290": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing on one leg"
+    }
+   ]
+  },
+  "291": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing on one leg"
+    }
+   ]
+  },
+  "292": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "293": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "294": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing on one leg"
+    }
+   ]
+  },
+  "295": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "247",
+     "operator": "is",
+     "value": "Standing on one leg"
+    }
+   ]
+  },
+  "419": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "any",
+   "rules": [
+    {
+     "fieldId": "199",
+     "operator": "is",
+     "value": "gquiz199ca2d32f7"
+    },
+    {
+     "fieldId": "199",
+     "operator": "is",
+     "value": "gquiz199a4766717"
+    },
+    {
+     "fieldId": "199",
+     "operator": "is",
+     "value": "gquiz1995e52fedb"
+    },
+    {
+     "fieldId": "199",
+     "operator": "is",
+     "value": "gquiz199b907fbf0"
+    }
+   ]
+  }
+ }
+}

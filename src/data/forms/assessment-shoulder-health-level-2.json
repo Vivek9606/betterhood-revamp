@@ -1,0 +1,1265 @@
+{
+ "slug": "assessment-shoulder-health-level-2",
+ "formId": 14,
+ "pageTitles": [],
+ "intro": "",
+ "fields": [
+  {
+   "id": 152,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper frontpage\"> <h2 class=\"assessment_heading\">Assess <span> your Shoulder Health</span></h2> <p>Hey there! This health assessment tool is designed by our experts. We will guide you through a series of movements and ask you to report your observations. These movements are carefully curated to assess various key aspects of your musculoskeletal health. Some of them will need to be performed lying on the ground or sitting on a chair/stool. For certain movements, you will need to record the time, and the timer on your mobile device can be helpful for this. <br> Based on your responses, this assessment tool will generate your health score on a scale of 1 to 10. When taken periodically, this health score will help you monitor your health progress. So, find a quiet corner, and let’s get started.</p> </div>"
+  },
+  {
+   "id": 153,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "consent_text",
+   "html": "Please note that your information shared here is completely safe and is used only for arriving at the assessment results. The assessment results are indicative and do not substitute medical expert consultation in any way. Appropriate user discretion is advised. You may refer to our <a href=\"/terms-of-services/\">Terms of Service</a> for further clarity."
+  },
+  {
+   "id": 7,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Pike planks duration</h4> </div>"
+  },
+  {
+   "id": 9,
+   "type": "quiz",
+   "page": 2,
+   "label": "1. Get into the position and record the time for which you can stay in the position.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 0-30 seconds"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 30-90 seconds"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 90 seconds +"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 66,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Start in a plank position with hands under your shoulders and feet together. Lift your hips toward the ceiling, forming an inverted \"V\".</p> <img src=\"https://betterhood.in/wp-content/uploads/2025/01/Pike-planks-duration.webp\"> </div>"
+  },
+  {
+   "id": 123,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Pike planks are a powerful indicator of shoulder strength, as they engage the deltoids and stabilize the shoulder joint while challenging core stability and control. </p> </div>"
+  },
+  {
+   "id": 18,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 67,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 68,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 124,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> </div>"
+  },
+  {
+   "id": 70,
+   "type": "quiz",
+   "page": 3,
+   "label": "2. When you pull your arm down gently (as if someone is pulling it straight down), do you notice any of the following? Please select the option that best describes your experience:",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. No sensation of movement: I do not feel any unusual movement or discomfort in my shoulder."
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Mild to moderate sensation: I feel some movement or mild discomfort, but it’s not concerning."
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Significant sensation of movement: I feel a distinct sensation of my shoulder moving downward, and it feels unstable or painful."
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 150,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Start in a plank position with hands under your shoulders and feet together. Lift your hips toward the ceiling, forming an inverted \"V\".</p> <img src=\"https://betterhood.in/wp-content/uploads/2025/01/pulling-arm.webp\"> </div>"
+  },
+  {
+   "id": 125,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The shoulder is the most unstable joint in the body due to its shallow socket and wide range of motion, making it susceptible to dislocations and injuries despite its incredible flexibility. </p> </div>"
+  },
+  {
+   "id": 71,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 74,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 75,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 126,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Shoulder flexion</h4> </div>"
+  },
+  {
+   "id": 127,
+   "type": "quiz",
+   "page": 4,
+   "label": "3. Select the position you can perform without changing your pain or discomfort. Complete the test on both sides. Record your lowest score of the two.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 90 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Forward-flexion-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 130 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Forward-flexion-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 170 degrees +",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Forward-flexion-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 128,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand or sit with a straight back and arms at your sides. Gradually raise your arms straight in front of youas high as they can go, keeping them straight. Repeat on other side. </p> </div>"
+  },
+  {
+   "id": 129,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The shoulder is the most mobile joint in the body, offering an extraordinary range of motion that facilitates diverse movements like lifting, throwing, and reaching overhead. </p> </div>"
+  },
+  {
+   "id": 80,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 81,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 82,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 130,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Shoulder abduction</h4> </div>"
+  },
+  {
+   "id": 131,
+   "type": "quiz",
+   "page": 5,
+   "label": "4. Select the position you can perform without changing your pain or discomfort. Complete the test on both sides. Record your lowest score of the two.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 90 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Abduction-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 130 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Abduction-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 170 degrees +",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Abduction-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 132,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand or sit with a straight back and arms at your sides. Gradually raise your arms out to the sides as high as they can comfortably go. Repeat on other side. </p> </div>"
+  },
+  {
+   "id": 133,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Frozen shoulder, or adhesive capsulitis, is a painful condition that limits overhead movement, often occurring after an injury or long periods of immobility. </p> </div>"
+  },
+  {
+   "id": 89,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 90,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 91,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 134,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Cross body adduction</h4> </div>"
+  },
+  {
+   "id": 135,
+   "type": "quiz",
+   "page": 6,
+   "label": "5. Select the position you can perform without changing your pain or discomfort. Complete the test on both sides. Record your lowest score of the two.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 45 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Cross-body-adduction-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 75 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Cross-body-adduction-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 105 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Cross-body-adduction-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 136,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand or sit with a straight back and arms at your sides. Gradually bring one arm across your body behind your back toward the opposite shoulder. Repeat on other side. </p> </div>"
+  },
+  {
+   "id": 137,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Tennis elbow, or lateral epicondylitis, is a painful condition caused by inflammation of the outer elbow tendons, often due to repetitive wrist and arm movements, affecting even non-tennis players. </p> </div>"
+  },
+  {
+   "id": 96,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 97,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 98,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 138,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Shoulder external rotation</h4> </div>"
+  },
+  {
+   "id": 139,
+   "type": "quiz",
+   "page": 7,
+   "label": "6. Select the position you can perform without changing your pain or discomfort. Complete the test on both sides. Record your lowest score of the two.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 90 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/External-rotation-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 130 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/External-rotation-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 170 degrees +",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/External-rotation-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 140,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand or sit with your elbows bent at 90 degrees and arms close to your body. Gradually rotate your forearms outward, keeping your elbows stationary. Repeat on other side. </p> </div>"
+  },
+  {
+   "id": 141,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Shoulder rotator cuff tears are surprisingly common, affecting about one in five people over the age of 50, and can result from wear and tear rather than just injury, making shoulder health a crucial focus as we age! </p> </div>"
+  },
+  {
+   "id": 103,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 104,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 105,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 142,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Shoulder internal rotation</h4> </div>"
+  },
+  {
+   "id": 143,
+   "type": "quiz",
+   "page": 8,
+   "label": "7. Select the position you can perform without changing your pain or discomfort. Complete the test on both sides. Record your lowest score of the two.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 90 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Internal-Rotation-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 50 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Internal-Rotation-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 10 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Internal-Rotation-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 144,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand or sit with your elbows bent at 90 degrees and arms close to your body. Gradually rotate your forearms inward, keeping your elbows stationary. Repeat on other side. </p> </div>"
+  },
+  {
+   "id": 145,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The shoulder can bear an impressive load, capable of handling up to three times the body’s weight during activities like lifting or throwing, showcasing its strength and versatility! </p> </div>"
+  },
+  {
+   "id": 110,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 111,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 112,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 146,
+   "type": "html",
+   "page": 9,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Shoulder extention</h4> </div>"
+  },
+  {
+   "id": 147,
+   "type": "quiz",
+   "page": 9,
+   "label": "8. Select the position you can perform without changing your pain or discomfort.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 40 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Extention-shoulder-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 50 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Extention-shoulder-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 60 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Extention-shoulder-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 148,
+   "type": "html",
+   "page": 9,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand or sit with a straight back and arms at your sides. Move your arms straight back behind you while keeping them straight as far as they can comfortably go. </p> </div>"
+  },
+  {
+   "id": 149,
+   "type": "html",
+   "page": 9,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Shoulder dislocations are the most common joint dislocations, often occurring during sports or falls. </p> </div>"
+  },
+  {
+   "id": 117,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 118,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 119,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 14,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Strength)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 41,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Balance)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 84,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Mobility)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 120,
+   "type": "number",
+   "page": 9,
+   "label": "Overall Score",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 55,
+   "type": "text",
+   "page": 9,
+   "label": "Full Name",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "Full Name"
+  },
+  {
+   "id": 56,
+   "type": "email",
+   "page": 9,
+   "label": "Email",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "email",
+   "placeholder": "Email"
+  },
+  {
+   "id": 57,
+   "type": "phone",
+   "page": 9,
+   "label": "Phone Number",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "tel",
+   "placeholder": "Phone Number"
+  },
+  {
+   "id": 121,
+   "type": "text",
+   "page": 9,
+   "label": "User ID",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 122,
+   "type": "number",
+   "page": 9,
+   "label": "Is Visited",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "",
+   "default": "0"
+  }
+ ],
+ "formulas": {
+  "14": "{Q1. A1.:18}+{Q1. A2.:67}+{Q1. A3.:68}",
+  "18": "3",
+  "41": "{Q2. A1.:71}+{Q2. A2.:74}+{Q2. A3.:75}",
+  "67": "6",
+  "68": "10",
+  "71": "3",
+  "74": "6",
+  "75": "10",
+  "80": "3",
+  "81": "6",
+  "82": "10",
+  "84": "({Q3. A1.:80}+{Q3. A2.:81}+{Q3. A3.:82}+{Q4. A1.:89}+{Q4. A2.:90}+{Q4. A3.:91}+{Q5. A1.:96}+{Q5. A2.:97}+{Q5. A3.:98}+{Q6. A1.:103}+{Q6. A2.:104}+{Q6. A3.:105}+{Q7. A1.:110}+{Q7. A2.:111}+{Q7. A3.:112}+{Q8. A1.:117}+{Q8. A2.:118}+{Q8. A3.:119})/6",
+  "89": "3",
+  "90": "6",
+  "91": "10",
+  "96": "3",
+  "97": "6",
+  "98": "10",
+  "103": "3",
+  "104": "6",
+  "105": "10",
+  "110": "3",
+  "111": "6",
+  "112": "10",
+  "117": "3",
+  "118": "6",
+  "119": "10",
+  "120": "({Total (Strength):14}+{Total (Balance):41}+{Total (Mobility):84})/3"
+ },
+ "logic": {
+  "18": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "67": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "68": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "71": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "70",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "74": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "70",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "75": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "70",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "80": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "127",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "81": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "127",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "82": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "127",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "89": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "131",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "90": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "131",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "91": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "131",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "96": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "135",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "97": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "135",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "98": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "135",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "103": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "139",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "104": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "139",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "105": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "139",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "110": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "143",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "111": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "143",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "112": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "143",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "117": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "147",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "118": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "147",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "119": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "147",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,1259 @@
+{
+ "slug": "assessment-back-health",
+ "formId": 11,
+ "pageTitles": [],
+ "intro": "",
+ "fields": [
+  {
+   "id": 148,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper frontpage\"> <h2 class=\"assessment_heading\">Assess <span> your Back Health</span></h2> <p>Hey there! This health assessment tool is designed by our experts. We will guide you through a series of movements and ask you to report your observations. These movements are carefully curated to assess various key aspects of your musculoskeletal health. Some of them will need to be performed lying on the ground or sitting on a chair/stool. For certain movements, you will need to record the time, and the timer on your mobile device can be helpful for this. <br> Based on your responses, this assessment tool will generate your health score on a scale of 1 to 10. When taken periodically, this health score will help you monitor your health progress. So, find a quiet corner, and let’s get started.</p> </div>"
+  },
+  {
+   "id": 149,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "consent_text",
+   "html": "Please note that your information shared here is completely safe and is used only for arriving at the assessment results. The assessment results are indicative and do not substitute medical expert consultation in any way. Appropriate user discretion is advised. You may refer to our <a href=\"/terms-of-services/\">Terms of Service</a> for further clarity."
+  },
+  {
+   "id": 125,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Superman duration</h4> </div>"
+  },
+  {
+   "id": 9,
+   "type": "quiz",
+   "page": 2,
+   "label": "1. Get into the position and record the time for which you can stay in the position.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 0-5 seconds"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 6-15 seconds"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 15 seconds +"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 66,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Lie face down with arms extended in front and legs straight. Engage your core, then lift your arms, chest, and legs off the ground simultaneously</p> <img src=\"https://betterhood.in/wp-content/uploads/2025/01/superman2.webp\"> </div>"
+  },
+  {
+   "id": 124,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The Superman duration is a great indicator of lower back strength because it engages the entire posterior chain, highlighting the stability and strength of the lower back muscles. </p> </div>"
+  },
+  {
+   "id": 18,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 67,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 68,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 126,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Bird dog duration</h4> </div>"
+  },
+  {
+   "id": 70,
+   "type": "quiz",
+   "page": 3,
+   "label": "2. Get into the position and record the time for which you can stay in the position. Complete the test on both sides. Record your lowest score of the two.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 0-5 seconds"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 6-15 seconds"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 15 seconds +"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 127,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Start on all fours and extend one arm forward and the opposite leg back while keeping your back flat. Repeat on other side. </p> <img src=\"https://betterhood.in/wp-content/uploads/2025/01/Bird-dog-duration.webp\"> </div>"
+  },
+  {
+   "id": 128,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The bird dog duration is an excellent indicator of balance as it engages core stability and tests the coordination between the upper and lower body. </p> </div>"
+  },
+  {
+   "id": 71,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 74,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 75,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 129,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Slump Test</h4> </div>"
+  },
+  {
+   "id": 79,
+   "type": "quiz",
+   "page": 4,
+   "label": "3. Perform the movement as described here. Indicate the change of pain or discomfort when performing the movement.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Intense (increase in pain)"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Moderate (increase in pain)"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Reduction or no increase in pain"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 130,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Sit at the edge of a chair, slouch forward, and extend one leg straight with a flexed foot. Note any pain or tightness in your back or legs. </p> <img src=\"https://betterhood.in/wp-content/uploads/2025/01/slump-test.webp\"> </div>"
+  },
+  {
+   "id": 131,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The slump test is a valuable tool for assessing back mobility as it evaluates the flexibility of the spine and the nervous system under tension, helping identify potential issues. </p> </div>"
+  },
+  {
+   "id": 80,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 81,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 82,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 132,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Lying leg drop</h4> </div>"
+  },
+  {
+   "id": 88,
+   "type": "quiz",
+   "page": 5,
+   "label": "4. Perfom the movement as described here. Indicate the change of pain or discomfort when performing the movement.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Intense (increase in pain)"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Moderate (increase in pain)"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Reduction or no increase in pain"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 133,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Lie on your back with knees bent. Drop your knees to one side, keeping your shoulders down, then switch sides. Note any pain or tightness in your back or legs. </p> <img src=\"https://betterhood.in/wp-content/uploads/2025/01/Lying-leg-drop.webp\"> </div>"
+  },
+  {
+   "id": 134,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Range of motion (ROM) measures how far a joint can move in various directions, serving as a key indicator of overall muscle, bone, and joint health. </p> </div>"
+  },
+  {
+   "id": 89,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 90,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 91,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 135,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Standing side bend (Lateral Flexion)</h4> </div>"
+  },
+  {
+   "id": 95,
+   "type": "quiz",
+   "page": 6,
+   "label": "5. Select the position you can perform without changing your pain or discomfort.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 10 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-side-bend-Lateral-Flexion.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 15 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-side-bend-Lateral-Flexion-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 20 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-side-bend-Lateral-Flexion-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 136,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand tall with feet hip-width apart and arms crossed over your chest. Then gradually bend to one side, keeping your back straight. Repeat on other side. </p> </div>"
+  },
+  {
+   "id": 137,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The maximum lateral flexion (side bending) of the spine varies by individual but can reach approximately 35 degrees. </p> </div>"
+  },
+  {
+   "id": 96,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 97,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 98,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 138,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Standing rotation / Spine rotation</h4> </div>"
+  },
+  {
+   "id": 102,
+   "type": "quiz",
+   "page": 7,
+   "label": "6. Select the position you can perform without changing your pain or discomfort.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 5 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-rotation-Spine-rotation-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 11 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-rotation-Spine-rotation-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 18 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-rotation-Spine-rotation-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 139,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand tall with feet hip-width apart and arms crossed over your chest. Rotate your torso to one side gradually. Repeat on other side. </p> </div>"
+  },
+  {
+   "id": 140,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The spine's unique structure, comprising adaptable vertebrae and intervertebral discs, provides the lower back with crucial stability and support, while the upper back offers impressive flexibility, allowing for about 30 degrees of rotation. </p> </div>"
+  },
+  {
+   "id": 103,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 104,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 105,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 141,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Standing backwards bend (Extention)</h4> </div>"
+  },
+  {
+   "id": 109,
+   "type": "quiz",
+   "page": 8,
+   "label": "7. Select the position you can perform without changing your pain or discomfort.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 20 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-backwards-bend-Extention-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 27 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-backwards-bend-Extention-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 35 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-backwards-bend-Extention-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 142,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand tall with feet hip-width apart and arms crossed over your chest. Lean back gently, lifting your chest and looking up. </p> </div>"
+  },
+  {
+   "id": 143,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Back extension is facilitated by facet joints, which allow the vertebrae to glide smoothly, enhancing flexibility and enabling movements like arching the back. </p> </div>"
+  },
+  {
+   "id": 110,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 111,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 112,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 144,
+   "type": "html",
+   "page": 9,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Standing forward bend (Flexion)</h4> </div>"
+  },
+  {
+   "id": 116,
+   "type": "quiz",
+   "page": 9,
+   "label": "8. Select the position you can perform without changing your pain or discomfort.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 40 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-forward-bend-Flexion-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 50 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-forward-bend-Flexion-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 60 degree",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Standing-forward-bend-Flexion-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 145,
+   "type": "html",
+   "page": 9,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand tall with feet hip-width apart and arms crossed over your chest. Bend forward at the hips, reaching toward the ground while keeping your back straight. </p> </div>"
+  },
+  {
+   "id": 146,
+   "type": "html",
+   "page": 9,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Spinal flexion is supported by intervertebral discs, which act as shock absorbers, allowing the spine to bend while protecting against injury. </p> </div>"
+  },
+  {
+   "id": 117,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 118,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 119,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 14,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Strength)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 41,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Balance)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 84,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Mobility)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 120,
+   "type": "number",
+   "page": 9,
+   "label": "Overall Score",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 55,
+   "type": "text",
+   "page": 9,
+   "label": "First Name",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "Full Name"
+  },
+  {
+   "id": 56,
+   "type": "email",
+   "page": 9,
+   "label": "Email",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "email",
+   "placeholder": "Email"
+  },
+  {
+   "id": 57,
+   "type": "phone",
+   "page": 9,
+   "label": "Phone Number",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "tel",
+   "placeholder": "Phone Number"
+  },
+  {
+   "id": 121,
+   "type": "text",
+   "page": 9,
+   "label": "User ID",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 122,
+   "type": "number",
+   "page": 9,
+   "label": "Is Visited",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "",
+   "default": "0"
+  }
+ ],
+ "formulas": {
+  "14": "{Q1. A1.:18}+{Q1. A2.:67}+{Q1. A3.:68}",
+  "18": "3",
+  "41": "{Q2. A1.:71}+{Q2. A2.:74}+{Q2. A3.:75}",
+  "67": "6",
+  "68": "10",
+  "71": "3",
+  "74": "6",
+  "75": "10",
+  "80": "3",
+  "81": "6",
+  "82": "10",
+  "84": "( {Q3. A1.:80}+{Q3. A2.:81}+{Q3. A3.:82}+{Q4. A1.:89}+{Q4. A2.:90}+{Q4. A3.:91}+{Q5. A1.:96}+{Q5. A2.:97}+{Q5. A3.:98}+{Q6. A1.:103}+{Q6. A2.:104}+{Q6. A3.:105}+{Q7. A1.:110}+{Q7. A2.:111} +{Q7. A3.:112}+{Q8. A1.:117}+{Q8. A2.:118}+{Q8. A3.:119})/6",
+  "89": "3",
+  "90": "6",
+  "91": "10",
+  "96": "3",
+  "97": "6",
+  "98": "10",
+  "103": "3",
+  "104": "6",
+  "105": "10",
+  "110": "3",
+  "111": "6",
+  "112": "10",
+  "117": "3",
+  "118": "6",
+  "119": "10",
+  "120": "({Total (Strength):14}+{Total (Balance):41}+{Total (Mobility):84})/3"
+ },
+ "logic": {
+  "18": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "67": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "68": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "71": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "70",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "74": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "70",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "75": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "70",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "80": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "79",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "81": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "79",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "82": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "79",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "89": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "88",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "90": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "88",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "91": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "88",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "96": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "95",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "97": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "95",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "98": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "95",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "103": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "102",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "104": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "102",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "105": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "102",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "110": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "109",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "111": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "109",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "112": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "109",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "117": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "116",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "118": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "116",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "119": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "116",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,1505 @@
+{
+ "slug": "assessment-longevity-goals",
+ "formId": 18,
+ "pageTitles": [],
+ "intro": "",
+ "fields": [
+  {
+   "id": 180,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper frontpage\"> <h2 class=\"assessment_heading\">Set your <span> Longevity Goals</span></h2> <p>Hey there! This assessment will help you set personalized targets for your musculoskeletal health based on your aspirations for how physically fit you want to be in your later years. We will ask you a series of questions about what you envision for your 80s. Sit back, relax, and visualize your 80s. Let’s get started!</p> </div>"
+  },
+  {
+   "id": 181,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "consent_text",
+   "html": "Please note that your information shared here is completely safe and is used only for arriving at the assessment results. The assessment results are indicative and do not substitute medical expert consultation in any way. Appropriate user discretion is advised. You may refer to our <a href=\"/terms-of-services/\">Terms of Service</a> for further clarity."
+  },
+  {
+   "id": 9,
+   "type": "quiz",
+   "page": 2,
+   "label": "1. What do you want your strength to look like for everyday tasks at age 70?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Lift at least 10 kgs | so I can carry a small bag of groceries"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Lift at least 20 kgs | to easily pick up my suitcase when I travel"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Lift at least 40 kgs | to confidently lift heavy items like furniture around the house"
+    },
+    {
+     "value": "gquiz973c40a62",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 18,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 67,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 68,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 147,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 126,
+   "type": "quiz",
+   "page": 3,
+   "label": "2. How stable you would like your core to be?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Hold a plank for 30 seconds| to help maintain balance when sitting or standing"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Hold a plank for 1 minute | so you can sit comfortably and work at my desk without slumping"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Hold a plank for 2 minutes | to support your posture and stability during activities like gardening or walking"
+    },
+    {
+     "value": "gquiz126ff67bf70",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 129,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 130,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 131,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 148,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 79,
+   "type": "quiz",
+   "page": 4,
+   "label": "3. How strong would you want your lungs to be when you’re 70?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Climb up one floor in 3 minutes | so you can visit friends without getting too winded"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Climb up 2 floors in 2 minutes | to move around your home or community without needing a break"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Climb up 2 floors in 1 minute | to keep up with your grandkids during family outings"
+    },
+    {
+     "value": "gquiz7939ef2f7c",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 80,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 81,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 82,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 149,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 138,
+   "type": "quiz",
+   "page": 5,
+   "label": "4. How far do you want to walk on a regular day at age 70?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Walk 1 kilometer in 30 minutes | to enjoy a nice stroll in the neighborhood"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Go for a brisk 20-minute walk a few times a week | to stay active and enjoy the fresh air"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Join a local walking group to explore new routes | to make exercise social and fun"
+    },
+    {
+     "value": "gquiz138b77443a7",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 89,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 90,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 91,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 150,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 142,
+   "type": "quiz",
+   "page": 6,
+   "label": "5. How fit and functional do you want your legs to be?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Do 5 bodyweight squats | so you can get up from a chair easily"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Do 15 lunges each week | to build strength for walking and climbing stairs"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Try step-ups onto a sturdy bench | to improve your leg strength for hiking"
+    },
+    {
+     "value": "gquiz142c0054bb1",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 96,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 97,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 98,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 151,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 144,
+   "type": "quiz",
+   "page": 7,
+   "label": "6. How do you want your balance to be as you get older?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Balance on one foot for 10 seconds | to help me stand steady when brushing my teeth"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Balance on one foot for 30 seconds | so I can walk confidently without fear of falling"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Balance on one foot for 1 minute | to engage in activities like yoga or tai chi without difficulty"
+    },
+    {
+     "value": "gquiz14407c7b1f7",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 103,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 104,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 105,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 152,
+   "type": "number",
+   "page": 7,
+   "label": "Q6. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 155,
+   "type": "quiz",
+   "page": 8,
+   "label": "7. How flexible would you want to be in your 70s?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Reach down to touch your toes | so you can pick up small items from the floor easily"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Stretch to touch your toes while standing | to keep your body agile when getting dressed or tying shoes"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Perform full-body stretches that allow you to reach overhead and to the sides | so you can maintain agility while playing with grandchildren"
+    },
+    {
+     "value": "gquiz14407c7b1f7",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 156,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 157,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 158,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 159,
+   "type": "number",
+   "page": 8,
+   "label": "Q7. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 161,
+   "type": "quiz",
+   "page": 9,
+   "label": "8. How do you want to stay socially active and engaged in your free time when you're 70?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Go for a walk with your dog once a week | to enjoy the outdoors and stay social"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Volunteer for community events or activities | to stay active and give back to your community"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Join a local sports team or club | to have fun and stay connected with others"
+    },
+    {
+     "value": "gquiz14407c7b1f7",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 162,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 163,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 164,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 165,
+   "type": "number",
+   "page": 9,
+   "label": "Q8. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 167,
+   "type": "quiz",
+   "page": 10,
+   "label": "9. How do you want to maintain your cardiovascular fitness as you age?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Go for a brisk 20-minute walk | to keep you heart healthy"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Swim for 30 minutes a few times a week | to stay fit and cool in the water"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Join a dance class once a week | to get your heart pumping while having fun"
+    },
+    {
+     "value": "gquiz14407c7b1f7",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 168,
+   "type": "number",
+   "page": 10,
+   "label": "Q9. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 169,
+   "type": "number",
+   "page": 10,
+   "label": "Q9. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 170,
+   "type": "number",
+   "page": 10,
+   "label": "Q9. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 171,
+   "type": "number",
+   "page": 10,
+   "label": "Q9. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 172,
+   "type": "quiz",
+   "page": 11,
+   "label": "10. How do you want to stay active in your free time when you're 70?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. Take up gardening | to stay active while enjoying nature"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. Dance or Frisbee with friends | to keep active and have fun"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. Go cycling or hiking regularly | to explore new places and stay vibrant"
+    },
+    {
+     "value": "gquiz14407c7b1f7",
+     "label": "D. Not on my list"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 173,
+   "type": "number",
+   "page": 11,
+   "label": "Q10. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 174,
+   "type": "number",
+   "page": 11,
+   "label": "Q10. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 175,
+   "type": "number",
+   "page": 11,
+   "label": "Q10. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 176,
+   "type": "number",
+   "page": 11,
+   "label": "Q10. A4.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 178,
+   "type": "number",
+   "page": 11,
+   "label": "Average Score",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 14,
+   "type": "number",
+   "page": 11,
+   "label": "Total (Strength)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 41,
+   "type": "number",
+   "page": 11,
+   "label": "Total (Balance)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 84,
+   "type": "number",
+   "page": 11,
+   "label": "Total (Mobility)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 120,
+   "type": "number",
+   "page": 11,
+   "label": "Overall Score",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 55,
+   "type": "text",
+   "page": 11,
+   "label": "Full Name",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "First Name"
+  },
+  {
+   "id": 56,
+   "type": "email",
+   "page": 11,
+   "label": "Email",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "email",
+   "placeholder": "Email"
+  },
+  {
+   "id": 57,
+   "type": "phone",
+   "page": 11,
+   "label": "Phone Number",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "tel",
+   "placeholder": "Phone Number"
+  },
+  {
+   "id": 121,
+   "type": "text",
+   "page": 11,
+   "label": "User ID",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 122,
+   "type": "number",
+   "page": 11,
+   "label": "Is Visited",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "",
+   "default": "0"
+  }
+ ],
+ "formulas": {
+  "14": "{Q1. A1.:18}+{Q1. A2.:67}+{Q1. A3.:68}",
+  "18": "4",
+  "41": "{Q2. A1.:129}+{Q2. A2.:130}+{Q2. A3.:131}",
+  "67": "7",
+  "68": "10",
+  "80": "4",
+  "81": "7",
+  "82": "10",
+  "84": "({Q3. A1.:80}+{Q3. A2.:81}+{Q3. A3.:82}+{Q4. A1.:89}+{Q4. A2.:90}+{Q4. A3.:91}+{Q5. A1.:96}+{Q5. A2.:97}+{Q5. A3.:98}+{Q6. A1.:103}+{Q6. A2.:104}+{Q6. A3.:105})/4",
+  "89": "4",
+  "90": "7",
+  "91": "10",
+  "96": "4",
+  "97": "7",
+  "98": "10",
+  "103": "4",
+  "104": "7",
+  "105": "10",
+  "120": "({Total (Strength):14}+{Total (Balance):41}+{Total (Mobility):84})/3",
+  "129": "4",
+  "130": "7",
+  "131": "10",
+  "147": "1",
+  "148": "1",
+  "149": "1",
+  "150": "1",
+  "151": "1",
+  "152": "1",
+  "156": "4",
+  "157": "7",
+  "158": "10",
+  "159": "1",
+  "162": "4",
+  "163": "7",
+  "164": "10",
+  "165": "1",
+  "168": "4",
+  "169": "7",
+  "170": "10",
+  "171": "1",
+  "173": "4",
+  "174": "7",
+  "175": "10",
+  "176": "1",
+  "178": "({Q1. A1.:18}+{Q1. A2.:67}+{Q1. A3.:68}+{Q1. A4.:147}+{Q2. A1.:129}+{Q2. A2.:130}+{Q2. A3.:131}+{Q2. A4.:148}+{Q3. A1.:80}+{Q3. A2.:81}+{Q3. A3.:82}+{Q3. A4.:149}+{Q4. A1.:89}+{Q4. A2.:90}+{Q4. A3.:91}+{Q4. A4.:150}+{Q5. A1.:96}+{Q5. A2.:97}+{Q5. A3.:98}+{Q5. A4.:151}+{Q6. A1.:103}+{Q6. A2.:104}+{Q6. A3.:105}+{Q6. A4.:152}+{Q7. A1.:156}+{Q7. A2.:157}+{Q7. A3.:158}+{Q7. A4.:159}+{Q8. A1.:162}+{Q8. A2.:163}+{Q8. A3.:164}+{Q8. A4.:165}+{Q9. A1.:168}+{Q9. A2.:169}+{Q9. A3.:170}+{Q9. A4.:171}+{Q10. A1.:173}+{Q10. A2.:174}+{Q10. A3.:175}+{Q10. A4.:176})/10"
+ },
+ "logic": {
+  "18": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "67": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "68": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "80": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "79",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "81": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "79",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "82": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "79",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "89": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "138",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "90": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "138",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "91": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "138",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "96": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "142",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "97": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "142",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "98": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "142",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "103": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "144",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "104": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "144",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "105": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "144",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "129": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "126",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "130": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "126",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "131": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "126",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "147": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz973c40a62"
+    }
+   ]
+  },
+  "148": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "126",
+     "operator": "is",
+     "value": "gquiz126ff67bf70"
+    }
+   ]
+  },
+  "149": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "79",
+     "operator": "is",
+     "value": "gquiz7939ef2f7c"
+    }
+   ]
+  },
+  "150": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "138",
+     "operator": "is",
+     "value": "gquiz138b77443a7"
+    }
+   ]
+  },
+  "151": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "142",
+     "operator": "is",
+     "value": "gquiz142c0054bb1"
+    }
+   ]
+  },
+  "152": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "144",
+     "operator": "is",
+     "value": "gquiz14407c7b1f7"
+    }
+   ]
+  },
+  "156": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "155",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "157": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "155",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "158": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "155",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "159": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "155",
+     "operator": "is",
+     "value": "gquiz14407c7b1f7"
+    }
+   ]
+  },
+  "162": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "161",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "163": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "161",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "164": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "161",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "165": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "161",
+     "operator": "is",
+     "value": "gquiz14407c7b1f7"
+    }
+   ]
+  },
+  "168": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "167",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "169": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "167",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "170": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "167",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "171": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "167",
+     "operator": "is",
+     "value": "gquiz14407c7b1f7"
+    }
+   ]
+  },
+  "173": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "172",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "174": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "172",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "175": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "172",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "176": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "172",
+     "operator": "is",
+     "value": "gquiz14407c7b1f7"
+    }
+   ]
+  }
+ }
+}

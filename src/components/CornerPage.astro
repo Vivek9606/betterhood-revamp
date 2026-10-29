@@ -1,0 +1,231 @@
+---
+// betterYou corner — the visitor's personal dashboard. The old site required a WordPress login;
+// here everything is read from results saved on the visitor's own device by the assessments.
+import Base from "../layouts/Base.astro";
+import Icon from "./Icon.astro";
+import ProductCard from "./ProductCard.astro";
+import CareSections from "./CareSections.astro";
+import recommendations from "../data/recommendations.json";
+import { productsByHandle } from "../lib/data";
+import { areas, media, SHOP } from "../lib/site";
+import { painFor, healthFor, cornerSlugs } from "../lib/assessments";
+
+interface Props { area: "back" | "neck" | "shoulder" | "knee" | "overall" }
+const { area } = Astro.props;
+const slug = cornerSlugs[area];
+const a = areas.find((x) => x.key === area);
+const products = productsByHandle((recommendations as Record<string, string[]>)[slug] ?? []).slice(0, 10);
+const tabs = [...areas.map((x) => ({ key: x.key, label: `${x.name} health`, href: x.corner })), { key: "overall", label: "Overall musculoskeletal health", href: `/${cornerSlugs.overall}/` }];
+const protocols = [
+  { t: "Posture Protocols", img: "2024/10/corner-1.webp", href: a ? `${a.protocols}#posture` : "/learn/by-solution/posture/" },
+  { t: "Recovery Protocols", img: "2024/10/corner-2.webp", href: a ? `${a.protocols}#recovery` : "/learn/by-solution/recovery/" },
+  { t: "Fitness Protocols", img: "2024/10/corner-3.webp", href: "/learn/by-what-inside/protocol/" },
+  { t: "Nutrition Protocols", img: "2024/10/corner-4.webp", href: "/learn/by-what-inside/science/" },
+];
+const cfg = {
+  area,
+  pain: a ? painFor(a.key).slug : null,
+  health: a ? healthFor(a.key).slug : null,
+  healths: areas.map((x) => ({ key: x.key, name: x.name, slug: healthFor(x.key).slug, href: x.health })),
+};
+const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Overall Skeletomuscular health";
+---
+<Base title={title} description={`Your betterYou corner: track your ${a ? a.name.toLowerCase() : "overall musculoskeletal"} health score, see your diagnosis and access your personalized protocols.`}>
+  <section class="bc-hero">
+    <div class="wrap">
+      <p class="eyebrow">betterYou corner</p>
+      <h1 class="h1"><span data-hello>Your</span> {a ? `${a.name.toLowerCase()} health` : "overall musculoskeletal health"}</h1>
+      <nav class="bc-tabs" aria-label="Body area">
+        {tabs.map((t) => <a href={t.href} class:list={["chip", { "is-active": t.key === area }]} aria-current={t.key === area ? "page" : undefined}>{t.label}</a>)}
+      </nav>
+      {a && (
+        <nav class="bc-sub" aria-label="Sections">
+          <a href="#overview">Overview</a><a href="#protocols">Protocols</a><a href="#progress">Track progress</a><a href="#products">Products</a>
+        </nav>
+      )}
+    </div>
+  </section>
+
+  <section class="section-tight" id="overview">
+    <div class="wrap bc-grid">
+      {a ? (
+        <>
+          <article class="card bc-card" data-diagnosis>
+            <p class="f-t">Your diagnosis</p>
+            <div data-empty>
+              <h2 class="h3">You haven't taken the {a.label.toLowerCase()} assessment yet.</h2>
+              <p class="soft">Answer a few clinically designed questions to find the most likely root cause of your pain.</p>
+              <a class="btn" href={a.assessment}>Take assessment <Icon name="arrow" class="arrow" /></a>
+            </div>
+            <div data-full hidden>
+              <p class="muted" data-date></p>
+              <h2 class="h3">Your symptoms are most likely due to <span class="hl" data-condition></span>.</h2>
+              <div class="bc-actions"><a class="btn" data-result>View full result <Icon name="arrow" class="arrow" /></a><a class="btn btn-ghost" href={a.assessment}>Retake</a></div>
+            </div>
+          </article>
+          <article class="card bc-card bc-score" id="progress" data-score>
+            <p class="f-t">Your latest {a.name.toLowerCase()}-health score</p>
+            <div class="bc-ring" data-ring><div><strong data-overall>X</strong><span>/ 10</span></div></div>
+            <p class="soft">Your overall {a.name.toLowerCase()} health score combines your functional scores for strength, balance, and mobility to provide an indicative health rating on a scale of 1 to 10.</p>
+            <div class="bc-bars" data-bars></div>
+            <a class="btn btn-sun" href={a.health}>Update your health score <Icon name="arrow" class="arrow" /></a>
+            <div class="bc-hist" data-history hidden><p class="f-t">Your progress</p><div class="spark" data-spark></div></div>
+          </article>
+        </>
+      ) : (
+        <>
+          <article class="card bc-card bc-score" data-overall-card>
+            <p class="f-t">Your overall musculoskeletal health score</p>
+            <div class="bc-ring" data-ring><div><strong data-overall>X</strong><span>/ 10</span></div></div>
+            <p class="soft">Your overall musculoskeletal health score combines your functional scores for strength, balance, and mobility for your key musculoskeletal systems (back, shoulders, neck, knees) to provide an indicative health rating on a scale of 1 to 10.</p>
+            <p class="muted" data-taken>You have taken X out of 4 assessments. Complete the rest for optimal results.</p>
+          </article>
+          <article class="card bc-card">
+            <p class="f-t">Parametric view</p>
+            <ul class="bc-areas" data-area-list>
+              {cfg.healths.map((h) => <li data-k={h.slug}><span>{h.name}</span><i><b></b></i><strong>–</strong><a class="link" href={h.href}>Take test <Icon name="arrow" /></a></li>)}
+            </ul>
+            <div class="bc-soon">
+              <p class="f-t">Multi-modal tests</p>
+              <ul>
+                <li><Icon name="activity" size={18} /> Functional tests <span class="badge badge-mint">Live</span></li>
+                <li><Icon name="heart" size={18} /> Blood biomarkers — vitamins & mineral sufficiency, bone turnover, inflammation & hormonal markers <span class="badge badge-sun">Coming soon</span></li>
+                <li><Icon name="target" size={18} /> Imaging markers — bone mineral density, 10-year osteoporotic fracture risk <span class="badge badge-sun">Coming soon</span></li>
+              </ul>
+            </div>
+          </article>
+        </>
+      )}
+    </div>
+  </section>
+
+  {!a && (
+    <section class="section-tight">
+      <div class="wrap">
+        <div class="bc-msk">
+          <div><p class="eyebrow">Multi-modal checkup</p><h2 class="h2">Assess 10-year fracture and falls risk through a Multi-modal Musculoskeletal Checkup</h2></div>
+          <a class="btn btn-sun btn-lg" href="/contact-us/">Book your comprehensive MSK checkup <Icon name="arrow" class="arrow" /></a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {a && <CareSections show={["risks", "outcomes"]} shopHref={a.shop} cta={`View ${a.name.toLowerCase()}-care essentials`} />}
+
+  <section class="section-tight" id="protocols">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Access your protocols here</p><h2 class="h2">Your personalized {a ? `${a.name.toLowerCase()}-care` : "care"} protocols</h2></div></div>
+      <div class="grid cols-4">
+        {protocols.map((p) => (
+          <a class="bc-proto card card-hover" href={p.href}>
+            <div class="media"><img src={media(`/wp-content/uploads/${p.img}`)} alt="" loading="lazy" /></div>
+            <span>{p.t} <Icon name="arrow" size={18} /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {products.length > 0 && (
+    <section class="section-tight bg-white" id="products">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">{a ? `${a.name}-care essentials` : "Preserve what matters to you the most"}</p><h2 class="h2">{a ? "Physio-picked for you" : "Featured products"}</h2>{!a && <p class="lead">Your future functional independence relies heavily on the health of your muscles, bones, and joints. Care for them now to ensure a fulfilling later life.</p>}</div>
+          <a class="link" href={a ? a.shop : `${SHOP}/collections/all`}>View all <Icon name="arrow" /></a>
+        </div>
+        <div class="scroller">{products.map((p) => <div style="width:min(240px,70vw)"><ProductCard product={p} /></div>)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section-tight">
+    <div class="wrap"><p class="bc-note muted"><Icon name="lock" size={15} /> Your results are stored privately on this device and browser. Clearing your browser data will reset them.</p></div>
+  </section>
+  <script type="application/json" data-bc set:html={JSON.stringify(cfg)} />
+</Base>
+
+<style is:global>
+  .bc-hero { padding: 32px 0 24px; background: radial-gradient(70% 80% at 100% 0%, var(--mint-100), transparent 55%), linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .bc-hero .h1 { margin: 10px 0 22px; }
+  .bc-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .bc-sub { display: flex; gap: 4px; margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; overflow-x: auto; }
+  .bc-sub a { padding: 8px 14px; border-radius: var(--r-pill); font-weight: 600; font-size: 15px; color: var(--ink-soft); white-space: nowrap; }
+  .bc-sub a:hover { background: var(--plum-100); color: var(--plum-700); }
+  .bc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  .bc-card { padding: clamp(22px, 3vw, 36px); display: grid; gap: 14px; align-content: start; }
+  .bc-card [data-empty], .bc-card [data-full] { display: grid; gap: 12px; justify-items: start; }
+  .bc-card .f-t, .bc-soon .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); }
+  .bc-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .bc-score { justify-items: start; }
+  .bc-ring { --p: 0; width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--mint-600) calc(var(--p) * 1%), var(--plum-100) 0); }
+  .bc-ring > div { width: 120px; height: 120px; border-radius: 50%; background: #fff; display: flex; align-items: baseline; justify-content: center; padding-top: 38px; gap: 2px; }
+  .bc-ring strong { font: 700 40px/1 var(--font-display); color: var(--plum-700); }
+  .bc-ring span { color: var(--ink-mute); }
+  .bc-bars, .bc-areas { width: 100%; display: grid; gap: 10px; list-style: none; }
+  .bc-bars div, .bc-areas li { display: grid; grid-template-columns: 90px 1fr 48px; gap: 12px; align-items: center; font-weight: 600; font-size: 15px; }
+  .bc-areas li { grid-template-columns: 80px 1fr 44px auto; }
+  .bc-bars i, .bc-areas i { height: 10px; border-radius: 10px; background: var(--plum-100); overflow: hidden; }
+  .bc-bars b, .bc-areas b { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--sun-500), var(--mint-600)); border-radius: inherit; transition: width 0.8s var(--ease); }
+  .bc-hist { width: 100%; }
+  .spark { display: flex; align-items: flex-end; gap: 6px; height: 80px; margin-top: 10px; }
+  .spark span { flex: 1; max-width: 28px; border-radius: 6px 6px 2px 2px; background: var(--plum-300); position: relative; }
+  .spark span:last-child { background: var(--plum-700); }
+  .bc-soon ul { list-style: none; display: grid; gap: 10px; margin-top: 10px; font-size: 14.5px; }
+  .bc-soon li { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
+  .bc-msk { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: center; padding: clamp(24px, 4vw, 44px); border-radius: var(--r-xl); background: var(--plum-900); color: #fff; }
+  .bc-msk .eyebrow { color: var(--sun-500); }
+  .bc-msk > div { max-width: 720px; }
+  .bc-proto { display: grid; }
+  .bc-proto .media { aspect-ratio: 4 / 3; }
+  .bc-proto span { display: flex; justify-content: space-between; align-items: center; padding: 16px 18px; font: 650 17px var(--font-display); }
+  .bc-note { display: flex; gap: 8px; justify-content: center; font-size: 14px; text-align: center; }
+  @media (max-width: 860px) { .bc-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const cfg = JSON.parse(document.querySelector("[data-bc]")!.textContent!);
+  let store: Record<string, any> = {}, history: any[] = [], name = "";
+  try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); history = JSON.parse(localStorage.getItem("bh_history") || "[]"); name = localStorage.getItem("bh_name") || ""; } catch {}
+  if (name) document.querySelector("[data-hello]")!.textContent = `${name}'s`;
+  const ring = (el: Element | null, v: number | null) => {
+    if (!el) return;
+    el.querySelector("[data-overall]")!.textContent = v === null ? "X" : String(v);
+    (el as HTMLElement).style.setProperty("--p", String(v === null ? 0 : v * 10));
+  };
+  const fmt = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+
+  if (cfg.area !== "overall") {
+    const pain = store[cfg.pain];
+    if (pain) {
+      const card = document.querySelector("[data-diagnosis]")!;
+      (card.querySelector("[data-empty]") as HTMLElement).hidden = true;
+      (card.querySelector("[data-full]") as HTMLElement).hidden = false;
+      card.querySelector("[data-condition]")!.textContent = pain.condition;
+      card.querySelector("[data-date]")!.textContent = `Assessed on ${fmt(pain.date)}`;
+      (card.querySelector("[data-result]") as HTMLAnchorElement).href = `/${pain.result}/`;
+    }
+    const h = store[cfg.health];
+    const sc = document.querySelector("[data-score]")!;
+    ring(sc.querySelector("[data-ring]"), h?.overall ?? null);
+    if (h) {
+      sc.querySelector("[data-bars]")!.innerHTML = [["Strength", h.strength], ["Balance", h.balance], ["Mobility", h.mobility]]
+        .filter(([, v]) => v !== null).map(([k, v]) => `<div><span>${k}</span><i><b style="width:${v * 10}%"></b></i><span>${v}/10</span></div>`).join("");
+      const runs = history.filter((x) => x.slug === cfg.health && x.overall !== null).slice(-10);
+      if (runs.length > 1) {
+        (sc.querySelector("[data-history]") as HTMLElement).hidden = false;
+        sc.querySelector("[data-spark]")!.innerHTML = runs.map((r) => `<span style="height:${Math.max(8, r.overall * 10)}%" title="${fmt(r.date)}: ${r.overall}/10"></span>`).join("");
+      }
+    }
+  } else {
+    const taken = cfg.healths.filter((h: any) => store[h.slug]?.overall != null);
+    const avg = taken.length ? Math.round((taken.reduce((s: number, h: any) => s + store[h.slug].overall, 0) / taken.length) * 10) / 10 : null;
+    ring(document.querySelector("[data-overall-card] [data-ring]"), avg);
+    document.querySelector("[data-taken]")!.textContent = taken.length
+      ? `Your overall score considers the most recent result of your back, neck, shoulder, and knee assessments. You have taken ${taken.length} out of 4 assessments.${taken.length < 4 ? " Complete the rest for optimal results." : ""}`
+      : "You have not taken the assessment yet. Get started with the Assessments.";
+    document.querySelectorAll<HTMLElement>("[data-area-list] li").forEach((li) => {
+      const r = store[li.dataset.k!];
+      if (r?.overall != null) { li.querySelector("b")!.style.width = `${r.overall * 10}%`; li.querySelector("strong")!.textContent = `${r.overall}`; li.querySelector("a")!.firstChild!.textContent = "Retake "; }
+    });
+  }
+</script>

@@ -1,0 +1,121 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "./Icon.astro";
+import ProductCard from "./ProductCard.astro";
+import CareSections from "./CareSections.astro";
+import Faq from "./Faq.astro";
+import recommendations from "../data/recommendations.json";
+import { resultPages, cornerSlugs, type Cat } from "../lib/assessments";
+import { productsByHandle } from "../lib/data";
+import { mediaHtml, areas, SHOP } from "../lib/site";
+import { resultFaqs } from "../lib/care";
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+const r = resultPages.find((x) => x.slug === slug)!;
+const a = r.assessment;
+const forms = import.meta.glob("../data/forms/*.json", { eager: true, import: "default" }) as Record<string, any>;
+const form = forms[`../data/forms/${a.slug}.json`];
+const label: Record<Cat, string> = { muscle: "Muscle", nerve: "Nerve", bone: "Bone", joint: "Joint" };
+const fieldText = (l: string) => form.fields.find((f: any) => f.label.trim() === l)?.default ?? "";
+const diagnosis = mediaHtml(fieldText(`${label[r.cat]} Lower Back`));
+const imageHtml = mediaHtml(fieldText(`${label[r.cat]} Lower Back Image`));
+const advisory = fieldText("Critical Advisory").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+const priceTable = fieldText("Product Price Division Table");
+const area = areas.find((x) => x.key === a.area)!;
+const products = productsByHandle((recommendations as Record<string, string[]>)[slug] ?? []);
+const shopHref = `${SHOP}/collections/all?shop_by_health_issue=${encodeURIComponent(area.label)}`;
+const corner = `/${cornerSlugs[a.area]}/`;
+const condition = a.conditions[r.cat];
+---
+<Base title={`Result ${a.title} | ${condition}`} description={`Your betterhood ${a.title.toLowerCase()} assessment result: ${condition}. Understand the cause and get your personalized ${area.name.toLowerCase()}-care toolkit.`} noindex>
+  <section class="rs-hero">
+    <div class="wrap rs-grid">
+      <div class="rs-copy">
+        <span class="badge badge-mint"><Icon name="check-circle" size={15} /> {a.title} assessment · result</span>
+        <h1 class="h1">Hi <span data-name>there</span>,</h1>
+        <div class="rs-advisory" data-advisory hidden><Icon name="shield" size={20} /><p>{advisory}</p></div>
+        <div class="rs-diag" set:html={diagnosis} />
+        <div class="rs-cta">
+          <a class="btn btn-lg" href="#toolkit">See my toolkit <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-ghost btn-lg" href={corner}>Save to betterYou corner</a>
+        </div>
+      </div>
+      <div class="rs-img" set:html={imageHtml} />
+    </div>
+  </section>
+
+  <CareSections show={["risks"]} />
+
+  <section class="section-tight" id="toolkit">
+    <div class="wrap">
+      <div class="rs-tk">
+        <div class="rs-tk-head">
+          <p class="eyebrow">Our recommended solution</p>
+          <h2 class="h2"><span data-name-poss>Your</span> personalized {area.name.toLowerCase()}-care toolkit</h2>
+          <div class="ptable" set:html={priceTable} />
+          <p class="rs-all"><a class="link" href={`${SHOP}/collections/all`}>View all <Icon name="arrow" /></a> <span class="muted">Extra 15% off on cart value of ₹5000+</span></p>
+        </div>
+        <div>
+          <p class="f-t">This is what you get inside your {area.name.toLowerCase()}-care essentials</p>
+          <div class="scroller">{products.map((p) => <div style="width:min(240px,70vw)"><ProductCard product={p} /></div>)}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CareSections show={["outcomes", "toolkit", "extra"]} shopHref={shopHref} areaName={area.name} cta={`View recommended ${area.name.toLowerCase()}-care essentials`} />
+
+  <section class="section bg-white"><div class="wrap"><Faq items={resultFaqs} /></div></section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="rs-later">
+        <div><p class="eyebrow">Need more time to make a decision?</p><h2 class="h3">No worries. You can access your diagnosis and recommended toolkit anytime in ‘betterYou corner'.</h2></div>
+        <a class="btn btn-sun btn-lg" href={corner}>Save your recommendations for later <Icon name="arrow" class="arrow" /></a>
+      </div>
+    </div>
+  </section>
+  <script type="application/json" data-rs set:html={JSON.stringify({ assessment: a.slug, result: slug })} />
+</Base>
+
+<style>
+  .rs-hero { padding: 40px 0 56px; background: radial-gradient(60% 80% at 100% 0%, var(--plum-100), transparent 60%), var(--cream); }
+  .rs-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .rs-copy { display: grid; gap: 18px; justify-items: start; }
+  .rs-diag { font-size: 18px; color: var(--ink-soft); line-height: 1.7; }
+  .rs-diag :global(span) { display: block; margin: 4px 0 14px; font: 700 clamp(26px, 3.2vw, 38px)/1.15 var(--font-display); color: var(--plum-700); letter-spacing: -0.02em; }
+  .rs-advisory { display: flex; gap: 12px; padding: 16px 18px; border-radius: var(--r-md); background: var(--coral-100); color: #8a2f17; font-size: 15px; }
+  .rs-advisory :global(svg) { flex: none; margin-top: 2px; }
+  .rs-cta { display: flex; flex-wrap: wrap; gap: 10px; }
+  .rs-img :global(img) { width: 100%; border-radius: var(--r-xl); box-shadow: var(--shadow-lg); }
+  .rs-tk { display: grid; grid-template-columns: 380px 1fr; gap: 32px; align-items: start; padding: clamp(22px, 4vw, 40px); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
+  .rs-tk > * { min-width: 0; }
+  .rs-tk-head { display: grid; gap: 16px; }
+  .ptable :global(.personalized_toolkit) { display: grid; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--line); }
+  .ptable :global(.item) { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; font-size: 15px; }
+  .ptable :global(.item + .item) { border-top: 1px solid var(--line); }
+  .ptable :global(.item:first-child) { background: var(--plum-700); color: #fff; }
+  .ptable :global(.item_price) { font-weight: 700; color: var(--mint-700); text-align: right; white-space: nowrap; }
+  .ptable :global(.item:first-child .item_price) { color: var(--sun-500); white-space: normal; }
+  .ptable :global(s) { color: var(--ink-mute); font-weight: 400; margin-left: 4px; }
+  .rs-all { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; font-size: 14.5px; }
+  .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 14px; }
+  .rs-later { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding: clamp(24px, 4vw, 44px); border-radius: var(--r-xl); background: var(--plum-50); }
+  .rs-later > div { max-width: 640px; }
+  @media (max-width: 960px) { .rs-grid, .rs-tk { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const meta = JSON.parse(document.querySelector("[data-rs]")!.textContent!);
+  let store: Record<string, any> = {};
+  try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); } catch {}
+  const rec = store[meta.assessment];
+  let saved = ""; try { saved = localStorage.getItem("bh_name") || ""; } catch {}
+  const name = (rec?.name || saved).trim();
+  if (name) {
+    document.querySelectorAll("[data-name]").forEach((el) => (el.textContent = name));
+    document.querySelectorAll("[data-name-poss]").forEach((el) => (el.textContent = `${name}'s`));
+  }
+  if (rec?.result === meta.result && rec.advisory) document.querySelector<HTMLElement>("[data-advisory]")!.hidden = false;
+</script>

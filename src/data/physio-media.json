@@ -1,0 +1,18 @@
+{
+  "_note": "Gallery photos and videos per physio slug. Profiles listed here get the enhanced profile layout. The entries below are PLACEHOLDERS (betterhood stock illustrations and brand videos) until the physio sends their own clinic photos and videos.",
+  "dr-krutee-sangani": {
+    "photos": [
+      { "src": "/wp-content/uploads/IMG20260420104312-Dr.-Krutee-Sangani.webp", "alt": "Dr. Krutee Sangani, neuro physiotherapist in Mumbai", "caption": "Dr. Krutee Sangani" },
+      { "src": "/wp-content/uploads/Man_performing_core_stabilizatio…_2K_202608311413-scaled.jpeg", "alt": "Back extension and pelvic alignment exercises used in physiotherapy rehabilitation", "caption": "Home exercise programme for spine strength" },
+      { "src": "/wp-content/uploads/Man_performing_physical_therapy_…_202608311507-edited-scaled.jpeg", "alt": "Strength training and supported recovery for the arm during physiotherapy", "caption": "Strength & conditioning, step by step" },
+      { "src": "/wp-content/uploads/Woman_stretching_for_back_relief_202608221308-edited.jpeg", "alt": "Woman doing a guided stretch for back pain relief", "caption": "Guided stretching for back relief" },
+      { "src": "/wp-content/uploads/Walk-All-Day-Without-Pain.webp", "alt": "Walking without pain after gait rehabilitation", "caption": "Gait training to walk with confidence" },
+      { "src": "/wp-content/uploads/Woman_sitting_in_ergonomic_chair_202608261748-1-edited.jpeg", "alt": "Ergonomic sitting posture advice for working professionals", "caption": "Posture advice for working professionals" }
+    ],
+    "videos": [
+      { "id": "uBMxwhtdO3w", "title": "Recovering wrist strength with physiotherapy", "duration": "PT1M42S", "uploadDate": "2025-01-15", "description": "A patient shares how guided exercises and the right support helped their wrist recover." },
+      { "id": "gPuS1GkdEUI", "title": "Ankle rehab after an injury", "duration": "PT2M10S", "uploadDate": "2025-01-15", "description": "Step-by-step ankle rehabilitation to rebuild balance and confidence while walking." },
+      { "id": "V-eY4nkIY2M", "title": "Managing lower back pain at home", "duration": "PT1M30S", "uploadDate": "2025-01-15", "description": "Simple ways to protect your lower back during everyday activities at home." }
+    ]
+  }
+}

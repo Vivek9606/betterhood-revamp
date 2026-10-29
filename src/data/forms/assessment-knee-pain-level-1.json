@@ -1,0 +1,2118 @@
+{
+ "slug": "assessment-knee-pain-level-1",
+ "formId": 17,
+ "pageTitles": [],
+ "intro": "",
+ "fields": [
+  {
+   "id": 291,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper frontpage\"> <h2 class=\"assessment_heading\">Assess <span> your Knee Pain</span></h2> <p>Hey there! This assessment tool is designed by our experts. We will ask you a series of questions to better understand your symptoms. Based on a differential analysis of your responses, this tool will generate a preliminary diagnosis for you. This process should take about 5–10 minutes. Find a quiet corner, and let’s get started! </p> </div>"
+  },
+  {
+   "id": 292,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "consent_text",
+   "html": "Please note that your information shared here is completely safe and is used only for arriving at the assessment results. The assessment results are indicative and do not substitute medical expert consultation in any way. Appropriate user discretion is advised. You may refer to our <a href=\"/terms-of-services/\">Terms of Service</a> for further clarity."
+  },
+  {
+   "id": 79,
+   "type": "select",
+   "page": 2,
+   "label": "Gender",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "choices": [
+    {
+     "value": "Select",
+     "label": "Select"
+    },
+    {
+     "value": "Male",
+     "label": "Male"
+    },
+    {
+     "value": "Female",
+     "label": "Female"
+    }
+   ]
+  },
+  {
+   "id": 80,
+   "type": "number",
+   "page": 2,
+   "label": "Age (in years)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Age",
+   "default": ""
+  },
+  {
+   "id": 81,
+   "type": "number",
+   "page": 2,
+   "label": "Weight (in kgs)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Weight",
+   "default": ""
+  },
+  {
+   "id": 82,
+   "type": "number",
+   "page": 2,
+   "label": "Height (in cms)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Height",
+   "default": ""
+  },
+  {
+   "id": 84,
+   "type": "checkbox",
+   "page": 2,
+   "label": "1. Where is your knee pain located?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Below knee cap",
+     "label": "Below knee cap"
+    },
+    {
+     "value": "Back of knee",
+     "label": "Back of knee"
+    },
+    {
+     "value": "Above the knee",
+     "label": "Above the knee"
+    },
+    {
+     "value": "Diffused across the knee",
+     "label": "Diffused across the knee"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 7,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The knee joint carries up to five times the body's weight during activities like running and jumping, making it one of the most heavily loaded joints in the body.</p> </div>"
+  },
+  {
+   "id": 18,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 19,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 20,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 11,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 85,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 86,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 87,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 88,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 89,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 90,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 91,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 92,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 93,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 94,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 95,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 96,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 97,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A5. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 98,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A5.( Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 99,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A5. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 100,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A5. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 45,
+   "type": "quiz",
+   "page": 3,
+   "label": "2. Do you experience unbearable pain or stiffness in other joints of the body as well?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "Yes"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "No"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 44,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Knee arthritis, especially osteoarthritis, is incredibly common, affecting nearly 1 in 4 adults over the age of 55, causing pain, stiffness, and reduced mobility. </p> </div>"
+  },
+  {
+   "id": 46,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 47,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 48,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 49,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 50,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 51,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 52,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 53,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 112,
+   "type": "checkbox",
+   "page": 4,
+   "label": "3. How would you describe your symptoms?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Stiffness (tightness or difficulty moving through the full range of motion)",
+     "label": "Stiffness (tightness or difficulty moving through the full range of motion)"
+    },
+    {
+     "value": "Crackling or rattling sound or sensation while bending your knee",
+     "label": "Crackling or rattling sound or sensation while bending your knee"
+    },
+    {
+     "value": "Pain that worsens with rest and morning stiffness",
+     "label": "Pain that worsens with rest and morning stiffness"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 111,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Our joints are all connected, like a game of dominos! When there’s a problem in the knee, it can tip the balance and lead to back pain, proving just how intertwined our body’s mechanics really are.</p> </div>"
+  },
+  {
+   "id": 116,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 113,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 115,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 114,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1.(Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 117,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 120,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 119,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 118,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2.(Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 128,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 125,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A4. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 127,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A4. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 126,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 133,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A6. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 136,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A6. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 135,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A6. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 134,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A6. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 175,
+   "type": "quiz",
+   "page": 5,
+   "label": "4. Pain on a scale - 1 being the least amount of pain and 10 being the highest (Options to presented as a visual scale)",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "0 - No pain"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "1 - Mild - Pain is very mild, barely noticeable"
+    },
+    {
+     "value": "gquiz14756a6c824",
+     "label": "2 - Minor - Annoying and may have occasional sudden bouts of the localized pain"
+    },
+    {
+     "value": "gquiz14771f84bdf",
+     "label": "3 - Uncomfortable - Pain is noticeable and distracting but bearable"
+    },
+    {
+     "value": "gquiz147b6392459",
+     "label": "4 - Moderate - Distracting when not involved in an activity"
+    },
+    {
+     "value": "gquiz1476d15d46a",
+     "label": "5 - Distracting - Moderately strong pain, it can't be ignored for more than a few minutes"
+    },
+    {
+     "value": "gquiz175f3f43095",
+     "label": "6 - Distressing - Moderately strong pain that interferes with daily activities"
+    },
+    {
+     "value": "gquiz175c067d82c",
+     "label": "7 - Severe - Pain that limits your ability to perform daily activity"
+    },
+    {
+     "value": "gquiz175c7fe459d",
+     "label": "8 - Intense - Physical activity is severely limited"
+    },
+    {
+     "value": "gquiz175bdcee179",
+     "label": "9 - Excruciating - Unable to converse, crying out uncontrollably"
+    },
+    {
+     "value": "gquiz175e6c9a13c",
+     "label": "10 - Unspeakable - Bedridden & possibly delirious"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 174,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The patella, or kneecap, is a floating plate that glides over the knee joint, supported by muscles; tight thigh muscles can pull on the patella, causing friction and leading to knee problems.</p> </div>"
+  },
+  {
+   "id": 201,
+   "type": "checkbox",
+   "page": 6,
+   "label": "5. Is your knee pain accompanied by, or did it start after, any of the following?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Injury from falls, trauma, accidents, or sports activities",
+     "label": "Injury from falls, trauma, accidents, or sports activities"
+    },
+    {
+     "value": "Pregnancy",
+     "label": "Pregnancy"
+    },
+    {
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Multiple sclerosis",
+     "label": "Any autoimmune disorder such as Rheumatoid arthritis, Multiple sclerosis"
+    },
+    {
+     "value": "Gout or Pseudogout",
+     "label": "Gout or Pseudogout"
+    },
+    {
+     "value": "Knee dislocation or instability",
+     "label": "Knee dislocation or instability"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 200,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p> Flat feet can lead to knee issues by altering your gait and putting extra stress on the knees, showcasing how foot structure plays a crucial role in overall joint health! </p> </div>"
+  },
+  {
+   "id": 294,
+   "type": "number",
+   "page": 6,
+   "label": "Q8. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 295,
+   "type": "number",
+   "page": 6,
+   "label": "Q8. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 296,
+   "type": "number",
+   "page": 6,
+   "label": "Q8. A5. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 223,
+   "type": "checkbox",
+   "page": 7,
+   "label": "6. Which activities seem to trigger or worsen the pain?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Running",
+     "label": "Running"
+    },
+    {
+     "value": "Squatting or Lunging",
+     "label": "Squatting or Lunging"
+    },
+    {
+     "value": "Long rest",
+     "label": "Long rest"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 222,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p> Flat feet can lead to knee issues by altering your gait and putting extra stress on the knees, showcasing how foot structure plays a crucial role in overall joint health!</p> </div>"
+  },
+  {
+   "id": 227,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 224,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A1. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 226,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A1. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 225,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 231,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 228,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A2. (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 230,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A2. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 229,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 297,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 14,
+   "type": "number",
+   "page": 8,
+   "label": "Total (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 40,
+   "type": "number",
+   "page": 8,
+   "label": "Total (Bursitis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 41,
+   "type": "number",
+   "page": 8,
+   "label": "Total (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 42,
+   "type": "number",
+   "page": 8,
+   "label": "Total (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 282,
+   "type": "textarea",
+   "page": 8,
+   "label": "Critical Advisory",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<div class=\"critical_text\">Some of your responses indicate probable complications which need thourough medical assessment. Please visit your medical practitioner for the same. Post initial rest and recovery period recommended by your medical practioner, you should start on the betterhood routine recommended here. </div>"
+  },
+  {
+   "id": 276,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper\"> <h2 class=\"assessment_heading\">You are done!<span>Get your personalized assessment.</span></h2> </div>"
+  },
+  {
+   "id": 55,
+   "type": "text",
+   "page": 8,
+   "label": "First Name",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "First Name"
+  },
+  {
+   "id": 56,
+   "type": "email",
+   "page": 8,
+   "label": "Email",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "email",
+   "placeholder": "Email"
+  },
+  {
+   "id": 57,
+   "type": "phone",
+   "page": 8,
+   "label": "Phone Number",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "tel",
+   "placeholder": "Phone Number"
+  },
+  {
+   "id": 63,
+   "type": "text",
+   "page": 8,
+   "label": "Result (Created By Debraj)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 61,
+   "type": "text",
+   "page": 8,
+   "label": "Result",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 65,
+   "type": "text",
+   "page": 8,
+   "label": "User ID",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 68,
+   "type": "number",
+   "page": 8,
+   "label": "Is Visited",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "",
+   "default": "0"
+  },
+  {
+   "id": 69,
+   "type": "textarea",
+   "page": 8,
+   "label": "Muscle Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Muscular Imbalance</span> in knee. Muscular imbalance in the knees happens when some muscles are stronger or tighter than others, causing uneven stress and potential injury. This can result from repetitive activities like running or squatting, poor posture, and muscle weakness due to a sedentary lifestyle. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate shoulder misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 73,
+   "type": "textarea",
+   "page": 8,
+   "label": "Muscle Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/kneepain-1-1.webp\">"
+  },
+  {
+   "id": 70,
+   "type": "textarea",
+   "page": 8,
+   "label": "Nerve Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Bursitis</span> in knee. The knee joint is cushioned by fluid-filled sacs called bursae. Repetitive stress from activities like kneeling or prolonged sitting, along with injuries and certain health conditions, can inflame these bursae, causing pain, swelling, and stiffness. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate shoulder misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 75,
+   "type": "textarea",
+   "page": 8,
+   "label": "Nerve Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/kneepain-2.webp\">"
+  },
+  {
+   "id": 71,
+   "type": "textarea",
+   "page": 8,
+   "label": "Bone Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Patellar Instability</span> in knee. Patellar instability occurs when the kneecap (patella) moves out of its normal position, causing pain, discomfort, and difficulty with knee movement. This condition often results from repetitive stress or trauma, weak or imbalanced thigh muscles, and ligament injuries. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate shoulder misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 76,
+   "type": "textarea",
+   "page": 8,
+   "label": "Bone Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/kneepain-3.webp\">"
+  },
+  {
+   "id": 72,
+   "type": "textarea",
+   "page": 8,
+   "label": "Joint Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to <span>the excessive wear and tear of the knee joint.</span> As you age, excessive strain from poor posture or weak muscles accelerates wear and tear on the knee joints, leading to osteoarthritis. In this condition, cartilage gradually wears down, causing pain, stiffness, and reduced mobility. The resulting bony growths can further intensify pain and discomfort. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate shoulder misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 77,
+   "type": "textarea",
+   "page": 8,
+   "label": "Joint Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/kneepain-4.webp\">"
+  },
+  {
+   "id": 284,
+   "type": "textarea",
+   "page": 8,
+   "label": "Product Price Division Table",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<div class=\"personalized_toolkit\"> <div class=\"item\"> <p class=\"item_name\"> <b>betterhood<sup>TM</sup> knee-care essentials</b> </p> <p class=\"item_price\"> <b>Extra 10% off on orders ₹2999+</b> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Posture & Support Protocols </p> <p class=\"item_price\"> FREE <s>₹ 800</s> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Relief & Recovery Protocols </p> <p class=\"item_price\"> FREE <s>₹ 1500</s> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Health Goals Monitoring </p> <p class=\"item_price\"> FREE <s>₹ 1500</s> </p> </div> </div>"
+  }
+ ],
+ "formulas": {
+  "14": "{Q1. A1. (Muscle):18} + {Q2. A1. (Muscle):46} + {Q2. A2. (Muscle):50} + {Q3. A1. (Muscle):116} + {Q3. A2. (Muscle):117} +  {Q3. A4. (Muscle):128} +  {Q3. A6. (Muscle):133} +  {Q3. A8. (Muscle):144} + {Q6. A1. (Muscle):182} + {Q6. A2. (Muscle):186} + {Q6. A3. (Muscle):193} + {Q6. A4. (Muscle):197} + {Q8. A1. (Muscle):208} + {Q8. A2. (Muscle):212} + {Q8. A3. (Muscle):213} + {Q8. A4. (Muscle):220} + {Q9. A1. (Muscle):227} + {Q9. A2. (Muscle):231} + {Q10. A1. (Muscle):263} + {Q10. A2. (Muscle):267} + {Q10. A3. (Muscle):271} + {Q10. A4. (Muscle):275}",
+  "19": "5",
+  "20": "1",
+  "40": "{Q1. A1. (Bursitis):19} + {Q2. A1. (Bursitis):47} + {Q2. A2. (Bursitis):51} + {Q3. A1. (Bursitis):113} + {Q3. A2. (Bursitis):120} + {Q3. A4. (Bursitis):125} + {Q3. A6. (Bursitis):136} +  {Q3. A8. (Bursitis):141} +  {Q7. A1. (Bursitis):185} + {Q7. A2. (Bursitis):189} + {Q7. A3. (Bursitis):190} + {Q7. A4. (Bursitis):194} + {Q9. A1. (Bursitis):205} + {Q9. A2. (Bursitis):209} + {Q9. A3. (Bursitis):216} + {Q9. A4. (Bursitis):217} + {Q10. A1. (Bursitis):224} + {Q10. A2. (Bursitis):228} +  {Q14. A1. (Bursitis):260} + {Q14. A2. (Bursitis):264} + {Q14. A3. (Bursitis):268} + {Q14. A4. (Bursitis):272}",
+  "41": "{Q1. A2. (Instability):87} + {Q1. A2. (Instability):87} + {Q1. A3. (Instability):91} + {Q1. A4. (Instability):95} + {Q1. A5. (Instability):99} + {Q1. A6. (Instability):103} + {Q1. A7. (Instability):107} + {Q2. A1. (Instability):48} + {Q2. A2. (Instability):52} + {Q3. A1. (Instability):115} + {Q3. A2. (Instability):119} + {Q3. A4. (Instability):127} + {Q3. A6. (Instability):135} +  {Q3. A8. (Instability):143} +  {Q7. A1. (Instability):184} + {Q7. A2. (Instability):188} + {Q7. A3. (Instability):192} + {Q7. A4. (Instability):196} + {Q9. A1. (Instability):206} + {Q9. A2. (Instability):211} + {Q9. A3. (Instability):215} + {Q9. A4. (Osteoarthritis):218} + {Q10. A1. (Instability):226} + {Q10. A2. (Instability):230}  +  {Q14. A1. (Instability):262} + {Q14. A2. (Instability):266} + {Q14. A3. (Instability):270} + {Q14. A4. (Instability):274}+{Q8. A5. (Instability):296}",
+  "42": "{Q1. A1. (Osteoarthritis):11} + {Q2. A1. (Osteoarthritis):49} + {Q2. A2. (Osteoarthritis):53} + {Q3. A1. (Osteoarthritis):114} + {Q3. A2. (Osteoarthritis):118} +  {Q3. A4. (Osteoarthritis):126} +  {Q3. A6. (Osteoarthritis):134} + {Q3. A8. (Osteoarthritis):142} + {Q7. A1. (Osteoarthritis):183} + {Q7. A2. (Osteoarthritis):187} + {Q7. A3. (Osteoarthritis):191} + {Q7. A4. (Osteoarthritis):195} + {Q9. A1. (Osteoarthritis):207} + {Q9. A2. (Osteoarthritis):210} + {Q9. A3. (Osteoarthritis):214} + {Q9. A4. (Osteoarthritis):218} + {Q10. A1. (Osteoarthritis):225} + {Q10. A2. (Osteoarthritis):229} + {Q14. A1. (Osteoarthritis):261} + {Q14. A2. (Osteoarthritis):265} + {Q14. A3. (Osteoarthritis):269} + {Q14. A4. (Osteoarthritis):273}+{Q9. A3.  (Osteoarthritis):297}+{Q8. A4.  (Osteoarthritis):295}+{Q8. A3.  (Osteoarthritis):294}",
+  "49": "5",
+  "86": "5",
+  "89": "5",
+  "96": "5",
+  "113": "1",
+  "114": "1",
+  "116": "5",
+  "118": "1",
+  "119": "5",
+  "126": "5",
+  "226": "1",
+  "227": "5",
+  "230": "5",
+  "294": "5",
+  "295": "5",
+  "296": "5",
+  "297": "5"
+ },
+ "logic": {
+  "11": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Below knee cap"
+    }
+   ]
+  },
+  "18": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Below knee cap"
+    }
+   ]
+  },
+  "19": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Below knee cap"
+    }
+   ]
+  },
+  "20": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Below knee cap"
+    }
+   ]
+  },
+  "46": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "47": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "48": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "49": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "50": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "51": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "52": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "53": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "85": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Back of knee"
+    }
+   ]
+  },
+  "86": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Back of knee"
+    }
+   ]
+  },
+  "87": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Back of knee"
+    }
+   ]
+  },
+  "88": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Back of knee"
+    }
+   ]
+  },
+  "89": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Above the knee"
+    }
+   ]
+  },
+  "90": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Above the knee"
+    }
+   ]
+  },
+  "91": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Above the knee"
+    }
+   ]
+  },
+  "92": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Above the knee"
+    }
+   ]
+  },
+  "93": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Diffused across the knee"
+    }
+   ]
+  },
+  "94": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Diffused across the knee"
+    }
+   ]
+  },
+  "95": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Diffused across the knee"
+    }
+   ]
+  },
+  "96": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "Diffused across the knee"
+    }
+   ]
+  },
+  "97": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "98": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "99": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "100": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "84",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "113": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "114": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "115": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "116": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "117": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Crackling or rattling sound or sensation while bending your knee"
+    }
+   ]
+  },
+  "118": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Crackling or rattling sound or sensation while bending your knee"
+    }
+   ]
+  },
+  "119": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Crackling or rattling sound or sensation while bending your knee"
+    }
+   ]
+  },
+  "120": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Crackling or rattling sound or sensation while bending your knee"
+    }
+   ]
+  },
+  "125": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Pain that worsens with rest and morning stiffness"
+    }
+   ]
+  },
+  "126": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Pain that worsens with rest and morning stiffness"
+    }
+   ]
+  },
+  "127": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Pain that worsens with rest and morning stiffness"
+    }
+   ]
+  },
+  "128": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "Pain that worsens with rest and morning stiffness"
+    }
+   ]
+  },
+  "133": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "134": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "135": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "136": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "112",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "224": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "223",
+     "operator": "is",
+     "value": "Running"
+    }
+   ]
+  },
+  "225": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "223",
+     "operator": "is",
+     "value": "Running"
+    }
+   ]
+  },
+  "226": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "223",
+     "operator": "is",
+     "value": "Running"
+    }
+   ]
+  },
+  "227": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "223",
+     "operator": "is",
+     "value": "Running"
+    }
+   ]
+  },
+  "228": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "223",
+     "operator": "is",
+     "value": "Squatting or Lunging"
+    }
+   ]
+  },
+  "229": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "223",
+     "operator": "is",
+     "value": "Squatting or Lunging"
+    }
+   ]
+  },
+  "230": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "223",
+     "operator": "is",
+     "value": "Squatting or Lunging"
+    }
+   ]
+  },
+  "231": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "223",
+     "operator": "is",
+     "value": "Squatting or Lunging"
+    }
+   ]
+  },
+  "282": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "any",
+   "rules": [
+    {
+     "fieldId": "175",
+     "operator": "is",
+     "value": "gquiz175c067d82c"
+    },
+    {
+     "fieldId": "175",
+     "operator": "is",
+     "value": "gquiz175c7fe459d"
+    },
+    {
+     "fieldId": "175",
+     "operator": "is",
+     "value": "gquiz175bdcee179"
+    },
+    {
+     "fieldId": "175",
+     "operator": "is",
+     "value": "gquiz175e6c9a13c"
+    },
+    {
+     "fieldId": "201",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    },
+    {
+     "fieldId": "201",
+     "operator": "is",
+     "value": "Any fever or infections"
+    },
+    {
+     "fieldId": "201",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "294": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "201",
+     "operator": "is",
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    }
+   ]
+  },
+  "295": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "201",
+     "operator": "is",
+     "value": "Gout or Pseuodogout"
+    }
+   ]
+  },
+  "296": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "201",
+     "operator": "is",
+     "value": "Knee dislocation or instability"
+    }
+   ]
+  },
+  "297": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "223",
+     "operator": "is",
+     "value": "Long rest"
+    }
+   ]
+  }
+ }
+}

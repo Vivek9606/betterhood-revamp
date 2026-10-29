@@ -1,0 +1,347 @@
+---
+// Runs one of the old Gravity Forms assessments with a modern, one-step-at-a-time UI.
+// Scoring is identical to the old site (see scripts/quiz-engine.ts). Results are kept on the
+// visitor's device (localStorage) for the result pages and betterYou corner.
+import Icon from "./Icon.astro";
+import { mediaHtml } from "../lib/site";
+import { bySlug, cornerSlugs } from "../lib/assessments";
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+const a = bySlug(slug);
+const forms = import.meta.glob("../data/forms/*.json", { eager: true, import: "default" }) as Record<string, any>;
+const form = forms[`../data/forms/${slug}.json`];
+// absolute media URLs inside the HTML snippets
+const prepared = { ...form, fields: form.fields.map((f: any) => ({ ...f, html: f.html ? mediaHtml(f.html) : f.html, default: f.default ? mediaHtml(f.default) : f.default })) };
+const config = { ...a, corner: `/${cornerSlugs[a.area]}/` };
+const steps = Math.max(...form.fields.map((f: any) => f.page));
+---
+<section class="qz" data-quiz>
+  <div class="wrap qz-wrap">
+    <div class="qz-top">
+      <a class="qz-back-link" href="/quiz-landing-page/"><Icon name="arrow-left" size={18} /> All assessments</a>
+      <p class="qz-step muted" aria-live="polite">Step <span data-step>1</span> of <span data-steps>{steps}</span></p>
+    </div>
+    <div class="qz-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-bar></span></div>
+
+    <form class="qz-card" data-form novalidate>
+      <div class="qz-grid">
+        <div class="qz-main" data-main>
+          <noscript><p class="empty">This assessment needs JavaScript to run. Please enable it, or <a class="link" href="/contact-us/">contact us</a> for help.</p></noscript>
+        </div>
+        <aside class="qz-aside" data-aside hidden></aside>
+      </div>
+      <p class="qz-err" data-err role="alert" hidden></p>
+      <div class="qz-nav">
+        <button type="button" class="btn btn-ghost" data-prev hidden><Icon name="arrow-left" /> Back</button>
+        <button type="submit" class="btn btn-lg" data-next>Let's start <Icon name="arrow" class="arrow" /></button>
+      </div>
+    </form>
+    <p class="qz-safe muted"><Icon name="lock" size={15} /> Your answers stay private and are used only to generate your results. Results are indicative and don't replace a medical consultation.</p>
+  </div>
+  <script type="application/json" data-form-def set:html={JSON.stringify(prepared)} />
+  <script type="application/json" data-config set:html={JSON.stringify(config)} />
+</section>
+
+<style is:global>
+  .qz { padding: 24px 0 72px; background: radial-gradient(70% 60% at 100% 0%, var(--plum-100), transparent 60%), var(--cream); min-height: 80vh; }
+  .qz-wrap { max-width: 1060px; }
+  .qz-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 14.5px; }
+  .qz-back-link { display: inline-flex; gap: 6px; align-items: center; color: var(--plum-700); font-weight: 600; }
+  .qz-bar { height: 8px; border-radius: 8px; background: var(--plum-100); overflow: hidden; margin-bottom: 24px; }
+  .qz-bar span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, var(--plum-600), var(--sun-500)); transition: width 0.5s var(--ease); }
+  .qz-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: clamp(22px, 4vw, 48px); box-shadow: var(--shadow-md); }
+  .qz-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+  .qz-grid.has-aside { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  .qz-main { display: grid; gap: 22px; align-content: start; animation: qzin 0.45s var(--ease); }
+  @keyframes qzin { from { opacity: 0; transform: translateX(14px); } }
+  .qz-q { font: 650 clamp(22px, 2.8vw, 30px)/1.2 var(--font-display); letter-spacing: -0.02em; }
+  .qz-hint { color: var(--ink-mute); font-size: 15px; margin-top: -12px; }
+  .qz-opts { display: grid; gap: 10px; }
+  .qz-opt { position: relative; display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: var(--r-lg); border: 1.5px solid var(--line-strong); cursor: pointer; transition: all 0.2s var(--ease); background: #fff; }
+  .qz-opt:hover { border-color: var(--plum-300); background: var(--plum-50); }
+  .qz-opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .qz-opt .tick { flex: none; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--line-strong); display: grid; place-items: center; transition: all 0.2s; color: transparent; }
+  .qz-opt.multi .tick { border-radius: 7px; }
+  .qz-opt:has(input:checked) { border-color: var(--plum-700); background: var(--plum-50); box-shadow: 0 0 0 3px var(--plum-100); }
+  .qz-opt:has(input:checked) .tick { background: var(--plum-700); border-color: var(--plum-700); color: #fff; }
+  .qz-opt:has(input:focus-visible) { outline: 3px solid var(--sun-500); outline-offset: 2px; }
+  .qz-opt .lbl { font-weight: 550; line-height: 1.4; }
+  .qz-opt .lbl small { display: block; font-weight: 400; color: var(--ink-mute); margin-top: 2px; }
+  .qz-scale { display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px; }
+  .qz-scale label { position: relative; cursor: pointer; }
+  .qz-scale input { position: absolute; opacity: 0; }
+  .qz-scale span { display: grid; place-items: center; height: 54px; border-radius: 14px; font: 700 18px var(--font-display); background: hsl(calc(140 - var(--i) * 14) 70% 92%); color: hsl(calc(140 - var(--i) * 14) 60% 28%); border: 2px solid transparent; transition: transform 0.2s var(--ease), border-color 0.2s; }
+  .qz-scale label:hover span { transform: translateY(-3px); }
+  .qz-scale input:checked + span { border-color: var(--plum-900); transform: translateY(-4px) scale(1.05); box-shadow: var(--shadow-md); }
+  .qz-scale input:focus-visible + span { outline: 3px solid var(--sun-500); }
+  .qz-scale-desc { min-height: 48px; padding: 12px 16px; border-radius: var(--r-md); background: var(--plum-50); font-weight: 550; }
+  .qz-scale-ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-mute); }
+  .qz-inputs { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .qz-html .assessment_heading, .qz-html h2 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-display); letter-spacing: -0.03em; margin-bottom: 14px; }
+  .qz-html .assessment_heading span, .qz-html h2 span, .qz-html h3 span { color: var(--plum-600); font-style: italic; font-weight: 500; }
+  .qz-html p { color: var(--ink-soft); margin-top: 10px; }
+  .qz-html h4 { font: 650 22px var(--font-display); color: var(--plum-700); }
+  .qz-html h3 { font: 650 20px var(--font-display); margin-bottom: 8px; }
+  .qz-html img { border-radius: var(--r-md); margin-top: 12px; max-height: 340px; width: auto; }
+  .qz-html .consent, .qz-consent { font-size: 13.5px; color: var(--ink-mute); padding: 14px 16px; border-radius: var(--r-md); background: var(--plum-50); }
+  .qz-consent a { color: var(--plum-700); text-decoration: underline; }
+  .qz-aside { display: grid; gap: 16px; align-content: start; }
+  .qz-aside .dyk_wrapper { padding: 22px; border-radius: var(--r-lg); background: var(--sun-100); border: 1px solid var(--sun-200); }
+  .qz-aside .dyk_wrapper .heading { display: flex; align-items: center; gap: 10px; }
+  .qz-aside .dyk_wrapper .heading img { width: 34px; height: 34px; margin: 0; }
+  .qz-aside .dyk_wrapper h3 { margin: 0; }
+  .qz-aside .right_col { padding: 22px; border-radius: var(--r-lg); background: var(--plum-50); }
+  .qz-aside img { border-radius: var(--r-md); margin-top: 12px; }
+  .qz-about { padding: 20px; border-radius: var(--r-lg); border: 1px dashed var(--line-strong); display: grid; gap: 14px; }
+  .qz-about p { font-weight: 650; }
+  .qz-err { margin-top: 16px; color: #a43a1f; background: var(--coral-100); padding: 12px 16px; border-radius: var(--r-md); font-size: 15px; }
+  .qz-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .qz-nav [data-next] { margin-left: auto; }
+  .qz-safe { display: flex; gap: 8px; align-items: flex-start; justify-content: center; font-size: 13.5px; margin-top: 18px; text-align: center; }
+  .qz-safe svg { flex: none; margin-top: 3px; }
+  .qz-done { text-align: center; display: grid; gap: 16px; justify-items: center; padding: 12px 0; }
+  .qz-ring { --p: 0; width: 180px; height: 180px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--plum-700) calc(var(--p) * 1%), var(--plum-100) 0); }
+  .qz-ring > div { width: 146px; height: 146px; border-radius: 50%; background: #fff; display: grid; place-items: center; align-content: center; }
+  .qz-ring strong { font: 700 46px/1 var(--font-display); color: var(--plum-700); }
+  .qz-ring span { font-size: 13px; color: var(--ink-mute); }
+  .qz-bars { width: 100%; max-width: 520px; display: grid; gap: 12px; text-align: left; }
+  .qz-bars div { display: grid; grid-template-columns: 100px 1fr 54px; gap: 12px; align-items: center; font-weight: 600; font-size: 15px; }
+  .qz-bars i { height: 10px; border-radius: 10px; background: var(--plum-100); overflow: hidden; }
+  .qz-bars b { display: block; height: 100%; background: linear-gradient(90deg, var(--sun-500), var(--mint-600)); border-radius: inherit; }
+  .qz-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 8px; }
+  @media (max-width: 860px) { .qz-grid.has-aside { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .qz-scale { grid-template-columns: repeat(6, 1fr); } .qz-nav .btn-lg { min-height: 50px; padding: 12px 20px; } }
+</style>
+
+<script>
+  import { QuizEngine, type Field, type FormDef } from "../scripts/quiz-engine";
+  import { submitLead } from "../scripts/forms";
+  import { flush, track } from "../scripts/tracker";
+
+  const root = document.querySelector<HTMLElement>("[data-quiz]")!;
+  const form: FormDef = JSON.parse(root.querySelector("[data-form-def]")!.textContent!);
+  const cfg = JSON.parse(root.querySelector("[data-config]")!.textContent!);
+  const engine = new QuizEngine(form);
+  const $ = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+  const main = $<HTMLElement>("[data-main]"), aside = $<HTMLElement>("[data-aside]"), grid = $<HTMLElement>(".qz-grid");
+  const next = $<HTMLButtonElement>("[data-next]"), prev = $<HTMLButtonElement>("[data-prev]"), err = $<HTMLElement>("[data-err]");
+
+  const DEMO = /^(gender|age \(in years\)|weight|height)/i;
+  const CONTACT = /^(first name|full name|email|phone number)$/i;
+  const isQuestion = (f: Field) => !f.hidden && ["checkbox", "quiz", "radio", "select"].includes(f.type);
+  const isInput = (f: Field) => !f.hidden && ["text", "email", "phone", "number", "textarea"].includes(f.type);
+  const demo = form.fields.filter((f) => f.hidden && DEMO.test(f.label));
+  const hasVisibleContact = form.fields.some((f) => !f.hidden && CONTACT.test(f.label));
+  const hiddenContact = form.fields.filter((f) => f.hidden && CONTACT.test(f.label));
+  const maxPage = Math.max(...form.fields.map((f) => f.page));
+  // health/longevity forms took name & email from the logged-in account; ask for them on a final step instead
+  const pages = [...Array(maxPage).keys()].map((i) => i + 1);
+  const extraContactStep = !hasVisibleContact && hiddenContact.length > 0;
+  const total = pages.length + (extraContactStep ? 1 : 0);
+  $("[data-steps]").textContent = String(total);
+
+  let idx = 0;
+  // journey tracking: the funnel is assessment_start → assessment_step (step reached) → assessment_complete
+  const slug = location.pathname.replace(///g, "");
+  let started = false, finished = false;
+  const reached = (step: number) => track("assessment_step", { assessment: slug, step, total });
+  addEventListener("pagehide", () => { if (started && !finished) { track("assessment_abandon", { assessment: slug, step: idx + 1, total }); flush(true); } });
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  const fieldsOn = (page: number) => form.fields.filter((f) => f.page === page && engine.shown(f.id));
+  const val = (id: number) => engine.values[id];
+
+  function optLabel(label: string) {
+    // "A. Lift at least 10 kgs | so I can carry…" -> main + sub line
+    const [a, b] = label.split("|");
+    return b ? `${esc(a.trim())}<small>${esc(b.trim())}</small>` : esc(label);
+  }
+  function renderQuestion(f: Field) {
+    const multi = f.type === "checkbox";
+    const opts = (f.choices ?? []).filter((c) => !(f.type === "select" && (c.value === "" || c.label === "Select")));
+    const isScale = /pain on a scale/i.test(f.label) && opts.length >= 10;
+    const label = f.label.replace(/\s*\(Options to presented as a visual scale\)/i, "");
+    const cur = val(f.id);
+    if (isScale) {
+      return `<fieldset class="qz-field" data-id="${f.id}"><legend class="qz-q">${esc(label)}</legend>
+        <div class="qz-scale" role="radiogroup">${opts.map((c, i) => `<label><input type="radio" name="f${f.id}" value="${esc(c.value)}" data-desc="${esc(c.label)}" ${cur === c.value ? "checked" : ""}><span style="--i:${i}">${i}</span></label>`).join("")}</div>
+        <div class="qz-scale-ends"><span>No pain</span><span>Unspeakable</span></div>
+        <p class="qz-scale-desc" data-scale-desc>${cur ? esc(opts.find((o) => o.value === cur)?.label ?? "") : "Tap a number to describe your pain"}</p></fieldset>`;
+    }
+    return `<fieldset class="qz-field" data-id="${f.id}"><legend class="qz-q">${esc(label)}</legend>
+      ${multi ? `<p class="qz-hint">${esc(f.description || "Choose all that apply.")}</p>` : f.description ? `<p class="qz-hint">${esc(f.description)}</p>` : ""}
+      <div class="qz-opts">${opts.map((c) => {
+        const on = Array.isArray(cur) ? cur.includes(c.value) : cur === c.value;
+        return `<label class="qz-opt ${multi ? "multi" : ""}"><input type="${multi ? "checkbox" : "radio"}" name="f${f.id}" value="${esc(c.value)}" ${on ? "checked" : ""}><span class="tick">✓</span><span class="lbl">${optLabel(c.label)}</span></label>`;
+      }).join("")}</div></fieldset>`;
+  }
+  function renderInput(f: Field, required = f.required) {
+    const t = f.type === "email" ? "email" : f.type === "phone" ? "tel" : f.type === "number" ? "number" : "text";
+    const ac = /first|full/i.test(f.label) ? "given-name" : t === "email" ? "email" : t === "tel" ? "tel" : "off";
+    const v = val(f.id);
+    return `<div class="field" data-id="${f.id}"><label for="i${f.id}">${esc(f.label)}${required ? " *" : ""}</label>
+      <input class="input" id="i${f.id}" name="f${f.id}" type="${t}" ${required ? "required" : ""} autocomplete="${ac}" ${t === "tel" ? 'inputmode="tel" pattern="[0-9+ ]{10,15}"' : ""} ${t === "number" ? 'inputmode="numeric" min="1" max="250"' : ""} value="${esc(typeof v === "string" ? v : "")}"></div>`;
+  }
+  function renderDemo() {
+    if (!demo.length) return "";
+    return `<div class="qz-about"><p>A little about you <span class="muted" style="font-weight:400">(optional — makes the analysis more accurate)</span></p><div class="qz-inputs">${demo.map((f) => {
+      if (f.type === "select") {
+        const v = val(f.id);
+        return `<div class="field" data-id="${f.id}"><label for="i${f.id}">${esc(f.label)}</label><select class="select" id="i${f.id}" name="f${f.id}"><option value="">Select</option>${(f.choices ?? []).filter((c) => c.value && c.label !== "Select").map((c) => `<option ${v === c.value ? "selected" : ""}>${esc(c.value)}</option>`).join("")}</select></div>`;
+      }
+      return renderInput(f, false);
+    }).join("")}</div></div>`;
+  }
+
+  function render() {
+    err.hidden = true;
+    const isExtra = extraContactStep && idx === pages.length;
+    const page = pages[idx];
+    let mainHtml = "", asideHtml = "";
+    if (isExtra) {
+      mainHtml = `<div class="qz-html"><h2>You are done! <span>Where should we save your results?</span></h2><p>We'll show your scores right away and keep them in your betterYou corner on this device.</p></div>
+        <div class="qz-inputs">${hiddenContact.map((f) => renderInput(f, /name/i.test(f.label))).join("")}</div>`;
+    } else {
+      for (const f of fieldsOn(page)) {
+        if (f.type === "html") {
+          const target = /right_html|dyk_html/.test(f.css) ? "aside" : "main";
+          const html = /consent/.test(f.css) ? `<div class="qz-consent">${f.html}</div>` : `<div class="qz-html">${f.html}</div>`;
+          target === "aside" ? (asideHtml += html) : (mainHtml += html);
+        } else if (isQuestion(f)) mainHtml += renderQuestion(f);
+        else if (isInput(f)) mainHtml += renderInput(f);
+      }
+      if (page === 1) mainHtml += renderDemo();
+    }
+    main.innerHTML = mainHtml;
+    // group stray inputs (final contact step on pain forms) into a grid
+    const loose = [...main.querySelectorAll<HTMLElement>(":scope > .field")];
+    if (loose.length) { const g = document.createElement("div"); g.className = "qz-inputs"; loose[0].before(g); loose.forEach((l) => g.append(l)); }
+    aside.innerHTML = asideHtml;
+    aside.hidden = !asideHtml;
+    grid.classList.toggle("has-aside", !!asideHtml);
+    main.style.animation = "none"; void main.offsetWidth; main.style.animation = "";
+
+    $("[data-step]").textContent = String(idx + 1);
+    const pct = Math.round((idx / total) * 100);
+    $<HTMLElement>("[data-bar]").style.width = `${pct}%`;
+    $(".qz-bar").setAttribute("aria-valuenow", String(pct));
+    prev.hidden = idx === 0;
+    const last = idx === total - 1;
+    next.innerHTML = idx === 0 ? `Let's start <span aria-hidden="true">→</span>` : last ? `See my results <span aria-hidden="true">→</span>` : `Next <span aria-hidden="true">→</span>`;
+    if (idx > 0) (main.querySelector("input, select") as HTMLElement | null)?.focus({ preventScroll: true });
+  }
+
+  function read() {
+    main.querySelectorAll<HTMLElement>("[data-id]").forEach((el) => {
+      const id = +el.dataset.id!;
+      const f = engine.byId.get(id)!;
+      if (f.type === "checkbox") engine.values[id] = [...el.querySelectorAll<HTMLInputElement>("input:checked")].map((i) => i.value);
+      else if (el.querySelector("input[type=radio]")) engine.values[id] = el.querySelector<HTMLInputElement>("input:checked")?.value ?? "";
+      else { const i = el.querySelector<HTMLInputElement | HTMLSelectElement>("input, select"); if (i) engine.values[id] = i.value.trim(); }
+    });
+  }
+  function validate() {
+    for (const el of main.querySelectorAll<HTMLElement>("fieldset[data-id]")) {
+      const f = engine.byId.get(+el.dataset.id!)!;
+      const v = engine.values[f.id];
+      if (f.required && (!v || (Array.isArray(v) && !v.length))) { err.textContent = "Please choose an answer to continue."; err.hidden = false; el.scrollIntoView({ behavior: "smooth", block: "center" }); return false; }
+    }
+    for (const i of main.querySelectorAll<HTMLInputElement>("input.input")) {
+      if (!i.checkValidity()) { err.textContent = i.validationMessage || "Please check this field."; err.hidden = false; i.focus(); return false; }
+    }
+    return true;
+  }
+
+  main.addEventListener("change", (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.dataset.desc !== undefined) main.querySelector("[data-scale-desc]")!.textContent = t.dataset.desc!;
+    // "None of the above" clears the other ticks, and vice versa
+    if (t.type === "checkbox") {
+      const box = t.closest(".qz-opts")!;
+      const none = (x: HTMLInputElement) => /^none of the above/i.test(x.value);
+      if (t.checked && none(t)) box.querySelectorAll<HTMLInputElement>("input").forEach((x) => x !== t && (x.checked = false));
+      else if (t.checked) box.querySelectorAll<HTMLInputElement>("input").forEach((x) => none(x) && (x.checked = false));
+    }
+    err.hidden = true;
+    if (!started) { started = true; track("assessment_start", { assessment: slug, total }); reached(1); }
+  });
+
+  $<HTMLFormElement>("[data-form]").addEventListener("submit", (e) => {
+    e.preventDefault();
+    read();
+    if (!validate()) return;
+    if (idx < total - 1) {
+      // skip pages whose questions are all hidden by conditional logic
+      do idx++; while (idx < pages.length && fieldsOn(pages[idx]).every((f) => f.type === "html" || f.hidden));
+      render();
+      reached(idx + 1);
+      root.scrollIntoView({ behavior: "smooth" });
+    } else finish();
+  });
+  prev.addEventListener("click", () => {
+    read();
+    do idx--; while (idx > 0 && idx < pages.length && fieldsOn(pages[idx]).every((f) => f.type === "html" || f.hidden));
+    render();
+  });
+
+  function byLabel(re: RegExp) { return form.fields.find((f) => re.test(f.label)); }
+  function finish() {
+    const name = String(engine.values[(byLabel(/^(first name|full name)$/i) ?? { id: -1 }).id] ?? "").trim();
+    const email = String(engine.values[(byLabel(/^email$/i) ?? { id: -1 }).id] ?? "");
+    const phone = String(engine.values[(byLabel(/^phone number$/i) ?? { id: -1 }).id] ?? "");
+    const store = JSON.parse(localStorage.getItem("bh_results") || "{}");
+    const date = new Date().toISOString();
+    let record: Record<string, unknown>;
+    let go = "";
+
+    if (cfg.kind === "pain") {
+      const totals = Object.entries(cfg.totals as Record<string, string>).map(([id, cat]) => ({ cat, score: engine.num(+id) }));
+      const best = totals.reduce((a, b) => (b.score > a.score ? b : a));
+      const adv = byLabel(/^critical advisory$/i);
+      record = { kind: "pain", area: cfg.area, title: cfg.title, cat: best.cat, condition: cfg.conditions[best.cat], totals, advisory: adv ? engine.shown(adv.id) : false, name, date, result: cfg.results[best.cat] };
+      go = `/${cfg.results[best.cat]}/`;
+    } else {
+      const score = (re: RegExp) => { const f = byLabel(re); return f ? Math.round(engine.num(f.id) * 10) / 10 : null; };
+      record = { kind: cfg.kind, area: cfg.area, title: cfg.title, name, date, overall: score(/^overall score$/i) ?? score(/^average score$/i), strength: score(/^total \(strength\)$/i), balance: score(/^total \(balance\)$/i), mobility: score(/^total \(mobility\)$/i) };
+    }
+    store[cfg.slug] = record;
+    const history = JSON.parse(localStorage.getItem("bh_history") || "[]");
+    history.push({ slug: cfg.slug, ...record });
+    try { localStorage.setItem("bh_results", JSON.stringify(store)); localStorage.setItem("bh_history", JSON.stringify(history.slice(-60))); if (name) localStorage.setItem("bh_name", name); } catch {}
+
+    finished = true;
+    const answers = form.fields
+      .filter((f) => (!f.hidden || DEMO.test(f.label)) && f.type !== "html" && engine.shown(f.id) && engine.values[f.id] !== undefined && engine.values[f.id] !== "" && !CONTACT.test(f.label))
+      .map((f) => ({ id: f.id, label: f.label, value: engine.values[f.id] }));
+    const scores = record.kind === "pain"
+      ? Object.fromEntries((record.totals as { cat: string; score: number }[]).map((t) => [t.cat, t.score]))
+      : { overall: record.overall, strength: record.strength, balance: record.balance, mobility: record.mobility };
+    track("assessment_complete", { assessment: slug, kind: record.kind, area: cfg.area, result: record.cat ?? null, condition: record.condition ?? null, advisory: record.advisory ?? null, scores, answers, name, email, phone });
+    flush(true);
+
+    // lead capture only when a backend endpoint is configured (never interrupt with a mail client here)
+    if (import.meta.env.PUBLIC_FORM_ENDPOINT) submitLead(`assessment:${cfg.slug}`, { name, email, phone, ...record, answers: engine.values }).catch(() => {});
+
+    if (go) { location.href = go; return; }
+    showScores(record);
+  }
+
+  function showScores(r: any) {
+    const pct = Math.round(((r.overall ?? 0) / 10) * 100);
+    const bars = [["Strength", r.strength], ["Balance", r.balance], ["Mobility", r.mobility]].filter(([, v]) => v !== null);
+    $<HTMLElement>("[data-bar]").style.width = "100%";
+    grid.classList.remove("has-aside"); aside.hidden = true;
+    main.innerHTML = `<div class="qz-done">
+      <span class="badge badge-mint">Assessment complete</span>
+      <h2 class="h2">${r.name ? `Well done, ${esc(r.name)}!` : "Well done!"}</h2>
+      <p class="lead">${cfg.kind === "longevity" ? "Here's the longevity target you've set for your musculoskeletal health." : `Here's your latest ${esc(cfg.title.toLowerCase())} score — combining strength, balance and mobility.`}</p>
+      <div class="qz-ring" style="--p:${pct}"><div><strong>${r.overall ?? "–"}</strong><span>out of 10</span></div></div>
+      <div class="qz-bars">${bars.map(([k, v]) => `<div><span>${k}</span><i><b style="width:${(+v! / 10) * 100}%"></b></i><span>${v}/10</span></div>`).join("")}</div>
+      <div class="qz-actions"><a class="btn btn-lg" href="${cfg.corner}">Open my betterYou corner →</a><a class="btn btn-ghost btn-lg" href="${location.pathname}">Retake</a></div>
+    </div>`;
+    $(".qz-nav").remove();
+    $("[data-step]").textContent = String(total);
+  }
+
+  render();
+</script>

@@ -1,0 +1,3977 @@
+{
+ "slug": "assessment-neck-pain-level-1",
+ "formId": 12,
+ "pageTitles": [],
+ "intro": "",
+ "fields": [
+  {
+   "id": 392,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper frontpage\"> <h2 class=\"assessment_heading\">Assess <span> your Neck Pain</span></h2> <p>Hey there! This assessment tool is designed by our experts. We will ask you a series of questions to better understand your symptoms. Based on a differential analysis of your responses, this tool will generate a preliminary diagnosis for you. This process should take about 5–10 minutes. Find a quiet corner, and let’s get started! </p> </div>"
+  },
+  {
+   "id": 393,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "consent_text",
+   "html": "Please note that your information shared here is completely safe and is used only for arriving at the assessment results. The assessment results are indicative and do not substitute medical expert consultation in any way. Appropriate user discretion is advised. You may refer to our <a href=\"/terms-of-services/\">Terms of Service</a> for further clarity."
+  },
+  {
+   "id": 79,
+   "type": "select",
+   "page": 2,
+   "label": "Gender",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "choices": [
+    {
+     "value": "Select",
+     "label": "Select"
+    },
+    {
+     "value": "Male",
+     "label": "Male"
+    },
+    {
+     "value": "Female",
+     "label": "Female"
+    }
+   ]
+  },
+  {
+   "id": 80,
+   "type": "number",
+   "page": 2,
+   "label": "Age (in years)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Age",
+   "default": ""
+  },
+  {
+   "id": 81,
+   "type": "number",
+   "page": 2,
+   "label": "Weight (in kgs)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Weight",
+   "default": ""
+  },
+  {
+   "id": 82,
+   "type": "number",
+   "page": 2,
+   "label": "Height (in cms)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Height",
+   "default": ""
+  },
+  {
+   "id": 17,
+   "type": "checkbox",
+   "page": 2,
+   "label": "1. Where is your neck pain located?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Localized in one or more spots",
+     "label": "Localized in one or more spots"
+    },
+    {
+     "value": "Spread across the entire neck",
+     "label": "Spread across the entire neck"
+    },
+    {
+     "value": "Extends to one or both of the arms & hands",
+     "label": "Extends to one or both of the arms & hands"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 16,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>\"Tech neck\" is a strain on the neck and spine caused by looking down at screens for long periods, leading to poor posture, pain, and stiffness. </p> </div>"
+  },
+  {
+   "id": 21,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 25,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 26,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 27,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Osteoarthritis )",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 28,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 29,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 30,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 31,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 32,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 33,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 34,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 35,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 36,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 37,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 38,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 39,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 45,
+   "type": "quiz",
+   "page": 3,
+   "label": "2. Do you experience unbearable pain or stiffness in other joints of the body as well?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "Yes"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "No"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 44,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Arthritis is a condition where the joints become swollen, painful, and stiff, making movement harder. It can happen for different reasons, with osteoarthritis (wear and tear arthritis) and rheumatoid arthritis (auto-immune arthritis) being the most common. </p> </div>"
+  },
+  {
+   "id": 46,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 47,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 48,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 49,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 50,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 51,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 52,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 53,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 106,
+   "type": "checkbox",
+   "page": 4,
+   "label": "3. How would you describe your symptoms?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Dull and achy pain",
+     "label": "Dull and achy pain"
+    },
+    {
+     "value": "Sharp and stabbing pain",
+     "label": "Sharp and stabbing pain"
+    },
+    {
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)",
+     "label": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    },
+    {
+     "value": "Grinding or popping sensation when you turn your neck",
+     "label": "Grinding or popping sensation when you turn your neck"
+    },
+    {
+     "value": "Lack of neck control, shakiness, abnormal neck movements, difficulty in keeping the head up",
+     "label": "Lack of neck control, shakiness, abnormal neck movements, difficulty in keeping the head up"
+    },
+    {
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensations along with pain",
+     "label": "Odd sensations such as pins & needles, numbness, tingling sensations along with pain"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 104,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The neck's intricate anatomy consists of seven cervical vertebrae, numerous muscles, and vital nerves, all working together to support head movement and protect the spinal cord. </p> </div>"
+  },
+  {
+   "id": 107,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 108,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 109,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A1. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 110,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 111,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 112,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 113,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A2. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 114,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 115,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 116,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A3. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 117,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A3. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 118,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 119,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 120,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A4. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 121,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A4. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 122,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 123,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A5. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 129,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A5. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 130,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A5. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 131,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A5. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 128,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A6. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 132,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A6. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 133,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A6. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 134,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A6. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 127,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A7. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 135,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A7. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 136,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A7. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 137,
+   "type": "number",
+   "page": 4,
+   "label": "Q4. A7. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 388,
+   "type": "checkbox",
+   "page": 5,
+   "label": "4. Do you experience the following symptoms?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Morning stiffness in your neck",
+     "label": "Morning stiffness in your neck"
+    },
+    {
+     "value": "Unusual weakness or lack of coordination in your arms or legs",
+     "label": "Unusual weakness or lack of coordination in your arms or legs"
+    },
+    {
+     "value": "Any loss of muscle tone or muscle size in your legs.",
+     "label": "Any loss of muscle tone or muscle size in your legs."
+    },
+    {
+     "value": "None of these",
+     "label": "None of these"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 159,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Nerve pinching in the neck, often caused by a herniated disc or arthritis, can lead to sharp pain, tingling, or numbness that radiates down the arm due to pressure on the spinal nerves.</p> </div>"
+  },
+  {
+   "id": 161,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 162,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 163,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A1. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 164,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 165,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 166,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 167,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A2. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 168,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 169,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 170,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A3. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 171,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A3. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 172,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 173,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 174,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A4. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 175,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A4. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 176,
+   "type": "number",
+   "page": 5,
+   "label": "Q6. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 196,
+   "type": "quiz",
+   "page": 6,
+   "label": "5. Pain on a scale - 1 being the least amount of pain and 10 being the highest (Options to presented as a visual scale)",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "0 - No pain"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "1 - Mild - Pain is very mild, barely noticeable"
+    },
+    {
+     "value": "gquiz1604984254e",
+     "label": "2 - Minor - Annoying and may have occasional sudden bouts of the localized pain"
+    },
+    {
+     "value": "gquiz1603cbb63bf",
+     "label": "3 - Uncomfortable - Pain is noticeable and distracting but bearable"
+    },
+    {
+     "value": "gquiz1608296d6e9",
+     "label": "4 - Moderate - Distracting when not involved in an activity"
+    },
+    {
+     "value": "gquiz16029a658c0",
+     "label": "5 - Distracting - Moderately strong pain, that cannot be ignored for more than a few minutes"
+    },
+    {
+     "value": "gquiz160bdf0b6e5",
+     "label": "6 - Distressing - Moderately strong pain that interferes with daily activities"
+    },
+    {
+     "value": "gquiz16022c66647",
+     "label": "7 - Severe - Pain that limits your ability to perform daily activity"
+    },
+    {
+     "value": "gquiz196f2455e1c",
+     "label": "8 - Intense - Physical activity is severely limited"
+    },
+    {
+     "value": "gquiz1961728d664",
+     "label": "9 - Excruciating - Unable to converse. Crying out uncontrollably"
+    },
+    {
+     "value": "gquiz19623d06ef2",
+     "label": "10 - Unspeakable - Bedridden & possibly delirious"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 195,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The neck has an impressive range of motion, allowing up to 180 degrees of rotation, thanks to the unique structure of the cervical spine, which includes flexible vertebrae and specialized joints.</p> </div>"
+  },
+  {
+   "id": 389,
+   "type": "checkbox",
+   "page": 7,
+   "label": "6. Is your neck pain accompanied by, or did it start after, any of the following?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Injury from falls, trauma, accidents, or sports activities",
+     "label": "Injury from falls, trauma, accidents, or sports activities"
+    },
+    {
+     "value": "Chest pain",
+     "label": "Chest pain"
+    },
+    {
+     "value": "Fever or infection",
+     "label": "Fever or infection"
+    },
+    {
+     "value": "Pregnancy",
+     "label": "Pregnancy"
+    },
+    {
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Multiple sclerosis",
+     "label": "Any autoimmune disorder such as Rheumatoid arthritis, Multiple sclerosis"
+    },
+    {
+     "value": "Known Spinal deformities (uneven shoulders/hips/waist; hunchback; or an unusual forward curve in neck or lower back)",
+     "label": "Known Spinal deformities (uneven shoulders/hips/waist; hunchback; or an unusual forward curve in neck or lower back)"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 208,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Neck pain can sometimes cause chest pain if nerves in the cervical spine are compressed, triggering referred pain that mimics heart-related issues. </p> </div>"
+  },
+  {
+   "id": 260,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 261,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 262,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A1. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 263,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 264,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 265,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 266,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A2. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 267,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 268,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 269,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A3. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 270,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A3. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 271,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 272,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 273,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A4. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 274,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A4. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 275,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 276,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 277,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 278,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 279,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A5. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 396,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A6. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 397,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A6. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 398,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A6. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 399,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A6. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 400,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A7. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 401,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A7. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 402,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A7. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 403,
+   "type": "number",
+   "page": 7,
+   "label": "Q10. A7. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 227,
+   "type": "checkbox",
+   "page": 8,
+   "label": "7. Which activities seem to trigger or worsen your pain?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Standing upright",
+     "label": "Standing upright"
+    },
+    {
+     "value": "Bending your neck sideways",
+     "label": "Bending your neck sideways"
+    },
+    {
+     "value": "Bending your neck forward",
+     "label": "Bending your neck forward"
+    },
+    {
+     "value": "Bending your neck backward",
+     "label": "Bending your neck backward"
+    },
+    {
+     "value": "Turning your neck to the left or right",
+     "label": "Turning your neck to the left or right"
+    },
+    {
+     "value": "None of these",
+     "label": "None of these"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 226,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Neck pain that worsens when bending sideways can be caused by facet joint dysfunction, where the small joints in the spine become irritated or inflamed, making movement painful.</p> </div>"
+  },
+  {
+   "id": 228,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A1. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 229,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A1. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 230,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A1. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 231,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 232,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A2. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 233,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A2. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 234,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A2. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 235,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 236,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A3. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 237,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A3. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 238,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A3. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 239,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 240,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A4. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 241,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A4. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 242,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A4. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 243,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 244,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A5. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 245,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A5. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 246,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A5. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 247,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A5. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 248,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A6. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 249,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A6. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 250,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A6. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 251,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A6. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 252,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A7. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 253,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A7. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 254,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A7. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 255,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A7. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 256,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A8. (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 257,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A8. (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 258,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A8. (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 259,
+   "type": "number",
+   "page": 8,
+   "label": "Q12. A8. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 14,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Muscle)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 40,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Nerve)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 41,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Cervical)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 42,
+   "type": "number",
+   "page": 9,
+   "label": "Total (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 385,
+   "type": "textarea",
+   "page": 9,
+   "label": "Critical Advisory",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<div class=\"critical_text\">Some of your responses indicate probable complications which need thourough medical assessment. Please visit your medical practitioner for the same. Post initial rest and recovery period recommended by your medical practioner, you should start on the betterhood routine recommended here. </div>"
+  },
+  {
+   "id": 384,
+   "type": "html",
+   "page": 9,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper\"> <h2 class=\"assessment_heading\">You are done!<span>Get your personalized assessment.</span></h2> </div>"
+  },
+  {
+   "id": 55,
+   "type": "text",
+   "page": 9,
+   "label": "First Name",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "First Name"
+  },
+  {
+   "id": 56,
+   "type": "email",
+   "page": 9,
+   "label": "Email",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "email",
+   "placeholder": "Email"
+  },
+  {
+   "id": 57,
+   "type": "phone",
+   "page": 9,
+   "label": "Phone Number",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "tel",
+   "placeholder": "Phone Number"
+  },
+  {
+   "id": 61,
+   "type": "text",
+   "page": 9,
+   "label": "Result",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 65,
+   "type": "text",
+   "page": 9,
+   "label": "User ID",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 68,
+   "type": "number",
+   "page": 9,
+   "label": "Is Visited",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "",
+   "default": "0"
+  },
+  {
+   "id": 69,
+   "type": "textarea",
+   "page": 9,
+   "label": "Muscle Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Muscular Imbalance</span> arising due to the deconditioning of your neck muscles because of years of wear and tear and neglect. To keep your neck functioning optimally, it's essential to balance muscle length and strength between opposing muscle groups. As you age, the muscles, tendons, and ligaments become thicker and less flexible, increasing the risk of injury. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate cervical misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 73,
+   "type": "textarea",
+   "page": 9,
+   "label": "Muscle Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/neckpain-1.webp\">"
+  },
+  {
+   "id": 70,
+   "type": "textarea",
+   "page": 9,
+   "label": "Nerve Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Compressed Nerves </span> due to various underlying muskuloskeletal issues. Your spine is the key pathway for your spinal cord, linking your brain to nerves in your arms, legs, and trunk. With 31 pairs of nerves branching from the spinal cord, any compression or damage can lead to pain. This often results from wear and tear on cervical bones, joints, or disks. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate cervical misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 75,
+   "type": "textarea",
+   "page": 9,
+   "label": "Nerve Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/neckpain-2.webp\">"
+  },
+  {
+   "id": 71,
+   "type": "textarea",
+   "page": 9,
+   "label": "Bone Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Cervical Instability</span> arising due to the poor bone health. As you age, bone density decreases (osteoporosis), making bones more prone to fractures. Cervical fractures can cause instability, leading to painful vertebra slippage. Additionally, aging causes your cervical disks to flatten or break down, worsening cervical instability. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate cervical misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 76,
+   "type": "textarea",
+   "page": 9,
+   "label": "Bone Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/neckpain-3.webp\">"
+  },
+  {
+   "id": 72,
+   "type": "textarea",
+   "page": 9,
+   "label": "Joint Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>excessive wear and tear of cervical joints.</span> Your spine consists of 33 different bones connected by spinal joints. As you age, excessive strain on cervical joints from improper posture or weak muscles wear down the protective tissues, leading to osteoarthritis and pain. The bony outgrowths that form as a result can further increase the pain. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate cervical misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 77,
+   "type": "textarea",
+   "page": 9,
+   "label": "Joint Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/neckpain-4.webp\">"
+  },
+  {
+   "id": 387,
+   "type": "textarea",
+   "page": 9,
+   "label": "Product Price Division Table",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<div class=\"personalized_toolkit\"> <div class=\"item\"> <p class=\"item_name\"> <b>betterhood<sup>TM</sup> neck-care essentials</b> </p> <p class=\"item_price\"> <b>Extra 10% off on orders ₹2999+</b> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Posture & Support Protocols </p> <p class=\"item_price\"> FREE <s>₹ 800</s> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Relief & Recovery Protocols </p> <p class=\"item_price\"> FREE <s>₹ 1500</s> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Health Goals Monitoring </p> <p class=\"item_price\"> FREE <s>₹ 1500</s> </p> </div> </div>"
+  }
+ ],
+ "formulas": {
+  "14": "{Q1. A1. (Muscle):21} + {Q1. A2. (Muscle):28} + {Q1. A3. (Muscle):32} + {Q1. A4. (Muscle):36} + {Q2. A1. (Muscle):46} + {Q2. A2. (Muscle):50} + {Q3. A1. (Muscle):86} + {Q3. A2. (Muscle):91} + {Q3. A3. (Muscle):95} + {Q3. A4. (Muscle):99} + {Q4. A1. (Muscle):107} + {Q4. A2. (Muscle):111} + {Q4. A3. (Muscle):115} + {Q4. A4. (Muscle):119} + {Q4. A5. (Muscle):123} + {Q4. A6. (Muscle):128} + {Q4. A7. (Muscle):127} + {Q4. A8. (Muscle):126} + {Q4. A9. (Muscle):125} + {Q4. A10. (Muscle):124} + {Q5. A1. (Muscle):150} + {Q5. A2. (Muscle):154} + {Q6. A1. (Muscle):161} + {Q6. A2. (Muscle):165} + {Q6. A3. (Muscle):169} + {Q6. A4. (Muscle):173} + {Q6. A5. (Muscle):177} + {Q6. A6. (Muscle):181} + {Q6. A7. (Muscle):185} + {Q6. A8. (Muscle):189} + {Q10. A1. (Muscle):260} + {Q10. A2. (Muscle):264} + {Q10. A3. (Muscle):268} + {Q10. A4. (Muscle):272} + {Q11. A1. (Muscle):213} + {Q11. A2. (Muscle):218} + {Q11. A3. (Muscle):217} + {Q12. A1. (Muscle):228} + {Q12. A2. (Muscle):232} + {Q12. A3. (Muscle):236} + {Q12. A4. (Muscle):240} + {Q12. A5. (Muscle):244} + {Q12. A6. (Muscle):248} + {Q12. A7. (Muscle):252}  + {Q12. A8. (Muscle):256} + {Q13. A1. (Muscle):284}  + {Q13. A2. (Muscle):287} + {Q13. A3. (Muscle):291} + {Q13. A4. (Muscle):295} + {Q14. A1. (Muscle):364}+{Q14. A2. (Muscle):376}+{Q14. A3. (Muscle):380}+{Q10. A5. (Muscle):276}+{Q10. A6. (Muscle):396}+{Q10. A7. (Muscle):400}",
+  "21": "5",
+  "26": "1",
+  "27": "1",
+  "28": "5",
+  "33": "5",
+  "40": "{Q1. A1. (Nerve):25} + {Q1. A2. (Nerve):29} +{Q1. A3. (Nerve):33}  + {Q1. A4. (Nerve):37} + {Q2. A1. (Nerve):47} + {Q2. A2. (Nerve):51} + {Q3. A1. (Nerve):88} + {Q3. A2. (Nerve):92} + {Q3. A3. (Nerve):96} + {Q3. A4. (Nerve):100} + {Q4. A1. (Nerve):108} + {Q4. A2. (Nerve):112} + {Q4. A3. (Nerve):116} + {Q4. A4. (Nerve):120} + {Q4. A5. (Nerve):129} + {Q4. A6. (Nerve):132} + {Q4. A7. (Nerve):135} + {Q4. A8. (Nerve):138} + {Q4. A9. (Nerve):141} + {Q4. A10. (Nerve):144} + {Q5. A1. (Nerve):151} + {Q5. A2. (Nerve):155} + {Q6. A1. (Nerve):162} + {Q6. A2. (Nerve):166} + {Q6. A3. (Nerve):170} + {Q6. A4. (Nerve):174} + {Q6. A5. (Nerve):178} + {Q6. A6. (Nerve):182} + {Q6. A7. (Nerve):186} + {Q6. A8. (Nerve):190} + {Q10. A1. (Nerve):261} + {Q10. A2. (Nerve):265} + {Q10. A3. (Nerve):269} + {Q10. A4. (Nerve):273} + {Q10. A5. (Nerve):277} + {Q11. A1. (Nerve):214} + {Q11. A2. (Nerve):219} + {Q11. A3. (Nerve):222} + {Q12. A1. (Nerve):229} + {Q12. A2. (Nerve):233} + {Q12. A3. (Nerve):237} + {Q12. A4. (Nerve):241} + {Q12. A5. (Nerve):245} + {Q12. A6. (Nerve):249} + {Q12. A7. (Nerve):253} + {Q12. A8. (Nerve):257} + {Q13. A1. (Nerve):283} + {Q13. A2. (Nerve):288} + {Q13. A3. (Nerve):292} + {Q13. A4. (Nerve):296} +  {Q14. A1. (Nerve):365}+{Q14. A2. (Nerve):377}+{Q14. A3. (Nerve):381}+{Q10. A5. (Nerve):277}+{Q10. A6. (Nerve):397}+{Q10. A7. (Nerve):401}",
+  "41": "{Q1. A1. (Cervical):26} + {Q1. A1. (Cervical):30} + {Q1. A3. (Cervical):34} + {Q1. A4. (Cervical):38} + {Q2. A1. (Cervical):48} + {Q2. A2. (Cervical):52} + {Q3. A1. (Cervical):89} + {Q3. A2. (Cervical):93} + {Q3. A3. (Cervical):97} + {Q3. A4. (Cervical):101} + {Q4. A1. (Cervical):109} + {Q4. A2. (Cervical):113} +{Q4. A3. (Cervical):117}  + {Q4. A4. (Cervical):121} + {Q4. A5. (Cervical):130} + {Q4. A6. (Cervical):133} + {Q4. A7. (Cervical):136} + {Q4. A8. (Cervical):139} +{Q4. A9. (Cervical):142}  + {Q4. A10. (Cervical):145} + {Q5. A1. (Cervical):152} + {Q5. A2. (Cervical):156} + {Q6. A1. (Cervical):163} + {Q6. A2. (Cervical):167} + {Q6. A3. (Cervical):171} + {Q6. A4. (Cervical):175} + {Q6. A5. (Cervical):179} + {Q6. A6. (Cervical):183} + {Q6. A7. (Cervical):187} + {Q6. A8. (Cervical):191} + {Q10. A1. (Cervical):262} + {Q10. A2. (Cervical):266} + {Q10. A3. (Cervical):270} + {Q10. A4. (Cervical):274} + {Q10. A5. (Cervical):278} + {Q11. A1. (Cervical):216} + {Q11. A2. (Cervical):220} + {Q11. A3. (Cervical):223} + {Q12. A1. (Cervical):230} + {Q12. A2. (Cervical):234} + {Q12. A3. (Cervical):238} + {Q12. A4. (Cervical):242} + {Q12. A5. (Cervical):246}  + {Q12. A6. (Cervical):250} + {Q12. A7. (Cervical):254} + {Q12. A8. (Cervical):258} + {Q13. A1. (Cervical):285} + {Q13. A2. (Cervical):289} + {Q13. A3. (Cervical):293} + {Q13. A4. (Cervical):297} +  {Q14. A1. (Cervical):366}+{Q14. A2. (Cervical):378}+{Q14. A3. (Nerve):381}+{Q10. A7. (Cervical):402}+{Q10. A6. (Cervical):398}+{Q10. A5. (Cervical):278}",
+  "42": "{Q1. A1. (Osteoarthritis ):27} + {Q1. A2. (Osteoarthritis):31} + {Q1. A3. (Osteoarthritis):35} + {Q1. A4. (Osteoarthritis):39} + {Q2. A1. (Osteoarthritis):49} + {Q2. A2. (Osteoarthritis):53} + {Q3. A1. (Osteoarthritis):90} + {Q3. A2. (Osteoarthritis):94} + {Q3. A3. (Osteoarthritis):98} + {Q3. A4. (Osteoarthritis):102} + {Q4. A1. (Osteoarthritis):110} + {Q4. A2. (Osteoarthritis):114} + {Q4. A3. (Osteoarthritis):118} + {Q4. A4. (Osteoarthritis):122} + {Q4. A5. (Osteoarthritis):131} + {Q4. A6. (Osteoarthritis):134} + {Q4. A7. (Osteoarthritis):137} + {Q4. A8. (Osteoarthritis):140} + {Q4. A9. (Osteoarthritis):143} + {Q4. A10. (Osteoarthritis):146} + {Q5. A1. (Osteoarthritis):153} + {Q5. A2. (Osteoarthritis):157} + {Q6. A1. (Osteoarthritis):164} + {Q6. A2. (Osteoarthritis):168} + {Q6. A4. (Osteoarthritis):176} + {Q6. A5. (Osteoarthritis):180} + {Q6. A6. (Osteoarthritis):184} + {Q6. A7. (Osteoarthritis):188} + {Q6. A8. (Osteoarthritis):192} + {Q10. A1. (Osteoarthritis):263} + {Q10. A2. (Osteoarthritis):267} + {Q10. A3. (Osteoarthritis):271} + {Q10. A4. (Osteoarthritis):275} + {Q10. A5. (Osteoarthritis):279} + {Q11. A1. (Osteoarthritis):215} + {Q11. A2. (Osteoarthritis):221} + {Q11. A3. (Osteoarthritis):224} + {Q12. A1. (Osteoarthritis):231} + {Q12. A2. (Osteoarthritis):235} + {Q12. A3. (Osteoarthritis):239} + {Q12. A4. (Osteoarthritis):243} + {Q12. A5. (Osteoarthritis):247} + {Q12. A6. (Osteoarthritis):251} + {Q12. A7. (Osteoarthritis):255} + {Q12. A8. (Osteoarthritis):259} + {Q13. A1. (Osteoarthritis):286} + {Q13. A2. (Osteoarthritis):290} + {Q13. A3. (Osteoarthritis):294} + {Q13. A4. (Osteoarthritis):298} + {Q14. A1. (Osteoarthritis):367}+{Q14. A3. (Osteoarthritis):383}+{Q14. A2. (Osteoarthritis):379}+{Q10. A5. (Osteoarthritis):279}+{Q10. A6. (Osteoarthritis):399}+{Q10. A7. (Osteoarthritis):403}",
+  "49": "15",
+  "50": "1",
+  "107": "1",
+  "110": "1",
+  "112": "5",
+  "114": "1",
+  "115": "5",
+  "117": "1",
+  "118": "1",
+  "122": "5",
+  "130": "15",
+  "132": "15",
+  "133": "1",
+  "161": "5",
+  "166": "5",
+  "169": "5",
+  "170": "1",
+  "174": "5",
+  "230": "5",
+  "233": "1",
+  "235": "5",
+  "236": "5",
+  "237": "1",
+  "238": "1",
+  "241": "5",
+  "243": "1",
+  "244": "5",
+  "251": "5",
+  "254": "5",
+  "255": "1",
+  "279": "5",
+  "398": "5",
+  "400": "1",
+  "402": "1"
+ },
+ "logic": {
+  "21": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Localized in one or more spots"
+    }
+   ]
+  },
+  "25": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Localized in one or more spots"
+    }
+   ]
+  },
+  "26": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Localized in one or more spots"
+    }
+   ]
+  },
+  "27": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Localized in one or more spots"
+    }
+   ]
+  },
+  "28": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Spread across the entire neck"
+    }
+   ]
+  },
+  "29": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Spread across the entire neck"
+    }
+   ]
+  },
+  "30": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Spread across the entire neck"
+    }
+   ]
+  },
+  "31": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Spread across the entire neck"
+    }
+   ]
+  },
+  "32": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends to one or both of the arms & hands"
+    }
+   ]
+  },
+  "33": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends to one or both of the arms & hands"
+    }
+   ]
+  },
+  "34": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends to one or both of the arms & hands"
+    }
+   ]
+  },
+  "35": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "Extends to one or both of the arms & hands"
+    }
+   ]
+  },
+  "36": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "37": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "38": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "39": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "17",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "46": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "47": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "48": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "49": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "50": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "51": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "52": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "53": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "45",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "107": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Dull and achy pain"
+    }
+   ]
+  },
+  "108": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Dull and achy pain"
+    }
+   ]
+  },
+  "109": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Dull and achy pain"
+    }
+   ]
+  },
+  "110": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Dull and achy pain"
+    }
+   ]
+  },
+  "111": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Sharp and stabbing pain"
+    }
+   ]
+  },
+  "112": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Sharp and stabbing pain"
+    }
+   ]
+  },
+  "113": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Sharp and stabbing pain"
+    }
+   ]
+  },
+  "114": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Sharp and stabbing pain"
+    }
+   ]
+  },
+  "115": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "116": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "117": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "118": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Muscle stiffness (tightness, inability to move though full normal range of motion)"
+    }
+   ]
+  },
+  "119": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Grinding or popping sensation when you turn your neck"
+    }
+   ]
+  },
+  "120": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Grinding or popping sensation when you turn your neck"
+    }
+   ]
+  },
+  "121": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Grinding or popping sensation when you turn your neck"
+    }
+   ]
+  },
+  "122": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Grinding or popping sensation when you turn your neck"
+    }
+   ]
+  },
+  "123": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Lack of neck control, shakiness, abnormal neck movements, difficulty in keeping the head up"
+    }
+   ]
+  },
+  "127": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "128": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain"
+    }
+   ]
+  },
+  "129": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Lack of neck control, shakiness, abnormal neck movements, difficulty in keeping the head up"
+    }
+   ]
+  },
+  "130": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Lack of neck control, shakiness, abnormal neck movements, difficulty in keeping the head up"
+    }
+   ]
+  },
+  "131": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Lack of neck control, shakiness, abnormal neck movements, difficulty in keeping the head up"
+    }
+   ]
+  },
+  "132": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain"
+    }
+   ]
+  },
+  "133": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain"
+    }
+   ]
+  },
+  "134": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Odd sensations such as pins & needles, numbness, tingling sensnations along with pain"
+    }
+   ]
+  },
+  "135": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "136": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "137": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "161": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Morning stiffness in your neck"
+    }
+   ]
+  },
+  "162": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Morning stiffness in your neck"
+    }
+   ]
+  },
+  "163": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Morning stiffness in your neck"
+    }
+   ]
+  },
+  "164": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Morning stiffness in your neck"
+    }
+   ]
+  },
+  "165": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Unusual weakness or lack of coordination in your arms or legs"
+    }
+   ]
+  },
+  "166": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Unusual weakness or lack of coordination in your arms or legs"
+    }
+   ]
+  },
+  "167": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Unusual weakness or lack of coordination in your arms or legs"
+    }
+   ]
+  },
+  "168": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Unusual weakness or lack of coordination in your arms or legs"
+    }
+   ]
+  },
+  "169": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your arms"
+    }
+   ]
+  },
+  "170": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your arms"
+    }
+   ]
+  },
+  "171": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your arms"
+    }
+   ]
+  },
+  "172": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "Any loss of muscle tone and/or size in your arms"
+    }
+   ]
+  },
+  "173": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "174": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "175": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "176": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "388",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "228": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Standing upright"
+    }
+   ]
+  },
+  "229": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Standing upright"
+    }
+   ]
+  },
+  "230": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Standing upright"
+    }
+   ]
+  },
+  "231": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Standing upright"
+    }
+   ]
+  },
+  "232": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck sideways"
+    }
+   ]
+  },
+  "233": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck sideways"
+    }
+   ]
+  },
+  "234": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck sideways"
+    }
+   ]
+  },
+  "235": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck sideways"
+    }
+   ]
+  },
+  "236": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck forwards"
+    }
+   ]
+  },
+  "237": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck forwards"
+    }
+   ]
+  },
+  "238": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck forwards"
+    }
+   ]
+  },
+  "239": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck forwards"
+    }
+   ]
+  },
+  "240": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck backwards"
+    }
+   ]
+  },
+  "241": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck backwards"
+    }
+   ]
+  },
+  "242": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck backwards"
+    }
+   ]
+  },
+  "243": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Bending your neck backwards"
+    }
+   ]
+  },
+  "244": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Turning your neck to left or right"
+    }
+   ]
+  },
+  "245": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Turning your neck to left or right"
+    }
+   ]
+  },
+  "246": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Turning your neck to left or right"
+    }
+   ]
+  },
+  "247": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Turning your neck to left or right"
+    }
+   ]
+  },
+  "248": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "249": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "250": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "251": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Climbing stairs"
+    }
+   ]
+  },
+  "252": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Walking or running"
+    }
+   ]
+  },
+  "253": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Walking or running"
+    }
+   ]
+  },
+  "254": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Walking or running"
+    }
+   ]
+  },
+  "255": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "Walking or running"
+    }
+   ]
+  },
+  "256": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "257": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "258": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "259": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "227",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "260": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "261": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "262": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "263": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "264": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Chest pain"
+    }
+   ]
+  },
+  "265": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Chest pain"
+    }
+   ]
+  },
+  "266": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Chest pain"
+    }
+   ]
+  },
+  "267": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Chest pain"
+    }
+   ]
+  },
+  "268": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Any fever or infections"
+    }
+   ]
+  },
+  "269": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Any fever or infections"
+    }
+   ]
+  },
+  "270": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Any fever or infections"
+    }
+   ]
+  },
+  "271": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Any fever or infections"
+    }
+   ]
+  },
+  "272": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "273": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "274": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "275": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "276": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    }
+   ]
+  },
+  "277": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    }
+   ]
+  },
+  "278": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    }
+   ]
+  },
+  "279": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    }
+   ]
+  },
+  "385": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "any",
+   "rules": [
+    {
+     "fieldId": "106",
+     "operator": "is",
+     "value": "Lack of neck control, shakiness, abnormal neck movements, difficulty in keeping the head up"
+    },
+    {
+     "fieldId": "196",
+     "operator": "is",
+     "value": "gquiz16022c66647"
+    },
+    {
+     "fieldId": "196",
+     "operator": "is",
+     "value": "gquiz196f2455e1c"
+    },
+    {
+     "fieldId": "196",
+     "operator": "is",
+     "value": "gquiz1961728d664"
+    },
+    {
+     "fieldId": "196",
+     "operator": "is",
+     "value": "gquiz19623d06ef2"
+    }
+   ]
+  },
+  "396": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Known Spinal deformities (uneven shoulders/hips/waist OR hunchback OR unusal forward curve in neck/lowerback)"
+    }
+   ]
+  },
+  "397": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Known Spinal deformities (uneven shoulders/hips/waist OR hunchback OR unusal forward curve in neck/lowerback)"
+    }
+   ]
+  },
+  "398": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Known Spinal deformities (uneven shoulders/hips/waist OR hunchback OR unusal forward curve in neck/lowerback)"
+    }
+   ]
+  },
+  "399": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "Known Spinal deformities (uneven shoulders/hips/waist OR hunchback OR unusal forward curve in neck/lowerback)"
+    }
+   ]
+  },
+  "400": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "401": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "402": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "403": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "389",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  }
+ }
+}

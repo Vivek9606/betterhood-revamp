@@ -1,0 +1,845 @@
+{
+ "slug": "assessment-knee-health-level-2",
+ "formId": 15,
+ "pageTitles": [],
+ "intro": "",
+ "fields": [
+  {
+   "id": 141,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper frontpage\"> <h2 class=\"assessment_heading\">Assess <span> your Knee Health</span></h2> <p>Hey there! This health assessment tool is designed by our experts. We will guide you through a series of movements and ask you to report your observations. These movements are carefully curated to assess various key aspects of your musculoskeletal health. Some of them will need to be performed lying on the ground or sitting on a chair/stool. For certain movements, you will need to record the time, and the timer on your mobile device can be helpful for this. <br> Based on your responses, this assessment tool will generate your health score on a scale of 1 to 10. When taken periodically, this health score will help you monitor your health progress. So, find a quiet corner, and let’s get started.</p> </div>"
+  },
+  {
+   "id": 142,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "consent_text",
+   "html": "Please note that your information shared here is completely safe and is used only for arriving at the assessment results. The assessment results are indicative and do not substitute medical expert consultation in any way. Appropriate user discretion is advised. You may refer to our <a href=\"/terms-of-services/\">Terms of Service</a> for further clarity."
+  },
+  {
+   "id": 7,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Lying leg raise</h4> </div>"
+  },
+  {
+   "id": 9,
+   "type": "quiz",
+   "page": 2,
+   "label": "1. Get into the position and record the time for which you can stay in the position. Complete the test on both sides. Record your lowest score of the two.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 0-30 seconds"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 30-90 seconds"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 90 seconds+"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 66,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Lie face down with your legs straight and arms at your sides. Gradually, lift one leg off the ground while keeping it straight. Repeat on other side. </p> <img src=\"https://betterhood.in/wp-content/uploads/2025/01/Lying-leg-raise-duration.webp\"> </div>"
+  },
+  {
+   "id": 123,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The knee joint carres up to five times the body's weight during activities like running and jumping, making it one of the most heavily loaded joints in the body. </p> </div>"
+  },
+  {
+   "id": 18,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 67,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 68,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 124,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Single leg balance</h4> </div>"
+  },
+  {
+   "id": 125,
+   "type": "quiz",
+   "page": 3,
+   "label": "2. Get into the position and record the time for which you can stay in the position. Complete the test on both sides. Record your lowest score of the two.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 20 seconds"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 40 seconds"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 60 seconds"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 126,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand on one leg with your knee slightly bent and arms crossed over your chest. Hold the position as long as possible without losing balance, then switch legs. </p> <img src=\"https://betterhood.in/wp-content/uploads/2025/01/Single-leg-balance-knee.webp\"> </div>"
+  },
+  {
+   "id": 127,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Our joints are all connected, like a game of dominos! When there’s a problem in the knee, it can tip the balance and lead to back pain, proving just how intertwined our body’s mechanics really are. </p> </div>"
+  },
+  {
+   "id": 71,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 74,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 75,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 128,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Knee flexion</h4> </div>"
+  },
+  {
+   "id": 129,
+   "type": "quiz",
+   "page": 4,
+   "label": "3. Select the position you can perform without changing your pain or discomfort.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 120 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Flexion–knee-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 135 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Flexion–knee-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 150 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Flexion–knee-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 130,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Stand or sit with your back straight. Gradually, bend one knee to lift your heel toward your buttocks. Repeat on other side. </p> </div>"
+  },
+  {
+   "id": 131,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Sitting for long periods can lead to tight hamstrings, pulling on the knee joint and causing pain—proof that staying active is key to keeping your knees happy! </p> </div>"
+  },
+  {
+   "id": 80,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 81,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 82,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 132,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Knee internal rotation</h4> </div>"
+  },
+  {
+   "id": 133,
+   "type": "quiz",
+   "page": 5,
+   "label": "4. Select the position you can perform without changing your pain or discomfort.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 5 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Internal-rotation-with-knee-flex-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 10 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Internal-rotation-with-knee-flex-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 15 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/Internal-rotation-with-knee-flex-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 134,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Sit with your knee bent at 90 degrees. Gradually rotate your lower leg inward while keeping your knee in place. </p> </div>"
+  },
+  {
+   "id": 135,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The patella, or kneecap, is a floating plate that glides over the knee joint, supported by muscles; tight thigh muscles can pull on the patella, causing friction and leading to knee problems. </p> </div>"
+  },
+  {
+   "id": 89,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 90,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 91,
+   "type": "number",
+   "page": 5,
+   "label": "Q4. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 136,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "subheading_html",
+   "html": "<div class=\"wrapper\"> <h4>Knee external rotation</h4> </div>"
+  },
+  {
+   "id": 137,
+   "type": "quiz",
+   "page": 6,
+   "label": "5. Select the position you can perform without changing your pain or discomfort.",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "A. 25 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/External-rotation-with-knee-flexed-1.webp"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "B. 35 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/External-rotation-with-knee-flexed-2.webp"
+    },
+    {
+     "value": "gquiz996b592ac",
+     "label": "C. 45 degrees",
+     "img": "https://betterhood.in/wp-content/uploads/2025/01/External-rotation-with-knee-flexed-3.webp"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 138,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html",
+   "html": "<div class=\"right_col\"> <h3>How <span>to test?</span></h3> <p>Sit with your knee bent at 90 degrees. Gradually rotate your lower leg outward while keeping your knee in place. </p> </div>"
+  },
+  {
+   "id": 139,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Flat feet can lead to knee issues by altering your gait and putting extra stress on the knees, showcasing how foot structure plays a crucial role in overall joint health! </p> </div>"
+  },
+  {
+   "id": 96,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A1.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 97,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A2.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 98,
+   "type": "number",
+   "page": 6,
+   "label": "Q5. A3.",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 14,
+   "type": "number",
+   "page": 7,
+   "label": "Total (Strength)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 41,
+   "type": "number",
+   "page": 7,
+   "label": "Total (Balance)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 84,
+   "type": "number",
+   "page": 7,
+   "label": "Total (Mobility)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 120,
+   "type": "number",
+   "page": 7,
+   "label": "Overall Score",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 55,
+   "type": "text",
+   "page": 7,
+   "label": "Full Name",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "Full Name"
+  },
+  {
+   "id": 56,
+   "type": "email",
+   "page": 7,
+   "label": "Email",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "email",
+   "placeholder": "Email"
+  },
+  {
+   "id": 57,
+   "type": "phone",
+   "page": 7,
+   "label": "Phone Number",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "tel",
+   "placeholder": "Phone Number"
+  },
+  {
+   "id": 121,
+   "type": "text",
+   "page": 7,
+   "label": "User ID",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 122,
+   "type": "number",
+   "page": 7,
+   "label": "Is Visited",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "",
+   "default": "0"
+  }
+ ],
+ "formulas": {
+  "14": "{Q1. A1.:18}+{Q1. A2.:67}+{Q1. A3.:68}",
+  "18": "3",
+  "41": "{Q2. A1.:71}+{Q2. A2.:74}+{Q2. A3.:75}",
+  "67": "6",
+  "68": "10",
+  "71": "3",
+  "74": "6",
+  "75": "10",
+  "80": "3",
+  "81": "6",
+  "82": "10",
+  "84": "({Q3. A1.:80}+{Q3. A2.:81}+{Q3. A3.:82}+{Q4. A1.:89}+{Q4. A2.:90}+{Q4. A3.:91}+{Q5. A1.:96}+{Q5. A2.:97}+{Q5. A3.:98})/3",
+  "89": "3",
+  "90": "6",
+  "91": "10",
+  "96": "3",
+  "97": "6",
+  "98": "10",
+  "120": "({Total (Strength):14}+{Total (Balance):41}+{Total (Mobility):84})/3"
+ },
+ "logic": {
+  "18": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "67": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "68": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "9",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "71": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "125",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "74": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "125",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "75": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "125",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "80": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "129",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "81": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "129",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "82": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "129",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "89": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "133",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "90": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "133",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "91": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "133",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  },
+  "96": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "137",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "97": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "137",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "98": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "137",
+     "operator": "is",
+     "value": "gquiz996b592ac"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,24 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+---
+<Base title="Page not found" noindex>
+  <section class="nf">
+    <div class="wrap nf-card">
+      <p class="nf-emoji" aria-hidden="true">🦐</p>
+      <h1 class="h1">This page is slouching somewhere we can't find.</h1>
+      <p class="lead">The link may be old or mistyped. Let's get you back on your feet.</p>
+      <div class="nf-cta">
+        <a class="btn btn-lg" href="/">Go home</a>
+        <a class="btn btn-ghost btn-lg" href="/learn/#search"><Icon name="search" /> Search articles</a>
+        <a class="btn btn-ghost btn-lg" href="/quiz-landing-page/">Free assessment</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .nf { padding: clamp(64px, 12vw, 140px) 0; }
+  .nf-card { max-width: 760px; text-align: center; display: grid; gap: 16px; justify-items: center; }
+  .nf-emoji { font-size: 80px; line-height: 1; }
+  .nf-cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
+</style>

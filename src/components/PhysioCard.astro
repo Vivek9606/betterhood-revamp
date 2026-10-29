@@ -1,0 +1,36 @@
+---
+import Icon from "./Icon.astro";
+import { media } from "../lib/site";
+import type { Physio } from "../lib/data";
+
+interface Props { physio: Physio }
+const { physio: p } = Astro.props;
+const initials = p.name.replace(/^Dr\.?\s*/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("");
+---
+<a class="phc card card-hover" href={`/physio/${p.slug}/`}>
+  <div class="phc-top">
+    {p.image ? <img src={media(p.image)} alt={p.name} loading="lazy" width="96" height="96" /> : <span class="phc-ph">{initials}</span>}
+    <span class="badge badge-mint phc-v"><Icon name="verified" size={14} /> Certified</span>
+  </div>
+  <p class="phc-name">{p.name}</p>
+  <p class="phc-deg muted">{p.degree}{p.years ? ` · ${p.years} yrs exp` : ""}</p>
+  {p.specializations.length > 0 && (
+    <ul class="phc-tags">
+      {p.specializations.slice(0, 2).map((s) => <li>{s}</li>)}
+      {p.specializations.length > 2 && <li>+{p.specializations.length - 2}</li>}
+    </ul>
+  )}
+  {p.place && <p class="phc-place"><Icon name="pin" size={15} /> {p.place.replace(/\.$/, "")}</p>}
+</a>
+
+<style is:global>
+  .phc { padding: 20px; display: flex; flex-direction: column; gap: 6px; height: 100%; }
+  .phc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .phc-top img, .phc-ph { width: 72px; height: 72px; border-radius: 22px; object-fit: cover; background: var(--plum-100); }
+  .phc-ph { display: grid; place-items: center; font: 650 24px var(--font-display); color: var(--plum-700); }
+  .phc-name { font: 650 18px/1.2 var(--font-display); }
+  .phc-deg { font-size: 14px; }
+  .phc-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 4px; }
+  .phc-tags li { font-size: 12.5px; padding: 4px 10px; border-radius: var(--r-pill); background: var(--plum-50); color: var(--plum-700); }
+  .phc-place { margin-top: auto; padding-top: 8px; display: flex; gap: 6px; align-items: center; font-size: 14px; color: var(--ink-soft); }
+</style>

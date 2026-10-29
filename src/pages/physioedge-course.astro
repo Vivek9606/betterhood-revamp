@@ -1,0 +1,183 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import PhysioCard from "../components/PhysioCard.astro";
+import { media, SHOP, contact } from "../lib/site";
+import { physios } from "../lib/data";
+
+const ENROLL = `${SHOP}/products/physio-edge`;
+const COMMUNITY = "https://chat.whatsapp.com/KPemPFVSns0LcJSWvRasI1";
+const up = (p: string) => media(`/wp-content/uploads/${p}`);
+const modules = [
+  ["Posture As A Living System", "Learn to see posture not as a fixed alignment but as the body's intelligent survival strategy. Understand how gravity, fatigue, and body mechanics shape posture throughout the day."],
+  ["Mental Health, Emotion & Posture", "Discover how emotions, stress, and the nervous system influence posture and pain patterns. Learn to identify emotional signals in the body and use posture to help regulate mood and recovery."],
+  ["Environment, Lifestyle & Posture Ecosystem", "Understand how everyday habits like workspaces, sleep, footwear, and travel shape posture. Learn how to redesign your patient's environment to support long-term recovery."],
+  ["Art of Non-Technical Posture Assessment", "Train your clinical eye to read the body beyond textbook assessments. Learn how to detect patterns through observation, breath, movement, and subtle physical cues."],
+  ["Recovery, Fatigue & Postural Resilience", "Learn how fatigue, recovery, and the nervous system influence posture and injury risk. Understand the recovery pyramid and how to build resilient bodies that sustain performance."],
+  ["The Real World Physio Mindset", "Go beyond technical skills to build trust, authority, and a successful physiotherapy career. Learn communication, patient psychology, and the mindset required to thrive in real practice."],
+];
+const structure = [
+  ["video", "Video Content", "5 short instructional videos per module"],
+  ["book", "Text Content", "Comprehensive reading materials and study guides"],
+  ["briefcase", "Tools", "Practical tools and templates (provided as per module requirements)"],
+  ["check-circle", "Assessment", "1 final module assessment"],
+];
+const who = ["Licensed Physiotherapists (BPT / MPT)", "Final Year Physiotherapy Students or Interns", "Sports Physiotherapists", "Rehabilitation Specialists", "Musculoskeletal Pain Specialists"];
+const includes = ["90 minutes of video content", "Study material for every lesson", "Situation and case-based questionnaires", "Digital certificate upon completion", "Lifetime access to course materials", "Digital ID and profile on the betterhood website with a verified badge"];
+const benefits = [
+  ["2026/03/4.webp", "Digital Visibility", "Get your professional profile hosted on betterhood.in with full details – visible to thousands of potential patients"],
+  ["2026/03/1.webp", "Verified Badge", "Stand out with the “Betterhood Certified” badge on your profile and marketing materials"],
+  ["2026/03/2.webp", "Patient Referrals", "Receive qualified patient referrals from Betterhood's growing customer base"],
+  ["2026/03/5.webp", "Community Access", "Join exclusive network of certified physios for knowledge sharing and collaboration"],
+  ["2026/03/6.webp", "Continued Learning", "Ongoing access to updated protocols, research papers, and advanced workshops"],
+  ["2026/03/3.webp", "Marketing Support", "Co-branded marketing materials and social media promotion of certified professionals"],
+];
+const quotes = [
+  ["The Betterhood certification has completely transformed my practice. I now get 15-20 qualified patient inquiries every month through my profile on their platform.", "Dr. Priya Sharma, MPT (Sports)"],
+  ["The course content is evidence-based and practical. I've implemented the preventive care protocols with amazing results for my chronic pain patients.", "Dr. Rahul Verma, BPT"],
+  ["Being featured on Betterhood's website has significantly improved my digital presence. Patients trust the Betterhood Certified badge.", "Dr. Anjali Reddy, MPT (Ortho)"],
+];
+const certifiedSlugs = ["dr-umme-salma-nandervawala-pt-pune-maharashtra", "dr-salauddin-physiotherapist-hyderabad-telangana", "dr-jigyasa-bhatt-physiotherapist-faridabad-haryana", "dr-fathimath-rishana-pt-bangalore-karnataka", "dr-sanjay-bholani-pt-ahmedabad-gujarat", "dr-abhishek-pandey-pt-faridabad-haryana", "dr-diksha-bhatia-physiotherapist-faridabad-haryana", "dr-roohi-bhat-physiotherapist-mumbai-maharashtra"];
+const certified = certifiedSlugs.map((s) => physios.find((p) => p.slug === s)).filter(Boolean) as typeof physios;
+const course = { "@context": "https://schema.org", "@type": "Course", name: "The Physio Edge Course", description: "betterhood Physio Certification in preventive pain care and musculoskeletal wellness.", provider: { "@type": "Organization", name: "betterhood", sameAs: "https://betterhood.in" }, offers: { "@type": "Offer", price: 499, priceCurrency: "INR", url: ENROLL } };
+---
+<Base title="PhysioEdge Course" description="Master preventive pain care and join India's most trusted network of certified physiotherapists. Learn from experts, get certified, get featured, get discovered." jsonLd={course}>
+  <section class="pe-hero bg-plum">
+    <div class="wrap pe-hero-grid">
+      <div class="stack" style="--stack:20px">
+        <span class="badge badge-sun">Certification for physiotherapists</span>
+        <h1 class="display">The Physio <span class="hl-sun">Edge</span> Course</h1>
+        <p class="lead">Master preventive pain care and join India's most trusted network of certified physiotherapists. Learn from experts, get certified, get featured, get discovered.</p>
+        <div class="cta-row">
+          <a class="btn btn-sun btn-lg" href={ENROLL} target="_blank" rel="noopener">Enroll now <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-ghost-light btn-lg" href={COMMUNITY} target="_blank" rel="noopener"><Icon name="whatsapp" /> Join our WhatsApp community</a>
+        </div>
+      </div>
+      <div class="price-card">
+        <p class="pc-l">Introductory offer</p>
+        <p class="price"><s>₹9,999</s> <strong>₹499</strong></p>
+        <p class="muted">One-time certification fee</p>
+        <ul>{includes.map((i) => <li><Icon name="check" size={18} /> {i}</li>)}</ul>
+        <a class="btn btn-block btn-lg" href={ENROLL} target="_blank" rel="noopener">Start your certification journey</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap about-grid">
+      <div><p class="eyebrow">About this certification course</p><h2 class="h2">Beyond traditional physiotherapy education</h2></div>
+      <p class="lead">The betterhood Physio Certification is designed for physiotherapists who want to specialize in preventive pain care and musculoskeletal wellness. Beyond traditional physiotherapy education, this course combines scientific evidence with practical protocols while also teaching communication mastery and the business mindset needed to build a successful career and loyal clientele.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Course curriculum</p><h2 class="h2">Six modules. One clinical edge.</h2></div></div>
+      <ol class="modules">
+        {modules.map(([t, d], i) => (
+          <li class="card" data-reveal style={`--d:${i * 0.05}s`}><span class="mn">Module {i + 1}</span><h3 class="h3">{t}</h3><p class="soft">{d}</p></li>
+        ))}
+      </ol>
+      <div class="structure">
+        <p class="f-t">Module structure — each module is broken down into 4 key components</p>
+        <ul>{structure.map(([ic, t, d]) => <li><span><Icon name={ic} size={20} /></span><div><strong>{t}</strong><p class="muted">{d}</p></div></li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap who">
+      <div><p class="eyebrow">Who should enroll</p><h2 class="h2">Built for the people who keep India moving</h2></div>
+      <ul>{who.map((w) => <li><Icon name="check-circle" size={20} /> {w}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Why get certified with betterhood?</p><h2 class="h2">Exclusive benefits for certified physiotherapists</h2></div></div>
+      <div class="grid cols-3">
+        {benefits.map(([img, t, d]) => <article class="ben card"><img src={up(img)} alt="" loading="lazy" /><h3 class="h3">{t}</h3><p class="soft">{d}</p></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">What certified physios say</p><h2 class="h2">In their words</h2></div></div>
+      <div class="grid cols-3">
+        {quotes.map(([q, w]) => <figure class="quote card"><blockquote>“{q}”</blockquote><figcaption>– {w}</figcaption></figure>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-plum">
+    <div class="wrap instr">
+      <img src={up("2025/07/1556541848567-2.webp")} alt="Shayamal Vallabhjee" loading="lazy" />
+      <div class="stack" style="--stack:14px">
+        <p class="eyebrow">Meet your instructor · Learn from our Chief Science Officer</p>
+        <h2 class="h2">Shayamal Vallabhjee</h2>
+        <p class="sun">Chief Science Officer, betterhood · Performance Psychologist | Coach | Sports Scientist</p>
+        <p class="soft">Shayamal Vallabhjee is a Performance Psychologist, Coach, and Sports Scientist with deep expertise in team dynamics and personality. With over 20 years of experience, he has worked with elite athletes, Fortune 500 executives, and championship teams, helping them optimise mindset, communication, and performance.</p>
+        <p class="soft">He serves as faculty at Stanford Business School's LEAD Program and advises leading sports tech brands and global organisations. Known for his powerful workshops and keynotes delivered across 1,000+ stages worldwide, Shayamal combines evidence-based sports science with cognitive behavioural science and spiritual insight to drive meaningful and lasting change.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="eyebrow">Betterhood certified physiotherapists</p><h2 class="h2">Join 500+ certified professionals in our network</h2></div>
+        <a class="link" href="/physio-directory/">View all certified physiotherapists <Icon name="arrow" /></a>
+      </div>
+      <div class="grid cols-4">{certified.map((p) => <PhysioCard physio={p} />)}</div>
+      <div class="pe-final">
+        <h2 class="h2">Ready to get your edge?</h2>
+        <div class="cta-row">
+          <a class="btn btn-sun btn-lg" href={ENROLL} target="_blank" rel="noopener">Enroll for ₹499 <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-ghost btn-lg" href="/contact-us/">Questions? Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pe-hero { padding: clamp(48px, 7vw, 96px) 0; position: relative; overflow: hidden; }
+  .pe-hero::after { content: ""; position: absolute; right: -200px; top: -200px; width: 640px; height: 640px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 181, 71, 0.18), transparent); }
+  .pe-hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; position: relative; z-index: 1; }
+  .hl-sun, .sun { color: var(--sun-500); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn-ghost-light { --b-bg: transparent; --b-fg: #fff; --b-bd: rgba(255, 255, 255, 0.35); }
+  .price-card { background: #fff; color: var(--ink); border-radius: var(--r-xl); padding: clamp(24px, 3vw, 36px); box-shadow: var(--shadow-lg); display: grid; gap: 8px; }
+  .pc-l { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--coral-500); }
+  .price { font-family: var(--font-display); display: flex; align-items: baseline; gap: 12px; }
+  .price s { color: var(--ink-mute); font-size: 22px; }
+  .price strong { font-size: 56px; color: var(--plum-700); letter-spacing: -0.03em; }
+  .price-card ul { list-style: none; display: grid; gap: 10px; margin: 14px 0 18px; padding-top: 16px; border-top: 1px dashed var(--line-strong); }
+  .price-card li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
+  .price-card li :global(svg) { color: var(--mint-600); flex: none; margin-top: 3px; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(24px, 5vw, 72px); align-items: start; }
+  .modules { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+  .modules li { padding: 26px; display: grid; gap: 10px; align-content: start; }
+  .mn { font: 700 13px var(--font-display); color: var(--plum-600); background: var(--plum-50); padding: 6px 12px; border-radius: var(--r-pill); justify-self: start; }
+  .structure { margin-top: 32px; padding: 26px; border-radius: var(--r-xl); background: var(--sun-100); }
+  .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 16px; }
+  .structure ul { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .structure li { display: flex; gap: 12px; }
+  .structure span { flex: none; width: 42px; height: 42px; border-radius: 12px; background: #fff; display: grid; place-items: center; color: var(--plum-700); }
+  .structure p { font-size: 14px; }
+  .who { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .who ul { list-style: none; display: grid; gap: 10px; }
+  .who li { display: flex; gap: 12px; align-items: center; padding: 16px 20px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); font-weight: 600; }
+  .who li :global(svg) { color: var(--mint-600); }
+  .ben { padding: 26px; display: grid; gap: 10px; align-content: start; }
+  .ben img { width: 72px; height: 72px; object-fit: contain; }
+  .quote { margin: 0; padding: 28px; display: grid; gap: 18px; align-content: space-between; }
+  .quote blockquote { margin: 0; font: 500 18px/1.5 var(--font-display); }
+  .quote figcaption { color: var(--plum-700); font-weight: 600; }
+  .instr { display: grid; grid-template-columns: 320px 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .instr img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--r-xl); }
+  .pe-final { margin-top: 56px; padding: clamp(28px, 4vw, 48px); border-radius: var(--r-xl); background: var(--plum-50); display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: center; }
+  @media (max-width: 900px) { .pe-hero-grid, .about-grid, .who, .instr { grid-template-columns: 1fr; } .structure ul { grid-template-columns: 1fr 1fr; } .instr img { max-width: 260px; } }
+  @media (max-width: 520px) { .structure ul { grid-template-columns: 1fr; } }
+</style>

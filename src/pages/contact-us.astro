@@ -1,0 +1,71 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { contact, socials } from "../lib/site";
+
+const cards = [
+  { icon: "phone", t: "Call us", v: contact.phone, href: contact.phoneHref },
+  { icon: "mail", t: "Email", v: contact.email, href: `mailto:${contact.email}` },
+  { icon: "whatsapp", t: "WhatsApp", v: "Chat with our care team", href: contact.whatsapp },
+  { icon: "truck", t: "Track your order", v: "Delhivery tracking", href: contact.trackOrder },
+];
+---
+<Base title="Contact Us" description="Get in touch with betterhood. Call +91 84848 05885, email care@betterhood.in or chat with us on WhatsApp. Registered office in Koramangala, Bengaluru.">
+  <section class="c-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Contact us</span></nav>
+      <div class="c-head">
+        <p class="eyebrow">Contact us</p>
+        <h1 class="h1">Get in touch <span class="hl">with us</span></h1>
+        <p class="lead">Questions about a product, an order or your pain? A real human from our care team will help.</p>
+      </div>
+      <ul class="c-cards">
+        {cards.map((c) => (
+          <li><a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener" class="card card-hover"><span class="c-ic"><Icon name={c.icon} size={22} /></span><strong>{c.t}</strong><span class="muted">{c.v}</span></a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap c-grid">
+      <div class="card c-form"><h2 class="h3" style="margin-bottom:20px">Send us a message</h2><ContactForm id="contact" /></div>
+      <aside class="c-side">
+        <div class="c-addr">
+          <p class="f-t">Registered address</p>
+          <p>{contact.registered}</p>
+        </div>
+        <div class="c-addr">
+          <p class="f-t">Corporate address</p>
+          <p>{contact.corporate}</p>
+        </div>
+        <div class="map"><iframe title="betterhood office map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=SPD%20Plaza%20Koramangala%20Bengaluru&output=embed"></iframe></div>
+        <div>
+          <p class="f-t">Socials</p>
+          <ul class="soc">{socials.map((s) => <li><a href={s.href} target="_blank" rel="noopener" aria-label={s.name}><Icon name={s.icon} /></a></li>)}</ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .c-hero { padding: 32px 0 48px; background: linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .c-head { max-width: 720px; margin: 28px 0 36px; display: grid; gap: 14px; }
+  .c-cards { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .c-cards a { display: grid; gap: 4px; padding: 22px; height: 100%; }
+  .c-ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--plum-700); color: #fff; margin-bottom: 10px; }
+  .c-cards strong { font-family: var(--font-display); font-size: 18px; }
+  .c-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; align-items: start; }
+  .c-form { padding: clamp(22px, 4vw, 40px); }
+  .c-side { display: grid; gap: 22px; }
+  .c-addr p:last-child { color: var(--ink-soft); }
+  .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 8px; }
+  .map { aspect-ratio: 4 / 3; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--line); }
+  .map iframe { width: 100%; height: 100%; border: 0; }
+  .soc { list-style: none; display: flex; gap: 8px; }
+  .soc a { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--plum-100); color: var(--plum-700); transition: all 0.2s; }
+  .soc a:hover { background: var(--plum-700); color: #fff; }
+  @media (max-width: 900px) { .c-cards { grid-template-columns: 1fr 1fr; } .c-grid { grid-template-columns: 1fr; } }
+</style>

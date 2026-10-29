@@ -1,0 +1,38 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "./Icon.astro";
+import { areas } from "../lib/site";
+
+interface Props { area?: "back" | "neck" | "shoulder" | "knee" }
+const { area } = Astro.props;
+const a = areas.find((x) => x.key === area);
+---
+<Base title={a ? `Completed Message | ${a.label} Level -1` : "Completed Message"} description="You've already completed this betterhood assessment. Access your diagnosis from betterYou corner." noindex>
+  <section class="done">
+    <div class="wrap done-card">
+      <span class="done-ic"><Icon name="check-circle" size={40} /></span>
+      {a ? (
+        <>
+          <h1 class="h1">You've already completed this assessment!</h1>
+          <p class="lead">You can access your diagnosis from betterYou corner.</p>
+          <div class="done-cta">
+            <a class="btn btn-lg" href={a.assessment}>Take the assessment again</a>
+            <a class="btn btn-ghost btn-lg" href={a.corner}>Visit betterYou corner <Icon name="arrow" class="arrow" /></a>
+          </div>
+        </>
+      ) : (
+        <>
+          <h1 class="h1">You've already completed all the assessments!</h1>
+          <p class="lead">Track your scores and protocols any time in betterYou corner.</p>
+          <div class="done-cta"><a class="btn btn-lg" href="/betteryou-corner-overall-skeletomuscular-health/">Visit betterYou corner <Icon name="arrow" class="arrow" /></a></div>
+        </>
+      )}
+    </div>
+  </section>
+</Base>
+<style>
+  .done { padding: clamp(56px, 10vw, 120px) 0; background: radial-gradient(50% 60% at 50% 0%, var(--mint-100), transparent 70%); }
+  .done-card { max-width: 720px; text-align: center; display: grid; gap: 16px; justify-items: center; }
+  .done-ic { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; background: var(--mint-600); color: #fff; box-shadow: 0 16px 36px -12px rgba(26, 155, 86, 0.6); }
+  .done-cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 8px; }
+</style>

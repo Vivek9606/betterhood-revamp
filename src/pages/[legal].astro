@@ -1,0 +1,68 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import legal from "../data/legal.json";
+import { prepareArticle } from "../lib/html";
+import { contact } from "../lib/site";
+
+type Doc = { title: string; modified: string; html: string };
+const docs = legal as Record<string, Doc>;
+const titles: Record<string, string> = {
+  "privacy-policy": "Privacy Policy",
+  "terms-of-services": "Terms of Services",
+  "shipping-policy": "Terms & Conditions",
+  "return-policy": "Return Policy",
+  refund_returns: "Return Policy",
+  "equal-employment-opportunity-eeo-policy": "Equal Employment Opportunity (EEO) Policy",
+};
+export function getStaticPaths() {
+  return Object.keys(legal).map((legalSlug) => ({ params: { legal: legalSlug } }));
+}
+const slug = Astro.params.legal!;
+const doc = docs[slug];
+const title = titles[slug] ?? doc.title;
+// the source documents repeat their own title as the first heading
+const { html, toc } = prepareArticle(doc.html.replace(/^\s*<h1>[\s\S]*?<\/h1>/, ""));
+const siblings = Object.keys(titles).filter((s) => s !== "refund_returns" && s !== slug);
+---
+<Base title={title} description={`${title} for betterhood (Agebetter Solutions Private Limited).`}>
+  <section class="lg-hero">
+    <div class="wrap wrap-narrow">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Policies</span></nav>
+      <p class="eyebrow" style="margin-top:24px">Policies</p>
+      <h1 class="h1">{title}</h1>
+      <p class="muted">Last updated {new Date(doc.modified).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</p>
+    </div>
+  </section>
+  <section class="section-tight">
+    <div class="wrap lg-grid">
+      <div class="prose lg-body" set:html={html} />
+      <aside class="lg-side">
+        {toc.length > 2 && (
+          <nav class="lg-toc"><p class="f-t">On this page</p><ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.text}</a></li>)}</ol></nav>
+        )}
+        <div class="lg-help">
+          <p class="f-t">Questions?</p>
+          <a href={`mailto:${contact.email}`}><Icon name="mail" size={18} /> {contact.email}</a>
+          <a href={contact.phoneHref}><Icon name="phone" size={18} /> {contact.phone}</a>
+        </div>
+        <nav class="lg-more"><p class="f-t">Other policies</p>{siblings.map((s) => <a href={`/${s}/`}>{titles[s]}</a>)}</nav>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lg-hero { padding: 32px 0 40px; background: linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .lg-hero .h1 { margin: 10px 0 10px; }
+  .lg-grid { display: grid; grid-template-columns: minmax(0, 760px) 280px; gap: 56px; justify-content: center; }
+  .lg-body { font-size: 16.5px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(22px, 4vw, 48px); }
+  .lg-side { position: sticky; top: calc(var(--header-h) + 20px); align-self: start; display: grid; gap: 28px; }
+  .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
+  .lg-toc ol { list-style: none; display: grid; gap: 6px; font-size: 14px; max-height: 40vh; overflow-y: auto; }
+  .lg-toc a, .lg-more a { color: var(--ink-soft); }
+  .lg-toc a:hover, .lg-more a:hover { color: var(--plum-700); }
+  .lg-help, .lg-more { display: grid; gap: 8px; font-size: 14.5px; }
+  .lg-help a { display: inline-flex; gap: 8px; align-items: center; color: var(--plum-700); font-weight: 600; }
+  @media (max-width: 960px) { .lg-grid { grid-template-columns: 1fr; } .lg-side { position: static; } }
+</style>

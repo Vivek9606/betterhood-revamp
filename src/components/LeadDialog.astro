@@ -1,0 +1,39 @@
+---
+// Reusable "send it to me" dialog (eBook, cheat sheets). Opened by any [data-lead="<topic>"] button.
+import Icon from "./Icon.astro";
+---
+<dialog class="ld" id="lead-dialog" aria-labelledby="ld-t">
+  <form class="ld-form" data-bh-form="resource-request" data-success="Done! We've sent it to your email and WhatsApp.">
+    <button type="button" class="ld-x" aria-label="Close" data-ld-close><Icon name="close" /></button>
+    <p class="eyebrow">Free resource</p>
+    <h2 class="h3" id="ld-t" data-ld-title>Get your copy</h2>
+    <input type="hidden" name="resource" data-ld-resource />
+    <div class="ld-row">
+      <div class="field"><label for="ld-fn">First name *</label><input class="input" id="ld-fn" name="firstName" required autocomplete="given-name" /></div>
+      <div class="field"><label for="ld-ln">Last name *</label><input class="input" id="ld-ln" name="lastName" required autocomplete="family-name" /></div>
+    </div>
+    <div class="field"><label for="ld-ph">Phone number (with WhatsApp) *</label><input class="input" id="ld-ph" name="phone" type="tel" required pattern="[0-9+ ]{10,15}" autocomplete="tel" /></div>
+    <div class="field"><label for="ld-em">Email-ID *</label><input class="input" id="ld-em" name="email" type="email" required autocomplete="email" /></div>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+    <button class="btn btn-block btn-lg" type="submit">Send it to me</button>
+    <p data-note hidden></p>
+  </form>
+</dialog>
+<style>
+  .ld { border: 0; padding: 0; border-radius: var(--r-xl); width: min(480px, 92vw); box-shadow: var(--shadow-lg); }
+  .ld::backdrop { background: rgba(27, 8, 32, 0.6); backdrop-filter: blur(3px); }
+  .ld-form { padding: 32px; display: grid; gap: 14px; position: relative; }
+  .ld-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ld-x { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--plum-50); display: grid; place-items: center; }
+  @media (max-width: 480px) { .ld-row { grid-template-columns: 1fr; } }
+</style>
+<script>
+  const d = document.getElementById("lead-dialog") as HTMLDialogElement;
+  document.querySelectorAll<HTMLElement>("[data-lead]").forEach((b) => b.addEventListener("click", () => {
+    d.querySelector("[data-ld-title]")!.textContent = b.dataset.leadTitle || "Get your copy";
+    (d.querySelector("[data-ld-resource]") as HTMLInputElement).value = b.dataset.lead!;
+    d.showModal();
+  }));
+  d.querySelector("[data-ld-close]")!.addEventListener("click", () => d.close());
+  d.addEventListener("click", (e) => { if (e.target === d) d.close(); });
+</script>

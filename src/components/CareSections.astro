@@ -1,0 +1,109 @@
+---
+import Icon from "./Icon.astro";
+import { riskFactors, outcomes, toolkit, extraRisks } from "../lib/care";
+import { media } from "../lib/site";
+
+interface Props { show: ("risks" | "outcomes" | "toolkit" | "extra")[]; shopHref?: string; areaName?: string; cta?: string }
+const { show, shopHref = "https://shop.betterhood.in/collections/all", areaName = "", cta = "View recommended essentials" } = Astro.props;
+---
+{show.includes("risks") && (
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Let's work on your recovery & longevity</p><h2 class="h2">Contributing risk factors</h2></div></div>
+      <div class="cs-risks">
+        {riskFactors.map((r) => (
+          <article class="card cs-risk">
+            <img src={media(r.img)} alt="" loading="lazy" />
+            <div><h3 class="h3">{r.t}</h3><p class="soft">{r.d}</p></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{show.includes("outcomes") && (
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="cs-out">
+        <div class="section-head"><div><p class="eyebrow">Why you should act now</p><h2 class="h2">If left untreated, underlying causes lead to <span class="hl-sun">permanent damage</span></h2></div>
+          <a class="btn btn-sun" href={shopHref}>{cta} <Icon name="arrow" class="arrow" /></a></div>
+        <div class="grid cols-4">
+          {outcomes.map((o) => (
+            <article class="cs-o"><img src={media(o.img)} alt="" loading="lazy" /><h3>{o.t}</h3><p>{o.d}</p></article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+{show.includes("toolkit") && (
+  <section class="section-tight">
+    <div class="wrap cs-tk">
+      <div>
+        <p class="eyebrow">Not just the product</p>
+        <h2 class="h2">But a holistic care of your muscles, bones, and joints</h2>
+        <p class="lead">betterhood™ provides holistic care for bones, muscles, and joints. We offer advanced diagnostics, personalized physiotherapy, and longevity science-based tools for effective pain relief and recovery. Achieve and maintain your mobility with our expert support.</p>
+        <a class="btn" href={shopHref}>Claim your {areaName ? `${areaName.toLowerCase()}-care ` : ""}toolkit <Icon name="arrow" class="arrow" /></a>
+      </div>
+      <div>
+        <p class="f-t">Your comprehensive toolkit</p>
+        <ul class="tk">{toolkit.map((t) => <li><img src={media(t.icon)} alt="" loading="lazy" /><span>{t.t}</span></li>)}</ul>
+      </div>
+    </div>
+  </section>
+)}
+
+{show.includes("extra") && (
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Know your risks</p><h2 class="h2">Additional risk factors that accelerate damage</h2></div></div>
+      <div class="cs-extra" data-tabs>
+        <div class="cs-tabs" role="tablist">
+          {extraRisks.map((r, i) => <button role="tab" aria-selected={i === 0 ? "true" : "false"} data-i={i}><img src={media(r.icon)} alt="" loading="lazy" />{r.t}</button>)}
+        </div>
+        {extraRisks.map((r, i) => <div class="cs-panel" role="tabpanel" hidden={i !== 0}><h3 class="h3">{r.t}</h3><p class="soft">{r.d}</p></div>)}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .cs-risks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .cs-risk { display: flex; gap: 16px; padding: 16px; align-items: center; }
+  .cs-risk img { width: 96px; height: 96px; border-radius: var(--r-md); object-fit: cover; flex: none; background: var(--plum-50); }
+  .cs-risk .h3 { font-size: 18px; margin-bottom: 4px; }
+  .cs-risk p { font-size: 14.5px; line-height: 1.45; }
+  .cs-out { padding: clamp(24px, 4vw, 48px); border-radius: var(--r-xl); background: var(--plum-900); color: #fff; }
+  .cs-out .eyebrow, .hl-sun { color: var(--sun-500); }
+  .cs-o { display: grid; gap: 8px; align-content: start; }
+  .cs-o img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-md); background: var(--plum-800); }
+  .cs-o h3 { font-size: 18px; }
+  .cs-o p { color: rgba(255, 255, 255, 0.72); font-size: 14.5px; }
+  .cs-tk { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 64px); align-items: center; }
+  .cs-tk .lead { margin: 14px 0 22px; }
+  .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 14px; }
+  .tk { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .tk li { display: grid; gap: 10px; justify-items: center; text-align: center; padding: 20px 12px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); font-weight: 600; font-size: 14.5px; }
+  .tk img { width: 48px; height: 48px; object-fit: contain; }
+  .cs-extra { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: start; }
+  .cs-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cs-tabs button { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px; border-radius: var(--r-lg); border: 1.5px solid var(--line); background: #fff; font-weight: 600; font-size: 14.5px; transition: all 0.2s; }
+  .cs-tabs img { width: 40px; height: 40px; }
+  .cs-tabs button[aria-selected="true"] { border-color: var(--plum-700); background: var(--plum-50); color: var(--plum-700); }
+  .cs-panel { padding: clamp(22px, 3vw, 36px); border-radius: var(--r-xl); background: var(--sun-100); display: grid; gap: 12px; min-height: 100%; }
+  @media (max-width: 960px) { .cs-risks { grid-template-columns: 1fr 1fr; } .cs-tk, .cs-extra { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .cs-risks { grid-template-columns: 1fr; } .tk { grid-template-columns: 1fr 1fr; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+    const panels = [...root.querySelectorAll<HTMLElement>("[role=tabpanel]")];
+    tabs.forEach((t, i) => t.addEventListener("click", () => {
+      tabs.forEach((x, j) => x.setAttribute("aria-selected", String(i === j)));
+      panels.forEach((p, j) => (p.hidden = i !== j));
+    }));
+  });
+</script>

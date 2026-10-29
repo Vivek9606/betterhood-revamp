@@ -1,0 +1,92 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { media } from "../lib/site";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article" | "profile";
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  published?: string;
+  modified?: string;
+  overlayHeader?: boolean;
+}
+const {
+  title,
+  description = "Physio-trusted pain care for everyday movement. Physio co-created supports, recovery essentials, free pain assessments and 1000+ expert articles from betterhood.",
+  image = "/wp-content/uploads/2024/08/cropped-betterhood_site_icon-1.webp",
+  type = "website",
+  noindex = false,
+  jsonLd,
+  published,
+  modified,
+  overlayHeader = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const fullTitle = /betterhood/i.test(title) ? title : `${title} | betterhood`;
+const ogImage = new URL(media(image), Astro.site).href;
+
+const org = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "betterhood",
+  legalName: "Agebetter Solutions Private Limited",
+  url: "https://betterhood.in/",
+  logo: "https://betterhood.in/img/logo.svg",
+  email: "care@betterhood.in",
+  telephone: "+91-8484805885",
+  sameAs: ["https://www.instagram.com/betterhood.in", "https://www.youtube.com/@mybetterhood", "https://www.linkedin.com/company/betterhood-in/", "https://www.facebook.com/betterhood.in"],
+};
+const ld = [org, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+---
+<!doctype html>
+<html lang="en-IN" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#fbf7f1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:site_name" content="betterhood" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {published && <meta property="article:published_time" content={published} />}
+    {modified && <meta property="article:modified_time" content={modified} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:ital,wght@0,400..700;1,400..600&display=swap" />
+
+    <script is:inline>document.documentElement.classList.remove("no-js")</script>
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header overlay={overlayHeader} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import "../scripts/tracker";
+      import "../scripts/forms";
+      import "../scripts/motion-site";
+    </script>
+  </body>
+</html>

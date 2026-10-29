@@ -1,0 +1,218 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import PhysioCard from "../components/PhysioCard.astro";
+import { physios, taxonomies } from "../lib/data";
+
+const states = [...taxonomies["physio-state"]].sort((a, b) => a.name.localeCompare(b.name));
+const cities = [...taxonomies["physio-city"]].sort((a, b) => a.name.localeCompare(b.name));
+// city -> state, derived from the profiles themselves
+const cityState: Record<string, string> = {};
+physios.forEach((p) => { if (p.city && p.state) cityState[p.city] ??= p.state; });
+const areaNames = Object.fromEntries(taxonomies.physio_location.map((l) => [l.slug, l.name]));
+const featured = [...physios].sort((a, b) => Number(!!b.image) - Number(!!a.image) || b.years - a.years).slice(0, 24);
+const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Visit"];
+---
+<Base title="Physio Directory — betterhood Certified Physiotherapists" description={`Find trusted, betterhood-certified physiotherapists specializing in preventive pain care. ${physios.length}+ verified profiles across ${cities.length} Indian cities.`}>
+  <section class="d-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Physio Directory</span></nav>
+      <div class="d-head">
+        <div>
+          <p class="eyebrow">Physio directory</p>
+          <h1 class="h1">betterhood certified <span class="hl">physiotherapists</span></h1>
+          <p class="lead">Find trusted, certified physiotherapists specializing in preventive pain care.</p>
+        </div>
+        <ul class="d-stats">
+          <li><strong>{physios.length.toLocaleString("en-IN")}+</strong><span>verified physios</span></li>
+          <li><strong>{cities.length}</strong><span>cities</span></li>
+          <li><strong>{states.length}</strong><span>states</span></li>
+        </ul>
+      </div>
+
+      <form class="d-filters" onsubmit="return false" aria-label="Filter physiotherapists">
+        <div class="d-search">
+          <Icon name="search" size={20} />
+          <label for="dq" class="sr-only">Search by name, area or speciality</label>
+          <input id="dq" type="search" placeholder="Search name, area or speciality" autocomplete="off" />
+        </div>
+        <label class="sr-only" for="fs">State</label>
+        <select class="select" id="fs" name="state">
+          <option value="">All states</option>
+          {states.map((s) => <option value={s.slug}>{s.name}</option>)}
+        </select>
+        <label class="sr-only" for="fc">City</label>
+        <select class="select" id="fc" name="city">
+          <option value="">All cities</option>
+          {cities.map((c) => <option value={c.slug} data-state={cityState[c.slug] ?? ""}>{c.name}</option>)}
+        </select>
+        <label class="sr-only" for="fa">Area</label>
+        <select class="select" id="fa" name="area" disabled>
+          <option value="">All areas</option>
+        </select>
+      </form>
+      <div class="d-modes" role="group" aria-label="Mode of treatment">
+        {modes.map((m) => <button class="chip" aria-pressed="false" data-mode={m}>{m}</button>)}
+        <button class="link d-reset" type="button">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <p class="d-count muted" aria-live="polite">Showing <strong data-count>{physios.length}</strong> physiotherapists</p>
+      <div class="grid cols-4" data-grid>
+        {featured.map((p) => <PhysioCard physio={p} />)}
+      </div>
+      <div class="d-more"><button class="btn btn-ghost" data-more>Show more</button></div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="d-join">
+        <div>
+          <p class="eyebrow">For physiotherapists</p>
+          <h2 class="h2">Get certified. Get featured. Get discovered.</h2>
+          <p class="soft">Join India's most trusted network of certified physiotherapists through the PhysioEdge course.</p>
+        </div>
+        <a class="btn btn-sun btn-lg" href="/physioedge-course/">Explore PhysioEdge <Icon name="arrow" class="arrow" /></a>
+      </div>
+      <div class="d-cities">
+        <h2 class="h3">Browse by city</h2>
+        <ul>{[...cities].sort((a, b) => b.count - a.count).map((c) => <li><a href={`/learn/physio-city/${c.slug}/`}>{c.name} <span class="muted">{c.count}</span></a></li>)}</ul>
+      </div>
+    </div>
+  </section>
+  <script type="application/json" id="area-names" set:html={JSON.stringify(areaNames)} />
+</Base>
+
+<style>
+  .d-hero { padding: 32px 0 32px; background: radial-gradient(70% 90% at 100% 0%, var(--mint-100), transparent 60%), linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .d-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin: 24px 0 32px; }
+  .d-head .lead { margin-top: 12px; }
+  .d-stats { list-style: none; display: flex; gap: 10px; }
+  .d-stats li { padding: 14px 20px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); display: grid; }
+  .d-stats strong { font: 700 26px var(--font-display); color: var(--plum-700); }
+  .d-stats span { font-size: 13px; color: var(--ink-mute); }
+  .d-filters { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 10px; padding: 10px; border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-md); }
+  .d-search { display: flex; align-items: center; gap: 10px; padding-left: 14px; color: var(--ink-mute); border-radius: var(--r-md); border: 1.5px solid var(--line-strong); }
+  .d-search:focus-within { border-color: var(--plum-500); box-shadow: 0 0 0 4px var(--plum-100); }
+  .d-search input { border: 0; outline: 0; background: none; flex: 1; min-height: 48px; min-width: 0; color: var(--ink); }
+  .d-modes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 16px; }
+  .d-reset { background: none; border: 0; margin-left: 6px; }
+  .d-count { margin-bottom: 18px; font-size: 15px; }
+  .d-count strong { color: var(--plum-700); }
+  .d-more { display: flex; justify-content: center; margin-top: 36px; }
+  .d-join { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; padding: clamp(28px, 4vw, 48px); border-radius: var(--r-xl); background: var(--plum-900); color: #fff; }
+  .d-join .eyebrow { color: var(--sun-500); }
+  .d-join .soft { color: rgba(255, 255, 255, 0.75); margin-top: 10px; }
+  .d-cities { margin-top: 56px; }
+  .d-cities ul { list-style: none; margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 4px 20px; }
+  .d-cities a { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .d-cities a:hover { color: var(--plum-700); }
+  @media (max-width: 900px) { .d-filters { grid-template-columns: 1fr 1fr; } .d-search { grid-column: 1 / -1; } }
+  @media (max-width: 520px) { .d-filters { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  import { media } from "../lib/site";
+  import { track } from "../scripts/tracker";
+  type Row = { s: string; n: string; g: string; i: string; p: string; y: number; c: string; st: string; a: string[]; sp: string[]; m: string[]; f: string };
+  const $ = <T extends Element>(s: string) => document.querySelector<T>(s)!;
+  const grid = $<HTMLElement>("[data-grid]"), count = $<HTMLElement>("[data-count]"), more = $<HTMLButtonElement>("[data-more]");
+  const q = $<HTMLInputElement>("#dq"), fs = $<HTMLSelectElement>("#fs"), fc = $<HTMLSelectElement>("#fc"), fa = $<HTMLSelectElement>("#fa");
+  const areaNames: Record<string, string> = JSON.parse($("#area-names").textContent!);
+  const cityOpts = [...fc.options].slice(1);
+  const modes = new Set<string>();
+  let rows: Row[] = [], shown = 24;
+  const ready = fetch("/physios-index.json").then((r) => r.json()).then((d: Row[]) => (rows = d.sort((a, b) => Number(!!b.i) - Number(!!a.i) || b.y - a.y)));
+
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  const initials = (n: string) => n.replace(/^Dr\.?\s*/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("");
+  const card = (r: Row) => `<a class="phc card card-hover" href="/physio/${r.s}/">
+    <div class="phc-top">${r.i ? `<img src="${media(r.i)}" alt="${esc(r.n)}" loading="lazy" width="96" height="96">` : `<span class="phc-ph">${esc(initials(r.n))}</span>`}
+    <span class="badge badge-mint phc-v">✓ Certified</span></div>
+    <p class="phc-name">${esc(r.n)}</p><p class="phc-deg muted">${esc(r.g)}${r.y ? ` · ${r.y} yrs exp` : ""}</p>
+    ${r.sp.length ? `<ul class="phc-tags">${r.sp.slice(0, 2).map((s) => `<li>${esc(s)}</li>`).join("")}</ul>` : ""}
+    ${r.p ? `<p class="phc-place">📍 ${esc(r.p.replace(/\.$/, ""))}</p>` : ""}</a>`;
+
+  function syncCities() {
+    const st = fs.value;
+    cityOpts.forEach((o) => (o.hidden = !!st && !!o.dataset.state && o.dataset.state !== st));
+    if (fc.selectedOptions[0]?.hidden) fc.value = "";
+  }
+  function syncAreas() {
+    const c = fc.value;
+    const keep = fa.value;
+    const areas = c ? [...new Set(rows.filter((r) => r.c === c).flatMap((r) => r.a))].filter((a) => areaNames[a]).sort((x, y) => areaNames[x].localeCompare(areaNames[y])) : [];
+    fa.innerHTML = `<option value="">All areas</option>` + areas.map((a) => `<option value="${a}">${esc(areaNames[a])}</option>`).join("");
+    fa.disabled = !areas.length;
+    if (areas.includes(keep)) fa.value = keep;
+  }
+  function list() {
+    const words = q.value.toLowerCase().split(/\s+/).filter(Boolean);
+    return rows.filter((r) =>
+      (!fs.value || r.st === fs.value) && (!fc.value || r.c === fc.value) && (!fa.value || r.a.includes(fa.value)) &&
+      [...modes].every((m) => r.m.includes(m)) &&
+      words.every((w) => `${r.n} ${r.p} ${r.g} ${r.sp.join(" ")} ${r.a.map((a) => areaNames[a] ?? "").join(" ")}`.toLowerCase().includes(w)),
+    );
+  }
+  async function render(reset = true) {
+    await ready;
+    if (reset) shown = 24;
+    const l = list();
+    count.textContent = l.length.toLocaleString("en-IN");
+    grid.innerHTML = l.length ? l.slice(0, shown).map(card).join("") : `<p class="empty" style="grid-column:1/-1">No physiotherapists match these filters yet — try a nearby city or clear a filter.</p>`;
+    more.hidden = shown >= l.length;
+    const u = new URL(location.href);
+    (["state", "city", "area"] as const).forEach((k, i) => { const v = [fs, fc, fa][i].value; v ? u.searchParams.set(k, v) : u.searchParams.delete(k); });
+    history.replaceState(null, "", u);
+  }
+
+  const logFilter = () => track("filter", { where: "physio-directory", state: fs.value || null, city: fc.value || null, area: fa.value || null, modes: [...modes].join(",") || null });
+  fs.addEventListener("change", () => { syncCities(); syncAreas(); render(); logFilter(); });
+  fc.addEventListener("change", () => {
+    const st = fc.selectedOptions[0]?.dataset.state;
+    if (st && !fs.value) { fs.value = st; syncCities(); }
+    syncAreas(); render(); logFilter();
+  });
+  fa.addEventListener("change", () => { render(); logFilter(); });
+  let t: number | undefined;
+  q.addEventListener("input", () => { clearTimeout(t); t = window.setTimeout(render, 200); });
+  let st: number | undefined, lastQ = "";
+  q.addEventListener("input", () => {
+    clearTimeout(st);
+    st = window.setTimeout(async () => {
+      const term = q.value.trim();
+      if (term.length < 2 || term === lastQ) return;
+      lastQ = term;
+      await ready;
+      track("search", { where: "physio-directory", q: term, results: list().length });
+    }, 1200);
+  });
+  document.querySelectorAll<HTMLButtonElement>("[data-mode]").forEach((b) => b.addEventListener("click", () => {
+    const on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", String(on));
+    on ? modes.add(b.dataset.mode!) : modes.delete(b.dataset.mode!);
+    render(); logFilter();
+  }));
+  $(".d-reset").addEventListener("click", () => {
+    q.value = ""; fs.value = ""; fc.value = ""; modes.clear();
+    document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-pressed", "false"));
+    syncCities(); syncAreas(); render();
+  });
+  more.addEventListener("click", () => { shown += 24; render(false); });
+
+  // honour the old site's deep links: /physio-directory/?state=…&city=…&area=…
+  (async () => {
+    const p = new URLSearchParams(location.search);
+    if (![...p.keys()].some((k) => ["state", "city", "area"].includes(k))) { await ready; more.hidden = false; return; }
+    await ready;
+    fs.value = p.get("state") ?? ""; syncCities();
+    fc.value = p.get("city") ?? "";
+    if (fc.value && !fs.value) fs.value = fc.selectedOptions[0]?.dataset.state ?? "";
+    syncAreas(); fa.value = p.get("area") ?? "";
+    render();
+  })();
+</script>

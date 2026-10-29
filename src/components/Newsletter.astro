@@ -1,0 +1,31 @@
+---
+import Icon from "./Icon.astro";
+---
+<section class="nl">
+  <div class="wrap">
+    <div class="nl-card">
+      <div>
+        <p class="eyebrow">The betterhood letter</p>
+        <h2 class="h2">Subscribe to our newsletter</h2>
+        <p class="soft">Physio-backed tips on posture, recovery and pain-free movement. No spam, ever.</p>
+      </div>
+      <form class="nl-form" data-bh-form="newsletter" data-success="You're subscribed — welcome to betterhood!">
+        <label class="sr-only" for="nl-email">Email address</label>
+        <input class="input" id="nl-email" type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+        <button class="btn" type="submit">Subscribe <Icon name="arrow" class="arrow" /></button>
+        <p data-note hidden></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .nl { padding: clamp(48px, 6vw, 80px) 0; }
+  .nl-card { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding: clamp(28px, 4vw, 48px); border-radius: var(--r-xl); background: var(--sun-100); border: 1px solid var(--sun-200); }
+  .nl-card .soft { margin-top: 10px; }
+  .nl-form { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+  .nl-form [data-note] { grid-column: 1 / -1; }
+  .nl-form .input { border-color: var(--sun-200); }
+  @media (max-width: 760px) { .nl-card { grid-template-columns: 1fr; } .nl-form { grid-template-columns: 1fr; } }
+</style>

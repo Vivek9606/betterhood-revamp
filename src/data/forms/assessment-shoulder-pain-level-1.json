@@ -1,0 +1,3127 @@
+{
+ "slug": "assessment-shoulder-pain-level-1",
+ "formId": 16,
+ "pageTitles": [],
+ "intro": "",
+ "fields": [
+  {
+   "id": 341,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper frontpage\"> <h2 class=\"assessment_heading\">Assess <span> your Shoulder Pain</span></h2> <p>Hey there! This assessment tool is designed by our experts. We will ask you a series of questions to better understand your symptoms. Based on a differential analysis of your responses, this tool will generate a preliminary diagnosis for you. This process should take about 5–10 minutes. Find a quiet corner, and let’s get started! </p> </div>"
+  },
+  {
+   "id": 343,
+   "type": "html",
+   "page": 1,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "consent_text",
+   "html": "Please note that your information shared here is completely safe and is used only for arriving at the assessment results. The assessment results are indicative and do not substitute medical expert consultation in any way. Appropriate user discretion is advised. You may refer to our <a href=\"/terms-of-services/\">Terms of Service</a> for further clarity."
+  },
+  {
+   "id": 80,
+   "type": "select",
+   "page": 2,
+   "label": "Gender",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "choices": [
+    {
+     "value": "Select",
+     "label": "Select"
+    },
+    {
+     "value": "Male",
+     "label": "Male"
+    },
+    {
+     "value": "Female",
+     "label": "Female"
+    }
+   ]
+  },
+  {
+   "id": 81,
+   "type": "number",
+   "page": 2,
+   "label": "Age (in years)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Age",
+   "default": ""
+  },
+  {
+   "id": 83,
+   "type": "number",
+   "page": 2,
+   "label": "Weight (in kgs)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Weight",
+   "default": ""
+  },
+  {
+   "id": 82,
+   "type": "number",
+   "page": 2,
+   "label": "Height (in cms)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "Height",
+   "default": ""
+  },
+  {
+   "id": 332,
+   "type": "number",
+   "page": 2,
+   "label": "Age<40 - (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 333,
+   "type": "number",
+   "page": 2,
+   "label": "Age<40 - (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 334,
+   "type": "number",
+   "page": 2,
+   "label": "Age<40 - (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 335,
+   "type": "number",
+   "page": 2,
+   "label": "Age<40 - (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 336,
+   "type": "number",
+   "page": 2,
+   "label": "Age>40 - (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 337,
+   "type": "number",
+   "page": 2,
+   "label": "Age>40 - (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 338,
+   "type": "number",
+   "page": 2,
+   "label": "Age>40 - (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 339,
+   "type": "number",
+   "page": 2,
+   "label": "Age>40 - (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 85,
+   "type": "checkbox",
+   "page": 2,
+   "label": "1. Where is your shoulder pain located?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Diffused across shoulder",
+     "label": "Diffused across shoulder"
+    },
+    {
+     "value": "Localized in upper shoulder area in the front",
+     "label": "Localized in upper shoulder area in the front"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 7,
+   "type": "html",
+   "page": 2,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Pain radiating below the elbow often occurs when the ulnar nerve, a major nerve in the arm, gets compressed at the elbow, causing pain or tingling down the forearm and into the hand. </p> </div>"
+  },
+  {
+   "id": 18,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 19,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 20,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 11,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 86,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 87,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 88,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 89,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 90,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 91,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 92,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 93,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 94,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 95,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 96,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 97,
+   "type": "number",
+   "page": 2,
+   "label": "Q1. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 98,
+   "type": "quiz",
+   "page": 3,
+   "label": "2. Do you experience unbearable pain or stiffness in other joints of the body as well?",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz94d81f8fc",
+     "label": "Yes"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "No"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 16,
+   "type": "html",
+   "page": 3,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Arthritis is a condition in which the joints become swollen, painful, and stiff, making movement more difficult. It can occur for various reasons, with osteoarthritis (wear and tear arthritis) and rheumatoid arthritis (auto-immune arthritis) being the most common. </p> </div>"
+  },
+  {
+   "id": 21,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 25,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 26,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 27,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 28,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 29,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 30,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 31,
+   "type": "number",
+   "page": 3,
+   "label": "Q2. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 99,
+   "type": "checkbox",
+   "page": 4,
+   "label": "3. How would you describe your symptoms?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Pain that worsens with rest; Morning stiffness",
+     "label": "Pain that worsens with rest; Morning stiffness"
+    },
+    {
+     "value": "Pain at the end of the motion in all directions",
+     "label": "Pain at the end of the motion in all directions"
+    },
+    {
+     "value": "Clicking sound near the shoulder as you raise your arm",
+     "label": "Clicking sound near the shoulder as you raise your arm"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 44,
+   "type": "html",
+   "page": 4,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Shoulder rotator cuff tears are surprisingly common, affecting about one in five people over the age of 50, and can result from wear and tear rather than just injury, making shoulder health a crucial focus as we age! </p> </div>"
+  },
+  {
+   "id": 46,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 47,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 48,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 49,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 50,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 51,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 52,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 53,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 100,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A3. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 101,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A3. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 102,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A3. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 103,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 104,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A4. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 105,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A4. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 106,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A4. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 107,
+   "type": "number",
+   "page": 4,
+   "label": "Q3. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 134,
+   "type": "quiz",
+   "page": 5,
+   "label": "4. Pain on a scale - 1 being the least amount of pain and 10 being the highest",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "left_html gquiz-field",
+   "choices": [
+    {
+     "value": "gquiz13436ef5379",
+     "label": "0 - No pain"
+    },
+    {
+     "value": "gquiz999ce04bd",
+     "label": "1 - Mild - Pain is very mild, barely noticeable"
+    },
+    {
+     "value": "gquiz134bd444210",
+     "label": "2 - Minor - Annoying and may have occasional sudden bouts of the localized pain"
+    },
+    {
+     "value": "gquiz13470493a09",
+     "label": "3 - Uncomfortable - Pain is noticeable and distracting but bearable"
+    },
+    {
+     "value": "gquiz1345316d009",
+     "label": "4 - Moderate - Distracting when not involved in an activity"
+    },
+    {
+     "value": "gquiz134fc618d8d",
+     "label": "5 - Distracting - Moderately strong pain, it can't be ignored for more than a few minutes"
+    },
+    {
+     "value": "gquiz1346ec00cf7",
+     "label": "6 - Distressing - Moderately strong pain that interferes with daily activities"
+    },
+    {
+     "value": "gquiz1343c7d0905",
+     "label": "7 - Severe - Pain that limits your ability to perform daily activity"
+    },
+    {
+     "value": "gquiz1340d10bb6e",
+     "label": "8 - Intense - Physical activity is severely limited"
+    },
+    {
+     "value": "gquiz13476e0e869",
+     "label": "9 - Excruciating - Unable to converse, crying out uncontrollably"
+    },
+    {
+     "value": "gquiz134280eb7b6",
+     "label": "10 - Unspeakable - Bedridden & possibly delirious"
+    }
+   ],
+   "inputType": "radio",
+   "placeholder": ""
+  },
+  {
+   "id": 133,
+   "type": "html",
+   "page": 5,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>The shoulder is the most unstable joint in the body due to its shallow socket and wide range of motion, making it susceptible to dislocations and injuries despite its incredible flexibility. </p> </div>"
+  },
+  {
+   "id": 204,
+   "type": "checkbox",
+   "page": 6,
+   "label": "5. Is your neck pain accompanied with or has started post any of the below?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Injury from falls, trauma, accidents, or sports activities",
+     "label": "Injury from falls, trauma, accidents, or sports activities"
+    },
+    {
+     "value": "Severe chest pain or shortness of breath",
+     "label": "Severe chest pain or shortness of breath"
+    },
+    {
+     "value": "Fever or infection",
+     "label": "Fever or infection"
+    },
+    {
+     "value": "Pregnancy",
+     "label": "Pregnancy"
+    },
+    {
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis",
+     "label": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    },
+    {
+     "value": "Known shoulder dislocation or instability",
+     "label": "Known shoulder dislocation or instability"
+    },
+    {
+     "value": "None of the above",
+     "label": "None of the above"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 203,
+   "type": "html",
+   "page": 6,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Tennis elbow, also known as lateral epicondylitis, is a painful condition involving inflammation of the tendons on the outer side of the elbow, commonly caused by repetitive wrist and arm movements and not limited to tennis players.</p> </div>"
+  },
+  {
+   "id": 208,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A1. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 205,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A1. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 207,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A1. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 206,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 211,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A2. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 209,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A2. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 210,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A2. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 212,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 216,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A3. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 213,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A3. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 215,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A3. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 214,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 218,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A4. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 217,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A4. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 219,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A4. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 220,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 224,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A5. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 221,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A5. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 223,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A5. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 222,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A5. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 228,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A6. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 225,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A6. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 227,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A6. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 226,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A6. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 232,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A7. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 229,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A7. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 231,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A7. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 230,
+   "type": "number",
+   "page": 6,
+   "label": "Q7. A7. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 340,
+   "type": "checkbox",
+   "page": 7,
+   "label": "6. Which activities seem to trigger or worsen your pain?",
+   "description": "Choose all that apply.",
+   "required": true,
+   "hidden": false,
+   "css": "left_html",
+   "choices": [
+    {
+     "value": "Clapping above your head with both hands",
+     "label": "Clapping above your head with both hands"
+    },
+    {
+     "value": "Sleeping",
+     "label": "Sleeping"
+    },
+    {
+     "value": "Touching and pulling the shoulder horizontally with your other hand",
+     "label": "Touching and pulling the shoulder horizontally with your other hand"
+    },
+    {
+     "value": "Combing your hair or shampooing your hair",
+     "label": "Combing your hair or shampooing your hair"
+    },
+    {
+     "value": "None of these",
+     "label": "None of these"
+    }
+   ],
+   "inputType": "checkbox",
+   "placeholder": ""
+  },
+  {
+   "id": 257,
+   "type": "html",
+   "page": 7,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "right_html dyk_html",
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Frozen shoulder, or adhesive capsulitis, is a painful condition that limits overhead movement, often occurring after an injury or long periods of immobility. </p> </div>"
+  },
+  {
+   "id": 262,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A1. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 259,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A1. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 261,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A1. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 260,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A1. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 266,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A2. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 263,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A2. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 265,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A2. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 264,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A2. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 270,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A3. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 267,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A3. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 268,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A3. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 269,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A3. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 274,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A4. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 271,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A4. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 273,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A4. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 272,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A4. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 282,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A6. (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 279,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A6. (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 281,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A6. (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 280,
+   "type": "number",
+   "page": 7,
+   "label": "Q9. A6. (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 14,
+   "type": "number",
+   "page": 8,
+   "label": "Total (Tendinopathy)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 40,
+   "type": "number",
+   "page": 8,
+   "label": "Total (Frozen)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 41,
+   "type": "number",
+   "page": 8,
+   "label": "Total (Instability)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 42,
+   "type": "number",
+   "page": 8,
+   "label": "Total (Osteoarthritis)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "",
+   "default": ""
+  },
+  {
+   "id": 331,
+   "type": "textarea",
+   "page": 8,
+   "label": "Critical Advisory",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "critical_text",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<div class=\"critical_text\">Critical advisory: Some of your responses indicate probable complications which need thourough medical assessment. Please visit your medical practitioner for the same. Post initial rest and recovery period recommended by your medical practioner, you should start on the betterhood routine recommended here.</div>"
+  },
+  {
+   "id": 326,
+   "type": "html",
+   "page": 8,
+   "label": "",
+   "description": "",
+   "required": false,
+   "hidden": false,
+   "css": "",
+   "html": "<div class=\"wrapper\"> <h2 class=\"assessment_heading\">You are done!<span>Get your personalized assessment.</span></h2> </div>"
+  },
+  {
+   "id": 55,
+   "type": "text",
+   "page": 8,
+   "label": "First Name",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "text",
+   "placeholder": "First Name"
+  },
+  {
+   "id": 56,
+   "type": "email",
+   "page": 8,
+   "label": "Email",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "email",
+   "placeholder": "Email"
+  },
+  {
+   "id": 57,
+   "type": "phone",
+   "page": 8,
+   "label": "Phone Number",
+   "description": "",
+   "required": true,
+   "hidden": false,
+   "css": "",
+   "inputType": "tel",
+   "placeholder": "Phone Number"
+  },
+  {
+   "id": 63,
+   "type": "text",
+   "page": 8,
+   "label": "Result (Created By Debraj)",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 61,
+   "type": "text",
+   "page": 8,
+   "label": "Result",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 65,
+   "type": "text",
+   "page": 8,
+   "label": "User ID",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "text",
+   "placeholder": ""
+  },
+  {
+   "id": 68,
+   "type": "number",
+   "page": 8,
+   "label": "Is Visited",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "number",
+   "placeholder": "",
+   "default": "0"
+  },
+  {
+   "id": 69,
+   "type": "textarea",
+   "page": 8,
+   "label": "Muscle Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span> Rotator Cuff Tendinopathy.</span> The rotator cuff is a group of muscles and tendons that stabilizes the shoulder joint. Rotator cuff tendinopathy results from repetitive stress, often due to poor posture or muscle imbalances. This strain can damage the tendons, leading to pain, stiffness, and reduced shoulder mobility. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate shoulder misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 73,
+   "type": "textarea",
+   "page": 8,
+   "label": "Muscle Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/Shoulderpain-1.webp\">"
+  },
+  {
+   "id": 70,
+   "type": "textarea",
+   "page": 8,
+   "label": "Nerve Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Frozen Shoulder</span> Frozen shoulder causes the shoulder joint to become stiff, painful, and hard to move. It usually starts with pain that gradually worsens, limiting your range of motion. Triggers include prolonged immobility from injury or surgery, as well as underlying conditions like diabetes or autoimmune disorders. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate shoulder misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 75,
+   "type": "textarea",
+   "page": 8,
+   "label": "Nerve Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/Shoulderpain-2.webp\">"
+  },
+  {
+   "id": 71,
+   "type": "textarea",
+   "page": 8,
+   "label": "Bone Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to the <span>Shoulder Instability.</span> Shoulder instability occurs when the shoulder joint feels loose or slips out of place, causing pain and frequent dislocations. Lifestyle factors, trauma, or repetitive stress can damage or imbalance the stabilizing ligaments, tendons, or muscles, leading to the condition. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate shoulder misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 76,
+   "type": "textarea",
+   "page": 8,
+   "label": "Bone Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/Shoulderpain-3.webp\">"
+  },
+  {
+   "id": 72,
+   "type": "textarea",
+   "page": 8,
+   "label": "Joint Lower Back",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "Your symptoms are most likely due to <span>excessive wear and tear of the shoulder joint.</span> As you age, excessive strain from poor posture or weak muscles accelerates wear and tear on shoulder joints, leading to osteoarthritis. In this condition, cartilage gradually wears down, causing pain, stiffness, and reduced mobility. The resulting bony growths can further intensify pain and discomfort. With a proper self-care routine, you can prevent further damage and reverse some of the damage already done. The betterhood<sup>TM</sup> routine focuses on targeted muscle strengthening and postural correction to alleviate shoulder misalignment, reduce excessive loading, and enhance bone density and tissue recovery."
+  },
+  {
+   "id": 77,
+   "type": "textarea",
+   "page": 8,
+   "label": "Joint Lower Back Image",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<img src=\"https://betterhood.in/wp-content/uploads/2024/12/Shoulderpain-4.webp\">"
+  },
+  {
+   "id": 330,
+   "type": "textarea",
+   "page": 8,
+   "label": "Product Price Division Table",
+   "description": "",
+   "required": false,
+   "hidden": true,
+   "css": "",
+   "inputType": "textarea",
+   "placeholder": "",
+   "default": "<div class=\"personalized_toolkit\"> <div class=\"item\"> <p class=\"item_name\"> <b>betterhood<sup>TM</sup> shoulder-care essentials</b> </p> <p class=\"item_price\"> <b>Extra 10% off on orders ₹2999+</b> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Posture & Support Protocols </p> <p class=\"item_price\"> FREE <s>₹ 800</s> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Relief & Recovery Protocols </p> <p class=\"item_price\"> FREE <s>₹ 1500</s> </p> </div> <div class=\"item\"> <p class=\"item_name\"> Health Goals Monitoring </p> <p class=\"item_price\"> FREE <s>₹ 1500</s> </p> </div> </div>"
+  }
+ ],
+ "formulas": {
+  "11": "1",
+  "14": "{Q1. A1. (Tendinopathy):18} + {Q1. A2. (Tendinopathy):86} + {Q1. A3. (Tendinopathy):90} + {Q1. A4. (Tendinopathy):94} + {Q2. A1. (Tendinopathy):21} + {Q2. A2. (Tendinopathy):28} + {Q3. A1. (Tendinopathy):46} + {Q3. A2. (Tendinopathy):50} + {Q3. A3. (Tendinopathy):100} + {Q3. A4. (Tendinopathy):104} + {Q3. A5. (Tendinopathy):108} + {Q3. A6. (Tendinopathy):112} + {Q3. A7. (Tendinopathy):116} + {Q3. A8. (Tendinopathy):120} + {Q3. A9. (Tendinopathy):124} + {Q3. A10. (Tendinopathy):128} + {Q6. A1. (Tendinopathy):188} + {Q6. A2. (Tendinopathy):192} + {Q6. A3. (Tendinopathy):195} + {Q6. A4. (Tendinopathy):201} + {Q7. A1. (Tendinopathy):208} + {Q7. A2. (Tendinopathy):211} + {Q7. A3. (Tendinopathy):216} + {Q7. A4. (Tendinopathy):218} + {Q7. A5. (Tendinopathy):224} + {Q7. A6. (Tendinopathy):228} + {Q7. A7. (Tendinopathy):232} + {Q7. A8. (Tendinopathy):236} + {Q7. A9. (Tendinopathy):240} + {Q8. A1. (Tendinopathy):244} + {Q8. A2. (Tendinopathy):251} + {Q8. A3. (Tendinopathy):255} + {Q9. A1. (Tendinopathy):262} + {Q9. A2. (Tendinopathy):266} + {Q9. A3. (Tendinopathy):270} + {Q9. A4. (Tendinopathy):274} + {Q9. A5. (Tendinopathy):278} + {Q9. A6. (Tendinopathy):282} + {Q9. A7. (Tendinopathy):286} + {Age<40 - (Tendinopathy):332}+{Age>40 - (Tendinopathy):336}+{Q10. A1. (Tendinopathy):307}+{Q10. A2. (Tendinopathy):319}+{Q10. A3. (Tendinopathy):323}",
+  "18": "1",
+  "19": "1",
+  "27": "10",
+  "28": "1",
+  "29": "1",
+  "30": "1",
+  "40": "{Q1. A1. (Frozen):19} + {Q1. A2. (Frozen):87} + {Q1. A3. (Frozen):91} + {Q1. A4. (Frozen):95} + {Q2. A1. (Frozen):25} + {Q2. A2. (Frozen):29} + {Q3. A1. (Frozen):47} + {Q3. A2. (Frozen):51} + {Q3. A3. (Frozen):101} + {Q3. A4. (Frozen):105} + {Q3. A5. (Frozen):109} + {Q3. A6. (Frozen):113} + {Q3. A7. (Frozen):117} + {Q3. A8. (Frozen):121} + {Q3. A9. (Frozen):125} + {Q3. A10. (Frozen):129} + {Q6. A1. (Frozen):185} + {Q6. A2. (Frozen):189} + {Q6. A3. (Frozen):193} + {Q6. A4. (Frozen):197} + {Q7. A1. (Frozen):205} + {Q7. A2. (Frozen):209} + {Q7. A3. (Frozen):213} + {Q7. A4. (Frozen):217} + {Q7. A5. (Frozen):221} + {Q7. A6. (Frozen):225} + {Q7. A7. (Frozen):229} + {Q7. A8. (Frozen):233} + {Q7. A9. (Frozen):237} + {Q8. A1. (Frozen):247} + {Q8. A2. (Frozen):248} + {Q8. A3. (Frozen):252} + {Q9. A1. (Frozen):259} + {Q9. A2. (Frozen):263} + {Q9. A3. (Frozen):267} + {Q9. A4. (Frozen):271} + {Q9. A5. (Frozen):275} + {Q9. A6. (Frozen):279} + {Q9. A7. (Frozen):283} + {Age<40 - (Frozen):333}+{Age>40 - (Frozen):337}+{Q10. A1. (Frozen):304}+{Q10. A2. (Frozen):316}+{Q10. A3. (Frozen):320}",
+  "41": "{Q1. A1. (Instability):20} + {Q1. A2. (Instability):88} + {Q1. A3. (Instability):92} + {Q1. A4. (Instability):96} + {Q2. A1. (Instability):26} + {Q2. A2. (Instability):30} + {Q3. A1. (Instability):48} + {Q3. A2. (Instability):52} + {Q3. A3. (Instability):102} + {Q3. A4. (Instability):106} + {Q3. A5. (Instability):110} + {Q3. A6. (Instability):114} + {Q3. A7. (Instability):118} + {Q3. A8. (Instability):122} + {Q3. A9. (Instability):126} + {Q3. A10. (Instability):130} + {Q6. A1. (Instability):187} + {Q6. A2. (Instability):191} + {Q6. A3. (Instability):194} + {Q6. A4. (Instability):200} + {Q7. A1. (Instability):207} + {Q7. A2. (Instability):210} + {Q7. A3. (Instability):215} + {Q7. A4. (Instability):219} + {Q7. A5. (Instability):223} + {Q7. A6. (Instability):227} + {Q7. A7. (Instability):231} + {Q7. A8. (Instability):235} + {Q7. A9. (Instability):239} + {Q8. A1. (Instability):246} + {Q8. A2. (Instability):250} + {Q8. A3. (Instability):254} + {Q9. A1. (Instability):261} + {Q9. A2. (Instability):265} + {Q9. A3. (Instability):268} + {Q9. A4. (Instability):273} + {Q9. A5. (Instability):277} + {Q9. A6. (Tendinopathy):282} + {Q9. A7. (Instability):285} + {Age<40 - (Instability):334}+{Age>40 - (Instability):338}+{Q10. A1. (Instability):306}+{Q10. A2. (Instability):318}+{Q10. A3. (Instability):322}",
+  "42": "{Q1. A1. (Osteoarthritis):11} + {Q1. A2. (Osteoarthritis):89} + {Q1. A3. (Osteoarthritis):93} + {Q1. A4. (Osteoarthritis):97} + {Q2. A1. (Osteoarthritis):27} + {Q2. A2. (Osteoarthritis):31} + {Q3. A1. (Osteoarthritis):49} + {Q3. A2. (Osteoarthritis):53} + {Q3. A3. (Osteoarthritis):103} + {Q3. A4. (Osteoarthritis):107} + {Q3. A5. (Osteoarthritis):111} + {Q3. A6. (Osteoarthritis):115} + {Q3. A7. (Osteoarthritis):119} + {Q3. A8. (Osteoarthritis):123} + {Q3. A9. (Osteoarthritis):127} + {Q3. A10. (Osteoarthritis):131} + {Q6. A1. (Osteoarthritis):186} + {Q6. A2. (Osteoarthritis):190} + {Q6. A3. (Osteoarthritis):196} + {Q6. A4. (Osteoarthritis):199} + {Q7. A1. (Osteoarthritis):206} + {Q7. A2. (Osteoarthritis):212} + {Q7. A3. (Osteoarthritis):214} + {Q7. A4. (Osteoarthritis):220} + {Q7. A5. (Osteoarthritis):222} + {Q7. A6. (Osteoarthritis):226} + {Q7. A7. (Osteoarthritis):230} + {Q7. A8. (Osteoarthritis):234} + {Q7. A9. (Osteoarthritis):238} + {Q8. A1. (Osteoarthritis):245} + {Q8. A2. (Osteoarthritis):249} + {Q8. A3. (Osteoarthritis):253} + {Q9. A1. (Osteoarthritis):260} + {Q9. A2. (Osteoarthritis):264} + {Q9. A3. (Osteoarthritis):269} + {Q9. A4. (Osteoarthritis):272} + {Q9. A5. (Osteoarthritis):276} + {Q9. A6. (Osteoarthritis):280} + {Q9. A7. (Osteoarthritis):284} + {Age<40 - (Osteoarthritis):335}+{Age>40 - (Osteoarthritis):339}+{Q10. A1. (Osteoarthritis):305}+{Q10. A2. (Osteoarthritis):317}+{Q10. A3. (Osteoarthritis):321}",
+  "49": "10",
+  "51": "5",
+  "89": "5",
+  "102": "5",
+  "222": "15",
+  "227": "5",
+  "262": "5",
+  "264": "1",
+  "265": "5",
+  "266": "1",
+  "269": "5",
+  "271": "5",
+  "332": "1",
+  "334": "1",
+  "336": "1",
+  "337": "1"
+ },
+ "logic": {
+  "11": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Diffused across shoulder"
+    }
+   ]
+  },
+  "18": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Diffused across shoulder"
+    }
+   ]
+  },
+  "19": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Diffused across shoulder"
+    }
+   ]
+  },
+  "20": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Diffused across shoulder"
+    }
+   ]
+  },
+  "21": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "98",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "25": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "98",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "26": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "98",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "27": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "98",
+     "operator": "is",
+     "value": "gquiz94d81f8fc"
+    }
+   ]
+  },
+  "28": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "98",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "29": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "98",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "30": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "98",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "31": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "98",
+     "operator": "is",
+     "value": "gquiz999ce04bd"
+    }
+   ]
+  },
+  "46": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Pain that worsens with rest; Morning stiffness"
+    }
+   ]
+  },
+  "47": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Pain that worsens with rest; Morning stiffness"
+    }
+   ]
+  },
+  "48": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Pain that worsens with rest; Morning stiffness"
+    }
+   ]
+  },
+  "49": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Pain that worsens with rest; Morning stiffness"
+    }
+   ]
+  },
+  "50": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Pain at the end of the motion in all directions"
+    }
+   ]
+  },
+  "51": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Pain at the end of the motion in all directions"
+    }
+   ]
+  },
+  "52": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Pain at the end of the motion in all directions"
+    }
+   ]
+  },
+  "53": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Pain at the end of the motion in all directions"
+    }
+   ]
+  },
+  "86": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Localized in upper shoulder area in the front"
+    }
+   ]
+  },
+  "87": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Localized in upper shoulder area in the front"
+    }
+   ]
+  },
+  "88": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Localized in upper shoulder area in the front"
+    }
+   ]
+  },
+  "89": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Localized in upper shoulder area in the front"
+    }
+   ]
+  },
+  "90": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Near your upper back, behind your neck"
+    }
+   ]
+  },
+  "91": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Near your upper back, behind your neck"
+    }
+   ]
+  },
+  "92": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Near your upper back, behind your neck"
+    }
+   ]
+  },
+  "93": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Near your upper back, behind your neck"
+    }
+   ]
+  },
+  "94": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Numbness, tingling, pain radiating past elbow"
+    }
+   ]
+  },
+  "95": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Numbness, tingling, pain radiating past elbow"
+    }
+   ]
+  },
+  "96": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Numbness, tingling, pain radiating past elbow"
+    }
+   ]
+  },
+  "97": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "85",
+     "operator": "is",
+     "value": "Numbness, tingling, pain radiating past elbow"
+    }
+   ]
+  },
+  "100": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Clicking sound near the shoulder as you raise your arm"
+    }
+   ]
+  },
+  "101": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Clicking sound near the shoulder as you raise your arm"
+    }
+   ]
+  },
+  "102": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Clicking sound near the shoulder as you raise your arm"
+    }
+   ]
+  },
+  "103": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "Clicking sound near the shoulder as you raise your arm"
+    }
+   ]
+  },
+  "104": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "105": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "106": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "107": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "99",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "205": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "206": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "207": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "208": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    }
+   ]
+  },
+  "209": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Severe chest pain or shortness of breath"
+    }
+   ]
+  },
+  "210": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Severe chest pain or shortness of breath"
+    }
+   ]
+  },
+  "211": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Severe chest pain or shortness of breath"
+    }
+   ]
+  },
+  "212": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Severe chest pain or shortness of breath"
+    }
+   ]
+  },
+  "213": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Any fever or infections"
+    }
+   ]
+  },
+  "214": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Any fever or infections"
+    }
+   ]
+  },
+  "215": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Any fever or infections"
+    }
+   ]
+  },
+  "216": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Any fever or infections"
+    }
+   ]
+  },
+  "217": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "218": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "219": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "220": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "221": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    }
+   ]
+  },
+  "222": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    }
+   ]
+  },
+  "223": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    }
+   ]
+  },
+  "224": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Any autoimmune disorder such as Rheumatoid arthritis, Mutiple sclerosis"
+    }
+   ]
+  },
+  "225": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Known shoulder dislocation or instability"
+    }
+   ]
+  },
+  "226": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Known shoulder dislocation or instability"
+    }
+   ]
+  },
+  "227": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Known shoulder dislocation or instability"
+    }
+   ]
+  },
+  "228": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Known shoulder dislocation or instability"
+    }
+   ]
+  },
+  "229": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "230": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "231": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "232": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "None of the above"
+    }
+   ]
+  },
+  "259": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Clapping above your head with both hands"
+    }
+   ]
+  },
+  "260": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Clapping above your head with both hands"
+    }
+   ]
+  },
+  "261": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Clapping above your head with both hands"
+    }
+   ]
+  },
+  "262": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Clapping above your head with both hands"
+    }
+   ]
+  },
+  "263": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Sleeping"
+    }
+   ]
+  },
+  "264": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Sleeping"
+    }
+   ]
+  },
+  "265": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Sleeping"
+    }
+   ]
+  },
+  "266": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Sleeping"
+    }
+   ]
+  },
+  "267": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Touching and pulling the shoulder horizontally with your other hand"
+    }
+   ]
+  },
+  "268": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Touching and pulling the shoulder horizontally with your other hand"
+    }
+   ]
+  },
+  "269": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Touching and pulling the shoulder horizontally with your other hand"
+    }
+   ]
+  },
+  "270": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Touching and pulling the shoulder horizontally with your other hand"
+    }
+   ]
+  },
+  "271": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Combing your hair or shampooing your hair"
+    }
+   ]
+  },
+  "272": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Combing your hair or shampooing your hair"
+    }
+   ]
+  },
+  "273": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Combing your hair or shampooing your hair"
+    }
+   ]
+  },
+  "274": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "Combing your hair or shampooing your hair"
+    }
+   ]
+  },
+  "279": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "280": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "281": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "282": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "340",
+     "operator": "is",
+     "value": "None of these"
+    }
+   ]
+  },
+  "331": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "any",
+   "rules": [
+    {
+     "fieldId": "134",
+     "operator": "is",
+     "value": "gquiz1340d10bb6e"
+    },
+    {
+     "fieldId": "134",
+     "operator": "is",
+     "value": "gquiz13476e0e869"
+    },
+    {
+     "fieldId": "134",
+     "operator": "is",
+     "value": "gquiz134280eb7b6"
+    },
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Injury from fall, trauma, accident, sport"
+    },
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Severe chest pain"
+    },
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Shortness of breath on walking for 2 minutes"
+    },
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Any fever or infections"
+    },
+    {
+     "fieldId": "204",
+     "operator": "is",
+     "value": "Pregnancy"
+    }
+   ]
+  },
+  "332": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "81",
+     "operator": "<",
+     "value": "40"
+    }
+   ]
+  },
+  "333": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "81",
+     "operator": "<",
+     "value": "40"
+    }
+   ]
+  },
+  "334": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "81",
+     "operator": "<",
+     "value": "40"
+    }
+   ]
+  },
+  "335": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "81",
+     "operator": "<",
+     "value": "40"
+    }
+   ]
+  },
+  "336": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "81",
+     "operator": ">",
+     "value": "40"
+    }
+   ]
+  },
+  "337": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "81",
+     "operator": ">",
+     "value": "40"
+    }
+   ]
+  },
+  "338": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "81",
+     "operator": ">",
+     "value": "40"
+    }
+   ]
+  },
+  "339": {
+   "enabled": true,
+   "actionType": "show",
+   "logicType": "all",
+   "rules": [
+    {
+     "fieldId": "81",
+     "operator": ">",
+     "value": "40"
+    }
+   ]
+  }
+ }
+}

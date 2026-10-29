@@ -1,0 +1,27 @@
+---
+import Icon from "./Icon.astro";
+interface Props { id?: string }
+const { id = "contact" } = Astro.props;
+---
+<form class="cf" data-bh-form="contact" data-success="Thanks for reaching out! Our care team will get back to you shortly.">
+  <div class="cf-row">
+    <div class="field"><label for={`${id}-fn`}>First name *</label><input class="input" id={`${id}-fn`} name="firstName" required autocomplete="given-name" /></div>
+    <div class="field"><label for={`${id}-ln`}>Last name</label><input class="input" id={`${id}-ln`} name="lastName" autocomplete="family-name" /></div>
+  </div>
+  <div class="cf-row">
+    <div class="field"><label for={`${id}-ph`}>Phone</label><input class="input" id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" autocomplete="tel" /></div>
+    <div class="field"><label for={`${id}-em`}>Email *</label><input class="input" id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+  </div>
+  <div class="field"><label for={`${id}-msg`}>Message *</label><textarea class="textarea" id={`${id}-msg`} name="message" required placeholder="Tell us how we can help"></textarea></div>
+  <label class="check"><input type="checkbox" name="whatsappConsent" value="yes" /> I agree to receive updates, offers, and wellness information from betterhood via WhatsApp & SMS. Message frequency may vary. Reply STOP to unsubscribe.</label>
+  <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+  <button class="btn btn-lg" type="submit">Send message <Icon name="arrow" class="arrow" /></button>
+  <p data-note hidden></p>
+</form>
+
+<style>
+  .cf { display: grid; gap: 16px; }
+  .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cf .btn { justify-self: start; }
+  @media (max-width: 560px) { .cf-row { grid-template-columns: 1fr; } }
+</style>

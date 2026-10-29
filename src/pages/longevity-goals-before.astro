@@ -1,0 +1,106 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import PostCard from "../components/PostCard.astro";
+import ProductCard from "../components/ProductCard.astro";
+import recommendations from "../data/recommendations.json";
+import { posts, productsByHandle } from "../lib/data";
+import { SHOP } from "../lib/site";
+
+const learn = posts.filter((p) => p.image).slice(1, 7);
+const products = productsByHandle((recommendations as Record<string, string[]>)["longevity-goals-before"] ?? []).slice(0, 10);
+---
+<Base title="Longevity goals" description="Get started on your longevity journey. Set personalized musculoskeletal health goals based on the life you envision at 70 — what you do now shapes your future quality of life.">
+  <section class="lg-hero bg-plum">
+    <div class="wrap lg-grid">
+      <div class="stack" style="--stack:18px">
+        <p class="eyebrow">Longevity goals</p>
+        <h1 class="h1">Get started on your <span class="hl-sun">longevity journey</span></h1>
+        <p class="lead">Your musculoskeletal health has the highest bearing on your quality of life as it directly determines your functional independence and daily vitality.</p>
+        <a class="btn btn-sun btn-lg" href="/assessment-longevity-goals/">Set your longevity health goals <Icon name="arrow" class="arrow" /></a>
+      </div>
+      <div class="lg-fact">
+        <p class="big">5%</p>
+        <p><strong>What you do now shapes your future quality of life.</strong> Muscle mass drops 5% per decade after 30, with bone density declining too. Act now to safeguard your health.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Parametric view</p><h2 class="h2">Your musculoskeletal health — today vs. target</h2></div></div>
+      <div class="pv">
+        <article class="card pv-main">
+          <p class="f-t">Overall musculoskeletal health score</p>
+          <div class="pv-scores">
+            <div><span class="muted">Score</span><strong data-now>X</strong><span class="muted">/ 10</span></div>
+            <div class="tgt"><span class="muted">Target</span><strong data-target>X</strong><span class="muted">/ 10</span></div>
+          </div>
+          <p class="soft" data-msg>Set your longevity goals and take a health assessment to see your score against your target.</p>
+          <div class="pv-actions"><a class="btn btn-sm" href="/assessment-longevity-goals/">Set goals</a><a class="btn btn-ghost btn-sm" href="/betteryou-corner-overall-skeletomuscular-health/">Open betterYou corner</a></div>
+        </article>
+        <article class="card pv-tests">
+          <p class="f-t">Multi-modal tests</p>
+          <ul>
+            <li><strong>Functional tests</strong><span>Strength · Balance · Mobility</span><span class="badge badge-mint">Live</span></li>
+            <li><strong>Blood biomarkers</strong><span>Vitamins & mineral sufficiency · Bone turnover · Inflammation · Hormonal markers</span><span class="badge badge-sun">Coming soon</span></li>
+            <li><strong>Imaging markers</strong><span>Bone mineral density · 10-year osteoporotic fracture risk</span><span class="badge badge-sun">Coming soon</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Recommended learning resources</p><h2 class="h2">Start with these</h2></div><a class="link" href="/learn/">View all <Icon name="arrow" /></a></div>
+      <div class="grid cols-3">{learn.map((p) => <PostCard post={p} />)}</div>
+    </div>
+  </section>
+
+  {products.length > 0 && (
+    <section class="section-tight bg-white">
+      <div class="wrap">
+        <div class="section-head"><div><p class="eyebrow">Featured products</p><h2 class="h2">Physio-reviewed essentials</h2></div><a class="link" href={`${SHOP}/collections/all`}>View all <Icon name="arrow" /></a></div>
+        <div class="scroller">{products.map((p) => <div style="width:min(240px,70vw)"><ProductCard product={p} /></div>)}</div>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .lg-hero { padding: clamp(48px, 7vw, 96px) 0; }
+  .lg-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .hl-sun { color: var(--sun-500); }
+  .lg-fact { padding: 32px; border-radius: var(--r-xl); background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.14); }
+  .lg-fact .big { font: 800 96px/1 var(--font-display); color: var(--sun-500); letter-spacing: -0.04em; }
+  .lg-fact p:last-child { color: rgba(255, 255, 255, 0.8); margin-top: 10px; }
+  .lg-fact strong { color: #fff; display: block; margin-bottom: 4px; }
+  .pv { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pv-main, .pv-tests { padding: clamp(22px, 3vw, 36px); display: grid; gap: 16px; align-content: start; }
+  .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); }
+  .pv-scores { display: flex; gap: 16px; }
+  .pv-scores > div { flex: 1; padding: 18px; border-radius: var(--r-lg); background: var(--plum-50); display: grid; justify-items: start; }
+  .pv-scores .tgt { background: var(--mint-100); }
+  .pv-scores strong { font: 700 44px/1.1 var(--font-display); color: var(--plum-700); }
+  .pv-scores .tgt strong { color: var(--mint-700); }
+  .pv-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pv-tests ul { list-style: none; display: grid; gap: 12px; }
+  .pv-tests li { display: grid; gap: 4px; padding: 14px 16px; border-radius: var(--r-md); border: 1px solid var(--line); }
+  .pv-tests li span:not(.badge) { color: var(--ink-soft); font-size: 14px; }
+  .pv-tests .badge { justify-self: start; }
+  @media (max-width: 860px) { .lg-grid, .pv { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  let store: Record<string, any> = {};
+  try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); } catch {}
+  const goal = store["assessment-longevity-goals"];
+  const healths = ["assessment-back-health", "assessment-neck-health-level-2", "assessment-shoulder-health-level-2", "assessment-knee-health-level-2"].map((k) => store[k]).filter((r) => r?.overall != null);
+  const now = healths.length ? Math.round((healths.reduce((s, r) => s + r.overall, 0) / healths.length) * 10) / 10 : null;
+  if (goal?.overall != null) document.querySelector("[data-target]")!.textContent = String(goal.overall);
+  if (now !== null) document.querySelector("[data-now]")!.textContent = String(now);
+  if (goal || now !== null) document.querySelector("[data-msg]")!.textContent =
+    goal && now !== null ? (now >= goal.overall ? "You're at or above your target — keep it up!" : `You're ${Math.round((goal.overall - now) * 10) / 10} points from your target. Your protocols in betterYou corner will help close the gap.`)
+    : goal ? "Target set! Now take a health assessment to measure where you are today." : "Now set your longevity goals to see your target.";
+</script>

@@ -1,0 +1,70 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { contact } from "../lib/site";
+
+const pillars = [
+  { icon: "clipboard", t: "Diagnostics assessments", d: "Clinically designed back, neck, shoulder and knee assessments for every employee." },
+  { icon: "posture", t: "Posture & ergonomics", d: "Desk, driving and sleeping posture protocols with physio co-created supports." },
+  { icon: "activity", t: "Recovery protocols", d: "Self-care routines that fit around a working day — not the other way round." },
+  { icon: "target", t: "Health score monitoring", d: "Track strength, balance and mobility over time with betterYou corner." },
+];
+---
+<Base title="Corporate Wellness Program" description="betterhood is leading the musculoskeletal health revolution — comprehensive self-care tools for a pain-free, active workforce. Contact us for a corporate wellness program.">
+  <section class="cw-hero bg-plum">
+    <div class="wrap cw-grid">
+      <div class="cw-copy">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Corporate wellness</span></nav>
+        <p class="eyebrow">Corporate wellness program</p>
+        <h1 class="h1">We are leading the <span class="hl-sun">musculoskeletal health revolution</span></h1>
+        <p class="lead">At betterhood™, we are at the forefront of transforming musculoskeletal health, offering comprehensive self-care tools to help lead a pain-free and active life.</p>
+        <ul class="cw-pillars">
+          {pillars.map((p) => <li><span><Icon name={p.icon} size={20} /></span><div><strong>{p.t}</strong><p>{p.d}</p></div></li>)}
+        </ul>
+        <p class="cw-direct"><a href={contact.phoneHref}><Icon name="phone" size={18} /> {contact.phone}</a><a href={`mailto:${contact.email}`}><Icon name="mail" size={18} /> {contact.email}</a></p>
+      </div>
+      <form class="cw-form card" data-bh-form="corporate-wellness" data-success="Thank you! Our corporate wellness team will contact you within 2 working days.">
+        <h2 class="h3">Get in touch with us</h2>
+        <p class="muted">Contact us for personalized support and solutions. We're here to assist with your needs.</p>
+        <div class="row">
+          <div class="field"><label for="cw-fn">First name *</label><input class="input" id="cw-fn" name="firstName" required autocomplete="given-name" /></div>
+          <div class="field"><label for="cw-ln">Last name</label><input class="input" id="cw-ln" name="lastName" autocomplete="family-name" /></div>
+        </div>
+        <div class="field"><label for="cw-em">Company email-ID *</label><input class="input" id="cw-em" name="email" type="email" required autocomplete="email" /></div>
+        <div class="field"><label for="cw-ph">Phone number *</label><input class="input" id="cw-ph" name="phone" type="tel" required pattern="[0-9+ ]{10,15}" autocomplete="tel" /></div>
+        <div class="row">
+          <div class="field"><label for="cw-co">Company name *</label><input class="input" id="cw-co" name="company" required autocomplete="organization" /></div>
+          <div class="field"><label for="cw-de">Designation</label><input class="input" id="cw-de" name="designation" autocomplete="organization-title" /></div>
+        </div>
+        <div class="field">
+          <label for="cw-n">Number of employees in your company *</label>
+          <select class="select" id="cw-n" name="employees" required>
+            <option value="">Select</option><option>1–50</option><option>51–200</option><option>201–1,000</option><option>1,001–5,000</option><option>5,000+</option>
+          </select>
+        </div>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+        <button class="btn btn-lg btn-block" type="submit">Request a callback <Icon name="arrow" class="arrow" /></button>
+        <p data-note hidden></p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cw-hero { padding: 32px 0 72px; position: relative; overflow: hidden; }
+  .cw-hero::before { content: ""; position: absolute; width: 700px; height: 700px; left: -260px; bottom: -380px; border-radius: 50%; background: radial-gradient(closest-side, rgba(155, 74, 140, 0.5), transparent); }
+  .cw-hero .breadcrumbs { color: rgba(255, 255, 255, 0.6); margin-bottom: 28px; }
+  .cw-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; position: relative; }
+  .cw-copy { display: grid; gap: 18px; }
+  .hl-sun { color: var(--sun-500); }
+  .cw-pillars { list-style: none; display: grid; gap: 14px; margin-top: 10px; }
+  .cw-pillars li { display: flex; gap: 14px; }
+  .cw-pillars span { flex: none; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: rgba(255, 181, 71, 0.15); color: var(--sun-500); }
+  .cw-pillars p { color: rgba(255, 255, 255, 0.7); font-size: 15px; }
+  .cw-direct { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 8px; }
+  .cw-direct a { display: inline-flex; gap: 8px; align-items: center; color: #fff; font-weight: 600; }
+  .cw-form { padding: clamp(22px, 4vw, 36px); display: grid; gap: 14px; color: var(--ink); box-shadow: var(--shadow-lg); }
+  .cw-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 900px) { .cw-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .cw-form .row { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,166 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import Faq from "../components/Faq.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { media, contact, socials } from "../lib/site";
+
+const up = (p: string) => media(`/wp-content/uploads/${p}`);
+const values = [
+  { t: "Science-Driven Solutions", d: "We adhere strictly to scientifically proven and tested methods, ensuring only effective, evidence-based health solutions.", img: "2024/10/Science-Driven-Solutions.webp" },
+  { t: "Holistic Wellness", d: "We focus on holistic solutions that address the root cause, promoting true well-being through interconnected care.", img: "2024/10/Holistic-Wellness.webp" },
+  { t: "Personalized Health Care", d: "Our approach tailors treatments and plans to meet the unique needs of each individual. Effectiveness is in personalization.", img: "2024/10/Personalized-Health-Care.webp" },
+  { t: "Empathy and Understanding", d: "We listen to our customers and continuously refine our products. We believe that improvement is an ongoing process.", img: "2024/10/Empathy-and-Understanding.webp" },
+];
+const faqs = [
+  { q: "How do I know whether betterhood™ is for me?", a: "betterhood™ is for anyone looking to improve health, prevent age-related decline, and enhance well-being. If you want science-backed, personalized care to age healthily, betterhood™ is a great fit. Remember, age-related decline can begin in your 30s, so it's crucial to incorporate preventive measures early." },
+  { q: "What health concerns does betterhood™ address?", a: "betterhood™ addresses a range of health concerns related to aging, including musculoskeletal health, posture, recovery, nutrition, fitness, and joint health, all through scientifically proven solutions." },
+  { q: "Where can I access betterhood™'s educative resources?", a: "betterhood™'s educative resources are available through the 'Learn' section hosted on our website, and on our Instagram and YouTube channels. These include articles, videos, expert webinars, and guides on topics related to healthy aging, fitness, and nutrition." },
+  { q: "Does betterhood™ offer only products?", a: "No, betterhood™ offers a holistic approach, including personalized health assessments, fitness plans, nutritional guidance, and educational resources. We offer both products and services aimed at improving your health span." },
+  { q: "How do I know whether betterhood™ recommendations are working?", a: "You can track progress through regular health assessments hosted in the 'betterYou corner' section hosted on our website. These health assessments help you track your key musculoskeletal health metrics like posture, strength, mobility, balance and overall well-being. We provide tools to monitor your health over time." },
+  { q: "How do betterhood™'s diagnostic assessments work?", a: "betterhood™'s diagnostic assessments provide a comprehensive evaluation of back, neck, shoulder, and knee pain through clinically designed questions. These questions help record symptoms for differential diagnosis. While the results are preliminary and may require further evaluation, they are typically sufficient to create personalized care plans and track progress." },
+  { q: "How do betterhood™ health assessments work?", a: "betterhood™'s health assessments combine physical tests and lifestyle evaluations to analyze your current health status. Physical tests assess range of motion and ease of movement to evaluate mobility, as well as hold durations in certain positions to assess balance and strength. Based on the results, we provide tailored recommendations and actionable steps to improve your well-being." },
+  { q: "What is the longevity goal-setting offered by betterhood™, and how does it work?", a: "betterhood™'s longevity goal-setting helps you set personalized health goals based on the life you envision in your 80s. Your desired lifestyle at that age determines the health and fitness levels to aim for now. You can set your health score targets based on your longevity goals and track your progress." },
+  { q: "What is the Centenarian Challenge?", a: "The Centenarian Challenge is an initiative by betterhood™ to encourage individuals to adopt healthy habits with the goal of living a vibrant, active life well into their 100s. It involves setting lifestyle goals based on longevity science to promote physical, mental, and emotional well-being." },
+];
+---
+<Base title="About Us" description="betterhood is building India's most comprehensive pain-care ecosystem — a holistic, age-tailored approach to healthspan, co-created with physiotherapists. Meet Neha & Vikram and the team.">
+  <section class="ab-hero">
+    <div class="wrap ab-hero-grid">
+      <div>
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>About us</span></nav>
+        <p class="eyebrow" style="margin-top:28px">Our story</p>
+        <h1 class="display">Why do we <span class="scribble">age?</span></h1>
+        <div class="ab-story">
+          <p class="lead">Are chronic pain and cognitive decline inevitable, or can we influence the aging process? We noticed these issues in our parents and saw signs of aging appearing in ourselves as early as in our 30s.</p>
+          <p>While research in longevity and physiotherapy offers solutions to extend healthspan, current practices often focus on treatment only after issues arise. We are building ‘betterhood' with the aim to fill this gap with a holistic, age-tailored approach, striving to become India's most comprehensive pain-care ecosystem.</p>
+          <p class="sig">— Neha & Vikram</p>
+        </div>
+      </div>
+      <div class="ab-photos">
+        <img class="p1" src={up("WhatsApp-Image-2026-09-22-at-10.40.43-PM.webp")} alt="Neha and Vikram, founders of betterhood" fetchpriority="high" />
+        <img class="p2" src={up("Team-Photo-from-Bulk-Resize-Photos.webp")} alt="The betterhood team" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="team">
+        <p class="eyebrow">Our team</p>
+        <p class="team-text">Our team is driven by a shared mission to help India age better and healthier. We are deeply concerned about how aging is viewed in our society and believe that many age-related issues can be addressed and managed through science. <span class="hl">Aging should be treated as a condition that can be improved, not just a natural decline.</span> This shift in perspective can only happen through open, positive conversations and a deeper understanding of our bodies. We are passionate about leading this change and empowering individuals to take control of their health as they age.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-plum">
+    <div class="wrap expert">
+      <img src={up("2025/07/1556541848567-2.webp")} alt="Shayamal Vallabhjee" loading="lazy" />
+      <div>
+        <p class="eyebrow">Our expert</p>
+        <h2 class="h2">Shayamal Vallabhjee</h2>
+        <p class="ex-role">Chief Science Officer, betterhood · Performance Psychologist | Sports Scientist</p>
+        <p class="soft">Shayamal Vallabhjee is a Performance Psychologist, Coach, and Sports Scientist with deep expertise in team dynamics and personality. With over 20 years of experience, he has worked with elite athletes, Fortune 500 executives, and championship teams, helping them optimise mindset, communication, and performance.</p>
+        <p class="soft">He serves as faculty at Stanford Business School's LEAD Program and advises leading sports tech brands and global organisations. Known for his powerful workshops and keynotes delivered across 1,000+ stages worldwide, Shayamal combines evidence-based sports science with cognitive behavioural science and spiritual insight to drive meaningful and lasting change.</p>
+        <a class="btn btn-sun" href="/learn/post-section-tags/expert-section/">Read his insights <Icon name="arrow" class="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">Values</p><h2 class="h2">The values that shape us</h2></div></div>
+      <div class="grid cols-4">
+        {values.map((v, i) => (
+          <article class="val card" data-reveal style={`--d:${i * 0.07}s`}>
+            <img src={up(v.img)} alt="" loading="lazy" />
+            <h3 class="h3">{v.t}</h3>
+            <p class="soft">{v.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white"><div class="wrap"><Faq items={faqs} /></div></section>
+
+  <section class="section" id="contact">
+    <div class="wrap ab-contact">
+      <div class="stack" style="--stack:18px">
+        <p class="eyebrow">Get in touch</p>
+        <h2 class="h2">We'd love to hear from you</h2>
+        <ul class="ci">
+          <li><Icon name="pin" /> <span>1st floor, SPD Plaza, Koramangala Industrial Layout, 5th Block, Koramangala, Bengaluru, Karnataka 560034</span></li>
+          <li><Icon name="mail" /> <a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+          <li><Icon name="phone" /> <a href={contact.phoneHref}>{contact.phone}</a></li>
+        </ul>
+        <ul class="soc">{socials.map((s) => <li><a href={s.href} target="_blank" rel="noopener" aria-label={s.name}><Icon name={s.icon} /></a></li>)}</ul>
+      </div>
+      <div class="card form-card"><ContactForm id="about" /></div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="griev">
+        <div>
+          <p class="eyebrow">Grievance redressal</p>
+          <h2 class="h3">Nodal Officer – Consumer Protection (E-commerce Rules), 2020</h2>
+          <p class="muted" style="margin-top:6px">Also Grievance Officer – Consumer Protection (E-commerce Rules), 2020 and Grievance Officer – Information Technology Rules, 2021</p>
+        </div>
+        <dl>
+          <div><dt>Name</dt><dd>Neha Zade</dd></div>
+          <div><dt>Designation</dt><dd>Director</dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:neha@betterhood.in">neha@betterhood.in</a></dd></div>
+          <div><dt>Phone</dt><dd><a href="tel:+919930532539">+91 9930532539</a></dd></div>
+        </dl>
+        <div class="reports">
+          <p class="f-t">Annual Reports – 2024-25</p>
+          <a class="chip" href={up("AGEBETTER-AC4475391-2025-MGT7A.pdf")} target="_blank" rel="noopener"><Icon name="book" size={16} /> MGT 7A</a>
+          <a class="chip" href={up("AGE-BETTER-1-26017658021_AOC-4-2025.pdf")} target="_blank" rel="noopener"><Icon name="book" size={16} /> AOC 4</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ab-hero { padding: 32px 0 64px; background: radial-gradient(60% 80% at 90% 10%, var(--sun-100), transparent 60%), linear-gradient(180deg, var(--plum-50), var(--cream)); overflow: hidden; }
+  .ab-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .ab-story { display: grid; gap: 16px; margin-top: 24px; max-width: 560px; color: var(--ink-soft); }
+  .sig { font: 600 22px var(--font-display); color: var(--plum-700); font-style: italic; }
+  .ab-photos { position: relative; min-height: 460px; }
+  .ab-photos img { position: absolute; border-radius: var(--r-xl); object-fit: cover; box-shadow: var(--shadow-lg); border: 6px solid #fff; }
+  .p1 { width: 66%; aspect-ratio: 4 / 5; right: 0; top: 0; transform: rotate(2.5deg); }
+  .p2 { width: 58%; aspect-ratio: 4 / 3; left: 0; bottom: 0; transform: rotate(-3deg); }
+  .team { max-width: 980px; margin-inline: auto; text-align: center; display: grid; gap: 18px; justify-items: center; }
+  .team .eyebrow::before { display: none; }
+  .team-text { font: 500 clamp(20px, 2.4vw, 28px)/1.45 var(--font-display); letter-spacing: -0.01em; }
+  .expert { display: grid; grid-template-columns: 340px 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .expert img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--r-xl); }
+  .expert > div { display: grid; gap: 14px; justify-items: start; }
+  .ex-role { color: var(--sun-500); font-weight: 600; }
+  .val { padding: 26px; display: grid; gap: 12px; align-content: start; }
+  .val img { width: 64px; height: 64px; object-fit: contain; }
+  .ab-contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
+  .ci { list-style: none; display: grid; gap: 14px; }
+  .ci li { display: flex; gap: 12px; align-items: flex-start; color: var(--ink-soft); }
+  .ci :global(svg) { flex: none; color: var(--plum-600); margin-top: 3px; }
+  .ci a:hover { color: var(--plum-700); }
+  .soc { list-style: none; display: flex; gap: 8px; }
+  .soc a { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--plum-100); color: var(--plum-700); transition: all 0.2s; }
+  .soc a:hover { background: var(--plum-700); color: #fff; }
+  .form-card { padding: clamp(22px, 4vw, 40px); }
+  .griev { display: grid; grid-template-columns: 1.2fr 1fr 0.8fr; gap: 32px; padding: clamp(24px, 4vw, 40px); border-radius: var(--r-xl); border: 1px solid var(--line); background: #fff; align-items: start; }
+  .griev dl { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0; }
+  .griev dt { font-size: 13px; color: var(--ink-mute); }
+  .griev dd { margin: 0; font-weight: 600; }
+  .griev a { color: var(--plum-700); }
+  .reports { display: flex; flex-wrap: wrap; gap: 8px; }
+  .f-t { width: 100%; font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); }
+  @media (max-width: 900px) {
+    .ab-hero-grid, .expert, .ab-contact, .griev { grid-template-columns: 1fr; }
+    .ab-photos { min-height: 380px; }
+    .expert img { max-width: 280px; }
+  }
+</style>

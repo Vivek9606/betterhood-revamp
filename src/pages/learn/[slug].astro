@@ -1,0 +1,211 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import PostCard from "../../components/PostCard.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import Newsletter from "../../components/Newsletter.astro";
+import { posts, relatedPosts, termName, formatDate, productsFor, isVideo, type Post } from "../../lib/data";
+import { prepareArticle } from "../../lib/html";
+import { media, areas } from "../../lib/site";
+
+export function getStaticPaths() {
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+const { post } = Astro.props as { post: Post };
+const { html, toc } = prepareArticle(post.html);
+const related = relatedPosts(post, 3);
+const area = areas.find((a) => post.concern.includes(a.concern));
+const picks = productsFor((area?.key as any) ?? "all", 2);
+const video = isVideo(post);
+const url = new URL(`/learn/${post.slug}/`, Astro.site).href;
+
+const terms = [
+  ...post.concern.map((s) => ({ tax: "by-health-concern", s })),
+  ...post.solution.map((s) => ({ tax: "by-solution", s })),
+  ...post.inside.map((s) => ({ tax: "by-what-inside", s })),
+  ...post.section.filter((s) => s !== "learn-page-banner").map((s) => ({ tax: "post-section-tags", s })),
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": video ? "VideoObject" : "BlogPosting",
+    headline: post.title,
+    name: post.title,
+    description: post.seo.description,
+    datePublished: post.date,
+    uploadDate: video ? post.date : undefined,
+    dateModified: post.modified,
+    image: post.image ? media(post.image.src) : undefined,
+    thumbnailUrl: video && post.videos[0] ? `https://i.ytimg.com/vi/${post.videos[0]}/hqdefault.jpg` : undefined,
+    embedUrl: video && post.videos[0] ? `https://www.youtube.com/embed/${post.videos[0]}` : undefined,
+    author: { "@type": post.author === "betterhood" ? "Organization" : "Person", name: post.author },
+    publisher: { "@type": "Organization", name: "betterhood", logo: { "@type": "ImageObject", url: "https://betterhood.in/img/logo.svg" } },
+    mainEntityOfPage: url,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://betterhood.in/" },
+      { "@type": "ListItem", position: 2, name: "Learn", item: "https://betterhood.in/learn/" },
+      { "@type": "ListItem", position: 3, name: post.title, item: url },
+    ],
+  },
+];
+const share = encodeURIComponent(`${post.title} ${url}`);
+---
+<Base title={post.seo.title || post.title} description={post.seo.description} image={post.image?.src} type="article" published={post.date} modified={post.modified} jsonLd={jsonLd}>
+  <article>
+    <section class="a-top">
+    <header class="a-head">
+      <div class="wrap">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a><span aria-hidden="true">/</span><a href="/learn/">Learn</a>
+          {post.concern[0] && <><span aria-hidden="true">/</span><a href={`/learn/by-health-concern/${post.concern[0]}/`}>{termName("by-health-concern", post.concern[0])}</a></>}
+        </nav>
+        <div class="a-title">
+          <div class="a-terms">
+            {video && <span class="badge badge-sun"><Icon name="video" size={14} /> Video</span>}
+            {terms.slice(0, 3).map((t) => <a class="badge badge-plum" href={`/learn/${t.tax}/${t.s}/`}>{termName(t.tax, t.s)}</a>)}
+          </div>
+          <h1 class="h1">{post.title}</h1>
+          <div class="a-meta">
+            <span class="a-author"><span class="av">{post.author[0].toUpperCase()}</span> By <strong>{post.author}</strong></span>
+            <span><Icon name="calendar" size={16} /> {formatDate(post.date)}</span>
+            {!video && <span><Icon name="clock" size={16} /> {post.minutes} min read</span>}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="wrap a-fig">
+      {post.videos.length > 0 ? (
+        <div class="a-video">
+          <iframe src={`https://www.youtube-nocookie.com/embed/${post.videos[0]}?rel=0`} title={post.title} loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      ) : post.image && (
+        <figure class="a-hero">
+          <img src={media(post.image.src)} alt={post.image.alt} width={post.image.w || 1200} height={post.image.h || 675} fetchpriority="high" />
+        </figure>
+      )}
+    </div>
+    </section>
+
+    <div class="wrap">
+      <div class="a-grid">
+        <aside class="a-side a-left">
+          {toc.length > 2 && (
+            <nav class="toc" aria-label="In this article">
+              <p class="toc-t">In this article</p>
+              <ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.text}</a></li>)}</ol>
+            </nav>
+          )}
+          <div class="share">
+            <p class="toc-t">Share</p>
+            <a href={`https://wa.me/?text=${share}`} target="_blank" rel="noopener" aria-label="Share on WhatsApp"><Icon name="whatsapp" /></a>
+            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Share on LinkedIn"><Icon name="linkedin" /></a>
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Share on Facebook"><Icon name="facebook" /></a>
+            <button data-copy={url} aria-label="Copy link"><Icon name="copy" /></button>
+          </div>
+        </aside>
+
+        <div class="a-body">
+          {html.trim() ? <div class="prose" set:html={html} /> : <p class="lead">{post.excerpt}</p>}
+          {post.videos.slice(1).map((v) => (
+            <div class="a-video sm"><iframe src={`https://www.youtube-nocookie.com/embed/${v}?rel=0`} title={post.title} loading="lazy" allowfullscreen></iframe></div>
+          ))}
+          <div class="a-tags">
+            {terms.map((t) => <a class="chip" href={`/learn/${t.tax}/${t.s}/`}>{termName(t.tax, t.s)}</a>)}
+          </div>
+          <p class="disclaimer"><Icon name="shield" size={18} /> This article is for education and awareness. It isn't a diagnosis — please consult a qualified physiotherapist or doctor for persistent or severe pain.</p>
+        </div>
+
+        <aside class="a-side a-right">
+          <div class="side-cta">
+            <span class="side-ic"><Icon name="clipboard" size={22} /></span>
+            <p class="h3">{area ? `Is it really just ${area.name.toLowerCase()} strain?` : "Not sure what's causing your pain?"}</p>
+            <p class="soft">Take the free, physio-designed {area ? area.label.toLowerCase() : "pain"} assessment. 5 minutes.</p>
+            <a class="btn btn-sm btn-block" href={area?.assessment ?? "/quiz-landing-page/"}>Start assessment <Icon name="arrow" class="arrow" /></a>
+          </div>
+          <div class="side-prods">
+            <p class="toc-t">Physio-picked for you</p>
+            {picks.map((p) => <ProductCard product={p} />)}
+          </div>
+        </aside>
+      </div>
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="section bg-white">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">Keep reading</p><h2 class="h2">Related articles</h2></div>
+          <a class="link" href="/learn/">All articles <Icon name="arrow" /></a>
+        </div>
+        <div class="grid cols-3">{related.map((p) => <PostCard post={p} />)}</div>
+      </div>
+    </section>
+  )}
+  <Newsletter />
+</Base>
+
+<style>
+  .a-top { gap: 22px; }
+  .a-head { padding: 0; }
+  .a-fig { flex: 1 1 0; min-height: 0; display: flex; }
+  .a-fig > * { flex: 1; }
+  .a-title { max-width: 980px; margin-top: 18px; display: grid; gap: 14px; }
+  .a-title .h1 { font-size: clamp(32px, 4.2vw, 62px); }
+  .a-terms { display: flex; flex-wrap: wrap; gap: 8px; }
+  .a-meta { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; color: var(--ink-soft); font-size: 15px; }
+  .a-meta > span { display: inline-flex; align-items: center; gap: 6px; }
+  .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--plum-700); color: #fff; font: 700 13px var(--font-display); }
+  .a-hero { margin: 0; border-radius: var(--r-xl); overflow: hidden; background: var(--plum-100); min-height: 240px; position: relative; }
+  .a-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .a-video { aspect-ratio: 16 / 9; border-radius: var(--r-xl); overflow: hidden; background: #000; max-width: 1000px; margin-inline: auto; }
+  .a-fig .a-video { flex: 0 1 auto; height: 100%; max-height: 100%; width: auto; min-height: 220px; }
+  .a-video.sm { border-radius: var(--r-md); margin-top: 24px; }
+  .a-video iframe { width: 100%; height: 100%; border: 0; }
+  .a-grid { display: grid; grid-template-columns: 220px minmax(0, 720px) 280px; gap: 48px; justify-content: center; padding: 48px 0 80px; }
+  .a-side { position: sticky; top: calc(var(--header-h) + 24px); align-self: start; display: grid; gap: 28px; }
+  .toc-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 12px; }
+  .toc ol { list-style: none; display: grid; gap: 2px; border-left: 2px solid var(--line); max-height: 52vh; overflow-y: auto; }
+  .toc a { display: block; padding: 6px 0 6px 14px; margin-left: -2px; border-left: 2px solid transparent; font-size: 14px; line-height: 1.4; color: var(--ink-soft); transition: all 0.2s; }
+  .toc a:hover, .toc a.on { color: var(--plum-700); border-color: var(--plum-700); }
+  .share { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .share .toc-t { width: 100%; margin-bottom: 4px; }
+  .share a, .share button { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); background: var(--white); color: var(--plum-700); transition: all 0.2s; }
+  .share a:hover, .share button:hover { background: var(--plum-700); color: #fff; }
+  .side-cta { padding: 24px; border-radius: var(--r-lg); background: var(--plum-900); color: #fff; display: grid; gap: 10px; }
+  .side-cta .h3 { font-size: 20px; }
+  .side-cta .soft { color: rgba(255, 255, 255, 0.75); font-size: 14.5px; margin-bottom: 6px; }
+  .side-cta .btn { --b-bg: var(--sun-500); --b-bd: var(--sun-500); --b-fg: var(--plum-950); }
+  .side-ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: rgba(255, 255, 255, 0.1); color: var(--sun-500); }
+  .side-prods { display: grid; gap: 14px; }
+  .a-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .disclaimer { display: flex; gap: 10px; margin-top: 24px; padding: 16px 18px; border-radius: var(--r-md); background: var(--plum-50); font-size: 14px; color: var(--ink-soft); }
+  .disclaimer :global(svg) { flex: none; color: var(--plum-500); }
+  @media (max-width: 1200px) { .a-grid { grid-template-columns: minmax(0, 720px) 280px; } .a-left { display: none; } }
+  @media (max-width: 900px) { .a-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-top: 32px; } .a-right { position: static; } .side-prods { grid-template-columns: 1fr 1fr; } .side-prods .toc-t { grid-column: 1 / -1; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((b) =>
+    b.addEventListener("click", async () => {
+      await navigator.clipboard?.writeText(b.dataset.copy!);
+      b.style.background = "var(--mint-600)"; b.style.color = "#fff";
+      setTimeout(() => { b.style.background = ""; b.style.color = ""; }, 1400);
+    }),
+  );
+  // highlight the TOC entry for the section being read
+  const links = [...document.querySelectorAll<HTMLAnchorElement>(".toc a")];
+  if (links.length) {
+    const map = new Map(links.map((a) => [a.hash.slice(1), a]));
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { links.forEach((l) => l.classList.remove("on")); map.get(e.target.id)?.classList.add("on"); }
+    }), { rootMargin: "-20% 0px -70% 0px" });
+    map.forEach((_, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+  }
+</script>

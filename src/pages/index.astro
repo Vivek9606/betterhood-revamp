@@ -1,0 +1,96 @@
+---
+// Homepage: the betterhood story, told in nine scroll-driven chapters.
+import Base from "../layouts/Base.astro";
+import PostCard from "../components/PostCard.astro";
+import Icon from "../components/Icon.astro";
+import Hero from "../components/story/Hero.tsx";
+import Decades from "../components/story/Decades.tsx";
+import Origin from "../components/story/Origin.tsx";
+import Process from "../components/story/Process.tsx";
+import PainMap from "../components/story/PainMap.tsx";
+import UseCases from "../components/story/UseCases.tsx";
+import Proof from "../components/story/Proof.tsx";
+import Physios from "../components/story/Physios.tsx";
+import Bestsellers from "../components/story/Bestsellers.tsx";
+import Finale from "../components/story/Finale.tsx";
+import "../styles/story.css";
+import { media, SHOP, PRODUCT_BASE, shopAll, shopByUseCase, areas } from "../lib/site";
+import { products, posts } from "../lib/data";
+
+const up = (f: string) => media(`/wp-content/uploads/${f}`);
+const c = (s: string) => `${SHOP}/collections/${s}`;
+
+const steps = [
+  { n: "01", title: "We start with real pain.", text: "We spent time in physiotherapy clinics studying real patients and real pain patterns. Every product begins with clinical insight — not market trends.", img: up("Group-37033.webp"), tone: "cream" as const },
+  { n: "02", title: "Physios observe before we design.", text: "Our physio partners observe real patient patterns before design begins.", img: up("1.webp"), tone: "lilac" as const },
+  { n: "03", title: "Every prototype is clinically tested.", text: "They push every prototype through real-world clinical testing.", img: up("30.webp"), tone: "sun" as const },
+  { n: "04", title: "We design for everyday use.", text: "Recovery works when you stick with it. That's why we obsess over breathable fabrics, ZeroBulk designs, all-day comfort, and fresh-smelling pain relief that fits seamlessly into your lifestyle.", img: up("excercise.webp"), tone: "mint" as const },
+  { n: "05", title: "Reviewed before it reaches you.", text: "Every product undergoes physiotherapist review before launch.", img: up("20.webp"), tone: "plum" as const },
+];
+
+const spots = [
+  { id: "neck", x: 50, y: 17, name: "Neck pain & tech neck", short: "Neck", line: "Stiffness from screens, pillows and long commutes.", shop: c("neck-pain"), learn: "neck-pain", assess: "/assessment-neck-pain-level-1/" },
+  { id: "shoulder", x: 34, y: 21.5, name: "Frozen shoulder", short: "Shoulder", line: "Pain and stiffness that limits reaching and lifting.", shop: c("shoulder-neck"), learn: "shoulder-pain", assess: "/assessment-shoulder-pain-level-1/" },
+  { id: "back", x: 50, y: 40, name: "Back pain & slip disc", short: "Back", line: "Lower back aches from sitting, lifting and driving.", shop: c("back-pain"), learn: "back-pain", assess: "/assessment-lower-back-pain/" },
+  { id: "elbow", x: 78, y: 31, name: "Tennis elbow", short: "Elbow", line: "Outer-elbow pain from gripping, typing and racquet sports.", shop: c("tennis-elbow-relief"), learn: "joint-pain" },
+  { id: "wrist", x: 16.5, y: 43, name: "Carpal tunnel & wrist strain", short: "Wrist", line: "Tingling, numbness and wrist pain from repetitive work.", shop: c("carpal-tunnel-relief"), learn: "joint-pain" },
+  { id: "hip", x: 58, y: 50, name: "Sciatica", short: "Sciatica", line: "Shooting pain from the lower back down the leg.", shop: c("sciatica"), learn: "back-pain", assess: "/assessment-lower-back-pain/" },
+  { id: "knee", x: 42, y: 70, name: "Knee pain", short: "Knee", line: "Aches on stairs, squats and long walks.", shop: c("knee-pain"), learn: "knee-pain", assess: "/assessment-knee-pain-level-1/" },
+  { id: "feet", x: 60, y: 93, name: "Feet & heel pain", short: "Feet", line: "Flat feet and heel pain that throw off your whole posture.", shop: c("insoles"), learn: "feet-pain" },
+];
+const tiles = [
+  ["2-1.webp", "back-pain", "Back pain"], ["10.webp", "neck-pain", "Neck pain"], ["7.webp", "knee-pain", "Knee pain"],
+  ["3-1.webp", "sciatica", "Sciatica"], ["6.webp", "shoulder-neck", "Frozen shoulder"], ["4.webp", "slip-disc", "Slip disc"],
+  ["5.webp", "spondylosis", "Spondylosis"], ["8.webp", "carpal-tunnel-relief", "Carpal tunnel"], ["9.webp", "tennis-elbow-relief", "Tennis elbow"],
+].map(([img, slug, label]) => ({ img: up(img), href: c(slug), label: `${label} relief kit` }));
+const useImgs = ["2-2.webp", "4-1.webp", "3-2.webp", "1-1.webp", "5-1.webp"];
+const uses = shopByUseCase.map((u, i) => ({ img: up(useImgs[i]), label: u.label, href: u.href }));
+const reels = [
+  ["uBMxwhtdO3w", "Wrist", "1:42"], ["DaXDDTRTDn4", "Wrist", "0:58"], ["gPuS1GkdEUI", "Ankle", "2:10"], ["Ff0Mg2aDfKs", "Ankle", "1:14"],
+  ["KPhvVNI2PGE", "Wrist", ""], ["ryhyeC5Dm-U", "Roll-on", ""], ["f64jSLOFYew", "Roll-on", ""], ["Ef59y_qUbog", "LS Belt", ""],
+  ["V-eY4nkIY2M", "LS Belt", ""], ["lWV-x-gxJyU", "Car", ""], ["u4AzdyHdYno", "Car", ""],
+].map(([id, tag, len]) => ({ id, tag, len }));
+const press = [
+  "The_Economic_Times_logo-1.webp", "YourStory-Logo-Vector-2.svg", "02-entrackr-300h.webp", "03-bw-disrupt-300h.webp", "05-inshorts-300h.webp",
+  "07-deccan-founders-300h.webp", "08-scoopearth-300h.webp", "09-indian-startup-times-300h.webp", "10-entrepreneur-300h.webp", "12-indianweb2-300h.webp",
+  "14-business-review-live-300h.webp", "18-startuptalky-300h.webp",
+].map((f) => ({ src: up(f), alt: f.replace(/(-?\d+-?|-300h|_logo|-Logo-Vector|\.\w+$)/g, " ").replace(/[-_]/g, " ").trim() }));
+const physios = [
+  { name: "Dr. Shubham Kamble (PT)", role: "Founder, Dr. K's Clinic, MPT (Neurology), MS Chiropractic (Sweden)", img: up("Dr.-Shubham-Kamble.webp") },
+  { name: "Dr. Priyanka Gore (PT)", role: "Founder, IN-Motion REHAB", img: up("Dr.-Priyanka-Gore.webp") },
+  { name: "Dr. Paridhi Ojha (PT)", role: "Founder, Enkinetik Performance Clinic, BPTh/BPT, MPTh/MPT - Sports Physiotherapy", img: up("Dr.-Paridhi-Ojha.webp") },
+  { name: "Dr. Shruti Kamble (PT)", role: "BPTh/BPT, MPTH/MPT - Neurological Physiotherapy", img: up("Dr.-Shruti-Kamble.webp") },
+  { name: "Dr. Ruchika Bhargava (PT)", role: "Founder, Therapywise Clinic, BPTh/BPT", img: up("Dr.-Ruchika-Bhargava.webp") },
+  { name: "Dr. Kanchan Bharadwaj (PT)", role: "Founder, Pacific Physiotherapy & Pain Clinic, M.P.T", img: up("Dr.-Kanchan-Bharadwaj.webp") },
+];
+const best = products.filter((p) => p.rating).slice(0, 12).map(({ handle, title, price, compare, image, image2, rating, reviews }) => ({ handle, title, price, compare, image, image2, rating, reviews }));
+const finaleAreas = areas.map((a) => ({ key: a.key, label: a.label, stat: a.stat, href: a.assessment }));
+const latest = posts.filter((p) => p.image).slice(0, 3);
+---
+<Base title="betterhood — Physio trusted pain care for everyday movement" description="Physio co-created supports and recovery essentials, free pain assessments, certified physiotherapists and 1000+ expert articles. To move better, recover better and stay active for longer.">
+  <Hero client:load image={up("Home-page-banner-30july-02-02.webp")} />
+  <Decades client:visible />
+  <Origin client:visible founders={up("WhatsApp-Image-2026-09-22-at-10.40.43-PM.webp")} team={up("Team-Photo-from-Bulk-Resize-Photos.webp")} />
+  <Process client:visible steps={steps} />
+  <PainMap client:visible spots={spots} tiles={tiles} />
+  <UseCases client:visible items={uses} all={c("use-case")} />
+  <Proof client:visible reels={reels} press={press} />
+  <Physios client:visible physios={physios} />
+  <Bestsellers client:visible products={best} base={PRODUCT_BASE} all={shopAll} />
+  <Finale client:visible areas={finaleAreas} />
+
+  <section class="st-learn">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <div>
+          <p class="st-kicker"><span>10</span> Keep learning</p>
+          <h2 class="st-h2">Learn what your body <em>is telling you.</em></h2>
+        </div>
+        <a class="st-link" href="/learn/">Explore 750+ articles <Icon name="arrow" size={16} /></a>
+      </div>
+      <div class="grid cols-3" data-stagger>
+        {latest.map((p) => <PostCard post={p} />)}
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,597 @@
+---
+// Enhanced physio profile: gallery, videos, structured "conditions / services / patients" from the about
+// text, FAQ and a full schema.org graph. Used for physios that have an entry in src/data/physio-media.json.
+import Base from "../layouts/Base.astro";
+import Icon from "./Icon.astro";
+import Faq from "./Faq.astro";
+import PhysioCard from "./PhysioCard.astro";
+import type { Physio } from "../lib/data";
+import { media, contact } from "../lib/site";
+
+interface Photo { src: string; alt: string; caption?: string }
+interface Video { id: string; title: string; duration?: string; uploadDate?: string; description?: string }
+interface Props {
+  physio: Physio;
+  media: { photos: Photo[]; videos: Video[] };
+  cityName: string;
+  nearby: Physio[];
+  topAreas: { slug: string; name: string }[];
+  topCities: { slug: string; name: string }[];
+}
+const { physio: p, media: gallery, cityName, nearby, topAreas, topCities } = Astro.props;
+
+const site = Astro.site!;
+const url = new URL(`/physio/${p.slug}/`, site).href;
+const abs = (src: string) => new URL(media(src), site).href;
+const text = (html: string) => html.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+const firstName = p.name.replace(/^Dr\.?\s*/i, "").split(/\s+/)[0];
+const initials = p.name.replace(/^Dr\.?\s*/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("");
+
+// The about field is free-form HTML: intro paragraphs, then "<h2>Heading</h2><ul>…</ul>" blocks.
+const [introHtml, ...rest] = (p.about || "").split(/<hr\s*\/?>|(?=<h2)/i);
+const intro = [...introHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)].map((m) => text(m[1])).filter(Boolean);
+const sections = Object.fromEntries(
+  rest.map((chunk) => {
+    const h = chunk.match(/<h2[^>]*>([\s\S]*?)<\/h2>/i);
+    const items = [...chunk.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)].map((m) => text(m[1])).filter(Boolean);
+    return [h ? text(h[1]).toLowerCase() : "", items];
+  }).filter(([k, items]) => k && items.length),
+) as Record<string, string[]>;
+const conditions = sections["primary treatment areas"] ?? p.specializations.slice(0, 8);
+const patients = sections["patient categories"] ?? [];
+const services = sections["services offered"] ?? [];
+
+const role = (() => {
+  const field = p.degree.split(" - ")[1]?.replace(/Neurological/i, "Neuro").replace(/Physiotherapy/i, "").trim();
+  return field ? `${field} Physiotherapist` : "Physiotherapist";
+})();
+const place = p.location || p.address || p.place;
+const fee = p.fee && /^\d+$/.test(p.fee) ? `₹${(+p.fee).toLocaleString("en-IN")}` : p.fee;
+const reg = p.practice.find((x) => /registration number/i.test(x.label))?.value;
+const council = p.practice.find((x) => /registration council/i.test(x.label))?.value;
+const awards = [...new Set(p.awards)];
+const degrees = p.education.map((e) => e.degree).join(", ");
+const modeIcon: Record<string, string> = { "Clinic Visit": "hospital", "Home Visit": "home", "Video Consultation": "video", "Hospital Visit": "building" };
+const modeNote: Record<string, string> = {
+  "Home Visit": `${firstName} comes to you — ideal after surgery, a stroke or when travel is hard.`,
+  "Video Consultation": "Assessment and guided exercise sessions from home, anywhere in India.",
+  "Clinic Visit": "Hands-on treatment with equipment at the clinic.",
+  "Hospital Visit": "Bedside rehabilitation during a hospital stay.",
+};
+const condIcon = (c: string) =>
+  /stroke|guillain|gbs|neuro/i.test(c) ? "nerve" : /spinal|spine/i.test(c) ? "spine" : /parkinson/i.test(c) ? "activity"
+  : /surgery|surgical/i.test(c) ? "stethoscope" : /muscle|strength/i.test(c) ? "dumbbell" : /mobility/i.test(c) ? "posture" : "check-circle";
+
+const book = `https://api.whatsapp.com/send?phone=917483305929&text=${encodeURIComponent(`Hi betterhood, I'd like to book a session with ${p.name} (${url})`)}`;
+const share = `https://wa.me/?text=${encodeURIComponent(`${p.name}, ${role} in ${cityName} — ${url}`)}`;
+// lead with named conditions (what people search for), not generic ones like "Muscle Recovery"
+const condShort = conditions.filter((c) => !/conditions$|after surgery|recovery|mobility/i.test(c)).slice(0, 4).join(", ").replace(/Guillain-Barré Syndrome \(GBS\)/, "GBS").replace(/Spinal Cord Injury \(SCI\)/, "spinal cord injury");
+
+const title = `${p.name} – ${role} in ${cityName} | betterhood`;
+const description = `${p.name} (${p.education[0]?.degree || p.degree}) is a ${role.toLowerCase()} in ${cityName} for ${condShort} rehab. ${p.modes.join(" & ")}${fee ? ` from ${fee}` : ""}.`;
+
+const faqs = [
+  { q: `What conditions does ${p.name} treat?`, a: `${p.name} treats ${conditions.join(", ")}. As a ${role.toLowerCase()}, ${firstName}'s focus is restoring mobility, strength and independence in daily activities.` },
+  p.modes.length > 0 && { q: `Does ${p.name} offer home visits or online physiotherapy?`, a: `Yes. ${p.name} offers ${p.modes.join(" and ").toLowerCase()}${place ? ` in and around ${place}` : ""}. Video sessions can be taken from anywhere.` },
+  fee && { q: `What is the consultation fee of ${p.name}?`, a: `The consultation fee is ${fee} per session. Message betterhood on WhatsApp to confirm availability and book a slot.` },
+  reg && { q: `Is ${p.name} a registered physiotherapist?`, a: `Yes. ${p.name} is registered with ${council || "the state physiotherapy council"} (registration no. ${reg}) and is a betterhood certified physiotherapist.` },
+  { q: `What are ${p.name}'s qualifications?`, a: `${p.education.map((e) => `${e.degree} from ${e.institute}`).join("; ")}.${p.certifications.length ? ` Additional certifications include ${p.certifications.slice(0, 5).join(", ")}.` : ""}` },
+  patients.length > 0 && { q: `Who can consult ${p.name}?`, a: `${firstName} regularly works with ${patients.join(", ").toLowerCase()}.` },
+].filter(Boolean) as { q: string; a: string }[];
+
+const breadcrumbs = [
+  { name: "Home", url: new URL("/", site).href },
+  { name: "Physio Directory", url: new URL("/physio-directory/", site).href },
+  ...(p.city ? [{ name: `Physiotherapists in ${cityName}`, url: new URL(`/learn/physio-city/${p.city}/`, site).href }] : []),
+  { name: p.name, url },
+];
+const personId = `${url}#person`;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "ProfilePage", "@id": `${url}#page`, url, name: title, description, inLanguage: "en-IN", dateModified: p.date, mainEntity: { "@id": personId }, breadcrumb: { "@id": `${url}#breadcrumb` } },
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: p.name,
+      honorificPrefix: "Dr.",
+      jobTitle: role,
+      description: intro[0] || description,
+      image: p.image ? abs(p.image) : undefined,
+      url,
+      knowsAbout: [...new Set([...conditions, ...p.specializations])],
+      hasCredential: [
+        ...p.education.map((e) => ({ "@type": "EducationalOccupationalCredential", credentialCategory: "degree", name: e.degree, recognizedBy: { "@type": "EducationalOrganization", name: e.institute } })),
+        ...p.certifications.map((c) => ({ "@type": "EducationalOccupationalCredential", credentialCategory: "certificate", name: c })),
+        ...(reg ? [{ "@type": "EducationalOccupationalCredential", credentialCategory: "license", name: `Physiotherapy registration ${reg}`, recognizedBy: council ? { "@type": "Organization", name: council } : undefined }] : []),
+      ],
+      alumniOf: p.education.map((e) => ({ "@type": "EducationalOrganization", name: e.institute })),
+      award: awards,
+      worksFor: { "@id": `${url}#practice` },
+      memberOf: { "@type": "Organization", name: "betterhood certified physiotherapists", url: new URL("/physio-directory/", site).href },
+    },
+    {
+      "@type": "Physiotherapy",
+      "@id": `${url}#practice`,
+      name: `${p.name} – ${role}`,
+      url,
+      image: p.image ? abs(p.image) : undefined,
+      priceRange: fee || undefined,
+      address: { "@type": "PostalAddress", addressLocality: cityName, addressRegion: p.state ? p.state.replace(/^\w/, (c) => c.toUpperCase()) : undefined, addressCountry: "IN" },
+      areaServed: { "@type": "City", name: cityName },
+      availableService: [...new Set([...services, ...conditions])].map((s) => ({ "@type": "MedicalTherapy", name: s })),
+      employee: { "@id": personId },
+    },
+    { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, itemListElement: breadcrumbs.map((b, i) => ({ "@type": "ListItem", position: i + 1, name: b.name, item: b.url })) },
+    ...(gallery.photos.length ? [{ "@type": "ImageGallery", name: `${p.name} – photos`, about: { "@id": personId }, image: gallery.photos.map((g) => ({ "@type": "ImageObject", contentUrl: abs(g.src), caption: g.caption || g.alt, name: g.alt })) }] : []),
+    ...gallery.videos.map((v) => ({
+      "@type": "VideoObject",
+      name: v.title,
+      description: v.description || v.title,
+      thumbnailUrl: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`,
+      uploadDate: v.uploadDate,
+      duration: v.duration,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${v.id}`,
+      contentUrl: `https://www.youtube.com/watch?v=${v.id}`,
+    })),
+  ],
+};
+const fmtDur = (d = "") => { const m = d.match(/PT(?:(\d+)M)?(?:(\d+)S)?/); return m ? `${m[1] || 0}:${(m[2] || "0").padStart(2, "0")}` : ""; };
+const tabs = [
+  ["overview", "Overview"], ["conditions", "Conditions"], ["services", "Services"],
+  gallery.photos.length && ["gallery", "Gallery"], gallery.videos.length && ["videos", "Videos"],
+  ["credentials", "Credentials"], ["location", "Fees & location"], ["faq", "FAQ"],
+].filter(Boolean) as [string, string][];
+---
+<Base title={title} description={description} image={p.image || undefined} type="profile" jsonLd={jsonLd} modified={p.date}>
+  <section class="pp-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        {breadcrumbs.map((b, i) => i < breadcrumbs.length - 1
+          ? <><a href={new URL(b.url).pathname}>{b.name}</a><span aria-hidden="true">/</span></>
+          : <span aria-current="page">{b.name}</span>)}
+      </nav>
+
+      <div class="pp-head">
+        <div class="pp-intro">
+          <p class="pp-eyebrow"><Icon name="verified" size={16} /> betterhood certified{reg && <> · Reg. {reg.split(" - ")[0]}</>}</p>
+          <h1 class="pp-name" data-no-split>{p.name}<span>{role} in {cityName}</span></h1>
+          <p class="pp-lede">{p.degree}{p.years > 0 && <> · {p.years}+ years helping patients recover from {condShort.toLowerCase()}.</>}</p>
+
+          <dl class="pp-stats">
+            {p.years > 0 && <div><dt>Experience</dt><dd>{p.years}+ yrs</dd></div>}
+            {fee && <div><dt>Session fee</dt><dd>{fee}</dd></div>}
+            <div><dt>Specialities</dt><dd>{p.specializations.length}</dd></div>
+            {p.certifications.length > 0 && <div><dt>Certifications</dt><dd>{p.certifications.length}</dd></div>}
+          </dl>
+
+          {p.modes.length > 0 && (
+            <ul class="pp-modes" aria-label="Consultation modes">
+              {p.modes.map((m) => <li><Icon name={modeIcon[m] ?? "stethoscope"} size={17} /> {m}</li>)}
+            </ul>
+          )}
+
+          <div class="pp-cta">
+            <a class="btn btn-lg" href={book} target="_blank" rel="noopener"><Icon name="whatsapp" /> Book a session</a>
+            {gallery.videos.length > 0 && <a class="btn btn-ghost btn-lg" href="#videos"><Icon name="play" size={16} /> Watch videos</a>}
+            <a class="pp-round" href={share} target="_blank" rel="noopener" aria-label="Share on WhatsApp"><Icon name="share" /></a>
+            <button class="pp-round" data-copy={url} aria-label="Copy profile link"><Icon name="copy" /></button>
+          </div>
+        </div>
+
+        <figure class="pp-portrait">
+          <div class="pp-portrait-img">
+            {p.image ? <img src={media(p.image)} alt={`${p.name}, ${role.toLowerCase()} in ${cityName}`} width="440" height="520" fetchpriority="high" /> : <span class="pp-ph">{initials}</span>}
+          </div>
+          <figcaption class="pp-float pp-float-a"><Icon name="check-circle" size={18} /> Registered with {council?.split(" (")[0] || "state council"}</figcaption>
+          {awards[0] && <figcaption class="pp-float pp-float-b"><Icon name="award" size={18} /> {awards[0].split(" – ")[0]}</figcaption>}
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <nav class="pp-tabs" aria-label="On this page">
+    <div class="wrap"><ul>{tabs.map(([id, label]) => <li><a href={`#${id}`} data-tab={id}>{label}</a></li>)}</ul></div>
+  </nav>
+
+  <div class="wrap pp-body">
+    <div class="pp-main">
+      <section id="overview" class="pp-sec">
+        <p class="eyebrow">About</p>
+        <h2 class="h3">About {p.name}</h2>
+        <div class="pp-prose">{intro.map((t) => <p>{t}</p>)}</div>
+        {patients.length > 0 && (
+          <div class="pp-who">
+            <h3>Who {firstName} helps</h3>
+            <ul>{patients.map((x) => <li><Icon name="users" size={16} /> {x}</li>)}</ul>
+          </div>
+        )}
+      </section>
+
+      <section id="conditions" class="pp-sec">
+        <p class="eyebrow">Conditions treated</p>
+        <h2 class="h3">Conditions {p.name} treats</h2>
+        <ul class="pp-conds" data-stagger>
+          {conditions.map((c) => <li><span><Icon name={condIcon(c)} size={22} /></span>{c}</li>)}
+        </ul>
+      </section>
+
+      <section id="services" class="pp-sec">
+        <p class="eyebrow">Services</p>
+        <h2 class="h3">Physiotherapy services{cityName ? ` in ${cityName}` : ""}</h2>
+        {p.modes.length > 0 && (
+          <div class="pp-modecards">
+            {p.modes.map((m) => (
+              <div><span class="pp-mi"><Icon name={modeIcon[m] ?? "stethoscope"} size={22} /></span><h3>{m}</h3><p>{modeNote[m] ?? ""}</p></div>
+            ))}
+          </div>
+        )}
+        {services.length > 0 && <ul class="pp-checks">{services.map((s) => <li><Icon name="check" size={18} /> {s}</li>)}</ul>}
+
+        <h3 class="pp-sub">Techniques & specialisations</h3>
+        <ul class="pp-chips" data-chips>
+          {p.specializations.map((s, i) => <li class={i >= 10 ? "is-more" : undefined}>{s}</li>)}
+        </ul>
+        {p.specializations.length > 10 && <button class="pp-more" data-more>Show all {p.specializations.length} <Icon name="chevron" size={16} /></button>}
+      </section>
+
+      {gallery.photos.length > 0 && (
+        <section id="gallery" class="pp-sec">
+          <p class="eyebrow">Gallery</p>
+          <h2 class="h3">Inside {firstName}'s practice</h2>
+          <ul class="pp-gallery">
+            {gallery.photos.map((g, i) => (
+              <li>
+                <button data-lb={i} aria-label={`Open photo: ${g.caption || g.alt}`}>
+                  <img src={media(g.src)} alt={g.alt} loading="lazy" decoding="async" width="600" height="450" />
+                  {g.caption && <span>{g.caption}</span>}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {gallery.videos.length > 0 && (
+        <section id="videos" class="pp-sec">
+          <p class="eyebrow">Videos</p>
+          <h2 class="h3">Watch & learn with {firstName}</h2>
+          <ul class="pp-videos">
+            {gallery.videos.map((v) => (
+              <li>
+                <div class="pp-vid" data-yt={v.id} data-title={v.title}>
+                  <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
+                  <button aria-label={`Play video: ${v.title}`}><Icon name="play" size={26} /></button>
+                  {v.duration && <span class="pp-dur">{fmtDur(v.duration)}</span>}
+                </div>
+                <h3>{v.title}</h3>
+                {v.description && <p>{v.description}</p>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section id="credentials" class="pp-sec">
+        <p class="eyebrow">Credentials</p>
+        <h2 class="h3">Education, certifications & awards</h2>
+        <div class="pp-cred">
+          <div>
+            <h3 class="pp-sub">Education</h3>
+            <ol class="pp-tl">
+              {p.education.map((e) => <li><strong>{e.degree}</strong><span>{e.institute}</span>{e.year && <em>{e.year}</em>}</li>)}
+            </ol>
+            {reg && (
+              <div class="pp-reg"><Icon name="shield" size={22} /><div><strong>Registration no. {reg}</strong><span>{council}</span></div></div>
+            )}
+          </div>
+          <div>
+            {p.certifications.length > 0 && (<>
+              <h3 class="pp-sub">Certifications</h3>
+              <ul class="pp-certs">{p.certifications.map((c) => { const [n, by] = c.split(" – "); return <li><Icon name="graduation" size={18} /><span>{n}{by && <small>{by}</small>}</span></li>; })}</ul>
+            </>)}
+          </div>
+        </div>
+        {awards.length > 0 && (<>
+          <h3 class="pp-sub">Awards & recognition</h3>
+          <ul class="pp-awards">{awards.map((a) => { const [n, by] = a.split(" – "); return <li><Icon name="award" size={20} /><span>{n}{by && <small>{by}</small>}</span></li>; })}</ul>
+        </>)}
+      </section>
+
+      <section id="location" class="pp-sec">
+        <p class="eyebrow">Fees & location</p>
+        <h2 class="h3">Consultation fee & practice location</h2>
+        <div class="pp-loc">
+          <dl>
+            {fee && <div><dt>Consultation fee</dt><dd>{fee} <small>per session</small></dd></div>}
+            {place && <div><dt>Serves</dt><dd>{place}</dd></div>}
+            {p.modes.length > 0 && <div><dt>Available as</dt><dd>{p.modes.join(" · ")}</dd></div>}
+            {p.education.length > 0 && <div><dt>Qualifications</dt><dd>{degrees}</dd></div>}
+          </dl>
+          {place && <div class="pp-map"><iframe title={`Map of ${place}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={`https://maps.google.com/maps?q=${encodeURIComponent(place)}&output=embed`}></iframe></div>}
+        </div>
+      </section>
+
+      <section id="faq" class="pp-sec pp-faq">
+        <Faq items={faqs} title={`Questions about ${p.name}`} />
+      </section>
+    </div>
+
+    <aside class="pp-side" aria-label="Book a session">
+      <div class="pp-book">
+        <div class="pp-book-top">
+          {p.image ? <img src={media(p.image)} alt="" width="56" height="56" loading="lazy" /> : <span class="pp-ph pp-ph-sm">{initials}</span>}
+          <div><strong>{p.name}</strong><span>{role}</span></div>
+        </div>
+        {fee && <p class="pp-price">{fee}<small> / session</small></p>}
+        <ul>
+          {p.modes.map((m) => <li><Icon name={modeIcon[m] ?? "stethoscope"} size={16} /> {m}</li>)}
+          {place && <li><Icon name="pin" size={16} /> {place}</li>}
+        </ul>
+        <a class="btn btn-block" href={book} target="_blank" rel="noopener"><Icon name="whatsapp" /> Book on WhatsApp</a>
+        <a class="btn btn-ghost btn-block" href={contact.phoneHref}><Icon name="phone" /> Call betterhood</a>
+        <p class="pp-note"><Icon name="verified" size={16} /> Verified by betterhood. We help you pick a time that suits you.</p>
+      </div>
+      <a class="pp-edge" href="/physioedge-course/">Are you a physio? <strong>Get betterhood certified</strong> <Icon name="arrow" /></a>
+    </aside>
+  </div>
+
+  {nearby.length > 0 && (
+    <section class="section-tight bg-white">
+      <div class="wrap">
+        <div class="section-head"><div><p class="eyebrow">Nearby</p><h2 class="h2">More physiotherapists in {cityName}</h2></div>
+          <a class="link" href={p.city ? `/learn/physio-city/${p.city}/` : "/physio-directory/"}>See all <Icon name="arrow" /></a></div>
+        <div class="grid cols-4">{nearby.map((q) => <PhysioCard physio={q} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section-tight">
+    <div class="wrap pp-links">
+      {topAreas.length > 0 && <div><h2 class="pp-sub">Top areas in {cityName}</h2><ul>{topAreas.map((a) => <li><a href={`/physio-directory/?area=${a.slug}&city=${p.city}${p.state ? `&state=${p.state}` : ""}`}>Physiotherapist in {a.name}</a></li>)}</ul></div>}
+      <div><h2 class="pp-sub">Top cities</h2><ul>{topCities.map((c) => <li><a href={`/physio-directory/?city=${c.slug}`}>Physiotherapist in {c.name}</a></li>)}</ul></div>
+    </div>
+  </section>
+
+  <div class="pp-bar">
+    <div><strong>{fee || p.name}</strong><span>{fee ? "per session" : role}</span></div>
+    <a class="btn" href={book} target="_blank" rel="noopener"><Icon name="whatsapp" /> Book a session</a>
+  </div>
+
+  {gallery.photos.length > 0 && (
+    <dialog class="pp-lb" aria-label="Photo gallery">
+      <figure><img alt="" /><figcaption></figcaption></figure>
+      <button class="pp-lb-x" data-lb-close aria-label="Close"><Icon name="close" /></button>
+      <button class="pp-lb-nav pp-lb-prev" data-lb-step="-1" aria-label="Previous photo"><Icon name="arrow-left" /></button>
+      <button class="pp-lb-nav pp-lb-next" data-lb-step="1" aria-label="Next photo"><Icon name="arrow" /></button>
+      <script type="application/json" set:html={JSON.stringify(gallery.photos.map((g) => ({ src: media(g.src), alt: g.alt, caption: g.caption || "" })))} />
+    </dialog>
+  )}
+</Base>
+
+<style>
+  .pp-hero { position: relative; overflow: hidden; padding: 28px 0 56px; background:
+    radial-gradient(60% 80% at 92% 10%, var(--plum-200), transparent 70%),
+    radial-gradient(40% 60% at 0% 100%, var(--mint-100), transparent 70%), var(--cream); }
+  .pp-head { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr); gap: clamp(28px, 5vw, 72px); align-items: center; margin-top: 28px; }
+  .pp-intro { display: grid; gap: 20px; }
+  .pp-eyebrow { display: inline-flex; align-items: center; gap: 7px; width: fit-content; padding: 6px 14px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--mint-200); color: var(--mint-700); font-weight: 600; font-size: 14px; box-shadow: var(--shadow-sm); }
+  .pp-name { font-size: clamp(38px, 5.4vw, 66px); letter-spacing: -0.035em; line-height: 1; }
+  .pp-name span { display: block; margin-top: 12px; font-size: clamp(19px, 2vw, 24px); letter-spacing: -0.01em; color: var(--plum-600); font-weight: 600; }
+  .pp-lede { font-size: 17.5px; color: var(--ink-soft); max-width: 58ch; }
+  .pp-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; border-radius: var(--r-lg); background: rgba(255,255,255,.75); backdrop-filter: blur(8px); border: 1px solid var(--line); overflow: hidden; }
+  .pp-stats div { padding: 14px 18px; border-left: 1px solid var(--line); }
+  .pp-stats div:first-child { border-left: 0; }
+  .pp-stats dt { font-size: 12.5px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: .06em; }
+  .pp-stats dd { margin: 2px 0 0; font: 700 24px/1.2 var(--font-display); color: var(--plum-800); }
+  .pp-modes { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pp-modes li { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: var(--r-pill); background: var(--plum-900); color: #fff; font-size: 14.5px; font-weight: 500; }
+  .pp-cta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .pp-round { width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid var(--line-strong); background: #fff; display: grid; place-items: center; color: var(--plum-700); transition: all .2s; }
+  .pp-round:hover { background: var(--plum-700); color: #fff; border-color: var(--plum-700); }
+
+  .pp-portrait { position: relative; margin: 0; justify-self: center; width: min(100%, 420px); }
+  .pp-portrait::before { content: ""; position: absolute; inset: 8% -6% -5% 8%; border-radius: 48% 52% 40% 60% / 50% 40% 60% 50%; background: linear-gradient(140deg, var(--plum-600), var(--plum-300)); opacity: .9; }
+  .pp-portrait-img { position: relative; border-radius: var(--r-xl); overflow: hidden; aspect-ratio: 11 / 13; box-shadow: var(--shadow-lg); background: var(--plum-100); }
+  .pp-portrait-img img { width: 100%; height: 100%; object-fit: cover; }
+  .pp-ph { display: grid; place-items: center; width: 100%; height: 100%; font: 700 80px var(--font-display); color: var(--plum-600); background: var(--plum-100); }
+  .pp-float { position: absolute; display: flex; align-items: center; gap: 8px; max-width: 250px; padding: 10px 14px; border-radius: var(--r-md); background: #fff; box-shadow: var(--shadow-md); font-size: 13.5px; font-weight: 600; line-height: 1.3; }
+  .pp-float :global(svg) { flex: none; }
+  .pp-float-a { left: -28px; bottom: 18%; color: var(--mint-700); }
+  .pp-float-b { right: -18px; top: 10%; color: var(--plum-800); }
+  .pp-float-b :global(svg) { color: var(--sun-500); }
+
+  .pp-tabs { position: sticky; top: 0; z-index: 20; background: rgba(251,247,241,.88); backdrop-filter: blur(12px); border-block: 1px solid var(--line); }
+  .pp-tabs ul { list-style: none; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 8px 0; }
+  .pp-tabs ul::-webkit-scrollbar { display: none; }
+  .pp-tabs a { display: block; white-space: nowrap; padding: 9px 16px; border-radius: var(--r-pill); font-weight: 600; font-size: 14.5px; color: var(--ink-soft); transition: background .2s, color .2s; }
+  .pp-tabs a:hover { color: var(--plum-700); background: var(--plum-50); }
+  .pp-tabs a.is-on { background: var(--plum-700); color: #fff; }
+
+  .pp-body { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; align-items: start; padding-block: 40px 64px; }
+  .pp-main { display: grid; gap: 20px; min-width: 0; }
+  .pp-sec { scroll-margin-top: 140px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(22px, 3.4vw, 36px); }
+  .pp-sec > .h3 { margin: 6px 0 20px; }
+  .pp-prose { display: grid; gap: 14px; font-size: 17px; color: var(--ink-soft); max-width: 68ch; }
+  .pp-prose p:first-child { font-size: 18.5px; color: var(--ink); }
+  .pp-who { margin-top: 24px; padding: 20px; border-radius: var(--r-md); background: var(--plum-50); }
+  .pp-who h3, .pp-sub { font-size: 17px; margin-bottom: 12px; }
+  .pp-who ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pp-who li { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: var(--r-pill); background: #fff; color: var(--plum-800); font-size: 14.5px; font-weight: 500; }
+
+  .pp-conds { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+  .pp-conds li { display: flex; flex-direction: column; gap: 12px; padding: 18px; border-radius: var(--r-md); border: 1px solid var(--line); font-weight: 600; line-height: 1.3; transition: border-color .2s, transform .3s var(--ease), box-shadow .3s; }
+  .pp-conds li:hover { border-color: var(--plum-300); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .pp-conds span { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--plum-100); color: var(--plum-700); }
+
+  .pp-modecards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .pp-modecards > div { padding: 20px; border-radius: var(--r-md); background: linear-gradient(150deg, var(--mint-100), #fff); border: 1px solid var(--mint-200); }
+  .pp-modecards h3 { font-size: 18px; margin: 12px 0 4px; }
+  .pp-modecards p { color: var(--ink-soft); font-size: 15px; }
+  .pp-mi { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--mint-600); color: #fff; }
+  .pp-checks { list-style: none; columns: 2; column-gap: 28px; margin-bottom: 26px; }
+  .pp-checks li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; break-inside: avoid; }
+  .pp-checks :global(svg) { flex: none; margin-top: 3px; color: var(--mint-600); }
+  .pp-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pp-chips li { padding: 7px 14px; border-radius: var(--r-pill); background: var(--plum-50); border: 1px solid var(--plum-100); color: var(--plum-700); font-weight: 500; font-size: 14.5px; }
+  .pp-chips:not(.is-open) .is-more { display: none; }
+  .pp-more { margin-top: 12px; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--plum-700); }
+  .pp-more[aria-expanded="true"] :global(svg) { transform: rotate(180deg); }
+
+  .pp-gallery { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 170px; gap: 10px; }
+  .pp-gallery li:first-child { grid-row: span 2; }
+  .pp-gallery li:nth-child(4) { grid-column: span 2; }
+  .pp-gallery button { position: relative; width: 100%; height: 100%; border-radius: var(--r-md); overflow: hidden; display: block; background: var(--plum-50); cursor: zoom-in; }
+  .pp-gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+  .pp-gallery button:hover img, .pp-gallery button:focus-visible img { transform: scale(1.06); }
+  .pp-gallery span { position: absolute; inset: auto 0 0; padding: 28px 14px 12px; color: #fff; font-size: 14px; font-weight: 600; text-align: left; background: linear-gradient(transparent, rgba(27,8,32,.78)); opacity: 0; transform: translateY(6px); transition: all .3s var(--ease); }
+  .pp-gallery button:hover span, .pp-gallery button:focus-visible span { opacity: 1; transform: none; }
+
+  .pp-videos { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+  .pp-videos h3 { font-size: 16.5px; margin: 12px 0 4px; }
+  .pp-videos p { font-size: 14.5px; color: var(--ink-soft); }
+  .pp-vid { position: relative; aspect-ratio: 16 / 10; border-radius: var(--r-md); overflow: hidden; background: var(--plum-900); }
+  .pp-vid img, .pp-vid iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; }
+  .pp-vid img { opacity: .85; transition: transform .6s var(--ease), opacity .3s; }
+  .pp-vid:hover img { transform: scale(1.05); opacity: 1; }
+  .pp-vid button { position: absolute; inset: 0; margin: auto; width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.95); color: var(--plum-700); box-shadow: var(--shadow-lg); transition: transform .3s var(--ease); }
+  .pp-vid button :global(svg) { margin-left: 3px; }
+  .pp-vid:hover button { transform: scale(1.1); }
+  .pp-dur { position: absolute; right: 10px; bottom: 10px; padding: 3px 8px; border-radius: 6px; background: rgba(0,0,0,.7); color: #fff; font-size: 12.5px; font-weight: 600; }
+
+  .pp-cred { display: grid; grid-template-columns: 1fr 1.2fr; gap: 32px; margin-bottom: 26px; }
+  .pp-tl { list-style: none; display: grid; gap: 0; border-left: 2px solid var(--plum-200); margin-left: 6px; }
+  .pp-tl li { position: relative; display: grid; gap: 2px; padding: 0 0 20px 22px; }
+  .pp-tl li::before { content: ""; position: absolute; left: -7px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 3px solid var(--plum-600); }
+  .pp-tl strong { font: 650 17px var(--font-display); }
+  .pp-tl span { color: var(--ink-soft); font-size: 15px; }
+  .pp-tl em { font-style: normal; font-size: 13px; color: var(--plum-600); font-weight: 600; }
+  .pp-reg { display: flex; gap: 12px; padding: 16px; border-radius: var(--r-md); background: var(--mint-100); color: var(--mint-700); }
+  .pp-reg :global(svg) { flex: none; }
+  .pp-reg strong { display: block; font-size: 15px; }
+  .pp-reg span { font-size: 13.5px; color: var(--ink-soft); }
+  .pp-certs { list-style: none; display: grid; gap: 8px; }
+  .pp-certs li, .pp-awards li { display: flex; gap: 10px; align-items: flex-start; font-weight: 600; font-size: 15px; }
+  .pp-certs :global(svg) { flex: none; margin-top: 2px; color: var(--plum-600); }
+  .pp-certs small, .pp-awards small { display: block; font-weight: 400; color: var(--ink-mute); font-size: 13.5px; }
+  .pp-awards { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .pp-awards li { padding: 16px; border-radius: var(--r-md); background: var(--sun-100); }
+  .pp-awards :global(svg) { flex: none; color: #c27a00; }
+
+  .pp-loc { display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; }
+  .pp-loc dl { display: grid; gap: 14px; margin: 0; }
+  .pp-loc dt { font-size: 13px; color: var(--ink-mute); }
+  .pp-loc dd { margin: 2px 0 0; font-weight: 600; }
+  .pp-loc dd small { color: var(--ink-mute); font-weight: 400; }
+  .pp-map { min-height: 220px; border-radius: var(--r-md); overflow: hidden; background: var(--plum-50); }
+  .pp-map iframe { width: 100%; height: 100%; min-height: 220px; border: 0; }
+  .pp-faq { background: transparent; border: 0; padding: 24px 0 0; }
+
+  .pp-side { position: sticky; top: 90px; display: grid; gap: 14px; }
+  .pp-book { display: grid; gap: 14px; padding: 24px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-md); }
+  .pp-book-top { display: flex; gap: 12px; align-items: center; }
+  .pp-book-top img, .pp-ph-sm { width: 56px; height: 56px; border-radius: 16px; object-fit: cover; font-size: 20px; flex: none; }
+  .pp-book-top strong { display: block; font: 650 17px var(--font-display); }
+  .pp-book-top span { font-size: 14px; color: var(--ink-mute); }
+  .pp-price { font: 700 32px var(--font-display); color: var(--plum-800); }
+  .pp-price small { font: 400 15px var(--font-body); color: var(--ink-mute); }
+  .pp-book ul { list-style: none; display: grid; gap: 8px; font-size: 15px; color: var(--ink-soft); }
+  .pp-book li { display: flex; gap: 8px; align-items: center; }
+  .pp-note { display: flex; gap: 8px; font-size: 13.5px; color: var(--mint-700); }
+  .pp-note :global(svg) { flex: none; margin-top: 2px; }
+  .pp-edge { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 16px 20px; border-radius: var(--r-lg); background: var(--plum-900); color: #e9dbe6; font-size: 14.5px; }
+  .pp-edge strong { color: #fff; }
+
+  .pp-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+  .pp-links ul { list-style: none; columns: 2; column-gap: 24px; font-size: 14.5px; }
+  .pp-links li { padding: 5px 0; break-inside: avoid; }
+  .pp-links a { color: var(--ink-soft); }
+  .pp-links a:hover { color: var(--plum-700); }
+
+  .pp-bar { display: none; }
+
+  .pp-lb { width: min(1100px, 94vw); max-height: 92vh; padding: 0; border: 0; border-radius: var(--r-lg); background: var(--plum-950); color: #fff; overflow: visible; }
+  .pp-lb::backdrop { background: rgba(27,8,32,.8); backdrop-filter: blur(4px); }
+  .pp-lb figure { margin: 0; }
+  .pp-lb img { display: block; width: 100%; max-height: 80vh; object-fit: contain; border-radius: var(--r-lg) var(--r-lg) 0 0; }
+  .pp-lb figcaption { padding: 14px 20px; font-weight: 600; }
+  .pp-lb-x, .pp-lb-nav { position: absolute; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--plum-800); box-shadow: var(--shadow-md); }
+  .pp-lb-x { top: -16px; right: -16px; }
+  .pp-lb-nav { top: 40%; }
+  .pp-lb-prev { left: -22px; }
+  .pp-lb-next { right: -22px; }
+
+  @media (max-width: 1020px) {
+    .pp-body { grid-template-columns: 1fr; }
+    .pp-side { display: none; }
+    .pp-bar { position: fixed; z-index: 30; inset: auto 0 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -8px 24px -12px rgba(36,12,44,.2); }
+    .pp-bar strong { display: block; font: 700 19px var(--font-display); }
+    .pp-bar span { font-size: 13px; color: var(--ink-mute); }
+    :global(footer) { padding-bottom: 80px; }
+  }
+  @media (max-width: 820px) {
+    .pp-head { grid-template-columns: 1fr; }
+    .pp-portrait { order: -1; width: min(78%, 320px); }
+    .pp-float-a { left: -12px; } .pp-float-b { right: -12px; }
+    .pp-stats { grid-template-columns: repeat(2, 1fr); }
+    .pp-stats div:nth-child(3) { border-left: 0; }
+    .pp-stats div:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .pp-cred, .pp-loc { grid-template-columns: 1fr; }
+    .pp-gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
+    .pp-gallery li:nth-child(4) { grid-column: auto; }
+    .pp-lb-prev { left: 8px; } .pp-lb-next { right: 8px; } .pp-lb-x { right: 8px; top: 8px; }
+  }
+  @media (max-width: 560px) {
+    .pp-checks { columns: 1; }
+    .pp-cta .btn { flex: 1 1 100%; }
+    .pp-float { font-size: 12px; max-width: 190px; }
+  }
+</style>
+
+<script>
+  // in-page tabs: highlight the section in view
+  const links = [...document.querySelectorAll<HTMLAnchorElement>(".pp-tabs a")];
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      links.forEach((l) => l.classList.toggle("is-on", l.dataset.tab === e.target.id));
+      document.querySelector(".pp-tabs a.is-on")?.scrollIntoView({ block: "nearest", inline: "center" });
+    });
+  }, { rootMargin: "-35% 0px -60% 0px" });
+  links.forEach((l) => { const s = document.getElementById(l.dataset.tab!); if (s) io.observe(s); });
+
+  // "show all" specialisations
+  document.querySelector<HTMLButtonElement>("[data-more]")?.addEventListener("click", (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    const open = document.querySelector("[data-chips]")!.classList.toggle("is-open");
+    b.setAttribute("aria-expanded", String(open));
+    b.firstChild!.textContent = open ? "Show less " : `Show all ${document.querySelectorAll("[data-chips] li").length} `;
+  });
+
+  // videos load only when played (keeps the page fast)
+  document.querySelectorAll<HTMLElement>("[data-yt]").forEach((v) =>
+    v.addEventListener("click", () => {
+      if (v.querySelector("iframe")) return;
+      const f = document.createElement("iframe");
+      f.src = `https://www.youtube-nocookie.com/embed/${v.dataset.yt}?autoplay=1&rel=0`;
+      f.title = v.dataset.title || "Video";
+      f.allow = "autoplay; encrypted-media; picture-in-picture";
+      f.allowFullscreen = true;
+      v.replaceChildren(f);
+    }),
+  );
+
+  // gallery lightbox
+  const lb = document.querySelector<HTMLDialogElement>(".pp-lb");
+  if (lb) {
+    const photos: { src: string; alt: string; caption: string }[] = JSON.parse(lb.querySelector("script")!.textContent!);
+    const img = lb.querySelector("img")!, cap = lb.querySelector("figcaption")!;
+    let i = 0;
+    const show = (n: number) => { i = (n + photos.length) % photos.length; img.src = photos[i].src; img.alt = photos[i].alt; cap.textContent = `${photos[i].caption}  ·  ${i + 1} / ${photos.length}`; };
+    document.querySelectorAll<HTMLButtonElement>("[data-lb]").forEach((b) => b.addEventListener("click", () => { show(+b.dataset.lb!); lb.showModal(); }));
+    lb.querySelectorAll<HTMLButtonElement>("[data-lb-step]").forEach((b) => b.addEventListener("click", () => show(i + +b.dataset.lbStep!)));
+    lb.querySelector("[data-lb-close]")!.addEventListener("click", () => lb.close());
+    lb.addEventListener("click", (e) => { if (e.target === lb) lb.close(); });
+    lb.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") show(i + 1); if (e.key === "ArrowLeft") show(i - 1); });
+  }
+</script>

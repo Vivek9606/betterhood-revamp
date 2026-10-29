@@ -1,0 +1,256 @@
+---
+import Icon from "./Icon.astro";
+import logo from "../assets/logo.svg?raw";
+import { offers, mainNav, shopByConcern, shopByUseCase, shopByCategory, shopAll, shopLinks, careTools, SHOP, contact } from "../lib/site";
+
+interface Props { overlay?: boolean }
+const { overlay = false } = Astro.props;
+const path = Astro.url.pathname;
+const isActive = (href: string) => href.startsWith("/") && href !== "/" && path.startsWith(href.replace(/\/$/, ""));
+---
+<div class:list={["topbar", { overlay }]} id="topbar">
+<div class="ticker" role="region" aria-label="Offers">
+  <div class="ticker-track">
+    {[0, 1].map((n) => (
+      <ul aria-hidden={n === 1 ? "true" : undefined}>
+        {offers.map((o) => <li>{o}</li>)}
+      </ul>
+    ))}
+  </div>
+</div>
+
+<header class="site-header" id="site-header">
+  <div class="wrap bar">
+    <button class="icon-btn nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="drawer" data-drawer-open>
+      <Icon name="menu" size={24} />
+    </button>
+
+    <a href="/" class="brand" aria-label="betterhood home" set:html={logo} />
+
+    <nav class="primary" aria-label="Main">
+      <ul>
+        {mainNav.map((item) => (
+          <li class={item.mega ? "has-mega" : ""}>
+            {item.mega ? (
+              <button class="nav-link" aria-expanded="false" data-mega={item.mega}>
+                {item.label} <Icon name="chevron" size={16} />
+              </button>
+            ) : (
+              <a class:list={["nav-link", { active: isActive(item.href) }]} href={item.href}>{item.label}</a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <a class="icon-btn" href="/learn/#search" aria-label="Search articles"><Icon name="search" size={21} /></a>
+      <a class="icon-btn hide-sm" href={`${SHOP}/account/`} aria-label="Account"><Icon name="user" size={21} /></a>
+      <a class="icon-btn" href={`${SHOP}/cart`} aria-label="Cart"><Icon name="cart" size={21} /></a>
+      <a class="btn btn-sm hide-md" href="/quiz-landing-page/">Free assessment</a>
+    </div>
+  </div>
+
+  <!-- Mega menus -->
+  <div class="mega" id="mega-shop" hidden>
+    <div class="wrap mega-grid">
+      <div class="mega-col">
+        <p class="mega-title"><a href={shopLinks.concerns}>Shop by concern</a></p>
+        <ul class="mega-list two">
+          {shopByConcern.map((l) => <li><a href={l.href}><span class="mi"><Icon name={l.icon} size={18} /></span>{l.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="mega-col">
+        <p class="mega-title"><a href={shopLinks.useCase}>Shop by use case</a></p>
+        <ul class="mega-list">
+          {shopByUseCase.map((l) => <li><a href={l.href}><span class="mi"><Icon name={l.icon} size={18} /></span>{l.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="mega-col">
+        <p class="mega-title"><a href={shopLinks.category}>Shop by category</a></p>
+        <ul class="mega-list plain">
+          {shopByCategory.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </div>
+      <a class="mega-promo" href={shopAll}>
+        <span class="badge badge-sun">Buy 3 Get 1 FREE</span>
+        <strong>Physio co-created. Designed for everyday life.</strong>
+        <span class="link">Shop everything <Icon name="arrow" /></span>
+      </a>
+    </div>
+  </div>
+  <div class="mega" id="mega-tools" hidden>
+    <div class="wrap mega-tools">
+      {careTools.map((t) => (
+        <a class="tool" href={t.href}>
+          <span class="tool-ic"><Icon name={t.icon} size={22} /></span>
+          <span><strong>{t.label}</strong><small>{t.desc}</small></span>
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+</div>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer-scrim" data-drawer-close></div>
+  <aside class="drawer-panel" aria-label="Menu">
+    <div class="drawer-head">
+      <a href="/" class="brand" aria-label="betterhood home" set:html={logo} />
+      <button class="icon-btn" aria-label="Close menu" data-drawer-close><Icon name="close" size={24} /></button>
+    </div>
+    <nav class="drawer-nav">
+      <details>
+        <summary>Shop by concern <Icon name="chevron" size={18} /></summary>
+        <ul>{shopByConcern.map((l) => <li><a href={l.href}>{l.label}</a></li>)}<li><a href={shopLinks.concerns} class="all">View all</a></li></ul>
+      </details>
+      <details>
+        <summary>Shop by use case <Icon name="chevron" size={18} /></summary>
+        <ul>{shopByUseCase.map((l) => <li><a href={l.href}>{l.label}</a></li>)}<li><a href={shopLinks.useCase} class="all">View all</a></li></ul>
+      </details>
+      <details>
+        <summary>Shop by category <Icon name="chevron" size={18} /></summary>
+        <ul>{shopByCategory.map((l) => <li><a href={l.href}>{l.label}</a></li>)}<li><a href={shopLinks.category} class="all">View all</a></li></ul>
+      </details>
+      <details>
+        <summary>Care tools <Icon name="chevron" size={18} /></summary>
+        <ul>{careTools.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </details>
+      <a href="/learn/">Learn</a>
+      <a href="/better-you-corner-back-health/">betterYou corner</a>
+      <a href="/about-us/">About us</a>
+      <a href="/contact-us/">Contact</a>
+    </nav>
+    <div class="drawer-foot">
+      <a class="btn btn-block" href="/quiz-landing-page/">Take a free pain assessment</a>
+      <p class="muted">Need help? <a href={contact.phoneHref}>{contact.phone}</a> · <a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+    </div>
+  </aside>
+</div>
+
+<style>
+  .ticker { background: var(--plum-900); color: #fff; overflow: hidden; font-size: 13.5px; font-weight: 500; }
+  .ticker-track { display: flex; width: max-content; animation: tick 48s linear infinite; }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+  .ticker ul { display: flex; list-style: none; }
+  .ticker li { padding: 9px 28px; white-space: nowrap; position: relative; }
+  .ticker li::after { content: "✦"; position: absolute; right: -6px; color: var(--sun-500); font-size: 10px; top: 50%; transform: translateY(-50%); }
+  @keyframes tick { to { transform: translateX(-50%); } }
+
+  .topbar { position: sticky; top: 0; z-index: 60; transition: transform 0.5s var(--ease); }
+  .topbar.hide { transform: translateY(-100%); }
+  .topbar.overlay { position: fixed; left: 0; right: 0; }
+  .topbar.overlay:not(.solid) .site-header { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-color: transparent; box-shadow: none; }
+  .topbar.overlay:not(.solid) .brand, .topbar.overlay:not(.solid) .nav-link, .topbar.overlay:not(.solid) .icon-btn { color: #fff; }
+  .topbar.overlay:not(.solid) .nav-link:hover, .topbar.overlay:not(.solid) .nav-link[aria-expanded="true"], .topbar.overlay:not(.solid) .icon-btn:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+  .topbar.overlay:not(.solid) .actions .btn { --b-bg: var(--sun-500); --b-bd: var(--sun-500); --b-fg: var(--plum-950); }
+  .site-header { position: relative; z-index: 50; background: color-mix(in srgb, var(--cream) 88%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid transparent; transition: border-color 0.3s, box-shadow 0.3s; }
+  .topbar.solid .site-header { border-color: var(--line); box-shadow: 0 6px 24px -18px rgba(36, 12, 44, 0.35); }
+  .bar { display: flex; align-items: center; gap: 12px; height: var(--header-h); }
+  .brand { color: var(--plum-700); display: inline-flex; flex: none; }
+  .brand :global(svg) { width: 146px; height: auto; }
+  .primary { margin-left: 28px; }
+  .primary ul { display: flex; gap: 2px; list-style: none; }
+  .nav-link { display: inline-flex; align-items: center; gap: 4px; padding: 10px 14px; border-radius: var(--r-pill); font-weight: 550; font-size: 15.5px; background: none; border: 0; color: var(--ink); transition: background 0.2s; }
+  .nav-link:hover, .nav-link[aria-expanded="true"], .nav-link.active { background: var(--plum-100); color: var(--plum-700); }
+  .nav-link :global(svg) { transition: transform 0.25s var(--ease); }
+  .nav-link[aria-expanded="true"] :global(svg) { transform: rotate(180deg); }
+  .actions { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+  .icon-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 0; background: none; color: var(--ink); transition: background 0.2s; }
+  .icon-btn:hover { background: var(--plum-100); color: var(--plum-700); }
+  .actions .btn { margin-left: 8px; }
+  .nav-toggle { display: none; margin-left: -8px; }
+
+  .mega { position: absolute; left: 0; right: 0; top: 100%; background: var(--white); border-top: 1px solid var(--line); box-shadow: var(--shadow-lg); padding: 28px 0 32px; animation: drop 0.28s var(--ease); }
+  @keyframes drop { from { opacity: 0; transform: translateY(-6px); } }
+  .mega-grid { display: grid; grid-template-columns: 1.5fr 1fr 0.8fr 1fr; gap: 32px; }
+  .mega-title { font: 600 12.5px/1 var(--font-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 14px; }
+  .mega-title a:hover { color: var(--plum-700); }
+  .mega-list { list-style: none; display: grid; gap: 2px; }
+  .mega-list.two { grid-template-columns: 1fr 1fr; column-gap: 12px; }
+  .mega-list a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; margin-left: -10px; border-radius: var(--r-sm); font-weight: 500; font-size: 15px; }
+  .mega-list a:hover { background: var(--plum-50); color: var(--plum-700); }
+  .mi { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--plum-100); color: var(--plum-700); flex: none; }
+  .mega-promo { display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; align-items: flex-start; padding: 22px; border-radius: var(--r-lg); background: radial-gradient(120% 100% at 100% 0%, var(--plum-600), var(--plum-900)); color: #fff; min-height: 220px; }
+  .mega-promo strong { font: 650 21px/1.15 var(--font-display); }
+  .mega-promo .link { color: var(--sun-500); }
+  .mega-tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .tool { display: flex; gap: 14px; padding: 18px; border-radius: var(--r-lg); border: 1px solid var(--line); transition: all 0.25s var(--ease); }
+  .tool:hover { border-color: var(--plum-300); background: var(--plum-50); transform: translateY(-2px); }
+  .tool-ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: var(--plum-700); color: #fff; flex: none; }
+  .tool strong { display: block; font-family: var(--font-display); font-size: 17px; margin-bottom: 4px; }
+  .tool small { color: var(--ink-soft); font-size: 14px; line-height: 1.45; display: block; }
+
+  .drawer { position: fixed; inset: 0; z-index: 100; }
+  .drawer-scrim { position: absolute; inset: 0; background: rgba(27, 8, 32, 0.45); animation: fade 0.25s; }
+  @keyframes fade { from { opacity: 0; } }
+  .drawer-panel { position: absolute; inset: 0 auto 0 0; width: min(88vw, 400px); background: var(--cream); display: flex; flex-direction: column; animation: slide 0.35s var(--ease); overflow-y: auto; }
+  @keyframes slide { from { transform: translateX(-100%); } }
+  .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .drawer-head .brand :global(svg) { width: 130px; }
+  .drawer-nav { padding: 8px 16px; display: grid; }
+  .drawer-nav > a, .drawer-nav summary { display: flex; justify-content: space-between; align-items: center; padding: 15px 4px; font: 600 18px var(--font-display); border-bottom: 1px solid var(--line); list-style: none; cursor: pointer; }
+  .drawer-nav summary::-webkit-details-marker { display: none; }
+  .drawer-nav details[open] summary :global(svg) { transform: rotate(180deg); }
+  .drawer-nav details ul { list-style: none; padding: 6px 0 12px 8px; }
+  .drawer-nav details a { display: block; padding: 9px 4px; color: var(--ink-soft); }
+  .drawer-nav details a.all { color: var(--plum-700); font-weight: 600; }
+  .drawer-foot { margin-top: auto; padding: 20px 16px 28px; display: grid; gap: 14px; font-size: 14px; }
+
+  @media (max-width: 1100px) { .hide-md { display: none; } .primary { margin-left: 8px; } .nav-link { padding: 10px 10px; } }
+  @media (max-width: 960px) {
+    .primary, .mega { display: none !important; }
+    .nav-toggle { display: inline-grid; }
+    .bar { gap: 4px; }
+    .brand { margin-inline: auto 0; }
+    .brand :global(svg) { width: 124px; }
+    .actions { margin-left: auto; }
+  }
+  @media (max-width: 480px) { .hide-sm { display: none; } :root { --header-h: 62px; } }
+</style>
+
+<script>
+  // hide on scroll down, reveal on scroll up; overlay header turns solid after the hero
+  const bar = document.getElementById("topbar")!;
+  // heroes size themselves to "screen minus this bar"
+  const setTop = () => document.documentElement.style.setProperty("--top-h", `${bar.offsetHeight}px`);
+  setTop();
+  addEventListener("resize", setTop);
+  let lastY = scrollY;
+  const onScroll = () => {
+    const y = scrollY;
+    const threshold = bar.classList.contains("overlay") ? innerHeight * 0.9 : 8;
+    bar.classList.toggle("solid", y > threshold);
+    const menuOpen = document.querySelector("[data-mega][aria-expanded=true]");
+    if (!menuOpen) bar.classList.toggle("hide", y > lastY && y > 300);
+    lastY = y;
+  };
+  onScroll();
+  addEventListener("scroll", onScroll, { passive: true });
+
+  // mega menus: hover on desktop pointer, click everywhere, Esc / outside click closes
+  const triggers = [...document.querySelectorAll<HTMLButtonElement>("[data-mega]")];
+  let closeTimer: number | undefined;
+  const close = () => triggers.forEach((t) => { t.setAttribute("aria-expanded", "false"); document.getElementById(`mega-${t.dataset.mega}`)!.hidden = true; });
+  const open = (t: HTMLButtonElement) => { close(); t.setAttribute("aria-expanded", "true"); document.getElementById(`mega-${t.dataset.mega}`)!.hidden = false; };
+  triggers.forEach((t) => {
+    const panel = document.getElementById(`mega-${t.dataset.mega}`)!;
+    t.addEventListener("click", () => (t.getAttribute("aria-expanded") === "true" ? close() : open(t)));
+    if (matchMedia("(hover: hover)").matches) {
+      [t, panel].forEach((el) => {
+        el.addEventListener("mouseenter", () => { clearTimeout(closeTimer); open(t); });
+        el.addEventListener("mouseleave", () => { closeTimer = window.setTimeout(close, 180); });
+      });
+    }
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { close(); closeDrawer(); } });
+  document.addEventListener("click", (e) => { if (!(e.target as Element).closest(".has-mega, .mega")) close(); });
+
+  const drawer = document.getElementById("drawer")!;
+  const toggle = document.querySelector<HTMLButtonElement>("[data-drawer-open]")!;
+  function closeDrawer() { drawer.hidden = true; toggle.setAttribute("aria-expanded", "false"); document.body.style.overflow = ""; }
+  toggle.addEventListener("click", () => { drawer.hidden = false; toggle.setAttribute("aria-expanded", "true"); document.body.style.overflow = "hidden"; });
+  drawer.querySelectorAll("[data-drawer-close]").forEach((b) => b.addEventListener("click", closeDrawer));
+</script>

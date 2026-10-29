@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /result-
+Disallow: /completed-message
+
+Sitemap: https://betterhood.in/sitemap-index.xml

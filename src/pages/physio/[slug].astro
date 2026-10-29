@@ -1,0 +1,224 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import PhysioCard from "../../components/PhysioCard.astro";
+import PhysioProfile from "../../components/PhysioProfile.astro";
+import physioMedia from "../../data/physio-media.json";
+import { physios, taxonomies, termName, type Physio } from "../../lib/data";
+import { media, mediaHtml, contact } from "../../lib/site";
+
+export function getStaticPaths() {
+  return physios.map((physio) => ({ params: { slug: physio.slug }, props: { physio } }));
+}
+const { physio: p } = Astro.props as { physio: Physio };
+// physios with photos/videos get the enhanced profile layout
+const extra = (physioMedia as Record<string, any>)[p.slug];
+const url = new URL(`/physio/${p.slug}/`, Astro.site).href;
+const initials = p.name.replace(/^Dr\.?\s*/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("");
+const place = p.location || p.address || p.place;
+const cityName = p.city ? termName("physio-city", p.city) : (p.place.split(",")[0] || "");
+const nearby = physios.filter((q) => q.slug !== p.slug && ((p.city && q.city === p.city) || (!p.city && q.place === p.place))).slice(0, 4);
+const topAreas = p.city ? taxonomies.physio_location.filter((l) => l.slug.startsWith(p.city + "-") && l.count > 0).sort((a, b) => b.count - a.count).slice(0, 10) : [];
+const topCities = [...taxonomies["physio-city"]].sort((a, b) => b.count - a.count).slice(0, 10);
+const modeIcon: Record<string, string> = { "Clinic Visit": "hospital", "Home Visit": "home", "Video Consultation": "video", "Hospital Visit": "building" };
+const msg = encodeURIComponent(`Check out ${p.name} on betterhood — find expert physiotherapy care near you. ${url}`);
+const fee = p.fee && /^\d+$/.test(p.fee) ? `₹${(+p.fee).toLocaleString("en-IN")}` : p.fee;
+const otherPractice = p.practice.filter((x) => !["Practice Location", "Consultation Fee"].includes(x.label));
+const description = p.seo.description || `${p.name}${p.degree ? `, ${p.degree}` : ""} — betterhood-certified physiotherapist${place ? ` in ${place}` : ""}${p.years ? ` with ${p.years} years of experience` : ""}.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: p.name,
+  jobTitle: "Physiotherapist",
+  image: p.image ? media(p.image) : undefined,
+  url,
+  description,
+  hasCredential: p.education.map((e) => ({ "@type": "EducationalOccupationalCredential", name: e.degree, recognizedBy: e.institute })),
+  knowsAbout: p.specializations,
+  workLocation: place ? { "@type": "Place", address: place } : undefined,
+};
+---
+{extra ? <PhysioProfile physio={p} media={extra} cityName={cityName} nearby={nearby} topAreas={topAreas} topCities={topCities} /> : (
+<Base title={p.seo.title || `${p.name} - Physiotherapist${cityName ? ` in ${cityName}` : ""}`} description={description} image={p.image || undefined} type="profile" jsonLd={jsonLd}>
+  <section class="ph-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span><a href="/physio-directory/">Physio Directory</a>
+        {p.city && <><span aria-hidden="true">/</span><a href={`/learn/physio-city/${p.city}/`}>{cityName}</a></>}
+        <span aria-hidden="true">/</span><span>{p.name}</span>
+      </nav>
+      <div class="ph-card">
+        <div class="ph-photo">
+          {p.image ? <img src={media(p.image)} alt={p.name} width="320" height="320" fetchpriority="high" /> : <span class="ph-ph">{initials}</span>}
+          <span class="badge badge-mint ph-ver"><Icon name="verified" size={15} /> betterhood certified</span>
+        </div>
+        <div class="ph-info">
+          <h1 class="h1">{p.name}</h1>
+          {p.degree && <p class="ph-deg">{p.degree}</p>}
+          <ul class="ph-badges">
+            {p.place && <li><Icon name="pin" size={17} /> {p.place.replace(/\.$/, "")}</li>}
+            {p.years > 0 && <li><Icon name="briefcase" size={17} /> {p.years} years experience</li>}
+            {fee && <li><Icon name="rupee" size={17} /> {fee} consultation</li>}
+          </ul>
+          {p.modes.length > 0 && (
+            <ul class="ph-modes">
+              {p.modes.map((m) => <li><Icon name={modeIcon[m] ?? "stethoscope"} size={18} /> {m}</li>)}
+            </ul>
+          )}
+          <div class="ph-actions">
+            <a class="btn" href={contact.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" /> Ask betterhood to connect</a>
+            <a class="icon-round" href={`https://wa.me/?text=${msg}`} target="_blank" rel="noopener" aria-label="Share on WhatsApp"><Icon name="share" /></a>
+            <button class="icon-round" data-copy={url} aria-label="Copy profile link"><Icon name="copy" /></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap ph-grid">
+      <div class="ph-main">
+        {p.about && (
+          <div class="ph-block">
+            <h2 class="ph-t">About</h2>
+            <div class="prose" set:html={mediaHtml(p.about)} />
+          </div>
+        )}
+        {p.specializations.length > 0 && (
+          <div class="ph-block">
+            <h2 class="ph-t">Specializations</h2>
+            <ul class="pills">{p.specializations.map((s) => <li>{s}</li>)}</ul>
+          </div>
+        )}
+        {p.education.length > 0 && (
+          <div class="ph-block">
+            <h2 class="ph-t">Education & qualifications</h2>
+            <ul class="tl">
+              {p.education.map((e) => (
+                <li><span class="tl-ic"><Icon name="graduation" size={18} /></span><div>{e.year && <span class="badge badge-plum">{e.year}</span>}<p class="tl-h">{e.degree}</p><p class="muted">{e.institute}</p></div></li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {p.experience.length > 0 && (
+          <div class="ph-block">
+            <h2 class="ph-t">Professional experience</h2>
+            <ul class="tl">
+              {p.experience.map((e) => (
+                <li><span class="tl-ic"><Icon name="briefcase" size={18} /></span><div><p class="tl-h">{e.role}</p><p class="muted">{[e.place, e.date].filter(Boolean).join(" · ")}</p></div></li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {(p.certifications.length > 0 || p.awards.length > 0) && (
+          <div class="ph-block">
+            <h2 class="ph-t">Certifications, awards & recognition</h2>
+            <ul class="awards">{[...p.certifications, ...p.awards].map((a) => <li><Icon name="award" size={18} /> {a}</li>)}</ul>
+          </div>
+        )}
+      </div>
+
+      <aside class="ph-side">
+        <div class="ph-block ph-practice">
+          <h2 class="ph-t">Practice information</h2>
+          <dl>
+            {place && <><dt>Practice location</dt><dd>{place}</dd></>}
+            {fee && <><dt>Consultation fee</dt><dd>{fee}</dd></>}
+            {otherPractice.map((x) => <><dt>{x.label}</dt><dd>{x.value}</dd></>)}
+          </dl>
+          {place && (
+            <>
+              <div class="map"><iframe title={`Map of ${place}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={`https://maps.google.com/maps?q=${encodeURIComponent(place)}&output=embed`}></iframe></div>
+              <a class="link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}`} target="_blank" rel="noopener">Open in Google Maps <Icon name="external" /></a>
+            </>
+          )}
+        </div>
+        <div class="ph-cert">
+          <Icon name="verified" size={28} />
+          <p><strong>betterhood certified</strong>This physiotherapist is part of India's network of physios trained in preventive pain care.</p>
+          <a class="link" href="/physioedge-course/">Are you a physio? Get certified <Icon name="arrow" /></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {nearby.length > 0 && (
+    <section class="section-tight bg-white">
+      <div class="wrap">
+        <div class="section-head"><div><p class="eyebrow">Nearby</p><h2 class="h2">More physiotherapists{cityName ? ` in ${cityName}` : ""}</h2></div>
+          <a class="link" href={p.city ? `/learn/physio-city/${p.city}/` : "/physio-directory/"}>See all <Icon name="arrow" /></a></div>
+        <div class="grid cols-4">{nearby.map((q) => <PhysioCard physio={q} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section-tight">
+    <div class="wrap seo-links">
+      {topAreas.length > 0 && (
+        <div><h3 class="ph-t">Top areas in {cityName}</h3><ul>{topAreas.map((a) => <li><a href={`/physio-directory/?area=${a.slug}&city=${p.city}${p.state ? `&state=${p.state}` : ""}`}>Physiotherapist in {a.name}</a></li>)}</ul></div>
+      )}
+      <div><h3 class="ph-t">Top cities</h3><ul>{topCities.map((c) => <li><a href={`/physio-directory/?city=${c.slug}`}>Physiotherapist in {c.name}</a></li>)}</ul></div>
+    </div>
+  </section>
+</Base>
+)}
+
+<style>
+  .ph-hero { padding: 32px 0 48px; background: radial-gradient(80% 100% at 100% 0%, var(--plum-100), var(--cream) 70%); }
+  .ph-card { display: grid; grid-template-columns: 260px 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; margin-top: 28px; }
+  .ph-photo { position: relative; }
+  .ph-photo img, .ph-ph { width: 100%; aspect-ratio: 1; border-radius: var(--r-xl); object-fit: cover; background: var(--plum-100); box-shadow: var(--shadow-md); }
+  .ph-ph { display: grid; place-items: center; font: 700 72px var(--font-display); color: var(--plum-600); }
+  .ph-ver { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%); white-space: nowrap; padding: 7px 14px; box-shadow: var(--shadow-md); background: #fff; }
+  .ph-info { display: grid; gap: 14px; }
+  .ph-deg { font-size: 18px; color: var(--plum-600); font-weight: 600; }
+  .ph-badges, .ph-modes { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--ink-soft); }
+  .ph-badges li, .ph-modes li { display: inline-flex; align-items: center; gap: 7px; }
+  .ph-modes li { padding: 8px 14px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-size: 14.5px; font-weight: 500; color: var(--plum-800); }
+  .ph-modes { gap: 8px; }
+  .ph-actions { display: flex; gap: 8px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
+  .icon-round { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid var(--line-strong); background: var(--white); display: grid; place-items: center; color: var(--plum-700); transition: all 0.2s; }
+  .icon-round:hover { background: var(--plum-700); color: #fff; border-color: var(--plum-700); }
+  .ph-grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 40px; align-items: start; }
+  .ph-main { display: grid; gap: 20px; }
+  .ph-block { background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(20px, 3vw, 30px); }
+  .ph-t { font-size: 20px; margin-bottom: 16px; }
+  .ph-main .prose { font-size: 16.5px; }
+  .pills { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pills li { padding: 8px 14px; border-radius: var(--r-pill); background: var(--plum-50); color: var(--plum-700); font-weight: 500; font-size: 14.5px; }
+  .tl { list-style: none; display: grid; gap: 18px; }
+  .tl li { display: flex; gap: 14px; }
+  .tl-ic { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--plum-100); color: var(--plum-700); }
+  .tl-h { font-weight: 650; margin: 4px 0 2px; }
+  .tl .muted { font-size: 14.5px; }
+  .awards { list-style: none; display: grid; gap: 10px; }
+  .awards li { display: flex; gap: 10px; align-items: flex-start; }
+  .awards :global(svg) { color: var(--sun-500); flex: none; margin-top: 3px; }
+  .ph-side { position: sticky; top: calc(var(--header-h) + 20px); display: grid; gap: 16px; }
+  .ph-practice dl { display: grid; gap: 4px; margin: 0 0 16px; }
+  .ph-practice dt { font-size: 13px; color: var(--ink-mute); margin-top: 8px; }
+  .ph-practice dd { margin: 0; font-weight: 600; }
+  .map { aspect-ratio: 4 / 3; border-radius: var(--r-md); overflow: hidden; background: var(--plum-50); margin-bottom: 12px; }
+  .map iframe { width: 100%; height: 100%; border: 0; }
+  .ph-cert { padding: 22px; border-radius: var(--r-lg); background: var(--mint-100); color: var(--mint-700); display: grid; gap: 10px; }
+  .ph-cert p { color: var(--ink-soft); font-size: 14.5px; }
+  .ph-cert strong { display: block; color: var(--mint-700); font-family: var(--font-display); font-size: 17px; margin-bottom: 2px; }
+  .seo-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+  .seo-links ul { list-style: none; columns: 2; column-gap: 24px; font-size: 14.5px; }
+  .seo-links li { padding: 5px 0; break-inside: avoid; }
+  .seo-links a { color: var(--ink-soft); }
+  .seo-links a:hover { color: var(--plum-700); }
+  @media (max-width: 900px) { .ph-grid { grid-template-columns: 1fr; } .ph-side { position: static; } }
+  @media (max-width: 640px) { .ph-card { grid-template-columns: 1fr; } .ph-photo { max-width: 220px; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((b) =>
+    b.addEventListener("click", async () => {
+      await navigator.clipboard?.writeText(b.dataset.copy!);
+      b.style.background = "var(--mint-600)"; b.style.color = "#fff";
+      setTimeout(() => { b.style.background = ""; b.style.color = ""; }, 1400);
+    }),
+  );
+</script>

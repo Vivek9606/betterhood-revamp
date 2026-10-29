@@ -1,0 +1,92 @@
+---
+import Icon from "./Icon.astro";
+import logo from "../assets/logo.svg?raw";
+import { footerNav, contact, socials } from "../lib/site";
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="f-cta">
+      <div>
+        <p class="eyebrow">Catch the signs early</p>
+        <h2 class="h2">Small aches become big problems. <span class="hl">Not on our watch.</span></h2>
+      </div>
+      <div class="f-cta-actions">
+        <a class="btn btn-sun btn-lg" href="/quiz-landing-page/">Get free assessment <Icon name="arrow" class="arrow" /></a>
+        <a class="btn btn-ghost-light btn-lg" href={contact.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" /> Chat with us</a>
+      </div>
+    </div>
+
+    <div class="f-main">
+      <div class="f-brand">
+        <a href="/" class="f-logo" aria-label="betterhood home" set:html={logo} />
+        <p>Physio-trusted pain care for everyday movement. To move better, recover better and stay active for longer.</p>
+        <ul class="f-social">
+          {socials.map((s) => <li><a href={s.href} target="_blank" rel="noopener" aria-label={s.name}><Icon name={s.icon} size={20} /></a></li>)}
+        </ul>
+      </div>
+      {footerNav.map((col) => (
+        <nav class="f-col" aria-label={col.title}>
+          <p class="f-title">{col.title}</p>
+          <ul>{col.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+        </nav>
+      ))}
+    </div>
+
+    <div class="f-contact">
+      <a href={contact.phoneHref}><Icon name="phone" size={18} /> {contact.phone}</a>
+      <a href={`mailto:${contact.email}`}><Icon name="mail" size={18} /> {contact.email}</a>
+      <span><Icon name="pin" size={18} /> {contact.address}</span>
+    </div>
+
+    <div class="f-mark" aria-hidden="true" set:html={logo} />
+
+    <div class="f-legal">
+      <p>©{year} betterhood™ All Rights Reserved. A brand of Agebetter Solutions Pvt. Ltd.</p>
+      <p>Content on this site is educational and does not replace a consultation with a qualified medical professional.</p>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href={contact.whatsapp} target="_blank" rel="noopener" aria-label="Chat with betterhood on WhatsApp">
+  <Icon name="whatsapp" size={28} />
+</a>
+
+<style>
+  .site-footer { background: var(--plum-950); color: rgba(255, 255, 255, 0.78); padding: 72px 0 28px; margin-top: 0; position: relative; overflow: hidden; }
+  .site-footer::before { content: ""; position: absolute; width: 640px; height: 640px; right: -220px; top: -260px; border-radius: 50%; background: radial-gradient(closest-side, rgba(155, 74, 140, 0.45), transparent); pointer-events: none; }
+  .f-cta { display: flex; flex-wrap: wrap; gap: 28px; justify-content: space-between; align-items: center; padding-bottom: 56px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); position: relative; }
+  .f-cta h2 { color: #fff; max-width: 640px; margin-top: 12px; }
+  .f-cta .eyebrow { color: var(--sun-500); }
+  .f-cta .hl { color: var(--plum-300); }
+  .f-cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn-ghost-light { --b-bg: transparent; --b-fg: #fff; --b-bd: rgba(255, 255, 255, 0.3); }
+  .btn-ghost-light:hover { --b-bg: rgba(255, 255, 255, 0.08); }
+  .f-main { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: 32px; padding: 56px 0 40px; }
+  .f-logo { color: #fff; display: inline-block; }
+  .f-logo :global(svg) { width: 160px; height: auto; }
+  .f-brand p { margin: 18px 0 22px; font-size: 15px; max-width: 300px; }
+  .f-social { display: flex; gap: 8px; list-style: none; }
+  .f-social a { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: rgba(255, 255, 255, 0.08); color: #fff; transition: background 0.2s, transform 0.2s; }
+  .f-social a:hover { background: var(--plum-600); transform: translateY(-2px); }
+  .f-title { color: #fff; font: 600 15px var(--font-display); margin-bottom: 14px; }
+  .f-col ul { list-style: none; display: grid; gap: 10px; font-size: 15px; }
+  .f-col a:hover { color: var(--sun-500); }
+  .f-contact { display: flex; flex-wrap: wrap; gap: 14px 32px; padding: 24px 0; border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 14.5px; }
+  .f-contact > * { display: inline-flex; align-items: flex-start; gap: 8px; }
+  .f-contact :global(svg) { flex: none; margin-top: 2px; color: var(--plum-300); }
+  .f-contact a:hover { color: #fff; }
+  .f-mark { color: transparent; padding: 24px 0 8px; }
+  .f-mark :global(svg) { width: 100%; height: auto; fill: url(#none); }
+  .f-mark :global(path) { fill: rgba(255, 255, 255, 0.06); stroke: rgba(255, 255, 255, 0.16); stroke-width: 1.5px; transition: fill 0.6s; }
+  .f-mark:hover :global(path) { fill: rgba(255, 181, 71, 0.18); }
+  @supports (animation-timeline: view()) {
+    .f-mark :global(svg) { animation: f-rise linear both; animation-timeline: view(); animation-range: entry 0% cover 40%; }
+    @keyframes f-rise { from { transform: translateY(40%) scale(0.92); opacity: 0; } to { transform: none; opacity: 1; } }
+  }
+  .f-legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 13px; color: rgba(255, 255, 255, 0.5); }
+  @media (max-width: 960px) { .f-main { grid-template-columns: 1fr 1fr; } .f-brand { grid-column: 1 / -1; } }
+
+  .wa-float { position: fixed; right: 18px; bottom: 18px; z-index: 40; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: #25d366; color: #fff; box-shadow: 0 12px 28px -8px rgba(37, 211, 102, 0.6); transition: transform 0.25s var(--ease); }
+  .wa-float:hover { transform: scale(1.07) rotate(-4deg); }
+</style>

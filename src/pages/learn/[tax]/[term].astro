@@ -1,0 +1,114 @@
+---
+// One template for every taxonomy archive that lived under /learn/{taxonomy}/{term}/ on the old site.
+import Base from "../../../layouts/Base.astro";
+import Icon from "../../../components/Icon.astro";
+import PostCard from "../../../components/PostCard.astro";
+import PhysioCard from "../../../components/PhysioCard.astro";
+import { taxonomies, taxLabels, postTax, physioTax, postsIn, physiosIn, term as getTerm, type Term } from "../../../lib/data";
+import { areas } from "../../../lib/site";
+
+export function getStaticPaths() {
+  const paths = [];
+  for (const tax of Object.keys(postTax) as (keyof typeof postTax)[]) {
+    for (const t of taxonomies[tax] ?? []) {
+      const items = postsIn(tax, t.slug);
+      if (items.length || t.count) paths.push({ params: { tax, term: t.slug }, props: { tax, t, kind: "posts" as const } });
+    }
+  }
+  for (const tax of Object.keys(physioTax) as (keyof typeof physioTax)[]) {
+    for (const t of taxonomies[tax] ?? []) paths.push({ params: { tax, term: t.slug }, props: { tax, t, kind: "physios" as const } });
+  }
+  return paths;
+}
+
+const { tax, t, kind } = Astro.props as { tax: string; t: Term; kind: "posts" | "physios" };
+const label = taxLabels[tax];
+const posts = kind === "posts" ? postsIn(tax as keyof typeof postTax, t.slug) : [];
+const physios = kind === "physios" ? physiosIn(tax as keyof typeof physioTax, t.slug) : [];
+const area = tax === "by-health-concern" ? areas.find((a) => a.concern === t.slug) : undefined;
+
+// physio city pages list the areas inside that city
+const cityAreas = tax === "physio-city"
+  ? taxonomies.physio_location.filter((l) => l.slug.startsWith(t.slug + "-") && l.count > 0).slice(0, 40)
+  : [];
+const parent = tax === "physio_location" ? taxonomies["physio-city"].find((c) => t.slug.startsWith(c.slug + "-")) : undefined;
+
+const isPhysio = kind === "physios";
+const heading = isPhysio
+  ? tax === "physio_location" ? `Physiotherapists in ${t.name}${parent ? `, ${parent.name}` : ""}`
+  : tax === "physio-city" || tax === "physio-state" ? `Physiotherapists in ${t.name}`
+  : `${t.name} physiotherapists`
+  : t.name;
+const directoryHref = tax === "physio-city" ? `/physio-directory/?city=${t.slug}` : tax === "physio-state" ? `/physio-directory/?state=${t.slug}` : tax === "physio_location" ? `/physio-directory/?area=${t.slug}` : "/physio-directory/";
+const count = isPhysio ? physios.length : posts.length;
+const PAGE = 24;
+const desc = t.description || (isPhysio
+  ? `Find betterhood-certified physiotherapists${tax.includes("city") || tax.includes("state") || tax.includes("location") ? ` in ${t.name}` : ` — ${t.name}`}. Verified profiles with qualifications, experience, consultation modes and fees.`
+  : `Expert-led betterhood articles and videos on ${t.name.toLowerCase()}: causes, exercises, posture, relief and recovery.`);
+---
+<Base title={`${heading} | betterhood`} description={desc} noindex={count === 0}>
+  <section class="t-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span>
+        {isPhysio ? <a href="/physio-directory/">Physio Directory</a> : <a href="/learn/">Learn</a>}
+        {parent && <><span aria-hidden="true">/</span><a href={`/learn/physio-city/${parent.slug}/`}>{parent.name}</a></>}
+        <span aria-hidden="true">/</span><span>{t.name}</span>
+      </nav>
+      <div class="t-head">
+        <div>
+          <p class="eyebrow">{label.label}</p>
+          <h1 class="h1">{heading}</h1>
+          <p class="lead">{desc}</p>
+        </div>
+        <div class="t-side">
+          <p class="t-count"><strong>{count}</strong> {isPhysio ? (count === 1 ? "physiotherapist" : "physiotherapists") : count === 1 ? "article" : "articles"}</p>
+          {isPhysio && <a class="btn btn-ghost btn-sm" href={directoryHref}><Icon name="filter" /> Open in directory</a>}
+          {area && <a class="btn btn-sm" href={area.assessment}><Icon name="clipboard" /> Free {area.label.toLowerCase()} assessment</a>}
+        </div>
+      </div>
+      {cityAreas.length > 0 && (
+        <div class="t-areas">
+          <p class="f-t">Popular areas in {t.name}</p>
+          <div class="chips">{cityAreas.map((a) => <a class="chip" href={`/learn/physio_location/${a.slug}/`}>{a.name}</a>)}</div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      {count === 0 && <p class="empty">Nothing here yet — check back soon, or <a class="link" href={isPhysio ? "/physio-directory/" : "/learn/"}>browse everything</a>.</p>}
+      <div class:list={["grid", isPhysio ? "cols-4" : "cols-3", "t-grid"]} data-pager>
+        {isPhysio
+          ? physios.map((p, i) => <div class="t-item" hidden={i >= PAGE}><PhysioCard physio={p} /></div>)
+          : posts.map((p, i) => <div class="t-item" hidden={i >= PAGE}><PostCard post={p} /></div>)}
+      </div>
+      {count > PAGE && <div class="t-more"><button class="btn btn-ghost" data-pager-more>Show more</button></div>}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .t-hero { padding: 32px 0 40px; background: linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .t-head { display: flex; flex-wrap: wrap; gap: 24px 48px; justify-content: space-between; align-items: flex-end; margin-top: 24px; }
+  .t-head > div:first-child { max-width: 760px; }
+  .t-head .lead { margin-top: 14px; }
+  .t-side { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .t-count { padding: 10px 18px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-size: 15px; }
+  .t-count strong { font-family: var(--font-display); color: var(--plum-700); }
+  .t-areas { margin-top: 28px; }
+  .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .t-more { display: flex; justify-content: center; margin-top: 40px; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-pager-more]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const hidden = [...document.querySelectorAll<HTMLElement>("[data-pager] > [hidden]")];
+      hidden.slice(0, 24).forEach((el) => (el.hidden = false));
+      if (hidden.length <= 24) b.remove();
+    }),
+  );
+</script>
