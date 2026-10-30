@@ -51,7 +51,7 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
           <option value="">All areas</option>
         </select>
       </form>
-      <div class="d-modes" role="group" aria-label="Mode of treatment">
+      <div class="d-modes" role="group" aria-label="Mode of treatment" data-track-off>
         {modes.map((m) => <button class="chip" aria-pressed="false" data-mode={m}>{m}</button>)}
         <button class="link d-reset" type="button">Reset</button>
       </div>
@@ -61,10 +61,10 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
   <section class="section-tight">
     <div class="wrap">
       <p class="d-count muted" aria-live="polite">Showing <strong data-count>{physios.length}</strong> physiotherapists</p>
-      <div class="grid cols-4" data-grid>
+      <div class="grid cols-4" data-grid data-track-off>
         {featured.map((p) => <PhysioCard physio={p} />)}
       </div>
-      <div class="d-more"><button class="btn btn-ghost" data-more>Show more</button></div>
+      <div class="d-more" data-track-off><button class="btn btn-ghost" data-more>Show more</button></div>
     </div>
   </section>
 
@@ -164,13 +164,32 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
     const l = list();
     count.textContent = l.length.toLocaleString("en-IN");
     grid.innerHTML = l.length ? l.slice(0, shown).map(card).join("") : `<p class="empty" style="grid-column:1/-1">No physiotherapists match these filters yet — try a nearby city or clear a filter.</p>`;
+    watchCards();
     more.hidden = shown >= l.length;
     const u = new URL(location.href);
     (["state", "city", "area"] as const).forEach((k, i) => { const v = [fs, fc, fa][i].value; v ? u.searchParams.set(k, v) : u.searchParams.delete(k); });
     history.replaceState(null, "", u);
   }
 
-  const logFilter = () => track("filter", { where: "physio-directory", state: fs.value || null, city: fc.value || null, area: fa.value || null, modes: [...modes].join(",") || null });
+  // which cards people see and click, by position in the list (are the top spots doing the work?)
+  const filtered = () => !!(q.value.trim() || fs.value || fc.value || fa.value || modes.size);
+  const cardInfo = (a: HTMLAnchorElement) => ({ physio: a.pathname.split("/")[2], position: [...grid.children].indexOf(a) + 1, filtered: filtered() });
+  const seenCards = new Set<string>();
+  const cardIo = new IntersectionObserver((es) => es.forEach((en) => {
+    if (!en.isIntersecting) return;
+    const a = en.target as HTMLAnchorElement;
+    cardIo.unobserve(a);
+    const info = cardInfo(a);
+    if (!seenCards.has(info.physio)) { seenCards.add(info.physio); track("physio_card_view", info); }
+  }), { threshold: 0.5 });
+  function watchCards() { cardIo.disconnect(); grid.querySelectorAll<HTMLAnchorElement>("a.phc").forEach((a) => cardIo.observe(a)); }
+  watchCards();
+  grid.addEventListener("click", (e) => {
+    const a = (e.target as Element).closest<HTMLAnchorElement>("a.phc");
+    if (a) track("physio_card_click", cardInfo(a));
+  });
+
+  const logFilter = async () => { await ready; track("filter", { where: "physio-directory", state: fs.value || null, city: fc.value || null, area: fa.value || null, modes: [...modes].join(",") || null, results: list().length }); };
   fs.addEventListener("change", () => { syncCities(); syncAreas(); render(); logFilter(); });
   fc.addEventListener("change", () => {
     const st = fc.selectedOptions[0]?.dataset.state;
@@ -201,8 +220,9 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
     q.value = ""; fs.value = ""; fc.value = ""; modes.clear();
     document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-pressed", "false"));
     syncCities(); syncAreas(); render();
+    track("filter_reset", { where: "physio-directory" });
   });
-  more.addEventListener("click", () => { shown += 24; render(false); });
+  more.addEventListener("click", () => { shown += 24; render(false); track("physio_show_more", { shown, filtered: filtered() }); });
 
   // honour the old site's deep links: /physio-directory/?state=…&city=…&area=…
   (async () => {

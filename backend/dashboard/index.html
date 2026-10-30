@@ -118,6 +118,7 @@
     <nav role="tablist">
       <button role="tab" data-tab="overview" aria-selected="true">Overview</button>
       <button role="tab" data-tab="assessments">Assessments</button>
+      <button role="tab" data-tab="engagement">Engagement</button>
       <button role="tab" data-tab="behaviour">Behaviour</button>
       <button role="tab" data-tab="leads">Leads</button>
       <button role="tab" data-tab="sessions">Sessions</button>
@@ -129,6 +130,7 @@
 <div class="wrap">
   <section data-panel="overview"></section>
   <section data-panel="assessments" hidden></section>
+  <section data-panel="engagement" hidden></section>
   <section data-panel="behaviour" hidden></section>
   <section data-panel="leads" hidden></section>
   <section data-panel="sessions" hidden></section>
@@ -302,8 +304,139 @@ async function assessments() {
       </div>
       <p class="muted" style="font-size:13px;margin:10px 0 0">Completion: <b>${f.started ? Math.round((100 * f.completed) / f.started) : 0}%</b> of starters${ab.length ? ` · most left at step ${ab.sort((a, b) => b.n - a.n)[0].step}` : ""}</p>
       ${results.length ? `<h3 style="margin-top:14px">Results given</h3>${table(results, [{ k: "n", label: "Outcome", bar: true, labelKey: "label" }, { k: "n", label: "People", n: true, fmt: num }, { k: "avg_overall", label: "Avg score", n: true, fmt: (v) => (v == null ? "–" : v) }])}` : ""}
+      ${stepRows(f.assessment).length ? `<h3 style="margin-top:14px">Each step</h3>${table(stepRows(f.assessment), [
+        { k: "median_s", label: "Step", bar: true, labelFmt: (r) => `Step ${r.step}` },
+        { k: "median_s", label: "Median time", n: true, fmt: (v) => (v == null ? "–" : dur(v * 1000)) },
+        { k: "backs", label: "Went back", n: true, fmt: num },
+        { k: "errors", label: "Blocked", n: true, fmt: num },
+      ])}<p class="muted" style="font-size:12.5px;margin:6px 0 0">Blocked = tried to continue without a valid answer.</p>` : ""}
     </div>`;
-  }).join("")}</div>`;
+  }).join("")}</div>
+    <div class="grid g2">
+      <div class="card"><h2>Quality of completions</h2>${table(d.summary, [
+        { k: "starts", label: "Assessment", bar: true, labelFmt: (r) => esc(pretty(r.assessment)) },
+        { k: "retakes", label: "Retakes", n: true, fmt: (v, r) => `${num(v)} <span class="muted">(${r.starts ? Math.round((100 * v) / r.starts) : 0}%)</span>` },
+        { k: "median_duration_s", label: "Median time", n: true, fmt: (v) => (v == null ? "–" : dur(v * 1000)) },
+        { k: "avg_backs", label: "Avg backs", n: true, fmt: (v) => v ?? "–" },
+        { k: "avg_changes", label: "Avg changed answers", n: true, fmt: (v) => v ?? "–" },
+        { k: "with_contact", label: "Left contact", n: true, fmt: (v, r) => (r.completes ? Math.round((100 * v) / r.completes) + "%" : "–") },
+      ])}</div>
+      <div class="card"><h2>After seeing the result</h2>${table(d.after, [
+        { k: "n", label: "What they clicked on the result page", bar: true, labelKey: "label" },
+        { k: "kind", label: "Type", fmt: (v) => `<span class="chip">${esc(v.replace("_click", ""))}</span>` },
+        { k: "sessions", label: "Sessions", n: true, fmt: num },
+      ])}</div>
+    </div>`;
+  function stepRows(a) {
+    const by = {};
+    const row = (s) => (by[s] ??= { step: s, median_s: null, backs: 0, errors: 0 });
+    d.stepTimes.filter((r) => r.assessment === a).forEach((r) => (row(r.step).median_s = r.median_s));
+    d.backs.filter((r) => r.assessment === a).forEach((r) => (row(r.step).backs += r.n));
+    d.errors.filter((r) => r.assessment === a).forEach((r) => (row(r.step).errors += r.n));
+    return Object.values(by).sort((x, y) => x.step - y.step);
+  }
+}
+
+// ---------- Engagement: homepage, physio directory, blogs, site health ----------
+async function engagement() {
+  const el = $('[data-panel="engagement"]');
+  const d = await get("engagement");
+  const h = d.home;
+  const pct = (a, b) => (b ? Math.round((100 * a) / b) + "%" : "–");
+  const short = (p) => esc(String(p ?? "–").replace(/^\/(learn|physio)\//, "").replace(/\/$/, "") || "/");
+  el.innerHTML = `
+    <h2 style="margin:24px 0 0">Homepage</h2>
+    <div class="tiles">
+      ${tile("Homepage sessions", num(h.sessions))}
+      ${tile("Clicked something", pct(h.clicked, h.sessions))}
+      ${tile("Median time to first click", h.median_first_click_s == null ? "–" : h.median_first_click_s + "s")}
+      ${tile("Scrolled halfway", pct(h.half, h.sessions))}
+      ${tile("Reached the end", pct(h.full, h.sessions))}
+    </div>
+    <div class="grid g2">
+      <div class="card"><h2>Clicks by part of the page</h2>${table(d.homeZones, [
+        { k: "n", label: "Zone", bar: true, labelKey: "zone" },
+        { k: "n", label: "Clicks", n: true, fmt: num },
+        { k: "sessions", label: "Sessions", n: true, fmt: num },
+      ])}</div>
+      <div class="card"><h2>Chapters seen</h2>${table(d.homeSections, [
+        { k: "sessions", label: "Section", bar: true, labelKey: "label" },
+        { k: "sessions", label: "Reach", n: true, fmt: (v) => `${num(v)} <span class="muted">(${pct(v, h.sessions)})</span>` },
+      ])}</div>
+    </div>
+    <div class="card" style="margin-top:16px"><h2>Top homepage clicks</h2>${table(d.homeClicks, [
+      { k: "n", label: "Button / link", bar: true, labelKey: "label" },
+      { k: "zone", label: "Where", fmt: (v) => `<span class="chip">${esc(v)}</span>` },
+      { k: "target", label: "Goes to", fmt: (v) => esc(String(v ?? "–").slice(0, 60)) },
+      { k: "n", label: "Clicks", n: true, fmt: num },
+    ])}</div>
+    <div class="grid g2">
+      <div class="card"><h2>FAQs opened</h2>${table(d.faqs, [{ k: "n", label: "Question", bar: true, labelKey: "label" }, { k: "path", label: "Page", fmt: short }, { k: "n", label: "Opens", n: true, fmt: num }])}</div>
+      <div class="card"><h2>Videos</h2>${table(d.videos, [
+        { k: "n", label: "Video", bar: true, labelKey: "label" },
+        { k: "path", label: "Page", fmt: short },
+        { k: "name", label: "Signal", fmt: (v, r) => `<span class="chip">${v === "video_open" ? "opened" : r.via === "embed" ? "clicked player" : "played"}</span>` },
+        { k: "n", label: "Count", n: true, fmt: num },
+      ])}</div>
+    </div>
+
+    <h2 style="margin:32px 0 0">Physio directory</h2>
+    <div class="grid g2">
+      <div class="card"><h2>Card click-through by list position</h2>${table(d.cardsByPos, [
+        { k: "views", label: "Position", bar: true, labelKey: "label" },
+        { k: "views", label: "Cards seen", n: true, fmt: num },
+        { k: "clicks", label: "Clicked", n: true, fmt: num },
+        { k: "clicks", label: "CTR", n: true, fmt: (v, r) => pct(v, r.views) },
+      ])}</div>
+      <div class="card"><h2>Filters used</h2>${table(d.filters, [
+        { k: "n", label: "City · area · mode", bar: true, labelKey: "label" },
+        { k: "n", label: "Times", n: true, fmt: num },
+        { k: "results", label: "Results", n: true, fmt: (v) => (v === 0 ? `<span class="down">0</span>` : v == null ? "–" : num(v)) },
+      ])}<p class="muted" style="font-size:12.5px;margin:8px 0 0">Filters with 0 results show where there are no physios yet.</p></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h2>Profiles: listed → opened → contacted</h2>${table(d.profiles, [
+      { k: "profile_sessions", label: "Physio", bar: true, labelFmt: (r) => short(r.label) },
+      { k: "listed", label: "Seen in list", n: true, fmt: num },
+      { k: "card_clicks", label: "Card clicks", n: true, fmt: num },
+      { k: "profile_sessions", label: "Profile visits", n: true, fmt: num },
+      { k: "contacted", label: "Call / WhatsApp", n: true, fmt: (v, r) => `${num(v)} <span class="muted">(${pct(v, r.profile_sessions)})</span>` },
+    ])}<p class="muted" style="font-size:12.5px;margin:8px 0 0">Lots of visits but few contacts can point to a profile, price or photo problem.</p></div>
+    <div class="card" style="margin-top:16px"><h2>What people click on profiles</h2>${table(d.profileZones, [
+      { k: "n", label: "Button / link", bar: true, labelKey: "label" },
+      { k: "zone", label: "Where", fmt: (v) => `<span class="chip">${esc(v ?? "–")}</span>` },
+      { k: "name", label: "Type", fmt: (v) => esc(v.replace("_click", "")) },
+      { k: "n", label: "Clicks", n: true, fmt: num },
+    ])}</div>
+
+    <h2 style="margin:32px 0 0">Blogs</h2>
+    <div class="card" style="margin-top:16px"><h2>Articles</h2>${table(d.articles, [
+      { k: "views", label: "Article", bar: true, labelFmt: (r) => esc(r.title || r.label) },
+      { k: "views", label: "Views", n: true, fmt: num },
+      { k: "avg_engaged_s", label: "Avg time", n: true, fmt: (v) => (v == null ? "–" : dur(v * 1000)) },
+      { k: "read_pct", label: "Read to end", n: true, fmt: (v) => v + "%" },
+      { k: "shares", label: "Shares", n: true, fmt: num },
+      { k: "cta_clicks", label: "To assessment / physio / shop", n: true, fmt: num },
+    ])}<p class="muted" style="font-size:12.5px;margin:8px 0 0">High views with a low read-to-end rate are candidates for a rewrite.</p></div>
+    <div class="grid g3">
+      <div class="card"><h2>Topics read</h2>${table(d.concerns, [{ k: "views", label: "Health concern", bar: true, labelKey: "label" }, { k: "views", label: "Views", n: true, fmt: num }, { k: "visitors", label: "Readers", n: true, fmt: num }])}</div>
+      <div class="card"><h2>Links clicked in articles</h2>${table(d.articleLinks, [{ k: "n", label: "Destination", bar: true, labelFmt: (r) => esc(String(r.label ?? "–").slice(0, 60)) }, { k: "zone", label: "Where", fmt: (v) => `<span class="chip">${esc(v)}</span>` }, { k: "n", label: "Clicks", n: true, fmt: num }])}</div>
+      <div class="card"><h2>Shares</h2>${table(d.shares, [{ k: "n", label: "Via", bar: true, labelKey: "label" }, { k: "articles", label: "Articles", n: true, fmt: num }, { k: "profiles", label: "Profiles", n: true, fmt: num }])}</div>
+    </div>
+
+    <h2 style="margin:32px 0 0">Site health</h2>
+    <div class="grid g2">
+      <div class="card"><h2>Rage clicks</h2>${table(d.rage, [
+        { k: "n", label: "Element", bar: true, labelFmt: (r) => esc(r.label || "(no text)") },
+        { k: "path", label: "Page", fmt: short },
+        { k: "zone", label: "Where", fmt: (v) => `<span class="chip">${esc(v)}</span>` },
+        { k: "sessions", label: "Sessions", n: true, fmt: num },
+      ])}<p class="muted" style="font-size:12.5px;margin:8px 0 0">3+ quick clicks on the same spot: usually something that looks clickable but doesn't respond.</p></div>
+      <div class="card"><h2>Broken links (404)</h2>${table(d.notFound, [
+        { k: "n", label: "Missing page", bar: true, labelKey: "path" },
+        { k: "prev", label: "Linked from", fmt: (v) => esc(v ?? "outside / direct") },
+        { k: "n", label: "Hits", n: true, fmt: num },
+      ])}</div>
+    </div>`;
 }
 
 // ---------- Behaviour ----------
@@ -416,6 +549,16 @@ function describe(e) {
     case "filter": return `Filtered ${esc(p.where)}: ${esc(Object.entries(p).filter(([k]) => k !== "where").map(([k, v]) => `${k}=${v}`).join(", "))}`;
     case "web_vital": return `${esc(p.metric)}: ${p.metric === "CLS" ? Number(p.value).toFixed(3) : Math.round(p.value) + " ms"}`;
     case "js_error": return `<span class="err">Error: ${esc(p.message)}</span>`;
+    case "click": return `Clicked “<b>${esc(p.text || p.href)}</b>” <span class="muted">in ${esc(p.zone)}${p.href ? ` → ${esc(p.href)}` : ""}</span>`;
+    case "expand": return `Opened “<b>${esc(p.text)}</b>”`;
+    case "share": return `Shared via <b>${esc(p.via)}</b>`;
+    case "video_open": case "video_play": return `Played video <b>${esc(p.tag || p.video || p.src)}</b>`;
+    case "rage_click": return `<span class="err">Rage-clicked “${esc(p.text || p.tag)}”</span>`;
+    case "article_read": return `Read the article to the end`;
+    case "physio_card_click": return `Opened physio card <b>${esc(p.physio)}</b> (position ${p.position})`;
+    case "physio_show_more": return `Loaded more physios (${p.shown} shown)`;
+    case "assessment_back": return `Went back from step ${p.from_step}`;
+    case "assessment_error": return `Tried to continue step ${p.step} without a valid answer`;
     default: return `<b>${esc(e.name)}</b> ${Object.keys(p).length ? `<span class="muted">${esc(JSON.stringify(p))}</span>` : ""}`;
   }
 }
@@ -427,7 +570,7 @@ async function openJourney(q) {
     const r = await fetch(`/api/journey?${new URLSearchParams(q)}`);
     const d = await r.json();
     if (!r.ok) throw new Error(d.error);
-    const quiet = new Set(["scroll_depth", "web_vital", "section_view"]);
+    const quiet = new Set(["scroll_depth", "web_vital", "section_view", "physio_card_view"]);
     const byS = {};
     d.events.forEach((e) => (byS[e.session_id] ??= []).push(e));
     const who = d.person;
@@ -458,7 +601,7 @@ async function openJourney(q) {
 $("#jform").addEventListener("submit", (e) => { e.preventDefault(); const q = $("#jq").value.trim(); if (q) openJourney({ q }); });
 
 // ---------- tabs ----------
-const loaders = { overview, assessments, behaviour, leads, sessions, journey: async () => {} };
+const loaders = { overview, assessments, engagement, behaviour, leads, sessions, journey: async () => {} };
 let current = "overview";
 function select(tab) {
   current = tab;

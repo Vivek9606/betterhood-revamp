@@ -144,7 +144,7 @@ const tabs = [
 ].filter(Boolean) as [string, string][];
 ---
 <Base title={title} description={description} image={p.image || undefined} type="profile" jsonLd={jsonLd} modified={p.date}>
-  <section class="pp-hero">
+  <section class="pp-hero" data-zone="profile-hero" data-page-type="physio" data-page-physio={p.slug} data-page-city={p.city || undefined} data-page-photo={p.image ? "yes" : "no"}>
     <div class="wrap">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         {breadcrumbs.map((b, i) => i < breadcrumbs.length - 1
@@ -174,8 +174,8 @@ const tabs = [
           <div class="pp-cta">
             <a class="btn btn-lg" href={book} target="_blank" rel="noopener"><Icon name="whatsapp" /> Book a session</a>
             {gallery.videos.length > 0 && <a class="btn btn-ghost btn-lg" href="#videos"><Icon name="play" size={16} /> Watch videos</a>}
-            <a class="pp-round" href={share} target="_blank" rel="noopener" aria-label="Share on WhatsApp"><Icon name="share" /></a>
-            <button class="pp-round" data-copy={url} aria-label="Copy profile link"><Icon name="copy" /></button>
+            <a class="pp-round" href={share} target="_blank" rel="noopener" aria-label="Share on WhatsApp" data-track="share" data-track-via="whatsapp"><Icon name="share" /></a>
+            <button class="pp-round" data-copy={url} aria-label="Copy profile link" data-track="share" data-track-via="copy"><Icon name="copy" /></button>
           </div>
         </div>
 
@@ -190,7 +190,7 @@ const tabs = [
     </div>
   </section>
 
-  <nav class="pp-tabs" aria-label="On this page">
+  <nav class="pp-tabs" aria-label="On this page" data-zone="profile-tabs">
     <div class="wrap"><ul>{tabs.map(([id, label]) => <li><a href={`#${id}`} data-tab={id}>{label}</a></li>)}</ul></div>
   </nav>
 
@@ -317,7 +317,7 @@ const tabs = [
       </section>
     </div>
 
-    <aside class="pp-side" aria-label="Book a session">
+    <aside class="pp-side" aria-label="Book a session" data-zone="profile-sidebar">
       <div class="pp-book">
         <div class="pp-book-top">
           {p.image ? <img src={media(p.image)} alt="" width="56" height="56" loading="lazy" /> : <span class="pp-ph pp-ph-sm">{initials}</span>}
@@ -353,7 +353,7 @@ const tabs = [
     </div>
   </section>
 
-  <div class="pp-bar">
+  <div class="pp-bar" data-zone="profile-sticky-bar">
     <div><strong>{fee || p.name}</strong><span>{fee ? "per session" : role}</span></div>
     <a class="btn" href={book} target="_blank" rel="noopener"><Icon name="whatsapp" /> Book a session</a>
   </div>

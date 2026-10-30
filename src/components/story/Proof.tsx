@@ -9,6 +9,7 @@ export default function Proof({ reels, press }: Props) {
   const track = useRef<HTMLDivElement>(null);
   const [limit, setLimit] = useState(0);
   const [open, setOpen] = useState<string | null>(null);
+  const play = (r: { id: string; tag: string }) => { setOpen(r.id); import("../../scripts/tracker").then((t) => t.track("video_open", { video: r.id, tag: r.tag, zone: "Chapter six: proof" })); };
   const x = useMotionValue(0);
   const v = useVelocity(x);
   const skew = useSpring(useTransform(v, [-2000, 0, 2000], [8, 0, -8], { clamp: true }), { stiffness: 200, damping: 30 });
@@ -46,7 +47,7 @@ export default function Proof({ reels, press }: Props) {
         <motion.div ref={track} className="st-reels-track" drag="x" dragConstraints={{ left: -limit, right: 0 }} dragElastic={0.08}
           style={{ x, skewX: skew }} onDragStart={() => (dragged.current = true)} onDragEnd={() => setTimeout(() => (dragged.current = false), 50)}>
           {reels.map((r) => (
-            <motion.button key={r.id} layoutId={`reel-${r.id}`} className="st-reel" onClick={() => !dragged.current && setOpen(r.id)} whileHover={{ y: -8 }} aria-label={`Play ${r.tag} testimonial`}>
+            <motion.button key={r.id} layoutId={`reel-${r.id}`} className="st-reel" onClick={() => !dragged.current && play(r)} data-track-off whileHover={{ y: -8 }} aria-label={`Play ${r.tag} testimonial`}>
               <img src={`https://i.ytimg.com/vi/${r.id}/oar2.jpg`} onError={(e) => ((e.target as HTMLImageElement).src = `https://i.ytimg.com/vi/${r.id}/hqdefault.jpg`)} alt="" draggable={false} loading="lazy" />
               <span className="st-reel-tag">{r.tag}</span>
               {r.len && <span className="st-reel-len">{r.len}</span>}

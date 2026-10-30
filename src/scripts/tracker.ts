@@ -1,11 +1,16 @@
 // Visitor journey tracking. Sends events in batches to the betterhood backend (PUBLIC_TRACK_ENDPOINT,
 // e.g. https://api.betterhood.in/v1/collect), which stores them in Supabase.
 //
-// Automatic: page views, time actively on each page, scroll depth, outbound clicks (shop, WhatsApp,
-// phone, email, social), homepage chapters seen, form starts, JS errors and Web Vitals.
+// Automatic: page views, time actively on each page, scroll depth, every click on a link or button
+// (with the zone of the page it sits in), outbound clicks (shop, WhatsApp, phone, email, social),
+// FAQ/accordion opens, video plays, rage clicks, homepage chapters seen, form starts, JS errors and
+// Web Vitals.
 // Elsewhere in the site: track("name", {...}) for custom events and identify({email, phone, name})
 // once someone tells us who they are. Any element with data-track="event_name" is tracked on click,
 // with its data-track-* attributes as properties.
+// Markup hooks: data-zone="name" names a part of the page; data-page-type="…" plus data-page-* adds
+// context to the page_view; data-track-off skips the generic click event inside it (for widgets that
+// send their own events).
 import { onCLS, onINP, onLCP, onTTFB } from "web-vitals";
 
 const ENDPOINT: string = import.meta.env.PUBLIC_TRACK_ENDPOINT ?? "";
@@ -107,7 +112,24 @@ const pageType = (p: string) =>
   : p.endsWith("-protocols/") ? "protocol"
   : "page";
 
-const viewId = track("page_view", { type: pageType(location.pathname), prev: document.referrer && new URL(document.referrer).host === location.host ? new URL(document.referrer).pathname : null });
+// data-foo-bar-baz attributes → { barBaz } for the given prefix ("foo")
+function attrs(el: HTMLElement, prefix: string) {
+  const props: Props = {};
+  for (const [k, v] of Object.entries(el.dataset)) if (k.startsWith(prefix) && k.length > prefix.length) props[k[prefix.length].toLowerCase() + k.slice(prefix.length + 1)] = v;
+  return props;
+}
+
+// Where on the page an element sits: an explicit data-zone, else the labelled or id'd section around it
+export function zoneOf(el: Element) {
+  const z = el.closest<HTMLElement>("[data-zone]")?.dataset.zone;
+  if (z) return z;
+  const s = el.closest("section[aria-label], section[id]");
+  return s ? s.getAttribute("aria-label") || s.id : "main";
+}
+const label = (el: Element) => el.textContent?.trim().replace(/\s+/g, " ").slice(0, 80) || el.getAttribute("aria-label") || null;
+
+const pageEl = document.querySelector<HTMLElement>("[data-page-type]");
+const viewId = track("page_view", { type: pageType(location.pathname), ...(pageEl && attrs(pageEl, "page")), prev: document.referrer && new URL(document.referrer).host === location.host ? new URL(document.referrer).pathname : null });
 
 let engaged = 0, visibleSince = document.visibilityState === "visible" ? performance.now() : 0, maxScroll = 0, left = false;
 const marks = new Set<number>();
@@ -122,7 +144,7 @@ addEventListener("load", onScroll);
 
 function leave() {
   if (visibleSince) { engaged += performance.now() - visibleSince; visibleSince = 0; }
-  if (!left) { left = true; track("page_leave", { view_id: viewId, engaged_ms: Math.round(engaged), max_scroll: maxScroll }); }
+  if (!left) { left = true; track("page_leave", { view_id: viewId, engaged_ms: Math.round(engaged), max_scroll: maxScroll, clicks, first_click_ms: firstClickMs }); }
   flush(true);
 }
 document.addEventListener("visibilitychange", () => {
@@ -131,7 +153,7 @@ document.addEventListener("visibilitychange", () => {
 });
 addEventListener("pagehide", leave);
 
-// ---- clicks: outbound links + data-track elements ----
+// ---- clicks: every link/button, outbound links, data-track elements, rage clicks ----
 const SOCIAL = /instagram|youtube|youtu\.be|linkedin|facebook|twitter|x\.com/;
 function linkKind(a: HTMLAnchorElement) {
   const h = a.href;
@@ -142,21 +164,49 @@ function linkKind(a: HTMLAnchorElement) {
   if (SOCIAL.test(h)) return "social";
   try { return new URL(h).host === location.host ? null : "external"; } catch { return null; }
 }
+let clicks = 0, firstClickMs: number | null = null;
+let rage = { n: 0, t: 0, x: 0, y: 0 };
 document.addEventListener("click", (e) => {
   const t = e.target as Element;
+  clicks++;
+  firstClickMs ??= Math.round(performance.now());
+  // 3+ clicks on the same spot within a second: usually something that looks clickable but does nothing
+  const near = e.timeStamp - rage.t < 1000 && Math.abs(e.clientX - rage.x) < 30 && Math.abs(e.clientY - rage.y) < 30;
+  rage = { n: near ? rage.n + 1 : 1, t: e.timeStamp, x: e.clientX, y: e.clientY };
+  if (rage.n === 3) track("rage_click", { zone: zoneOf(t), tag: t.tagName.toLowerCase(), text: label(t)?.slice(0, 60) });
+
   const el = t.closest<HTMLElement>("[data-track]");
-  if (el) {
-    const props: Props = {};
-    for (const [k, v] of Object.entries(el.dataset)) if (k.startsWith("track") && k !== "track") props[k[5].toLowerCase() + k.slice(6)] = v;
-    track(el.dataset.track!, props);
-  }
+  if (el) track(el.dataset.track!, { zone: zoneOf(el), ...attrs(el, "track") });
   const a = t.closest<HTMLAnchorElement>("a[href]");
   const kind = a && linkKind(a);
   if (a && kind) {
-    track("outbound_click", { kind, url: a.href.slice(0, 300), text: a.textContent?.trim().slice(0, 80) || a.getAttribute("aria-label") });
+    track("outbound_click", { kind, url: a.href.slice(0, 300), text: label(a), zone: zoneOf(a) });
     flush(true);
+    return;
   }
+  const c = el ? null : t.closest<HTMLElement>("a[href], button, summary, [role=button]");
+  if (!c || c.closest("[data-track-off]")) return;
+  if (c.tagName === "SUMMARY") {
+    // the click happens before the toggle: closed now means it's being opened
+    if (!(c.parentElement as HTMLDetailsElement).open) track("expand", { zone: zoneOf(c), text: label(c) });
+    return;
+  }
+  track("click", { zone: zoneOf(c), text: label(c), href: a ? a.pathname + a.search + a.hash : null });
 }, { capture: true });
+
+// ---- video plays: <video> elements, and clicks into embedded players (YouTube) ----
+document.addEventListener("play", (e) => {
+  const v = e.target as HTMLMediaElement;
+  track("video_play", { zone: zoneOf(v), src: v.currentSrc.slice(0, 200), via: "native" });
+}, { capture: true });
+const playedEmbeds = new Set<string>();
+addEventListener("blur", () => setTimeout(() => {
+  // focus moving into an iframe is the only signal a cross-origin player gives us
+  const f = document.activeElement;
+  if (!(f instanceof HTMLIFrameElement) || playedEmbeds.has(f.src)) return;
+  playedEmbeds.add(f.src);
+  track("video_play", { zone: zoneOf(f), video: f.src.match(/embed\/([\w-]{6,})/)?.[1] ?? f.src.slice(0, 200), via: "embed" });
+}));
 
 // Hand our ids to Shopify so orders can be matched back to the visit (read them from the landing URL / cart attributes there)
 document.addEventListener("pointerdown", (e) => {

@@ -5,9 +5,22 @@ import PostCard from "../../components/PostCard.astro";
 import Newsletter from "../../components/Newsletter.astro";
 import { posts, postsIn, taxonomies, formatDate } from "../../lib/data";
 import { media } from "../../lib/site";
+import index from "../../data/posts-index.json";
+import { areas, moments, goals, defaultPick, find, optArea, optMoment, optGoal, type Row } from "../../lib/finder";
 
+// the editors' banner pick leads "What's trending"
 const banner = postsIn("post-section-tags", "learn-page-banner")[0] ?? posts[0];
-const trending = posts.filter((p) => p.image && p.slug !== banner.slug).slice(0, 3);
+const trending = [banner, ...posts.filter((p) => p.image && p.slug !== banner.slug)].slice(0, 3);
+const videoCount = posts.filter((p) => p.videos.length).length;
+
+// hero finder: first paint shows the default sentence's results
+const rows = index as Row[];
+const first3 = find(rows, defaultPick);
+const slots = [
+  { key: "area", title: "Where does it hurt?", opts: areas, cur: optArea(defaultPick.area) },
+  { key: "moment", title: "When is it worst?", opts: moments, cur: optMoment(defaultPick.moment) },
+  { key: "goal", title: "What would help most?", opts: goals, cur: optGoal(defaultPick.goal) },
+] as const;
 const mustKnows = postsIn("post-section-tags", "absolute-must-knows").slice(0, 6);
 const expert = postsIn("post-section-tags", "expert-section").slice(0, 12);
 const explainers = postsIn("post-section-tags", "explainer-series").slice(0, 8);
@@ -21,34 +34,67 @@ const groups = [
 const types = taxonomies.category.filter((t) => t.slug !== "uncategorized");
 ---
 <Base title="Learn — Expert-led articles on pain, posture & recovery" description="1000+ physio-backed articles and videos on back, neck, shoulder, knee and feet pain, posture, recovery and healthy ageing from betterhood.">
-  <section class="l-hero">
+  <section class="l-hero" data-zone="learn-hero">
     <div class="wrap">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Learn</span></nav>
-      <div class="l-hero-grid">
-        <div>
-          <p class="eyebrow">The better library</p>
-          <h1 class="h1">Understand your pain. <span class="hl">Then outsmart it.</span></h1>
-          <p class="lead">Expert-led articles, explainers and exercise videos — reviewed with physiotherapists, written for real life.</p>
-          <form class="l-search" role="search" id="search" onsubmit="return false">
+      <div class="lh-grid">
+        <div class="lh-copy">
+          <p class="eyebrow">The betterhood library</p>
+          <h1 class="h1 lh-title">Understand your pain. <span class="hl">Then outsmart it.</span></h1>
+          <p class="lh-lead">Finish the sentence. We'll pick the right reads from {posts.length.toLocaleString("en-IN")} physio-reviewed articles and videos.</p>
+
+          <p class="lh-sentence" data-finder data-track-off>
+            My {slots.map((s, i) => (
+              <>
+                <span class="lh-slot" data-slot={s.key}>
+                  <button type="button" class="lh-pick" aria-haspopup="true" aria-expanded="false" aria-controls={`lh-pop-${s.key}`} aria-label={`${s.title} Currently: ${s.cur.label}`}>
+                    <span class="lh-pick-ic" data-ic><Icon name={s.cur.icon} size={20} /></span><span data-label>{s.cur.label}</span><Icon name="chevron" size={18} class="lh-chev" />
+                  </button>
+                  <span class="lh-pop" id={`lh-pop-${s.key}`} role="group" aria-label={s.title} hidden>
+                    <span class="lh-pop-t">{s.title}</span>
+                    {s.opts.map((o) => (
+                      <button type="button" class="lh-opt" data-v={o.v} aria-pressed={String(o.v === s.cur.v)}><Icon name={o.icon} size={20} /><span>{o.label}</span></button>
+                    ))}
+                  </span>
+                </span>
+                {i === 0 && <> <span data-verb>{optArea(defaultPick.area).plural ? "hurt" : "hurts"}</span> </>}
+                {i === 1 && <> and I want to </>}
+              </>
+            ))}.
+          </p>
+
+          <form class="l-search lh-search" role="search" id="search" onsubmit="return false">
             <Icon name="search" size={20} />
             <label for="q" class="sr-only">Search articles</label>
-            <input id="q" type="search" placeholder="Search “sciatica”, “knee cap”, “desk posture”…" autocomplete="off" />
+            <input id="q" type="search" placeholder="Know what you need? Search “sciatica”, “knee cap”…" autocomplete="off" />
           </form>
-          <div class="l-quick">
-            {taxonomies["by-health-concern"].map((t) => <a class="chip" href={`/learn/by-health-concern/${t.slug}/`}>{t.name}</a>)}
-          </div>
         </div>
-        <a class="l-banner card card-hover" href={`/learn/${banner.slug}/`}>
-          <div class="media"><img src={media(banner.image?.src)} alt={banner.image?.alt ?? ""} fetchpriority="high" /></div>
-          <div class="l-banner-body">
-            <span class="badge badge-sun">Featured</span>
-            <p class="h3">{banner.title}</p>
-            <p class="muted">By {banner.author} · {formatDate(banner.date)}</p>
-            <span class="link">Read article <Icon name="arrow" /></span>
+
+        <div class="lh-panel">
+          <div class="lh-panel-head" aria-live="polite">
+            <p><strong data-n>{first3.list.length}</strong> <span data-n-label>{first3.exact ? "reads match" : "close reads"}</span></p>
+            <p class="lh-note" data-note hidden></p>
           </div>
-        </a>
+          <ol class="lh-results" data-results>
+            {first3.list.slice(0, 3).map((r) => (
+              <li><a href={`/learn/${r.s}/`}>
+                {r.i ? <img src={media(r.i)} alt="" width="84" height="84" loading="eager" /> : <span class="lh-ph" aria-hidden="true"></span>}
+                <span><strong>{r.t}</strong><small>{r.v ? "▶ Video" : `${r.m} min read`}</small></span>
+              </a></li>
+            ))}
+          </ol>
+          <a class="btn lh-all" href="#browse" data-all>See all <span data-n-all>{first3.list.length}</span> reads <Icon name="arrow" class="arrow" /></a>
+        </div>
       </div>
+
+      <ul class="lh-trust">
+        <li><Icon name="verified" size={18} /> Reviewed with physiotherapists</li>
+        <li><Icon name="book" size={18} /> {posts.length.toLocaleString("en-IN")} articles</li>
+        <li><Icon name="play" size={18} /> {videoCount} videos</li>
+        <li><a class="link" href="/quiz-landing-page/">Not sure what's causing it? Take the free 5-min assessment <Icon name="arrow" /></a></li>
+      </ul>
     </div>
+    <span class="lh-scrim" data-scrim hidden></span>
   </section>
 
   <section class="section-tight">
@@ -85,7 +131,9 @@ const types = taxonomies.category.filter((t) => t.slug !== "uncategorized");
           <button class="link f-reset" type="button">Reset filters</button>
         </aside>
         <div>
-          <p class="b-count muted" aria-live="polite"><span data-count>{posts.length}</span> results</p>
+          <p class="b-count muted" aria-live="polite"><span data-count>{posts.length}</span> results
+            <button type="button" class="chip is-active b-moment" data-moment-clear hidden><span data-moment-label></span> <Icon name="close" size={14} /><span class="sr-only">Remove</span></button>
+          </p>
           <div class="grid b-grid" data-grid>
             {first.map((p) => <PostCard post={p} />)}
           </div>
@@ -152,16 +200,93 @@ const types = taxonomies.category.filter((t) => t.slug !== "uncategorized");
 </template>
 
 <style>
-  .l-hero { padding: 32px 0 56px; background: linear-gradient(180deg, var(--plum-50), var(--cream)); }
-  .l-hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; margin-top: 28px; }
-  .l-hero .lead { margin: 16px 0 26px; }
+  .l-hero { padding: 32px 0 56px; background: radial-gradient(60% 70% at 100% 10%, var(--sun-100), transparent 60%), linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .lh-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(28px, 5vw, 72px); align-items: center; margin-top: 24px; }
+  .lh-title { font-size: clamp(36px, 4.6vw, 66px); }
+  .lh-lead { margin: 14px 0 0; color: var(--ink-soft); font-size: clamp(16px, 1.4vw, 18px); max-width: 52ch; }
+
+  /* the sentence: each blank is a pill that opens its choices */
+  .lh-sentence { margin: clamp(22px, 3vh, 34px) 0 clamp(20px, 3vh, 28px); font: 600 clamp(24px, 2.7vw, 38px)/1.75 var(--font-display); letter-spacing: -0.02em; color: var(--ink); }
+  .lh-slot { position: relative; display: inline-block; }
+  .lh-pick {
+    display: inline-flex; align-items: center; gap: 0.25em; padding: 0 0.35em 0 0.3em; margin: 0 0.05em; line-height: 1.35;
+    font: inherit; color: var(--plum-700); background: #fff; border: 2px dashed var(--plum-300); border-radius: 0.5em;
+    transition: border-color 0.2s, background 0.2s, transform 0.3s var(--ease);
+  }
+  .lh-pick:hover { border-style: solid; border-color: var(--plum-500); }
+  .lh-pick[aria-expanded="true"] { border-style: solid; border-color: var(--plum-700); background: var(--plum-50); }
+  .lh-pick:focus-visible { outline: 3px solid var(--sun-500); outline-offset: 2px; }
+  .lh-pick-ic { display: inline-grid; place-items: center; width: 1.15em; height: 1.15em; border-radius: 50%; background: var(--sun-200); color: var(--plum-800); }
+  .lh-pick-ic :global(svg) { width: 0.68em; height: 0.68em; }
+  .lh-pick :global(.lh-chev) { width: 0.6em; height: 0.6em; opacity: 0.6; transition: transform 0.25s var(--ease); }
+  .lh-pick[aria-expanded="true"] :global(.lh-chev) { transform: rotate(180deg); }
+  .lh-pick.is-new { animation: lh-pop 0.5s var(--ease); }
+  @keyframes lh-pop { 40% { transform: scale(1.06); } }
+
+  .lh-pop {
+    position: absolute; z-index: 30; top: calc(100% + 8px); left: 0; width: max-content; max-width: min(420px, calc(100vw - 32px));
+    display: grid; gap: 4px; padding: 8px; border-radius: 20px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-lg);
+    font: 500 15.5px/1.3 var(--font-body); letter-spacing: 0; color: var(--ink);
+  }
+  .lh-pop[hidden] { display: none; }
+  .lh-pop[data-cols="2"] { grid-template-columns: 1fr 1fr; }
+  .lh-pop-t { display: none; }
+  .lh-opt { display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 10px; border: 0; border-radius: 14px; background: none; text-align: left; transition: background 0.15s; }
+  .lh-opt :global(svg) { flex: none; width: 34px; height: 34px; padding: 7px; border-radius: 50%; background: var(--plum-50); color: var(--plum-700); }
+  .lh-opt:hover, .lh-opt:focus-visible { background: var(--plum-50); outline: 0; }
+  .lh-opt[aria-pressed="true"] { background: var(--plum-700); color: #fff; }
+  .lh-opt[aria-pressed="true"] :global(svg) { background: rgba(255, 255, 255, 0.16); color: #fff; }
+  .lh-scrim { position: fixed; inset: 0; z-index: 29; background: rgba(27, 8, 32, 0.4); }
+  .lh-scrim[hidden] { display: none; }
+
   .l-search { display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 20px; border-radius: var(--r-pill); background: #fff; border: 1.5px solid var(--line-strong); box-shadow: var(--shadow-sm); color: var(--ink-mute); transition: border-color 0.2s, box-shadow 0.2s; }
   .l-search:focus-within { border-color: var(--plum-500); box-shadow: 0 0 0 4px var(--plum-100); }
   .l-search input { flex: 1; border: 0; outline: 0; background: none; min-height: 48px; font-size: 16.5px; color: var(--ink); min-width: 0; }
-  .l-quick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-  .l-banner { display: grid; }
-  .l-banner .media { aspect-ratio: 16 / 9; }
-  .l-banner-body { padding: 22px 24px 24px; display: grid; gap: 10px; justify-items: start; }
+  .lh-search { max-width: 520px; }
+
+  /* results: a short stack of reads, like cards pulled from a shelf */
+  .lh-panel { position: relative; isolation: isolate; padding: clamp(18px, 2vw, 26px); border-radius: 28px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-md); }
+  .lh-panel::before, .lh-panel::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: #fff; border: 1px solid var(--line); }
+  .lh-panel::before { transform: rotate(-3.5deg) translate(-10px, 10px); background: var(--plum-100); }
+  .lh-panel::after { transform: rotate(2deg) translate(8px, 6px); background: var(--sun-100); }
+  .lh-panel-head { display: grid; gap: 4px; padding: 0 4px 12px; border-bottom: 1px solid var(--line); }
+  .lh-panel-head p:first-child { font-size: 15px; color: var(--ink-soft); }
+  .lh-panel-head strong { font: 700 28px/1 var(--font-display); color: var(--plum-700); margin-right: 4px; }
+  .lh-note { font-size: 13.5px; color: #8a5300; }
+  .lh-results { list-style: none; display: grid; margin: 6px 0 16px; }
+  .lh-results :global(li) { animation: lh-in 0.5s var(--ease) both; }
+  .lh-results :global(li:nth-child(2)) { animation-delay: 0.06s; }
+  .lh-results :global(li:nth-child(3)) { animation-delay: 0.12s; }
+  @keyframes lh-in { from { opacity: 0; transform: translateY(8px); } }
+  .lh-results :global(a) { display: grid; grid-template-columns: 76px 1fr; gap: 14px; align-items: center; padding: 10px 4px; border-radius: 16px; transition: background 0.2s; }
+  .lh-results :global(a:hover) { background: var(--plum-50); }
+  .lh-results :global(img), .lh-results :global(.lh-ph) { width: 76px; height: 76px; border-radius: 14px; object-fit: cover; background: var(--plum-100); }
+  .lh-results :global(strong) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font: 600 16px/1.3 var(--font-display); }
+  .lh-results :global(small) { display: block; margin-top: 4px; font-size: 13px; color: var(--ink-mute); }
+  .lh-all { width: 100%; justify-content: center; }
+
+  .lh-trust { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 26px; align-items: center; margin-top: clamp(24px, 4vh, 44px); font-size: 14.5px; color: var(--ink-soft); }
+  .lh-trust li { display: inline-flex; align-items: center; gap: 8px; }
+  .lh-trust li > :global(svg) { color: var(--mint-600); }
+  .lh-trust li:last-child { margin-left: auto; }
+
+  .b-moment { margin-left: 10px; vertical-align: middle; }
+  .b-moment :global(svg) { opacity: 0.8; }
+
+  @media (max-width: 960px) {
+    .lh-grid { grid-template-columns: 1fr; }
+    .lh-panel { max-width: 560px; }
+    .lh-trust li:last-child { margin-left: 0; }
+  }
+  /* phones: the choices open as a bottom sheet */
+  @media (max-width: 640px) {
+    .lh-sentence { font-size: clamp(22px, 6.4vw, 28px); line-height: 1.85; }
+    .lh-pop { position: fixed; top: auto; left: 0 !important; right: 0; bottom: 0; width: auto; max-width: none; max-height: 75vh; overflow-y: auto; padding: 8px 12px calc(16px + env(safe-area-inset-bottom)); border-radius: 24px 24px 0 0; animation: lh-sheet 0.35s var(--ease); }
+    .lh-pop[data-cols="2"] { grid-template-columns: 1fr 1fr; }
+    .lh-pop-t { display: block; grid-column: 1 / -1; padding: 12px 6px 8px; font: 650 19px var(--font-display); }
+    .lh-pop-t::before { content: ""; display: block; width: 40px; height: 4px; margin: -4px auto 14px; border-radius: 4px; background: var(--line-strong); }
+    @keyframes lh-sheet { from { transform: translateY(100%); } }
+  }
 
   .browse { display: grid; grid-template-columns: 260px 1fr; gap: 40px; align-items: start; }
   .filters { position: sticky; top: calc(var(--header-h) + 20px); display: grid; gap: 24px; }
@@ -195,7 +320,7 @@ const types = taxonomies.category.filter((t) => t.slug !== "uncategorized");
 <script>
   import { media } from "../../lib/site";
   import { track } from "../../scripts/tracker";
-  type Row = { s: string; t: string; d: string; e: string; i: string; c: string[]; h: string[]; w: string[]; o: string[]; m: number; v: boolean };
+  import { defaultPick, find, optArea, optMoment, optGoal, type Pick, type Row } from "../../lib/finder";
   const grid = document.querySelector<HTMLElement>("[data-grid]")!;
   const count = document.querySelector<HTMLElement>("[data-count]")!;
   const more = document.querySelector<HTMLButtonElement>("[data-more]")!;
@@ -208,6 +333,8 @@ const types = taxonomies.category.filter((t) => t.slug !== "uncategorized");
   let rows: Row[] = [];
   let shown = PAGE;
   const sel: Record<string, Set<string>> = { c: new Set(), w: new Set(), h: new Set(), o: new Set() };
+  // set by the hero finder's "See all": a situation ("when I sit at my desk") matched in the text
+  let moment: RegExp | null = null;
   const load = fetch("/posts-index.json").then((r) => r.json()).then((d) => (rows = d));
 
   const fmt = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
@@ -228,7 +355,8 @@ const types = taxonomies.category.filter((t) => t.slug !== "uncategorized");
     const words = q.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
     return rows.filter((r) =>
       (["c", "w", "h", "o"] as const).every((k) => !sel[k].size || (r[k] as string[]).some((x) => sel[k].has(x))) &&
-      words.every((w) => (r.t + " " + r.e).toLowerCase().includes(w)),
+      words.every((w) => (r.t + " " + r.e).toLowerCase().includes(w)) &&
+      (!moment || moment.test(r.t + " " + r.e)),
     );
   }
   async function render(reset = true) {
@@ -262,8 +390,133 @@ const types = taxonomies.category.filter((t) => t.slug !== "uncategorized");
     Object.values(sel).forEach((s) => s.clear());
     document.querySelectorAll("[data-group] [data-v]").forEach((b) => b.setAttribute("aria-pressed", String(b.closest("[data-single]") && !(b as HTMLElement).dataset.v)));
     q.value = "";
+    setMoment(null);
     render();
   });
+
+  // ---- hero finder: "My [area] hurts [when …] and I want to [goal]" ----
+  const finder = document.querySelector<HTMLElement>("[data-finder]")!;
+  const scrim = document.querySelector<HTMLElement>("[data-scrim]")!;
+  const results = document.querySelector<HTMLElement>("[data-results]")!;
+  const note = document.querySelector<HTMLElement>("[data-note]")!;
+  const momentChip = document.querySelector<HTMLButtonElement>("[data-moment-clear]")!;
+  const pick: Pick = { ...defaultPick };
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  const slotEls = [...finder.querySelectorAll<HTMLElement>("[data-slot]")];
+  let open: HTMLElement | null = null;
+
+  function setMoment(m: { label: string; re: RegExp | null } | null) {
+    moment = m?.re ?? null;
+    momentChip.hidden = !moment;
+    momentChip.querySelector("[data-moment-label]")!.textContent = m?.label ?? "";
+  }
+  momentChip.addEventListener("click", () => { setMoment(null); render(); });
+
+  function close(focus = false) {
+    if (!open) return;
+    open.querySelector(".lh-pop")!.setAttribute("hidden", "");
+    open.querySelector(".lh-pick")!.setAttribute("aria-expanded", "false");
+    if (focus) open.querySelector<HTMLElement>(".lh-pick")!.focus();
+    open = null;
+    scrim.hidden = true;
+  }
+  function show(slot: HTMLElement) {
+    close();
+    open = slot;
+    const pop = slot.querySelector<HTMLElement>(".lh-pop")!;
+    pop.dataset.cols = pop.querySelectorAll(".lh-opt").length > 6 && innerWidth > 640 ? "2" : "1";
+    pop.style.left = "0";
+    pop.removeAttribute("hidden");
+    slot.querySelector(".lh-pick")!.setAttribute("aria-expanded", "true");
+    scrim.hidden = innerWidth > 640;
+    // keep the panel on screen when the blank sits near the right edge
+    const r = pop.getBoundingClientRect();
+    if (innerWidth > 640 && r.right > innerWidth - 16) pop.style.left = `${innerWidth - 16 - r.right}px`;
+    (pop.querySelector<HTMLElement>('[aria-pressed="true"]') ?? pop.querySelector<HTMLElement>(".lh-opt"))!.focus();
+  }
+  function choose(slot: HTMLElement, opt: HTMLButtonElement) {
+    const key = slot.dataset.slot as keyof Pick;
+    pick[key] = opt.dataset.v!;
+    slot.querySelectorAll(".lh-opt").forEach((o) => o.setAttribute("aria-pressed", String(o === opt)));
+    const btn = slot.querySelector<HTMLElement>(".lh-pick")!;
+    btn.querySelector("[data-label]")!.textContent = opt.textContent!.trim();
+    btn.querySelector("[data-ic]")!.innerHTML = opt.querySelector("svg")!.outerHTML;
+    btn.setAttribute("aria-label", `${slot.querySelector(".lh-pop")!.getAttribute("aria-label")} Currently: ${opt.textContent!.trim()}`);
+    btn.classList.remove("is-new"); void btn.offsetWidth; btn.classList.add("is-new");
+    if (key === "area") finder.querySelector("[data-verb]")!.textContent = optArea(pick.area).plural ? "hurt" : "hurts";
+    close(true);
+    update(true);
+  }
+  slotEls.forEach((slot) => {
+    slot.querySelector(".lh-pick")!.addEventListener("click", () => (open === slot ? close() : show(slot)));
+    slot.querySelector(".lh-pop")!.addEventListener("click", (e) => {
+      const o = (e.target as Element).closest<HTMLButtonElement>(".lh-opt");
+      if (o) choose(slot, o);
+    });
+    slot.querySelector(".lh-pop")!.addEventListener("keydown", (e) => {
+      const k = (e as KeyboardEvent).key;
+      if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft", "Home", "End"].includes(k)) return;
+      e.preventDefault();
+      const opts = [...slot.querySelectorAll<HTMLElement>(".lh-opt")];
+      const i = opts.indexOf(document.activeElement as HTMLElement);
+      const n = k === "Home" ? 0 : k === "End" ? opts.length - 1 : (i + (k === "ArrowDown" || k === "ArrowRight" ? 1 : -1) + opts.length) % opts.length;
+      opts[n].focus();
+    });
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(true); });
+  document.addEventListener("click", (e) => { if (open && !open.contains(e.target as Node)) close(); });
+
+  async function update(log = false) {
+    await load;
+    const r = find(rows, pick);
+    const area = optArea(pick.area), m = optMoment(pick.moment), g = optGoal(pick.goal);
+    document.querySelector("[data-n]")!.textContent = String(r.list.length);
+    document.querySelector("[data-n-all]")!.textContent = String(r.list.length);
+    document.querySelector("[data-n-label]")!.textContent = r.exact ? (r.exact === 1 ? "read matches" : "reads match") : "close reads";
+    note.hidden = !r.loosened;
+    note.textContent = r.loosened === "moment" ? `Nothing yet for “${m.label}”, so here's the closest.` : r.loosened === "goal" ? `Nothing that exact yet, so here are our best ${area.v ? area.label : ""} reads.`.replace("  ", " ") : "";
+    results.innerHTML = r.list.slice(0, 3).map((x) => `<li><a href="/learn/${x.s}/">${x.i ? `<img src="${media(x.i)}" alt="" width="84" height="84">` : `<span class="lh-ph" aria-hidden="true"></span>`}<span><strong>${esc(x.t)}</strong><small>${x.v ? "▶ Video" : `${x.m} min read`}</small></span></a></li>`).join("");
+    if (log) track("learn_finder", { area: pick.area || "any", moment: pick.moment || "any", goal: pick.goal || "any", results: r.exact, loosened: r.loosened });
+    return r;
+  }
+
+  // "See all": carry the sentence into the browse grid as real filters
+  document.querySelector("[data-all]")!.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const r = await update();
+    Object.values(sel).forEach((s) => s.clear());
+    q.value = "";
+    if (pick.area) sel.h.add(pick.area);
+    const g = r.loosened === "goal" ? "" : pick.goal;
+    if (g === "science" || g === "protocol") sel.w.add(g);
+    else if (g === "recovery" || g === "posture") sel.o.add(g);
+    else if (g === "video") sel.c.add("videos");
+    document.querySelectorAll<HTMLElement>("[data-group] [data-v]").forEach((b) => {
+      const key = b.closest<HTMLElement>("[data-group]")!.dataset.group!;
+      b.setAttribute("aria-pressed", String(b.dataset.v ? sel[key].has(b.dataset.v) : !sel.c.size));
+    });
+    setMoment(r.loosened ? null : optMoment(pick.moment));
+    await render();
+    track("learn_finder_all", { area: pick.area || "any", moment: pick.moment || "any", goal: pick.goal || "any", results: r.list.length });
+    document.getElementById("browse")!.scrollIntoView({ behavior: "smooth" });
+  });
+
+  // someone who took an assessment here sees their own area first
+  try {
+    const done = Object.values(JSON.parse(localStorage.getItem("bh_results") || "{}") as Record<string, { area?: string; date?: string }>)
+      .filter((x) => x.area && x.date).sort((a, b) => b.date!.localeCompare(a.date!))[0];
+    const slot = slotEls.find((s) => s.dataset.slot === "area")!;
+    const opt = done && slot.querySelector<HTMLButtonElement>(`.lh-opt[data-v="${done.area}-pain"]`);
+    if (opt && pick.area !== opt.dataset.v) {
+      pick.area = opt.dataset.v!;
+      slot.querySelectorAll(".lh-opt").forEach((o) => o.setAttribute("aria-pressed", String(o === opt)));
+      const btn = slot.querySelector<HTMLElement>(".lh-pick")!;
+      btn.querySelector("[data-label]")!.textContent = opt.textContent!.trim();
+      btn.querySelector("[data-ic]")!.innerHTML = opt.querySelector("svg")!.outerHTML;
+      finder.querySelector("[data-verb]")!.textContent = optArea(pick.area).plural ? "hurt" : "hurts";
+      update().then(() => { note.hidden = false; note.textContent = `Picked from your ${done.area} assessment. Change it any time.`; });
+    }
+  } catch {}
   // log a search once the visitor stops typing, with how many articles it found (0 = content gap)
   let st: number | undefined, lastQ = "";
   q.addEventListener("input", () => {

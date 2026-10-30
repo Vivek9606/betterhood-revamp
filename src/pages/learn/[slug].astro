@@ -56,8 +56,8 @@ const jsonLd = [
 const share = encodeURIComponent(`${post.title} ${url}`);
 ---
 <Base title={post.seo.title || post.title} description={post.seo.description} image={post.image?.src} type="article" published={post.date} modified={post.modified} jsonLd={jsonLd}>
-  <article>
-    <section class="a-top">
+  <article data-page-type="article" data-page-concern={post.concern.join(",") || undefined} data-page-minutes={post.minutes} data-page-video={video ? "yes" : undefined}>
+    <section class="a-top" data-zone="article-top">
     <header class="a-head">
       <div class="wrap">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -96,21 +96,21 @@ const share = encodeURIComponent(`${post.title} ${url}`);
       <div class="a-grid">
         <aside class="a-side a-left">
           {toc.length > 2 && (
-            <nav class="toc" aria-label="In this article">
+            <nav class="toc" aria-label="In this article" data-zone="toc">
               <p class="toc-t">In this article</p>
               <ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.text}</a></li>)}</ol>
             </nav>
           )}
-          <div class="share">
+          <div class="share" data-zone="share">
             <p class="toc-t">Share</p>
-            <a href={`https://wa.me/?text=${share}`} target="_blank" rel="noopener" aria-label="Share on WhatsApp"><Icon name="whatsapp" /></a>
-            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Share on LinkedIn"><Icon name="linkedin" /></a>
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Share on Facebook"><Icon name="facebook" /></a>
-            <button data-copy={url} aria-label="Copy link"><Icon name="copy" /></button>
+            <a href={`https://wa.me/?text=${share}`} target="_blank" rel="noopener" aria-label="Share on WhatsApp" data-track="share" data-track-via="whatsapp"><Icon name="whatsapp" /></a>
+            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Share on LinkedIn" data-track="share" data-track-via="linkedin"><Icon name="linkedin" /></a>
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Share on Facebook" data-track="share" data-track-via="facebook"><Icon name="facebook" /></a>
+            <button data-copy={url} aria-label="Copy link" data-track="share" data-track-via="copy"><Icon name="copy" /></button>
           </div>
         </aside>
 
-        <div class="a-body">
+        <div class="a-body" data-zone="article-body">
           {html.trim() ? <div class="prose" set:html={html} /> : <p class="lead">{post.excerpt}</p>}
           {post.videos.slice(1).map((v) => (
             <div class="a-video sm"><iframe src={`https://www.youtube-nocookie.com/embed/${v}?rel=0`} title={post.title} loading="lazy" allowfullscreen></iframe></div>
@@ -121,7 +121,7 @@ const share = encodeURIComponent(`${post.title} ${url}`);
           <p class="disclaimer"><Icon name="shield" size={18} /> This article is for education and awareness. It isn't a diagnosis — please consult a qualified physiotherapist or doctor for persistent or severe pain.</p>
         </div>
 
-        <aside class="a-side a-right">
+        <aside class="a-side a-right" data-zone="article-sidebar">
           <div class="side-cta">
             <span class="side-ic"><Icon name="clipboard" size={22} /></span>
             <p class="h3">{area ? `Is it really just ${area.name.toLowerCase()} strain?` : "Not sure what's causing your pain?"}</p>
@@ -138,7 +138,7 @@ const share = encodeURIComponent(`${post.title} ${url}`);
   </article>
 
   {related.length > 0 && (
-    <section class="section bg-white">
+    <section class="section bg-white" data-zone="related">
       <div class="wrap">
         <div class="section-head">
           <div><p class="eyebrow">Keep reading</p><h2 class="h2">Related articles</h2></div>
@@ -192,6 +192,15 @@ const share = encodeURIComponent(`${post.title} ${url}`);
 </style>
 
 <script>
+  import { track } from "../../scripts/tracker";
+  // read to the end: the tags row right after the article text comes into view
+  const end = document.querySelector(".a-tags");
+  if (end) {
+    const io = new IntersectionObserver(([en]) => {
+      if (en.isIntersecting) { io.disconnect(); track("article_read", { ms: Math.round(performance.now()) }); }
+    });
+    io.observe(end);
+  }
   document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((b) =>
     b.addEventListener("click", async () => {
       await navigator.clipboard?.writeText(b.dataset.copy!);

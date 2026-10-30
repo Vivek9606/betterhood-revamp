@@ -100,7 +100,157 @@ api.get("/assessments", async (c) => {
       from analytics.events where ts >= ${from} and name = 'assessment_abandon'
       group by 1, 2 order by 1, 2`,
   ]);
-  return c.json({ funnel, steps, results, abandons });
+  const [stepTimes, backs, errors, summary, after] = await Promise.all([
+    // time on each step: sent with the next step reached, the back button, or completion
+    sql`
+      select assessment, step, round(percentile_cont(0.5) within group (order by ms) / 1000)::int as median_s, count(*)::int as n
+      from (
+        select props->>'assessment' as assessment, (props->>'prev_step')::int as step, (props->>'prev_ms')::numeric as ms
+        from analytics.events where ts >= ${from} and name = 'assessment_step' and props->>'prev_step' is not null
+        union all
+        select props->>'assessment', (props->>'last_step')::int, (props->>'last_step_ms')::numeric
+        from analytics.events where ts >= ${from} and name = 'assessment_complete' and props->>'last_step' is not null
+      ) x where ms between 0 and 3600000
+      group by 1, 2 order by 1, 2`,
+    sql`
+      select props->>'assessment' as assessment, (props->>'from_step')::int as step, count(*)::int as n
+      from analytics.events where ts >= ${from} and name = 'assessment_back'
+      group by 1, 2 order by 1, 2`,
+    sql`
+      select props->>'assessment' as assessment, (props->>'step')::int as step, props->>'field' as field, count(*)::int as n
+      from analytics.events where ts >= ${from} and name = 'assessment_error'
+      group by 1, 2, 3 order by 4 desc`,
+    sql`
+      select s.assessment,
+        count(*) filter (where s.name = 'assessment_start')::int as starts,
+        count(*) filter (where s.name = 'assessment_start' and s.props->>'retake' = 'true')::int as retakes,
+        round(percentile_cont(0.5) within group (order by (s.props->>'duration_ms')::numeric) filter (where s.name = 'assessment_complete') / 1000)::int as median_duration_s,
+        round(avg((s.props->>'backs')::numeric) filter (where s.name = 'assessment_complete'), 1)::float as avg_backs,
+        round(avg((s.props->>'changes')::numeric) filter (where s.name = 'assessment_complete'), 1)::float as avg_changes,
+        count(*) filter (where s.name = 'assessment_complete')::int as completes,
+        count(*) filter (where s.name = 'assessment_complete' and s.props->>'gave_contact' = 'true')::int as with_contact
+      from (select props->>'assessment' as assessment, name, props from analytics.events
+            where ts >= ${from} and name in ('assessment_start', 'assessment_complete')) s
+      group by 1 order by 2 desc`,
+    // what people do once they see their result
+    sql`
+      select coalesce(props->>'text', props->>'url', name) as label, name as kind, count(*)::int as n, count(distinct session_id)::int as sessions
+      from analytics.events
+      where ts >= ${from} and (path like '/result-%' or path like '/completed-message%')
+        and name in ('click', 'outbound_click', 'share', 'expand', 'video_play')
+      group by 1, 2 order by 3 desc limit 25`,
+  ]);
+  return c.json({ funnel, steps, results, abandons, stepTimes, backs, errors, summary, after });
+});
+
+// Homepage, physio directory, blog and site-health detail, built from the click/view events
+api.get("/engagement", async (c) => {
+  const { from } = range((k) => c.req.query(k));
+  const [homeKpi, homeZones, homeClicks, homeSections, faqs, videos, cardsByPos, profiles, profileZones, filters, articles, concerns, articleLinks, shares, rage, notFound] = await Promise.all([
+    sql`
+      select
+        count(distinct session_id) filter (where name = 'page_view')::int as sessions,
+        count(distinct session_id) filter (where name in ('click', 'outbound_click'))::int as clicked,
+        round((percentile_cont(0.5) within group (order by (props->>'first_click_ms')::numeric) filter (where name = 'page_leave'))::numeric / 1000, 1)::float as median_first_click_s,
+        count(distinct session_id) filter (where name = 'scroll_depth' and props->>'depth' = '50')::int as half,
+        count(distinct session_id) filter (where name = 'scroll_depth' and props->>'depth' = '100')::int as full
+      from analytics.events where ts >= ${from} and path = '/'`,
+    sql`
+      select props->>'zone' as zone, count(*)::int as n, count(distinct session_id)::int as sessions
+      from analytics.events where ts >= ${from} and path = '/' and name in ('click', 'outbound_click', 'painmap_cta', 'video_open')
+      group by 1 order by 2 desc`,
+    sql`
+      select props->>'zone' as zone, coalesce(props->>'text', props->>'href') as label, coalesce(props->>'href', props->>'url') as target, count(*)::int as n
+      from analytics.events where ts >= ${from} and path = '/' and name in ('click', 'outbound_click')
+      group by 1, 2, 3 order by 4 desc limit 30`,
+    sql`
+      select props->>'section' as label, count(distinct session_id)::int as sessions
+      from analytics.events where ts >= ${from} and path = '/' and name = 'section_view'
+      group by 1 order by 2 desc`,
+    sql`
+      select props->>'text' as label, path, count(*)::int as n
+      from analytics.events where ts >= ${from} and name = 'expand'
+      group by 1, 2 order by 3 desc limit 25`,
+    sql`
+      select coalesce(props->>'tag', props->>'video', props->>'src') as label, path, props->>'via' as via, name, count(*)::int as n
+      from analytics.events where ts >= ${from} and name in ('video_open', 'video_play')
+      group by 1, 2, 3, 4 order by 5 desc limit 25`,
+    // card click-through by position in the directory list
+    sql`
+      select case when pos <= 4 then '1–4' when pos <= 8 then '5–8' when pos <= 12 then '9–12' when pos <= 24 then '13–24' else '25+' end as label,
+        min(pos)::int as ord,
+        count(*) filter (where name = 'physio_card_view')::int as views,
+        count(*) filter (where name = 'physio_card_click')::int as clicks
+      from (select name, (props->>'position')::int as pos from analytics.events
+            where ts >= ${from} and name in ('physio_card_view', 'physio_card_click')) x
+      group by 1 order by 2`,
+    // each profile: shown in the list → opened → contacted
+    sql`
+      select physio as label,
+        count(*) filter (where name = 'physio_card_view')::int as listed,
+        count(*) filter (where name = 'physio_card_click')::int as card_clicks,
+        count(distinct session_id) filter (where name = 'page_view')::int as profile_sessions,
+        count(distinct session_id) filter (where name = 'outbound_click' and props->>'kind' in ('whatsapp', 'tel'))::int as contacted
+      from (
+        select name, session_id, props, coalesce(props->>'physio', split_part(path, '/', 3)) as physio
+        from analytics.events
+        where ts >= ${from} and (name in ('physio_card_view', 'physio_card_click') or (path like '/physio/%' and name in ('page_view', 'outbound_click')))
+      ) x
+      group by 1 order by 4 desc, 2 desc limit 40`,
+    sql`
+      select props->>'zone' as zone, coalesce(props->>'text', props->>'via') as label, name, count(*)::int as n
+      from analytics.events where ts >= ${from} and path like '/physio/%' and name in ('click', 'outbound_click', 'share', 'expand', 'video_play')
+      group by 1, 2, 3 order by 4 desc limit 30`,
+    sql`
+      select coalesce(nullif(concat_ws(' · ', props->>'city', props->>'area', props->>'modes'), ''), props->>'state', 'all') as label,
+        count(*)::int as n, min((props->>'results')::int)::int as results
+      from analytics.events where ts >= ${from} and name = 'filter' and props->>'where' = 'physio-directory'
+      group by 1 order by 2 desc limit 30`,
+    // articles: views, active time, how many read to the end, what they did next
+    sql`
+      select v.path as label, max(v.title) as title, count(*)::int as views,
+        round(avg(l.engaged_ms) / 1000)::int as avg_engaged_s,
+        round(100.0 * count(r.view) / count(*))::int as read_pct,
+        coalesce(sum(x.shares), 0)::int as shares,
+        coalesce(sum(x.ctas), 0)::int as cta_clicks
+      from analytics.events v
+      left join (
+        select props->>'view_id' as view_id, sum((props->>'engaged_ms')::numeric) as engaged_ms
+        from analytics.events where name = 'page_leave' and ts >= ${from} group by 1
+      ) l on l.view_id = v.event_id::text
+      left join lateral (select 1 as view from analytics.events r where r.session_id = v.session_id and r.path = v.path and r.name = 'article_read' and r.ts >= v.ts limit 1) r on true
+      left join lateral (
+        select count(*) filter (where e.name = 'share') as shares,
+               count(*) filter (where (e.name = 'click' and (e.props->>'href' like '/assessment-%' or e.props->>'href' like '/quiz-landing-page%' or e.props->>'href' like '/physio%'))
+                                   or (e.name = 'outbound_click' and e.props->>'kind' in ('product', 'shop'))) as ctas
+        from analytics.events e where e.session_id = v.session_id and e.path = v.path and e.ts >= v.ts and e.ts < v.ts + interval '2 hours'
+      ) x on true
+      where v.name = 'page_view' and v.ts >= ${from} and v.props->>'type' = 'article'
+      group by 1 order by 3 desc limit 40`,
+    sql`
+      select coalesce(nullif(split_part(props->>'concern', ',', 1), ''), 'general') as label, count(*)::int as views, count(distinct visitor_id)::int as visitors
+      from analytics.events where ts >= ${from} and name = 'page_view' and props->>'type' = 'article'
+      group by 1 order by 2 desc limit 20`,
+    sql`
+      select props->>'zone' as zone, coalesce(props->>'href', props->>'url') as label, name, count(*)::int as n
+      from analytics.events
+      where ts >= ${from} and path like '/learn/%/' and name in ('click', 'outbound_click')
+        and props->>'zone' in ('article-body', 'article-sidebar', 'related', 'toc', 'article-top')
+      group by 1, 2, 3 order by 4 desc limit 30`,
+    sql`
+      select props->>'via' as label, count(*)::int as n,
+        count(*) filter (where path like '/learn/%')::int as articles, count(*) filter (where path like '/physio/%')::int as profiles
+      from analytics.events where ts >= ${from} and name = 'share' group by 1 order by 2 desc`,
+    sql`
+      select path, props->>'zone' as zone, props->>'text' as label, count(*)::int as n, count(distinct session_id)::int as sessions
+      from analytics.events where ts >= ${from} and name = 'rage_click'
+      group by 1, 2, 3 order by 4 desc limit 25`,
+    sql`
+      select path, props->>'prev' as prev, count(*)::int as n
+      from analytics.events where ts >= ${from} and name = 'page_view' and props->>'type' = '404'
+      group by 1, 2 order by 3 desc limit 25`,
+  ]);
+  return c.json({ home: homeKpi[0], homeZones, homeClicks, homeSections, faqs, videos, cardsByPos, profiles, profileZones, filters, articles, concerns, articleLinks, shares, rage, notFound });
 });
 
 api.get("/behaviour", async (c) => {

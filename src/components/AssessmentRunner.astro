@@ -24,7 +24,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     </div>
     <div class="qz-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-bar></span></div>
 
-    <form class="qz-card" data-form novalidate>
+    <form class="qz-card" data-form data-track-off novalidate>
       <div class="qz-grid">
         <div class="qz-main" data-main>
           <noscript><p class="empty">This assessment needs JavaScript to run. Please enable it, or <a class="link" href="/contact-us/">contact us</a> for help.</p></noscript>
@@ -143,10 +143,14 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
 
   let idx = 0;
   // journey tracking: the funnel is assessment_start → assessment_step (step reached) → assessment_complete
-  const slug = location.pathname.replace(///g, "");
+  const slug = location.pathname.replace(/\//g, "");
   let started = false, finished = false;
-  const reached = (step: number) => track("assessment_step", { assessment: slug, step, total });
-  addEventListener("pagehide", () => { if (started && !finished) { track("assessment_abandon", { assessment: slug, step: idx + 1, total }); flush(true); } });
+  // time spent on each step, and how often people go back or change an answer they'd already given
+  let stepAt = performance.now(), startedAt = 0, backs = 0, changes = 0;
+  const answered = new Set<string>();
+  const stepMs = () => { const now = performance.now(), ms = Math.round(now - stepAt); stepAt = now; return ms; };
+  const reached = (step: number, prev?: { step: number; ms: number }) => track("assessment_step", { assessment: slug, step, total, prev_step: prev?.step ?? null, prev_ms: prev?.ms ?? null });
+  addEventListener("pagehide", () => { if (started && !finished) { track("assessment_abandon", { assessment: slug, step: idx + 1, total, ms: stepMs() }); flush(true); } });
   const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
   const fieldsOn = (page: number) => form.fields.filter((f) => f.page === page && engine.shown(f.id));
   const val = (id: number) => engine.values[id];
@@ -241,13 +245,14 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     });
   }
   function validate() {
+    const fail = (field: string) => { track("assessment_error", { assessment: slug, step: idx + 1, field }); return false; };
     for (const el of main.querySelectorAll<HTMLElement>("fieldset[data-id]")) {
       const f = engine.byId.get(+el.dataset.id!)!;
       const v = engine.values[f.id];
-      if (f.required && (!v || (Array.isArray(v) && !v.length))) { err.textContent = "Please choose an answer to continue."; err.hidden = false; el.scrollIntoView({ behavior: "smooth", block: "center" }); return false; }
+      if (f.required && (!v || (Array.isArray(v) && !v.length))) { err.textContent = "Please choose an answer to continue."; err.hidden = false; el.scrollIntoView({ behavior: "smooth", block: "center" }); return fail("unanswered"); }
     }
     for (const i of main.querySelectorAll<HTMLInputElement>("input.input")) {
-      if (!i.checkValidity()) { err.textContent = i.validationMessage || "Please check this field."; err.hidden = false; i.focus(); return false; }
+      if (!i.checkValidity()) { err.textContent = i.validationMessage || "Please check this field."; err.hidden = false; i.focus(); return fail(i.type); }
     }
     return true;
   }
@@ -263,7 +268,14 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       else if (t.checked) box.querySelectorAll<HTMLInputElement>("input").forEach((x) => none(x) && (x.checked = false));
     }
     err.hidden = true;
-    if (!started) { started = true; track("assessment_start", { assessment: slug, total }); reached(1); }
+    if (t.type === "radio" || t.type === "select-one") { if (answered.has(t.name)) changes++; else answered.add(t.name); }
+    if (!started) {
+      started = true; startedAt = performance.now();
+      let done = 0;
+      try { done = JSON.parse(localStorage.getItem("bh_history") || "[]").filter((h: { slug: string }) => h.slug === cfg.slug).length; } catch {}
+      track("assessment_start", { assessment: slug, total, retake: done > 0, times_done: done, from: document.referrer && new URL(document.referrer).host === location.host ? new URL(document.referrer).pathname : null });
+      reached(1);
+    }
   });
 
   $<HTMLFormElement>("[data-form]").addEventListener("submit", (e) => {
@@ -271,14 +283,17 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     read();
     if (!validate()) return;
     if (idx < total - 1) {
+      const left = { step: idx + 1, ms: stepMs() };
       // skip pages whose questions are all hidden by conditional logic
       do idx++; while (idx < pages.length && fieldsOn(pages[idx]).every((f) => f.type === "html" || f.hidden));
       render();
-      reached(idx + 1);
+      reached(idx + 1, left);
       root.scrollIntoView({ behavior: "smooth" });
     } else finish();
   });
   prev.addEventListener("click", () => {
+    backs++;
+    track("assessment_back", { assessment: slug, from_step: idx + 1, ms: stepMs() });
     read();
     do idx--; while (idx > 0 && idx < pages.length && fieldsOn(pages[idx]).every((f) => f.type === "html" || f.hidden));
     render();
@@ -316,7 +331,10 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     const scores = record.kind === "pain"
       ? Object.fromEntries((record.totals as { cat: string; score: number }[]).map((t) => [t.cat, t.score]))
       : { overall: record.overall, strength: record.strength, balance: record.balance, mobility: record.mobility };
-    track("assessment_complete", { assessment: slug, kind: record.kind, area: cfg.area, result: record.cat ?? null, condition: record.condition ?? null, advisory: record.advisory ?? null, scores, answers, name, email, phone });
+    track("assessment_complete", {
+      assessment: slug, kind: record.kind, area: cfg.area, result: record.cat ?? null, condition: record.condition ?? null, advisory: record.advisory ?? null, scores, answers, name, email, phone,
+      last_step: idx + 1, last_step_ms: stepMs(), duration_ms: startedAt ? Math.round(performance.now() - startedAt) : null, backs, changes, gave_contact: !!(email || phone),
+    });
     flush(true);
 
     // lead capture only when a backend endpoint is configured (never interrupt with a mail client here)
