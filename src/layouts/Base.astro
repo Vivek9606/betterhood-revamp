@@ -2,12 +2,15 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { media } from "../lib/site";
+import { media, contact } from "../lib/site";
 
 interface Props {
   title: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   type?: "website" | "article" | "profile";
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
@@ -18,7 +21,11 @@ interface Props {
 const {
   title,
   description = "Physio-trusted pain care for everyday movement. Physio co-created supports, recovery essentials, free pain assessments and 1000+ expert articles from betterhood.",
-  image = "/wp-content/uploads/2024/08/cropped-betterhood_site_icon-1.webp",
+  // a real 1200x630 card, not the square site icon, for pages that don't bring their own image
+  image = "/img/og-home.jpg",
+  imageAlt,
+  imageWidth,
+  imageHeight,
   type = "website",
   noindex = false,
   jsonLd,
@@ -30,17 +37,29 @@ const {
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const fullTitle = /betterhood/i.test(title) ? title : `${title} | betterhood`;
 const ogImage = new URL(media(image), Astro.site).href;
+const isDefaultImage = image === "/img/og-home.jpg";
+const ogW = imageWidth ?? (isDefaultImage ? 1200 : undefined);
+const ogH = imageHeight ?? (isDefaultImage ? 630 : undefined);
+const ogAlt = imageAlt ?? (isDefaultImage ? "betterhood: physio trusted pain care for everyday movement" : title);
+// let search engines show large image previews and full snippets (as the old site did)
+const robots = noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
 const org = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://betterhood.in/#organization",
   name: "betterhood",
+  alternateName: "betterhood India",
   legalName: "Agebetter Solutions Private Limited",
   url: "https://betterhood.in/",
-  logo: "https://betterhood.in/img/logo.svg",
-  email: "care@betterhood.in",
+  // raster logo: Google needs at least 112x112 and doesn't reliably read SVG
+  logo: { "@type": "ImageObject", "@id": "https://betterhood.in/#logo", url: "https://betterhood.in/img/logo-512.png", width: 512, height: 512, caption: "betterhood" },
+  image: { "@id": "https://betterhood.in/#logo" },
+  email: contact.email,
   telephone: "+91-8484805885",
-  sameAs: ["https://www.instagram.com/betterhood.in", "https://www.youtube.com/@mybetterhood", "https://www.linkedin.com/company/betterhood-in/", "https://www.facebook.com/betterhood.in"],
+  address: { "@type": "PostalAddress", streetAddress: "1st Floor, 52, SPD Plaza, 4th A Cross Road, Near Jyothi Nivas College, Koramangala", addressLocality: "Bengaluru", addressRegion: "Karnataka", postalCode: "560034", addressCountry: "IN" },
+  contactPoint: { "@type": "ContactPoint", contactType: "customer support", telephone: "+91-8484805885", email: contact.email, areaServed: "IN", availableLanguage: ["en", "hi"] },
+  sameAs: ["https://www.instagram.com/betterhood.in", "https://www.youtube.com/@mybetterhood", "https://www.linkedin.com/company/betterhood-in/", "https://www.facebook.com/betterhood.in", "https://shop.betterhood.in/"],
 };
 const ld = [org, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 ---
@@ -52,9 +71,13 @@ const ld = [org, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])]
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="robots" content={robots} />
+    <!-- Search Console ownership, carried over from the WordPress site -->
+    <meta name="google-site-verification" content="Il0Pk39ULwalCrcSHFWuNXrABaKa_BVzk6xP6Vjhs2I" />
     <meta name="theme-color" content="#fbf7f1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:site_name" content="betterhood" />
     <meta property="og:locale" content="en_IN" />
@@ -63,7 +86,14 @@ const ld = [org, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])]
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    {ogW && <meta property="og:image:width" content={String(ogW)} />}
+    {ogH && <meta property="og:image:height" content={String(ogH)} />}
+    <meta property="og:image:alt" content={ogAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogAlt} />
     {published && <meta property="article:published_time" content={published} />}
     {modified && <meta property="article:modified_time" content={modified} />}
 
@@ -84,7 +114,6 @@ const ld = [org, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])]
     <Footer />
 
     <script>
-      import "../scripts/tracker";
       import "../scripts/forms";
       import "../scripts/motion-site";
     </script>

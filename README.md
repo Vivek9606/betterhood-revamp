@@ -20,7 +20,7 @@ Node 20+ is required.
 
 | Path | What |
 | --- | --- |
-| `src/pages/index.astro` | Homepage (hero, "where does it hurt?" body map, bestsellers, physios, age timeline…) |
+| `src/pages/index.astro` | Homepage. Same sections, copy, products and links as the live homepage, read from `src/data/home.json`; refresh it with `npm run scrape:home` |
 | `src/pages/learn/[slug].astro` | All 758 articles at `/learn/{slug}/` |
 | `src/pages/learn/index.astro` | Learn hub with search + filters (type, what's inside, concern, solution) |
 | `src/pages/learn/[tax]/[term].astro` | Every archive at `/learn/{taxonomy}/{term}/`: category, by-health-concern, by-solution, by-what-inside, post-section-tags, podcast-season, physio-city, physio-state, physio_location, physio_speciality, physio_experience, physio_qualification |
@@ -30,6 +30,7 @@ Node 20+ is required.
 | `src/pages/result-*.astro` | The 16 diagnosis result pages |
 | `src/pages/better-you-corner-*.astro` | betterYou corner (personal dashboard) |
 | `src/pages/[legal].astro` | Privacy, terms, shipping, return(s), EEO policies |
+| `src/pages/physio-app/index.astro` | Betterhood Physio app (physiotherapist journey). Screens in `src/components/physio-app/`, styles in `src/styles/physio-app.css`. Loaded by the native shell in `../physio-journey-app`. Run `npm run dev:app` to reach it from a phone |
 | `src/lib/site.ts` | Contact details, navigation, offers ticker, shop links |
 | `src/styles/global.css` | Design tokens and base styles |
 
@@ -74,13 +75,6 @@ are only sent when an endpoint exists, so the quiz is never interrupted by an em
 
 See `.env.example`.
 
-## Visitor journey tracking
-
-`src/scripts/tracker.ts` records each visitor's journey (page views, time on page, scroll, clicks, searches,
-assessment funnel, form submissions, Web Vitals) and sends it to the service in `backend/`, which stores it in
-Supabase and serves an internal dashboard. Set `PUBLIC_TRACK_ENDPOINT` to turn it on. See
-[backend/README.md](backend/README.md).
-
 ## Shop
 
 The shop already runs on Shopify (`shop.betterhood.in`). Product cards, prices and images come
@@ -110,7 +104,7 @@ already redirects.
 
 ## Deploy / cutover checklist
 
-1. Set `PUBLIC_FORM_ENDPOINT` and `PUBLIC_TRACK_ENDPOINT` in the host's environment (deploy `backend/` first).
+1. Set `PUBLIC_FORM_ENDPOINT` in the host's environment.
 2. Run `npm run sync && npm run mirror:media` once more, then `npm run build`.
 3. Deploy `dist/` (Cloudflare Pages, Netlify, Vercel or any static host).
 4. Point betterhood.in at the new host.

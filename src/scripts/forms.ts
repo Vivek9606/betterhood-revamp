@@ -2,15 +2,11 @@
 // Submissions are POSTed as JSON to PUBLIC_FORM_ENDPOINT (any webhook: Google Apps Script, Make,
 // Zapier, Formspree, a CRM...). Without an endpoint configured we fall back to a pre-filled email
 // to care@betterhood.in so a lead is never silently dropped.
-import { track } from "./tracker";
-
 const ENDPOINT: string = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
 const FALLBACK_EMAIL = "care@betterhood.in";
 
 export async function submitLead(form: string, data: Record<string, unknown>) {
   const payload = { form, page: location.pathname, submittedAt: new Date().toISOString(), ...data };
-  // assessments record their own (richer) assessment_complete event
-  if (!form.startsWith("assessment:")) track("form_submit", { form, fields: data });
   if (ENDPOINT) {
     const res = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
     if (!res.ok) throw new Error(`Submit failed (${res.status})`);

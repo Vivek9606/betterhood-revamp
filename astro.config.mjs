@@ -37,7 +37,7 @@ export default defineConfig({
     react(),
     sitemap({
       // personal result/confirmation screens and redirect stubs stay out of search
-      filter: (page) => !/\/(result-|completed-message|diagnostics-page)/.test(page) && !Object.keys(redirects).some((r) => page.endsWith(r + "/")),
+      filter: (page) => !/\/(result-|completed-message|diagnostics-page|physio-app)/.test(page) && !Object.keys(redirects).some((r) => page.endsWith(r + "/")),
     }),
   ],
   prefetch: { prefetchAll: false, defaultStrategy: "hover" },

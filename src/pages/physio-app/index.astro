@@ -1,0 +1,30 @@
+---
+// The Betterhood Physio app. Runs in the browser and inside the native shell (physio-journey-app),
+// which loads this page in a WebView. No site header/footer: the app draws its own chrome.
+import "../../styles/global.css";
+import "../../styles/physio-app.css";
+import PhysioApp from "../../components/physio-app/PhysioApp";
+---
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+    <title>Betterhood Physio</title>
+    <meta name="description" content="Get verified, get listed on betterhood.in and get credited for your clinical expertise." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#faf6f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#140a16" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- apply a saved light/dark choice before first paint, so there's no flash -->
+    <script is:inline>try { var t = localStorage.getItem("pa-theme"); if (t && t !== "system") document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:ital,wght@0,400..700;1,400..600&display=swap" />
+  </head>
+  <body class="pa-page">
+    <PhysioApp client:only="react" />
+    <noscript><p style="padding:24px">The Betterhood Physio app needs JavaScript.</p></noscript>
+  </body>
+</html>

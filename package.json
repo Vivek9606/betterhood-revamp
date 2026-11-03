@@ -4,11 +4,13 @@
   "description": "",
   "scripts": {
     "dev": "astro dev",
+    "dev:app": "astro dev --host",
     "build": "astro build && node scripts/write-redirects.mjs",
     "preview": "astro preview",
     "content": "node scripts/build-content.mjs && node scripts/extract-forms.mjs",
     "scrape:physios": "node scripts/scrape-physios.mjs",
     "scrape:extras": "node scripts/scrape-post-extras.mjs && node scripts/scrape-seo.mjs",
+    "scrape:home": "node scripts/scrape-home.mjs",
     "sync": "node scripts/sync-api.mjs && npm run scrape:physios && npm run scrape:extras && npm run content",
     "mirror:media": "node scripts/mirror-media.mjs"
   },
@@ -22,9 +24,9 @@
     "cheerio": "^1.2.0",
     "lenis": "^1.3.27",
     "motion": "^12.43.0",
+    "qrcode-generator": "^1.4.4",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1",
-    "web-vitals": "^6.2.3"
+    "react-dom": "^19.3.1"
   },
   "private": true,
   "devDependencies": {

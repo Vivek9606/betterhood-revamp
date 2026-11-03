@@ -1,0 +1,1110 @@
+{
+  "source": "https://betterhood.in/",
+  "scrapedAt": "2026-11-03T07:50:01.014Z",
+  "meta": {
+    "title": "betterhood India – Live better. Live pain-free",
+    "description": "betterhood helps you lead a pain-free, active life with innovative self-care tools for the longevity of your joints, bones, and muscles.",
+    "ogImage": "https://betterhood.in/wp-content/uploads/2025/05/1-scaled.webp",
+    "modified": "2026-10-08T09:01:45+00:00"
+  },
+  "hero": {
+    "title": "[[b]]Physio trusted pain care[[/b]] for everyday movement",
+    "sub": "To move better. Recover better. Stay active for longer",
+    "cta": {
+      "label": "Find your solution",
+      "href": "https://shop.betterhood.in/collections/all"
+    },
+    "image": "/wp-content/uploads/Home-page-banner-30july-02-02.webp",
+    "imageMobile": "/wp-content/uploads/Home-page-banner-30july-01.webp"
+  },
+  "range": [
+    {
+      "href": "https://shop.betterhood.in/products/lumbar-support-belt",
+      "handle": "lumbar-support-belt",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/New_Listing_Graphics_14_400x400.png?v=1788189588",
+      "badge": "Best seller",
+      "cta": "Shop now →"
+    },
+    {
+      "href": "https://shop.betterhood.in/products/betterhood-coccyx-seat-cushion-for-chair",
+      "handle": "betterhood-coccyx-seat-cushion-for-chair",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design-80055423762801_400x400.webp?v=1783970196",
+      "badge": null,
+      "cta": "Shop now →"
+    },
+    {
+      "href": "https://shop.betterhood.in/products/betterhood-menthol-magnesium-pain-relief-recovery-patches",
+      "handle": "betterhood-menthol-magnesium-pain-relief-recovery-patches",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/cryogel-relief-recovery-patches-for-aches-menthol-boswelia-magnesium-blend-5pc-74326688661873_400x400.webp?v=1783970318",
+      "badge": null,
+      "cta": "Shop now →"
+    },
+    {
+      "href": "https://shop.betterhood.in/products/pain-relief-and-recovery-roll-on",
+      "handle": "pain-relief-and-recovery-roll-on",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-pain-relief-and-recovery-roll-on-50-ml-77863986921841_400x400.webp?v=1783969591",
+      "badge": null,
+      "cta": "Shop now →"
+    },
+    {
+      "href": "https://shop.betterhood.in/products/betterhood-magnesium-body-lotion-for-recovery",
+      "handle": "betterhood-magnesium-body-lotion-for-recovery",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-magnesium-body-lotion-for-recovery-225-ml-77865046180209_400x400.webp?v=1783969520",
+      "badge": null,
+      "cta": "Shop now →"
+    },
+    {
+      "href": "https://shop.betterhood.in/products/betterhood-car-neckrest-cushion",
+      "handle": "betterhood-car-neckrest-cushion",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/car-neck-rest-pillow-ergonomic-memory-foam-headrest-cushion-80054305849713_400x400.webp?v=1783969946",
+      "badge": null,
+      "cta": "Shop now →"
+    },
+    {
+      "href": "https://shop.betterhood.in/products/betterhood-cervical-neck-support-pillow-for-sleeping",
+      "handle": "betterhood-cervical-neck-support-pillow-for-sleeping",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/71FFFdI8PgL._SL1500_400x400.webp?v=1784011916",
+      "badge": null,
+      "cta": "Shop now →"
+    },
+    {
+      "href": "https://shop.betterhood.in/products/betterhood-knee-sleeve-with-stabilizers-for-joint-support",
+      "handle": "betterhood-knee-sleeve-with-stabilizers-for-joint-support",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-knee-sleeve-with-stabilizers-for-joint-support-77703787020657_400x400.webp?v=1783969448",
+      "badge": null,
+      "cta": "Shop now →"
+    },
+    {
+      "href": "https://shop.betterhood.in/products/betterhood-wrist-support-brace-with-thumb-loop",
+      "handle": "betterhood-wrist-support-brace-with-thumb-loop",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-wrist-support-brace-with-thumb-loop-77724346974577_400x400.webp?v=1783969875",
+      "badge": null,
+      "cta": "Shop now →"
+    },
+    {
+      "href": "https://shop.betterhood.in/products/elbow-support-sleeve",
+      "handle": "elbow-support-sleeve",
+      "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/elbow-support-sleeve-for-gym-sports-79340161532273_400x400.webp?v=1783970474",
+      "badge": null,
+      "cta": "Shop now →"
+    }
+  ],
+  "trust": [
+    {
+      "value": "Physio",
+      "label": "Co Created"
+    },
+    {
+      "value": "40K+",
+      "label": "Happy Customers"
+    },
+    {
+      "value": "4.6",
+      "label": "Average Rating"
+    },
+    {
+      "value": "1000+",
+      "label": "Expert Articles"
+    }
+  ],
+  "concern": {
+    "eyebrow": "Shop by concern",
+    "more": {
+      "label": "See all concerns",
+      "href": "https://shop.betterhood.in/collections/concerns"
+    },
+    "title": "[[b]]Every pain[[/b]] is [[b]]different[[/b]]. So is the [[b]]solution[[/b]].",
+    "sub": "Shop physio-curated kits for targeted relief, recovery and support.",
+    "tabs": [
+      {
+        "label": "Sciatica Relief",
+        "href": "https://shop.betterhood.in/collections/sciatica",
+        "banner": "/wp-content/uploads/3-1.webp",
+        "products": [
+          {
+            "title": "Coccyx Memory Foam Chair Cushion for Seat, Ergonomic Design",
+            "href": "https://shop.betterhood.in/products/betterhood-coccyx-seat-cushion-for-chair",
+            "handle": "betterhood-coccyx-seat-cushion-for-chair",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design-80055423762801_400x400.webp?v=1783970196",
+            "rating": 4.7,
+            "reviews": 25,
+            "price": "₹1,358",
+            "compare": "₹4,399"
+          },
+          {
+            "title": "Period Cramp LongRelease Muscle Pain & Recovery Patches",
+            "href": "https://shop.betterhood.in/products/betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "handle": "betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/cryogel-relief-recovery-patches-for-aches-menthol-boswelia-magnesium-blend-5pc-74326688661873_400x400.webp?v=1783970318",
+            "rating": 5,
+            "reviews": 21,
+            "price": "₹388",
+            "compare": "₹499"
+          },
+          {
+            "title": "LS Back Pain Belt with 8 Stabilizers | Built for Guided Movement during Chronic & Recurring Lower Back Pain | Physio Co-created",
+            "href": "https://shop.betterhood.in/products/lumbar-support-belt",
+            "handle": "lumbar-support-belt",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/New_Listing_Graphics_14_400x400.png?v=1788189588",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹1,399",
+            "compare": "₹1,999"
+          },
+          {
+            "title": "Cervical Neck Pain & Teck Neck StiffReset Pain Recovery Roll-On",
+            "href": "https://shop.betterhood.in/products/pain-relief-and-recovery-roll-on",
+            "handle": "pain-relief-and-recovery-roll-on",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-pain-relief-and-recovery-roll-on-50-ml-77863986921841_400x400.webp?v=1783969591",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹377",
+            "compare": "₹499"
+          },
+          {
+            "title": "PosturePro Plus Premium Ergonomic Coccyx Seat Cushion for Chairs",
+            "href": "https://shop.betterhood.in/products/coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design",
+            "handle": "coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design-copy-80821493006705_400x400.webp?v=1783970253",
+            "rating": 5,
+            "reviews": 1,
+            "price": "₹1,499",
+            "compare": "₹4,399"
+          }
+        ],
+        "cta": "Explore Now",
+        "note": "Recommended by 980 physios"
+      },
+      {
+        "label": "Back Pain Relief",
+        "href": "https://shop.betterhood.in/collections/back-pain",
+        "banner": "/wp-content/uploads/2-1.webp",
+        "products": [
+          {
+            "title": "LS Back Pain Belt with 8 Stabilizers | Built for Guided Movement during Chronic & Recurring Lower Back Pain | Physio Co-created",
+            "href": "https://shop.betterhood.in/products/lumbar-support-belt",
+            "handle": "lumbar-support-belt",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/New_Listing_Graphics_14_400x400.png?v=1788189588",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹1,399",
+            "compare": "₹1,999"
+          },
+          {
+            "title": "Period Cramp LongRelease Muscle Pain & Recovery Patches",
+            "href": "https://shop.betterhood.in/products/betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "handle": "betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/cryogel-relief-recovery-patches-for-aches-menthol-boswelia-magnesium-blend-5pc-74326688661873_400x400.webp?v=1783970318",
+            "rating": 5,
+            "reviews": 21,
+            "price": "₹388",
+            "compare": "₹499"
+          },
+          {
+            "title": "PosturePro Plus Premium Ergonomic Lumbar Backrest Cushion for Chairs",
+            "href": "https://shop.betterhood.in/products/lumbar-backrest-cushion-for-chair-ergonomic-memory-foam-back-support",
+            "handle": "lumbar-backrest-cushion-for-chair-ergonomic-memory-foam-back-support",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/lumbar-backrest-cushion-for-chair-ergonomic-memory-foam-back-support-copy-80821492547953_400x400.webp?v=1783970619",
+            "rating": 5,
+            "reviews": 2,
+            "price": "₹1,499",
+            "compare": "₹4,199"
+          },
+          {
+            "title": "Lumbar Backrest Cushion for Chair - Ergonomic Memory Foam Back Support",
+            "href": "https://shop.betterhood.in/products/betterhood-back-support-cushion-for-chair",
+            "handle": "betterhood-back-support-cushion-for-chair",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/lumbar-backrest-cushion-for-chair-ergonomic-memory-foam-back-support-80055283941745_400x400.webp?v=1783970565",
+            "rating": 4.9,
+            "reviews": 10,
+            "price": "₹1,357",
+            "compare": "₹4,199"
+          },
+          {
+            "title": "Cervical Neck Pain & Teck Neck StiffReset Pain Recovery Roll-On",
+            "href": "https://shop.betterhood.in/products/pain-relief-and-recovery-roll-on",
+            "handle": "pain-relief-and-recovery-roll-on",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-pain-relief-and-recovery-roll-on-50-ml-77863986921841_400x400.webp?v=1783969591",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹377",
+            "compare": "₹499"
+          }
+        ],
+        "cta": "Explore Now",
+        "note": "Recommended by 980 physios"
+      },
+      {
+        "label": "Slip Disc Management",
+        "href": "https://shop.betterhood.in/collections/slip-disc",
+        "banner": "/wp-content/uploads/4.webp",
+        "products": [
+          {
+            "title": "LS Back Pain Belt with 8 Stabilizers | Built for Guided Movement during Chronic & Recurring Lower Back Pain | Physio Co-created",
+            "href": "https://shop.betterhood.in/products/lumbar-support-belt",
+            "handle": "lumbar-support-belt",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/New_Listing_Graphics_14_400x400.png?v=1788189588",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹1,399",
+            "compare": "₹1,999"
+          },
+          {
+            "title": "Coccyx Memory Foam Chair Cushion for Seat, Ergonomic Design",
+            "href": "https://shop.betterhood.in/products/betterhood-coccyx-seat-cushion-for-chair",
+            "handle": "betterhood-coccyx-seat-cushion-for-chair",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design-80055423762801_400x400.webp?v=1783970196",
+            "rating": 4.7,
+            "reviews": 25,
+            "price": "₹1,358",
+            "compare": "₹4,399"
+          },
+          {
+            "title": "Cervical Neck Pain & Teck Neck StiffReset Pain Recovery Roll-On",
+            "href": "https://shop.betterhood.in/products/pain-relief-and-recovery-roll-on",
+            "handle": "pain-relief-and-recovery-roll-on",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-pain-relief-and-recovery-roll-on-50-ml-77863986921841_400x400.webp?v=1783969591",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹377",
+            "compare": "₹499"
+          },
+          {
+            "title": "Period Cramp LongRelease Muscle Pain & Recovery Patches",
+            "href": "https://shop.betterhood.in/products/betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "handle": "betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/cryogel-relief-recovery-patches-for-aches-menthol-boswelia-magnesium-blend-5pc-74326688661873_400x400.webp?v=1783970318",
+            "rating": 5,
+            "reviews": 21,
+            "price": "₹388",
+            "compare": "₹499"
+          },
+          {
+            "title": "PosturePro Plus Premium Ergonomic Coccyx Seat Cushion for Chairs",
+            "href": "https://shop.betterhood.in/products/coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design",
+            "handle": "coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design-copy-80821493006705_400x400.webp?v=1783970253",
+            "rating": 5,
+            "reviews": 1,
+            "price": "₹1,499",
+            "compare": "₹4,399"
+          }
+        ],
+        "cta": "Explore Now",
+        "note": "Recommended by 980 physios"
+      },
+      {
+        "label": "Spondylosis Care",
+        "href": "https://shop.betterhood.in/collections/spondylosis",
+        "banner": "/wp-content/uploads/5.webp",
+        "products": [
+          {
+            "title": "Cervical Pillow for Posture, Ergonomic Memory Foam Dual Height Design",
+            "href": "https://shop.betterhood.in/products/betterhood-cervical-neck-support-pillow-for-sleeping",
+            "handle": "betterhood-cervical-neck-support-pillow-for-sleeping",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/71FFFdI8PgL._SL1500_400x400.webp?v=1784011916",
+            "rating": 4.9,
+            "reviews": 39,
+            "price": "₹1,162",
+            "compare": "₹2,999"
+          },
+          {
+            "title": "LS Back Pain Belt with 8 Stabilizers | Built for Guided Movement during Chronic & Recurring Lower Back Pain | Physio Co-created",
+            "href": "https://shop.betterhood.in/products/lumbar-support-belt",
+            "handle": "lumbar-support-belt",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/New_Listing_Graphics_14_400x400.png?v=1788189588",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹1,399",
+            "compare": "₹1,999"
+          },
+          {
+            "title": "Cervical Neck Pain & Teck Neck StiffReset Pain Recovery Roll-On",
+            "href": "https://shop.betterhood.in/products/pain-relief-and-recovery-roll-on",
+            "handle": "pain-relief-and-recovery-roll-on",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-pain-relief-and-recovery-roll-on-50-ml-77863986921841_400x400.webp?v=1783969591",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹377",
+            "compare": "₹499"
+          },
+          {
+            "title": "Period Cramp LongRelease Muscle Pain & Recovery Patches",
+            "href": "https://shop.betterhood.in/products/betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "handle": "betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/cryogel-relief-recovery-patches-for-aches-menthol-boswelia-magnesium-blend-5pc-74326688661873_400x400.webp?v=1783970318",
+            "rating": 5,
+            "reviews": 21,
+            "price": "₹388",
+            "compare": "₹499"
+          }
+        ],
+        "cta": "Explore Now",
+        "note": "Recommended by 980 physios"
+      },
+      {
+        "label": "Frozen Shoulder Relief",
+        "href": "https://shop.betterhood.in/collections/shoulder-neck",
+        "banner": "/wp-content/uploads/6.webp",
+        "products": [
+          {
+            "title": "Cervical Pillow for Posture, Ergonomic Memory Foam Dual Height Design",
+            "href": "https://shop.betterhood.in/products/betterhood-cervical-neck-support-pillow-for-sleeping",
+            "handle": "betterhood-cervical-neck-support-pillow-for-sleeping",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/71FFFdI8PgL._SL1500_400x400.webp?v=1784011916",
+            "rating": 4.9,
+            "reviews": 39,
+            "price": "₹1,162",
+            "compare": "₹2,999"
+          },
+          {
+            "title": "Cervical Neck Pain & Teck Neck StiffReset Pain Recovery Roll-On",
+            "href": "https://shop.betterhood.in/products/pain-relief-and-recovery-roll-on",
+            "handle": "pain-relief-and-recovery-roll-on",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-pain-relief-and-recovery-roll-on-50-ml-77863986921841_400x400.webp?v=1783969591",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹377",
+            "compare": "₹499"
+          },
+          {
+            "title": "betterhood Magnesium Body Lotion For Recovery (225 ml)",
+            "href": "https://shop.betterhood.in/products/betterhood-magnesium-body-lotion-for-recovery",
+            "handle": "betterhood-magnesium-body-lotion-for-recovery",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-magnesium-body-lotion-for-recovery-225-ml-77865046180209_400x400.webp?v=1783969520",
+            "rating": 4.9,
+            "reviews": 15,
+            "price": "₹477",
+            "compare": "₹649"
+          }
+        ],
+        "cta": "Explore Now",
+        "note": "Recommended by 980 physios"
+      },
+      {
+        "label": "Neck Pain & Tech Neck",
+        "href": "https://shop.betterhood.in/collections/neck-pain",
+        "banner": "/wp-content/uploads/10.webp",
+        "products": [
+          {
+            "title": "Cervical Pillow for Posture, Ergonomic Memory Foam Dual Height Design",
+            "href": "https://shop.betterhood.in/products/betterhood-cervical-neck-support-pillow-for-sleeping",
+            "handle": "betterhood-cervical-neck-support-pillow-for-sleeping",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/71FFFdI8PgL._SL1500_400x400.webp?v=1784011916",
+            "rating": 4.9,
+            "reviews": 39,
+            "price": "₹1,162",
+            "compare": "₹2,999"
+          },
+          {
+            "title": "Cervical Neck Pain & Teck Neck StiffReset Pain Recovery Roll-On",
+            "href": "https://shop.betterhood.in/products/pain-relief-and-recovery-roll-on",
+            "handle": "pain-relief-and-recovery-roll-on",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-pain-relief-and-recovery-roll-on-50-ml-77863986921841_400x400.webp?v=1783969591",
+            "rating": 4.9,
+            "reviews": 25,
+            "price": "₹377",
+            "compare": "₹499"
+          },
+          {
+            "title": "Car Neck Rest Pillow - Ergonomic Memory Foam Headrest Cushion",
+            "href": "https://shop.betterhood.in/products/betterhood-car-neckrest-cushion",
+            "handle": "betterhood-car-neckrest-cushion",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/car-neck-rest-pillow-ergonomic-memory-foam-headrest-cushion-80054305849713_400x400.webp?v=1783969946",
+            "rating": 5,
+            "reviews": 9,
+            "price": "₹948",
+            "compare": "₹3,799"
+          }
+        ],
+        "cta": "Explore Now",
+        "note": "Recommended by 980 physios"
+      },
+      {
+        "label": "Knee Pain Relief",
+        "href": "https://shop.betterhood.in/collections/knee-pain",
+        "banner": "/wp-content/uploads/7.webp",
+        "products": [
+          {
+            "title": "betterhood Premium 4-Strap Knee Brace with Stabilizers",
+            "href": "https://shop.betterhood.in/products/betterhood-premium-4-strap-knee-brace-with-stabilizers",
+            "handle": "betterhood-premium-4-strap-knee-brace-with-stabilizers",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-premium-4-strap-knee-brace-with-stabilizers-77719289069937_400x400.webp?v=1783969740",
+            "rating": 4.9,
+            "reviews": 29,
+            "price": "₹936",
+            "compare": "₹1,699"
+          },
+          {
+            "title": "Sports & Workouts Active Muscle Pain & Recovery Spray",
+            "href": "https://shop.betterhood.in/products/betterhood-pain-relief-and-recovery-spray",
+            "handle": "betterhood-pain-relief-and-recovery-spray",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-pain-relief-and-recovery-spray-100-ml-77857361822065_400x400.webp?v=1783969645",
+            "rating": 4.9,
+            "reviews": 27,
+            "price": "₹419",
+            "compare": "₹499"
+          }
+        ],
+        "cta": "Explore Now",
+        "note": "Recommended by 980 physios"
+      },
+      {
+        "label": "Carpal Tunnel Relief",
+        "href": "https://shop.betterhood.in/collections/carpal-tunnel-relief",
+        "banner": "/wp-content/uploads/8.webp",
+        "products": [
+          {
+            "title": "Wrist Support for Sprain & Strain Recovery | Lightweight Anatomical Support for Repititive Strain & Injury Prevention | Physio Co-created",
+            "href": "https://shop.betterhood.in/products/betterhood-wrist-support-brace-with-thumb-loop",
+            "handle": "betterhood-wrist-support-brace-with-thumb-loop",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-wrist-support-brace-with-thumb-loop-77724346974577_400x400.webp?v=1783969875",
+            "rating": 4.8,
+            "reviews": 66,
+            "price": "₹363",
+            "compare": "₹499"
+          },
+          {
+            "title": "Sports & Workouts Active Muscle Pain & Recovery Spray",
+            "href": "https://shop.betterhood.in/products/betterhood-pain-relief-and-recovery-spray",
+            "handle": "betterhood-pain-relief-and-recovery-spray",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/betterhood-pain-relief-and-recovery-spray-100-ml-77857361822065_400x400.webp?v=1783969645",
+            "rating": 4.9,
+            "reviews": 27,
+            "price": "₹419",
+            "compare": "₹499"
+          }
+        ],
+        "cta": "Explore Now",
+        "note": "Recommended by 980 physios"
+      },
+      {
+        "label": "Tennis Elbow Relief",
+        "href": "https://shop.betterhood.in/collections/tennis-elbow-relief",
+        "banner": "/wp-content/uploads/9.webp",
+        "products": [
+          {
+            "title": "Period Cramp LongRelease Muscle Pain & Recovery Patches",
+            "href": "https://shop.betterhood.in/products/betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "handle": "betterhood-menthol-magnesium-pain-relief-recovery-patches",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/cryogel-relief-recovery-patches-for-aches-menthol-boswelia-magnesium-blend-5pc-74326688661873_400x400.webp?v=1783970318",
+            "rating": 5,
+            "reviews": 21,
+            "price": "₹388",
+            "compare": "₹499"
+          },
+          {
+            "title": "Elbow Support Sleeve for Gym & Sports",
+            "href": "https://shop.betterhood.in/products/elbow-support-sleeve",
+            "handle": "elbow-support-sleeve",
+            "image": "https://cdn.shopify.com/s/files/1/0924/0317/1697/files/elbow-support-sleeve-for-gym-sports-79340161532273_400x400.webp?v=1783970474",
+            "rating": 4.9,
+            "reviews": 16,
+            "price": "₹575",
+            "compare": "₹699"
+          }
+        ],
+        "cta": "Explore Now",
+        "note": "Recommended by 980 physios"
+      }
+    ]
+  },
+  "story": {
+    "title": "[[b]]Co-created[[/b]] with [[b]]Physiotherapists[[/b]]. Designed for [[b]]everyday life[[/b]].",
+    "cards": [
+      {
+        "title": "We start with real pain.",
+        "text": "We spent time in physiotherapy clinics [[b]]studying real patients[[/b]] and [[b]]real pain[[/b]] patterns. Every product begins with [[b]]clinical insight[[/b]] - not market trends.",
+        "pin": "/wp-content/uploads/Yellow-Pin.webp"
+      },
+      {
+        "title": "We design for everyday use.",
+        "text": "Recovery works when you stick with it. That’s why we obsess over [[b]]breathable[[/b]] fabrics, [[b]]ZeroBulk[[/b]] designs, [[b]]all-day comfort[[/b]], and [[b]]fresh-smelling[[/b]] pain relief that [[b]]fits seamlessly[[/b]] into your lifestyle.",
+        "pin": "/wp-content/uploads/Red-Pin.webp"
+      }
+    ],
+    "background": {
+      "desktop": "/wp-content/uploads/Doodle-as-image.webp",
+      "mobile": "/wp-content/uploads/Group-37041-1.webp"
+    },
+    "art": [
+      "/wp-content/uploads/Group-37033.webp",
+      "/wp-content/uploads/excercise.webp",
+      "/wp-content/uploads/wrist-support-01-02-1.webp",
+      "/wp-content/uploads/KB_2-1-01-1.webp"
+    ]
+  },
+  "usecase": {
+    "eyebrow": "SHOP BY USE CASE",
+    "more": {
+      "label": "See all usecase",
+      "href": "https://shop.betterhood.in/collections/use-case"
+    },
+    "title": "Built for [[b]]how you live[[/b]].",
+    "sub": "Shop physio-curated kits for work, workouts, travel, and beyond.",
+    "items": [
+      {
+        "label": "Long Drive Spine Care",
+        "href": "https://shop.betterhood.in/collections/long-drive-spine-care",
+        "image": "/wp-content/uploads/2-2.webp"
+      },
+      {
+        "label": "Gym Support Essentials",
+        "href": "https://shop.betterhood.in/collections/gym",
+        "image": "/wp-content/uploads/4-1.webp"
+      },
+      {
+        "label": "Badminton Player",
+        "href": "https://shop.betterhood.in/collections/badminton-essentials",
+        "image": "/wp-content/uploads/3-2.webp"
+      },
+      {
+        "label": "Working Desk Ergonomic",
+        "href": "https://shop.betterhood.in/collections/desk-ergonomic",
+        "image": "/wp-content/uploads/1-1.webp"
+      },
+      {
+        "label": "Parent Care Gift",
+        "href": "https://shop.betterhood.in/collections/parents-wellness",
+        "image": "/wp-content/uploads/5-1.webp"
+      }
+    ]
+  },
+  "clinic": {
+    "title": "Not just [[b]]co-creators[[/b]]. Our physios are [[b]]clinically accountable[[/b]].",
+    "sub": "Our physio partners don't just endorse our products, they help build them",
+    "steps": [
+      {
+        "text": "They [[b]]observe real patient patterns[[/b]] before design begins.",
+        "icon": "/wp-content/uploads/1.webp"
+      },
+      {
+        "text": "They [[b]]push[[/b]] every [[b]]prototype[[/b]] through [[b]]real-world[[/b]] clinical [[b]]testing[[/b]].",
+        "icon": "/wp-content/uploads/30.webp"
+      },
+      {
+        "text": "Every [[b]]product undergoes physio-therapist review[[/b]] before launch.",
+        "icon": "/wp-content/uploads/20.webp"
+      }
+    ]
+  },
+  "physios": {
+    "title": "Physios We Work With",
+    "people": [
+      {
+        "name": "Dr. Shubham Kamble (PT)",
+        "role": "Founder, Dr. K's Clinic, MPT (Neurology), MS Chiropractic (Sweden)",
+        "image": "/wp-content/uploads/Dr.-Shubham-Kamble.webp",
+        "badge": "Verified",
+        "quote": null
+      },
+      {
+        "name": "Dr. Priyanka Gore (PT)",
+        "role": "Founder, IN-Motion REHAB",
+        "image": "/wp-content/uploads/Dr.-Priyanka-Gore.webp",
+        "badge": "Verified",
+        "quote": null
+      },
+      {
+        "name": "Dr. Paridhi Ojha (PT)",
+        "role": "Founder, Enkinetik Performance Clinic, BPTh/BPT, MPTh/MPT - Sports Physiotherapy",
+        "image": "/wp-content/uploads/Dr.-Paridhi-Ojha.webp",
+        "badge": "Verified",
+        "quote": null
+      },
+      {
+        "name": "Dr. Shruti Kamble (PT)",
+        "role": "BPTh/BPT, MPTH/MPT - Neurological Physiotherapy",
+        "image": "/wp-content/uploads/Dr.-Shruti-Kamble.webp",
+        "badge": "Verified",
+        "quote": null
+      },
+      {
+        "name": "Dr. Ruchika Bhargava (PT)",
+        "role": "Founder, Therapywise Clinic, BPTh/BPT",
+        "image": "/wp-content/uploads/Dr.-Ruchika-Bhargava.webp",
+        "badge": "Verified",
+        "quote": null
+      },
+      {
+        "name": "Dr. Kanchan Bharadwaj (PT)",
+        "role": "Founder, Pacific Physiotherapy & Pain Clinic, M.P.T",
+        "image": "/wp-content/uploads/Dr.-Kanchan-Bharadwaj.webp",
+        "badge": "Verified",
+        "quote": null
+      }
+    ]
+  },
+  "categories": {
+    "title": "One place. [[b]]Everything your pain needs[[/b]].",
+    "sub": "From ergonomic supports to pain relief recovery - the full range, all physio-reviewed.",
+    "video": "y5MJ4hXNHgw",
+    "note": "From [[b]]ergonomic supports[[/b]] to pain relief recovery - the full range, all physio-reviewed. From ergonomic supports to pain relief recovery - the full range, all physio-reviewed. From ergonomic supports to [[i]]pain relief recovery[[/i]] - the full range, all physio-reviewed",
+    "items": [
+      {
+        "href": "https://shop.betterhood.in/collections/pain-relief-recovery",
+        "image": "/wp-content/uploads/1-2.webp",
+        "imageMobile": "/wp-content/uploads/Category-Banner-HP-Mobile-5.webp"
+      },
+      {
+        "href": "https://shop.betterhood.in/collections/orthotics",
+        "image": "/wp-content/uploads/2-3.webp",
+        "imageMobile": "/wp-content/uploads/Orthotics-Category-Banner-HP-Mobile-3.webp"
+      },
+      {
+        "href": "https://shop.betterhood.in/collections/chair-cushions",
+        "image": "/wp-content/uploads/3-3.webp",
+        "imageMobile": "/wp-content/uploads/Posture-Category-Banner-HP-Mobile-4.webp"
+      }
+    ],
+    "viewAll": {
+      "label": "View all",
+      "href": "https://shop.betterhood.in/collections/all"
+    }
+  },
+  "words": {
+    "title": "Don't just take our word for it.",
+    "sub": "Hear from the professionals who prescribe it and the people who live with it, every day.",
+    "reels": [
+      {
+        "id": "uBMxwhtdO3w",
+        "tag": "Wrist",
+        "length": "1:42"
+      },
+      {
+        "id": "DaXDDTRTDn4",
+        "tag": "Wrist",
+        "length": "0:58"
+      },
+      {
+        "id": "gPuS1GkdEUI",
+        "tag": "Ankle",
+        "length": "2:10"
+      },
+      {
+        "id": "Ff0Mg2aDfKs",
+        "tag": "Ankle",
+        "length": "1:14"
+      },
+      {
+        "id": "KPhvVNI2PGE",
+        "tag": "Wrist",
+        "length": null
+      },
+      {
+        "id": "ryhyeC5Dm-U",
+        "tag": "Roll-on",
+        "length": null
+      },
+      {
+        "id": "f64jSLOFYew",
+        "tag": "Roll-on",
+        "length": null
+      },
+      {
+        "id": "Ef59y_qUbog",
+        "tag": "LS Belt",
+        "length": null
+      },
+      {
+        "id": "V-eY4nkIY2M",
+        "tag": "LS Belt",
+        "length": null
+      },
+      {
+        "id": "u4AzdyHdYno",
+        "tag": "Car",
+        "length": null
+      },
+      {
+        "id": "lWV-x-gxJyU",
+        "tag": "Car",
+        "length": null
+      }
+    ]
+  },
+  "age": {
+    "title": "[[b]]Most People Wait[[/b]] Too Long",
+    "sub": "Pain shows up differently at every age. Most people ignore the early signs until it’s much harder to reverse.",
+    "intro": "Here is what your body is most vulnerable [[b]]to and [[/b]][[i]]when.[[/i]]",
+    "decades": [
+      {
+        "age": "20s",
+        "title": "Posture problems begin",
+        "text": "Tech neck, wrist strain and poor desk habits start building the foundation for chronic pain."
+      },
+      {
+        "age": "30s",
+        "title": "The decade it shows up",
+        "text": "Lower back pain, knee issues and repetitive strain become hard to ignore for the first time."
+      },
+      {
+        "age": "40s",
+        "title": "Compensation kicks in",
+        "text": "Your body starts compensating for old injuries. What feels manageable starts limiting how you move."
+      },
+      {
+        "age": "50s+",
+        "title": "Chronic becomes daily",
+        "text": "Arthritis, spondylosis and joint degeneration peak. By then, lasting damage is harder to reverse."
+      }
+    ],
+    "outro": {
+      "title": "Catch the [[b]]Signs [[/b]][[i]]Early[[/i]]",
+      "text": "Find out how your musculoskeletal health is doing before small issues become chronic problems.",
+      "cta": {
+        "label": "Begin Assessment",
+        "href": "/quiz-landing-page/"
+      }
+    }
+  },
+  "press": [
+    {
+      "name": "The Economic Times",
+      "href": "https://share.google/0cobLfWWa4I3eZzNk",
+      "logo": "/wp-content/uploads/The_Economic_Times_logo-1.webp"
+    },
+    {
+      "name": "YourStory",
+      "href": "https://share.google/ex2jZL7yjaylN9Hxh",
+      "logo": "/wp-content/uploads/YourStory-Logo-Vector-2.svg"
+    },
+    {
+      "name": "Entrackr",
+      "href": "https://entrackr.com/snippets/pain-care-startup-betterhood-raises-seed-round-led-by-kairon-capital-11216682",
+      "logo": "/wp-content/uploads/02-entrackr-300h.webp"
+    },
+    {
+      "name": "BW Disrupt",
+      "href": "https://share.google/AzyN0qThleXYQu69j",
+      "logo": "/wp-content/uploads/03-bw-disrupt-300h.webp"
+    },
+    {
+      "name": "VIE Stories",
+      "href": "https://share.google/o12utfKIx5RaLybMW",
+      "logo": "/wp-content/uploads/04-viestories-300h.webp"
+    },
+    {
+      "name": "Inshorts",
+      "href": "https://share.google/TpZRaZDojObipO1Fw",
+      "logo": "/wp-content/uploads/05-inshorts-300h.webp"
+    },
+    {
+      "name": "Deccan Founders",
+      "href": "https://deccanfounders.com/2026/16/news/betterhood-secures-funding-for-preventive-pain-care/",
+      "logo": "/wp-content/uploads/07-deccan-founders-300h.webp"
+    },
+    {
+      "name": "Scoop Earth",
+      "href": "https://scoopearth.in/betterhood-raises-5-crore-seed-funding-led-by-kairon-capital-to-build-indias-first-comprehensive/",
+      "logo": "/wp-content/uploads/08-scoopearth-300h.webp"
+    },
+    {
+      "name": "Indian Startup Times",
+      "href": "https://share.google/Fq8qyBkaekfSbTKCj",
+      "logo": "/wp-content/uploads/09-indian-startup-times-300h.webp"
+    },
+    {
+      "name": "Entrepreneur",
+      "href": "https://share.google/7TQ3z3bV40GMePqUv",
+      "logo": "/wp-content/uploads/10-entrepreneur-300h.webp"
+    },
+    {
+      "name": "Yugma",
+      "href": "https://share.google/xVtpsToboR0qH27ip",
+      "logo": "/wp-content/uploads/11-yugma-300h.webp"
+    },
+    {
+      "name": "IndianWeb2",
+      "href": "https://share.google/jtVGenYib5AQdgUH6",
+      "logo": "/wp-content/uploads/12-indianweb2-300h.webp"
+    },
+    {
+      "name": "Fundz",
+      "href": "https://share.google/JEtRLkLEj89uJa0oP",
+      "logo": "/wp-content/uploads/62f108334177a24963a5e023.png"
+    },
+    {
+      "name": "Business Review Live",
+      "href": "https://share.google/HzSYWP0BTEMu1qOCt",
+      "logo": "/wp-content/uploads/14-business-review-live-300h.webp"
+    },
+    {
+      "name": "Bharat Fast",
+      "href": "https://share.google/wBeR5hHWLxiCm4HXu",
+      "logo": "/wp-content/uploads/15-bharat-fast-300h.webp"
+    },
+    {
+      "name": "IPO Platform",
+      "href": "https://share.google/G1NeakppDXD1bBpjl",
+      "logo": "/wp-content/uploads/16-ipo-platform-300h.webp"
+    },
+    {
+      "name": "Startup Rise Asia",
+      "href": "https://share.google/TjqE5oCRb4AG3wlEj",
+      "logo": "/wp-content/uploads/17-startup-rise-asia-300h.webp"
+    },
+    {
+      "name": "StartupTalky",
+      "href": "https://share.google/t5AacMFNoC8BDX9a6",
+      "logo": "/wp-content/uploads/18-startuptalky-300h.webp"
+    },
+    {
+      "name": "Entrepreneur News Network",
+      "href": "https://share.google/16lvbCixFCF51iohD",
+      "logo": "/wp-content/uploads/19-entrepreneur-news-network-300h.webp"
+    }
+  ],
+  "sticky": {
+    "label": "Get Free Assessment →",
+    "href": "/quiz-landing-page/"
+  },
+  "fixedLinks": [
+    {
+      "section": "categories",
+      "label": "View all",
+      "was": "#",
+      "now": "https://shop.betterhood.in/collections/all"
+    },
+    {
+      "section": "age",
+      "label": "Begin Assessment",
+      "was": "#",
+      "now": "/quiz-landing-page/"
+    }
+  ],
+  "dims": {
+    "/wp-content/uploads/Home-page-banner-30july-02-02.webp": [
+      1920,
+      676
+    ],
+    "/wp-content/uploads/Home-page-banner-30july-01.webp": [
+      1000,
+      1309
+    ],
+    "/wp-content/uploads/3-1.webp": [
+      900,
+      675
+    ],
+    "/wp-content/uploads/2-1.webp": [
+      900,
+      675
+    ],
+    "/wp-content/uploads/4.webp": [
+      900,
+      675
+    ],
+    "/wp-content/uploads/5.webp": [
+      900,
+      675
+    ],
+    "/wp-content/uploads/6.webp": [
+      900,
+      675
+    ],
+    "/wp-content/uploads/10.webp": [
+      900,
+      675
+    ],
+    "/wp-content/uploads/7.webp": [
+      900,
+      675
+    ],
+    "/wp-content/uploads/8.webp": [
+      900,
+      675
+    ],
+    "/wp-content/uploads/9.webp": [
+      900,
+      675
+    ],
+    "/wp-content/uploads/Yellow-Pin.webp": [
+      131,
+      139
+    ],
+    "/wp-content/uploads/Red-Pin.webp": [
+      112,
+      118
+    ],
+    "/wp-content/uploads/Doodle-as-image.webp": [
+      1920,
+      1276
+    ],
+    "/wp-content/uploads/Group-37041-1.webp": [
+      750,
+      1012
+    ],
+    "/wp-content/uploads/Group-37033.webp": [
+      148,
+      224
+    ],
+    "/wp-content/uploads/excercise.webp": [
+      224,
+      224
+    ],
+    "/wp-content/uploads/wrist-support-01-02-1.webp": [
+      209,
+      222
+    ],
+    "/wp-content/uploads/KB_2-1-01-1.webp": [
+      184,
+      192
+    ],
+    "/wp-content/uploads/2-2.webp": [
+      800,
+      769
+    ],
+    "/wp-content/uploads/4-1.webp": [
+      800,
+      769
+    ],
+    "/wp-content/uploads/3-2.webp": [
+      800,
+      769
+    ],
+    "/wp-content/uploads/1-1.webp": [
+      800,
+      769
+    ],
+    "/wp-content/uploads/5-1.webp": [
+      800,
+      769
+    ],
+    "/wp-content/uploads/1.webp": [
+      229,
+      229
+    ],
+    "/wp-content/uploads/30.webp": [
+      233,
+      229
+    ],
+    "/wp-content/uploads/20.webp": [
+      229,
+      229
+    ],
+    "/wp-content/uploads/Dr.-Shubham-Kamble.webp": [
+      500,
+      500
+    ],
+    "/wp-content/uploads/Dr.-Priyanka-Gore.webp": [
+      500,
+      500
+    ],
+    "/wp-content/uploads/Dr.-Paridhi-Ojha.webp": [
+      500,
+      500
+    ],
+    "/wp-content/uploads/Dr.-Shruti-Kamble.webp": [
+      500,
+      500
+    ],
+    "/wp-content/uploads/Dr.-Ruchika-Bhargava.webp": [
+      500,
+      500
+    ],
+    "/wp-content/uploads/Dr.-Kanchan-Bharadwaj.webp": [
+      500,
+      500
+    ],
+    "/wp-content/uploads/1-2.webp": [
+      1000,
+      280
+    ],
+    "/wp-content/uploads/Category-Banner-HP-Mobile-5.webp": [
+      1000,
+      478
+    ],
+    "/wp-content/uploads/2-3.webp": [
+      1000,
+      280
+    ],
+    "/wp-content/uploads/Orthotics-Category-Banner-HP-Mobile-3.webp": [
+      1000,
+      478
+    ],
+    "/wp-content/uploads/3-3.webp": [
+      1000,
+      280
+    ],
+    "/wp-content/uploads/Posture-Category-Banner-HP-Mobile-4.webp": [
+      1000,
+      478
+    ],
+    "/wp-content/uploads/The_Economic_Times_logo-1.webp": [
+      640,
+      80
+    ],
+    "/wp-content/uploads/YourStory-Logo-Vector-2.svg": [
+      450,
+      175
+    ],
+    "/wp-content/uploads/02-entrackr-300h.webp": [
+      2451,
+      300
+    ],
+    "/wp-content/uploads/03-bw-disrupt-300h.webp": [
+      1131,
+      300
+    ],
+    "/wp-content/uploads/04-viestories-300h.webp": [
+      1310,
+      300
+    ],
+    "/wp-content/uploads/05-inshorts-300h.webp": [
+      857,
+      300
+    ],
+    "/wp-content/uploads/07-deccan-founders-300h.webp": [
+      1240,
+      300
+    ],
+    "/wp-content/uploads/08-scoopearth-300h.webp": [
+      675,
+      300
+    ],
+    "/wp-content/uploads/09-indian-startup-times-300h.webp": [
+      1822,
+      300
+    ],
+    "/wp-content/uploads/10-entrepreneur-300h.webp": [
+      1528,
+      300
+    ],
+    "/wp-content/uploads/11-yugma-300h.webp": [
+      795,
+      300
+    ],
+    "/wp-content/uploads/12-indianweb2-300h.webp": [
+      1680,
+      300
+    ],
+    "/wp-content/uploads/62f108334177a24963a5e023.png": [
+      333,
+      192
+    ],
+    "/wp-content/uploads/14-business-review-live-300h.webp": [
+      1048,
+      300
+    ],
+    "/wp-content/uploads/15-bharat-fast-300h.webp": [
+      1050,
+      300
+    ],
+    "/wp-content/uploads/16-ipo-platform-300h.webp": [
+      1192,
+      300
+    ],
+    "/wp-content/uploads/17-startup-rise-asia-300h.webp": [
+      300,
+      300
+    ],
+    "/wp-content/uploads/18-startuptalky-300h.webp": [
+      413,
+      300
+    ],
+    "/wp-content/uploads/19-entrepreneur-news-network-300h.webp": [
+      300,
+      300
+    ]
+  }
+}

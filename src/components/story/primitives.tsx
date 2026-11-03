@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useInView, useMotionValue, useSpring, useReducedMotion, animate, type Variants } from "motion/react";
+import { segs } from "../../lib/rich";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Renders home.json copy with its [[b]]/[[i]] emphasis. Headings pass bold="em" for the brand accent. */
+export function Rich({ text, bold = "strong" }: { text: string; bold?: "strong" | "em" }) {
+  const B = bold;
+  return <>{segs(text).map((s, i) => (s.b ? <B key={i}>{s.t}</B> : s.i ? <em key={i}>{s.t}</em> : s.t))}</>;
+}
 
 /** Headline that reveals line by line from behind a mask. Pass lines as an array. */
 export function MaskLines({ lines, className = "", delay = 0, as: Tag = "h2", trigger = "view" }: {
@@ -24,6 +31,8 @@ export function MaskLines({ lines, className = "", delay = 0, as: Tag = "h2", tr
           >
             {line}
           </motion.span>
+          {/* a real space between lines, so the heading's text reads "different. So is…" to crawlers */}
+          {i < lines.length - 1 && " "}
         </span>
       ))}
     </MotionTag>
