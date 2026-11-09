@@ -5,6 +5,9 @@ site keeps its exact slug, and all of its content is carried over: 758 articles,
 profiles, every taxonomy archive, all pages, the assessments with their original scoring, and the
 media library.
 
+> **Before changing any page, read [REVAMP-GUIDELINES.md](REVAMP-GUIDELINES.md).** Pages are redesigned one
+> at a time. Content stays identical to the live site, and only the design and technical SEO change.
+
 ## Run it
 
 ```bash
@@ -21,8 +24,9 @@ Node 20+ is required.
 | Path | What |
 | --- | --- |
 | `src/pages/index.astro` | Homepage. Same sections, copy, products and links as the live homepage, read from `src/data/home.json`; refresh it with `npm run scrape:home` |
-| `src/pages/learn/[slug].astro` | All 758 articles at `/learn/{slug}/` |
-| `src/pages/learn/index.astro` | Learn hub with search + filters (type, what's inside, concern, solution) |
+| `src/pages/learn/[slug].astro` | All 758 articles at `/learn/{slug}/`. Same sections as the live article (byline, sidebar newsletter + What's Trending, Featured Articles, Featured Products); copy from `src/data/article.json` (`npm run scrape:article`). Body processed by `src/lib/article.ts` (ids, FAQ/References styling, FAQPage + citation JSON-LD; text never changed) |
+| `src/pages/learn/author/[...path].astro` | Author archives at `/learn/author/{slug}/` and `/page/{n}/` (slugs in `src/data/authors.json`) |
+| `src/pages/learn/index.astro` | Learn hub. Same sections, copy and posts as the live `/learn/` (featured, trending, filterable grid, must knows, expert, newsletter); copy from `src/data/learn.json` (`npm run scrape:learn`). Filters sync to the URL (`?h=back-pain&type=videos&q=…`) |
 | `src/pages/learn/[tax]/[term].astro` | Every archive at `/learn/{taxonomy}/{term}/`: category, by-health-concern, by-solution, by-what-inside, post-section-tags, podcast-season, physio-city, physio-state, physio_location, physio_speciality, physio_experience, physio_qualification |
 | `src/pages/physio/[slug].astro` | All 1,817 physio profiles at `/physio/{slug}/` |
 | `src/pages/physio-directory.astro` | Directory with state/city/area/mode filters; old `?state=&city=&area=` links still work |

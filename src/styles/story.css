@@ -51,11 +51,11 @@
 
 /* ---------- hero ---------- */
 .st-hero { min-height: calc(100svh - var(--top-h) - 150px); display: flex; align-items: stretch; background: radial-gradient(60% 70% at 85% 40%, var(--plum-100), transparent 70%), var(--cream); overflow: hidden; }
-.st-hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(32px, 5vw, 80px); align-items: center; padding-block: clamp(24px, 4vh, 48px); }
-.st-hero-copy { display: grid; gap: clamp(18px, 2.6vh, 28px); justify-items: start; }
-.st-hero .st-display { color: var(--plum-900); font-size: clamp(44px, min(6.6vw, 10vh), 104px); line-height: 0.98; letter-spacing: -0.045em; }
-.st-hero .st-display em { display: block; color: var(--plum-600); }
-.st-hero-sub { font-size: clamp(17px, 1.5vw, 21px); color: var(--ink-soft); max-width: 30em; }
+.st-hero-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: clamp(32px, 5vw, 80px); align-items: center; padding-block: clamp(24px, 4vh, 48px); }
+.st-hero-copy { display: grid; gap: clamp(20px, 3vh, 32px); justify-items: start; }
+.st-hero .st-display { color: var(--plum-900); font-size: clamp(40px, min(4.4vw, 7.6vh), 62px); line-height: 1.06; letter-spacing: -0.03em; }
+.st-hero .st-display em { display: block; margin-top: 0.08em; color: var(--plum-600); }
+.st-hero-sub { font-size: clamp(16px, 1.3vw, 19px); line-height: 1.55; color: var(--ink-soft); max-width: 30em; }
 .st-hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
 .st-arch { position: relative; justify-self: end; width: min(100%, 520px); height: calc(100svh - var(--top-h) - 220px); max-height: 720px; min-height: 420px; border-radius: 999px 999px 32px 32px; overflow: hidden; background: var(--plum-900); box-shadow: 0 50px 100px -50px rgba(36, 12, 44, 0.6); animation: st-arch-in 1.2s var(--ease) both; }
 .st-arch picture { position: absolute; left: 0; top: -8%; width: 100%; height: 116%; display: block; }
@@ -69,26 +69,28 @@
   .st-arch img { object-position: 50% 30%; }
 }
 
-/* ---------- product range strip ---------- */
-.st-range { padding: 8px 0 28px; background: var(--cream); --mq-gap: 14px; }
-.st-rtile { position: relative; display: block; width: clamp(140px, 15vw, 200px); aspect-ratio: 1; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); transition: transform 0.4s var(--ease), box-shadow 0.4s; }
-.st-rtile img { width: 100%; height: 100%; object-fit: cover; }
-.st-rtile:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
-.st-rbadge { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 999px; background: var(--sun-500); color: var(--plum-950); font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-.st-rview { position: absolute; left: 10px; right: 10px; bottom: 10px; padding: 8px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.94); color: var(--plum-800); font-size: 13px; font-weight: 650; text-align: center; opacity: 0; transform: translateY(8px); transition: all 0.35s var(--ease); }
-.st-rtile:hover .st-rview, .st-rtile:focus-visible .st-rview { opacity: 1; transform: none; }
-@media (hover: none) { .st-rview { opacity: 1; transform: none; } }
+/* ---------- first screen (hero + trustbar) ---------- */
+/* desktop: hero + trustbar together fill exactly one screen below the header. The hero takes the
+   space the trustbar leaves, and the arch fills the hero's height instead of pushing the bar past the fold. */
+@media (min-width: 861px) {
+  .st-fold { display: flex; flex-direction: column; height: calc(100svh - var(--top-h)); min-height: 600px; }
+  .st-fold .st-hero { flex: 1 1 auto; min-height: 0; }
+  .st-fold .st-hero-grid { grid-template-rows: minmax(0, 1fr); padding-block: clamp(20px, 3.2vh, 48px); }
+  .st-fold .st-arch { height: 100%; min-height: 300px; }
+  .st-fold .st-trustbar { flex: none; }
+}
 
 /* ---------- trust bar ---------- */
-.st-trustbar { padding: clamp(28px, 4vw, 44px) 0; background: var(--plum-900); color: #fff; }
+.st-trustbar { padding: 16px 0; background: var(--plum-900); color: #fff; }
 .st-trustbar-in { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); }
-.st-trustbar-in li { display: grid; gap: 4px; padding: 4px 24px; text-align: center; }
+.st-trustbar-in li { display: flex; align-items: baseline; justify-content: center; gap: 8px; padding: 4px 16px; text-align: center; }
 .st-trustbar-in li + li { border-left: 1px solid rgba(255, 255, 255, 0.14); }
-.st-trustbar-in strong { font: 700 clamp(28px, 3.4vw, 48px)/1 var(--font-display); letter-spacing: -0.03em; color: var(--sun-500); }
-.st-trustbar-in li > span { font-size: 15px; color: rgba(255, 255, 255, 0.72); }
+.st-trustbar-in strong { font: 700 clamp(20px, 1.8vw, 26px)/1 var(--font-display); letter-spacing: -0.02em; color: var(--sun-500); }
+.st-trustbar-in li > span { font-size: 14px; color: rgba(255, 255, 255, 0.72); }
 .st-trustbar-in strong span { font-size: 0.7em; margin-left: 2px; vertical-align: 0.15em; }
 @media (max-width: 760px) {
-  .st-trustbar-in { grid-template-columns: 1fr 1fr; row-gap: 20px; }
+  .st-trustbar-in { grid-template-columns: 1fr 1fr; row-gap: 10px; }
+  .st-trustbar-in li { flex-direction: column; align-items: center; gap: 2px; }
   .st-trustbar-in li:nth-child(3) { border-left: 0; }
 }
 

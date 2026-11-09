@@ -1,0 +1,199 @@
+{
+  "source": "https://betterhood.in/learn/",
+  "scraped": "2026-11-09",
+  "seo": {
+    "title": "betterhood Blog | Protocols and Science for Musculoskeletal Self Care",
+    "description": "Stay informed with betterhood's blog, featuring expert insights, practical advice, and wellness tips for healthy joints, bones, and muscles"
+  },
+  "breadcrumb": [
+    "Home",
+    "Learn"
+  ],
+  "featured": {
+    "slug": "musculoskeletal-recovery-tips-for-pain-relief",
+    "cta": "Read Article",
+    "byline": "By betterhood"
+  },
+  "newsletterTop": {
+    "heading": [
+      {
+        "t": "Subscribe"
+      },
+      {
+        "t": " to Newsletter",
+        "light": true
+      }
+    ],
+    "placeholder": "Enter E-mail",
+    "submit": "Submit"
+  },
+  "trending": {
+    "heading": [
+      {
+        "t": "What’s ",
+        "light": true
+      },
+      {
+        "t": "Trending"
+      }
+    ],
+    "count": 3
+  },
+  "browse": {
+    "filterLabel": "Filter",
+    "reset": "Reset Filters",
+    "groups": [
+      {
+        "key": "w",
+        "tax": "by-what-inside",
+        "title": "By What's Inside",
+        "terms": [
+          {
+            "value": "science",
+            "label": "Science",
+            "icon": "/wp-content/uploads/2024/10/science.svg"
+          },
+          {
+            "value": "protocol",
+            "label": "Protocol",
+            "icon": "/wp-content/uploads/2024/11/protocols_icon.svg"
+          }
+        ]
+      },
+      {
+        "key": "h",
+        "tax": "by-health-concern",
+        "title": "By Health Concern",
+        "terms": [
+          {
+            "value": "back-pain",
+            "label": "Back Pain",
+            "icon": "/wp-content/uploads/2024/10/back_pain_icon-2.svg"
+          },
+          {
+            "value": "feet-pain",
+            "label": "Feet Pain",
+            "icon": "/wp-content/uploads/2025/06/Feet-Pain.svg"
+          },
+          {
+            "value": "joint-pain",
+            "label": "Joint Pain",
+            "icon": "/wp-content/uploads/2024/10/knee_pain.svg"
+          },
+          {
+            "value": "knee-pain",
+            "label": "Knee Pain",
+            "icon": "/wp-content/uploads/2024/10/knee_pain.svg"
+          },
+          {
+            "value": "neck-pain",
+            "label": "Neck Pain",
+            "icon": "/wp-content/uploads/2024/10/neck_pain_icon.svg"
+          },
+          {
+            "value": "shoulder-pain",
+            "label": "Shoulder Pain",
+            "icon": "/wp-content/uploads/2024/10/shoulder_pain_icon.svg"
+          }
+        ]
+      },
+      {
+        "key": "o",
+        "tax": "by-solution",
+        "title": "By Solution",
+        "terms": [
+          {
+            "value": "posture",
+            "label": "Posture & Support",
+            "icon": "/wp-content/uploads/2024/10/posture_icon.svg"
+          },
+          {
+            "value": "recovery",
+            "label": "Relief & Recovery",
+            "icon": "/wp-content/uploads/2024/10/recovery_icon.svg"
+          }
+        ]
+      }
+    ],
+    "types": [
+      {
+        "value": "",
+        "label": "All"
+      },
+      {
+        "value": "articles",
+        "label": "Articles"
+      },
+      {
+        "value": "videos",
+        "label": "Videos"
+      }
+    ],
+    "searchPlaceholder": "Search",
+    "searchLabel": "Search content",
+    "clear": "Clear",
+    "loadMore": "Load More",
+    "perPage": 9
+  },
+  "mustKnows": {
+    "heading": [
+      {
+        "t": "Absolute Must Knows "
+      },
+      {
+        "t": "by betterhood",
+        "light": true
+      },
+      {
+        "t": "TM",
+        "sup": true
+      }
+    ],
+    "count": 10
+  },
+  "expert": {
+    "heading": [
+      {
+        "t": "Insights From Our Expert"
+      }
+    ],
+    "image": "/wp-content/uploads/2025/08/Untitled-design.webp",
+    "name": "Shayamal Vallabhjee",
+    "roles": [
+      "Chief Science Officer, betterhood",
+      "Performance Psychologist | Sports Scientist"
+    ]
+  },
+  "newsletter": {
+    "heading": [
+      {
+        "t": "Subscribe "
+      },
+      {
+        "t": "to our newsletter",
+        "light": true
+      }
+    ],
+    "text": "Each week, we dive deep into a topic designed to help you understand and navigate the changes in your body as you age.",
+    "placeholder": "Enter E-mail",
+    "submit": "Submit"
+  },
+  "socials": [
+    {
+      "href": "https://www.linkedin.com/company/betterhood-in/",
+      "icon": "/wp-content/uploads/2025/06/Linkedin-1-1.svg"
+    },
+    {
+      "href": "https://www.instagram.com/betterhood.in",
+      "icon": "/wp-content/uploads/2025/06/INSTA.svg"
+    },
+    {
+      "href": "https://www.youtube.com/@mybetterhood?utm_source=Website&utm_medium=Organic&utm_id=BH21",
+      "icon": "/wp-content/uploads/2025/06/Youtube.svg"
+    },
+    {
+      "href": "https://www.facebook.com/people/betterhoodin/61556286329491/",
+      "icon": "/wp-content/uploads/2025/06/FB.svg"
+    }
+  ]
+}

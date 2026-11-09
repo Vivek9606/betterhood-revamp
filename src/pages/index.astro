@@ -1,7 +1,7 @@
 ---
 // Homepage. Every word, product, image and link comes from the live betterhood.in homepage via
 // src/data/home.json (refresh it with `node scripts/scrape-home.mjs`), in the same section order:
-// hero, product range, trust, shop by concern, co-created story, use cases, clinically accountable +
+// hero + trust (the live product range strip is left out, by request), shop by concern, co-created story, use cases, clinically accountable +
 // physios, categories, testimonials, "most people wait too long", press, sticky assessment CTA.
 import Base from "../layouts/Base.astro";
 import Hero from "../components/story/Hero.tsx";
@@ -16,16 +16,14 @@ import Finale from "../components/story/Finale.tsx";
 import "../styles/story.css";
 import home from "../data/home.json";
 import { media } from "../lib/site";
-import { products } from "../lib/data";
 import { plain } from "../lib/rich";
 
-const { hero, range, trust, concern, story, usecase, clinic, physios, categories, words, age, press, sticky } = home;
+const { hero, trust, concern, story, usecase, clinic, physios, categories, words, age, press, sticky } = home;
 const dims = home.dims as Record<string, number[]>;
 const m = (src: string) => media(src);
 const size = (src: string) => dims[src];
 
-// alt text: product names for the range strip, and the words printed on each category banner
-const titleOf = (handle: string) => products.find((p) => p.handle === handle)?.title ?? concern.tabs.flatMap((t) => t.products).find((p) => p.handle === handle)?.title ?? "betterhood product";
+// alt text: the words printed on each category banner
 const bannerAlt: Record<string, string> = {
   "pain-relief-recovery": "Pain relief and Recovery: pain relief crafted for recovery",
   orthotics: "Orthotic Support: support designed for movement",
@@ -74,35 +72,18 @@ const jsonLd = [
     <link rel="dns-prefetch" href="https://i.ytimg.com" />
   </Fragment>
 
+  <!-- hero + trustbar share the first screen, so the trustbar is never cut off -->
+  <div class="st-fold">
   <Hero client:load title={hero.title} sub={hero.sub} cta={hero.cta} image={m(hero.image)} imageMobile={m(hero.imageMobile)} size={size(hero.image)} sizeMobile={size(hero.imageMobile)} />
 
-  <section class="st-range" aria-label="Product range">
-    <div class="st-marquee">
-      <div class="st-marquee-track" style="animation-duration: 60s">
-        {[0, 1].map((copy) => (
-          <ul class="st-marquee-group" aria-hidden={copy ? "true" : undefined}>
-            {range.map((p) => (
-              <li>
-                <a class="st-rtile" href={p.href} tabindex={copy ? -1 : undefined}>
-                  <img src={p.image} alt={copy ? "" : titleOf(p.handle)} width="400" height="400" loading="lazy" decoding="async" />
-                  {p.badge && <span class="st-rbadge">{p.badge}</span>}
-                  <span class="st-rview">{p.cta}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <section class="st-trustbar" aria-label="Why people trust betterhood">
-    <ul class="wrap st-trustbar-in" data-stagger>
+    <ul class="wrap st-trustbar-in">
       {trust.map((t) => (
         <li><strong>{t.value}{t.label === "Average Rating" && <span aria-hidden="true">★</span>}</strong><span>{t.label}</span></li>
       ))}
     </ul>
   </section>
+  </div>
 
   <Concern client:visible eyebrow={concern.eyebrow} more={concern.more} title={concern.title} sub={concern.sub} tabs={concern.tabs.map((t) => ({ ...t, banner: m(t.banner) }))} bannerSize={size(concern.tabs[0].banner)} />
 

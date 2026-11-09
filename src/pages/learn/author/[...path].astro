@@ -1,0 +1,74 @@
+---
+// Author archives at /learn/author/{slug}/ and /learn/author/{slug}/page/{n}/, as on the live site (the
+// article byline links here). Same content as the live Divi archive: per post the image, title,
+// "by {author} | {date} | {category}" and excerpt, 10 per page, "« Older Entries" / "Next Entries »".
+// The live archives are noindex, follow; kept the same.
+// Not yet redesigned page-by-page (see REVAMP-GUIDELINES.md progress table): this keeps the URLs working.
+import Base from "../../../layouts/Base.astro";
+import AUTHORS from "../../../data/authors.json";
+import { posts, termName, type Post } from "../../../lib/data";
+import { media } from "../../../lib/site";
+
+
+export function getStaticPaths() {
+  const out = [];
+  for (const [name, a] of Object.entries(AUTHORS as Record<string, { slug: string; name: string }>)) {
+    const mine = posts.filter((p) => p.author === name);
+    const pages = Math.max(1, Math.ceil(mine.length / 10));
+    for (let n = 1; n <= pages; n++) {
+      out.push({ params: { path: n === 1 ? a.slug : `${a.slug}/page/${n}` }, props: { a, n, pages, list: mine.slice((n - 1) * 10, n * 10) } });
+    }
+  }
+  return out;
+}
+const { a, n, pages, list } = Astro.props as { a: { slug: string; name: string }; n: number; pages: number; list: Post[] };
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const fmt = (iso: string) => { const [y, m, d] = iso.slice(0, 10).split("-").map(Number); return `${MONTHS[m - 1]} ${d}, ${y}`; };
+const base = `/learn/author/${a.slug}/`;
+const pageUrl = (k: number) => (k === 1 ? base : `${base}page/${k}/`);
+const thumb = (p: Post) => p.image?.thumb || p.image?.src || (p.videos[0] ? `https://i.ytimg.com/vi/${p.videos[0]}/hqdefault.jpg` : "");
+---
+<Base title={`${a.name}, Author at betterhood`} description={`Articles by ${a.name} on betterhood.`} noindex>
+  <section class="au">
+    <div class="wrap">
+      <h1 class="sr-only">{a.name}</h1>
+      <div class="au-list">
+        {list.map((p) => {
+          const cat = p.category.find((c) => c !== "uncategorized") ?? p.category[0];
+          return (
+            <article class="au-item">
+              <a class="au-img" href={`/learn/${p.slug}/`} tabindex="-1" aria-hidden="true">{thumb(p) && <img src={media(thumb(p))} alt={p.image?.alt ?? p.title} width="768" height="432" loading="lazy" decoding="async" />}</a>
+              <div class="au-body">
+                <h2><a href={`/learn/${p.slug}/`}>{p.title}</a></h2>
+                <p class="au-meta">by <a href={base} rel="author">{a.name}</a> | {fmt(p.date)}{cat && <> | <a href={`/learn/category/${cat}/`}>{termName("category", cat)}</a></>}</p>
+                {p.excerpt && <p class="au-ex">{p.excerpt}</p>}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      {pages > 1 && (
+        <nav class="au-pages" aria-label="Pagination">
+          {n < pages ? <a href={pageUrl(n + 1)} rel="next">« Older Entries</a> : <span></span>}
+          {n > 1 ? <a href={pageUrl(n - 1)} rel="prev">Next Entries »</a> : <span></span>}
+        </nav>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .au { padding: clamp(32px, 5vw, 72px) 0; }
+  .au-list { display: grid; gap: 22px; max-width: 900px; margin-inline: auto; }
+  .au-item { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 24px; align-items: start; padding: 16px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); }
+  .au-img { display: block; aspect-ratio: 16 / 9; border-radius: var(--r-md); overflow: hidden; background: var(--plum-100); }
+  .au-img img { width: 100%; height: 100%; object-fit: cover; }
+  .au-body h2 { font-size: clamp(20px, 2vw, 24px); line-height: 1.2; }
+  .au-body h2 a:hover { color: var(--plum-700); }
+  .au-meta { margin-top: 8px; font-size: 14px; color: var(--ink-mute); }
+  .au-meta a { color: var(--plum-700); font-weight: 600; }
+  .au-ex { margin-top: 10px; color: var(--ink-soft); font-size: 15.5px; }
+  .au-pages { display: flex; justify-content: space-between; max-width: 900px; margin: 32px auto 0; font-weight: 650; }
+  .au-pages a { color: var(--plum-700); }
+  @media (max-width: 700px) { .au-item { grid-template-columns: 1fr; } }
+</style>

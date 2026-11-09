@@ -1,211 +1,477 @@
 ---
+// Article template — every post at /learn/{slug}/. Same sections, copy and links as the live article page
+// (see REVAMP-GUIDELINES.md). Copy around the body comes from src/data/article.json (npm run scrape:article);
+// the body is the WordPress HTML, untouched except for structure added in src/lib/article.ts.
+//   breadcrumb · title · "by {author} | {date} | {category}" · featured image (or the video) · body
+//   sidebar: Subscribe to Newsletter, What's Trending (4 newest, not this one), social links
+//   Featured Articles (3 newest sharing the health concern) · Featured Products (Shopify, fixed list)
 import Base from "../../layouts/Base.astro";
 import Icon from "../../components/Icon.astro";
-import PostCard from "../../components/PostCard.astro";
-import ProductCard from "../../components/ProductCard.astro";
-import Newsletter from "../../components/Newsletter.astro";
-import { posts, relatedPosts, termName, formatDate, productsFor, isVideo, type Post } from "../../lib/data";
-import { prepareArticle } from "../../lib/html";
-import { media, areas } from "../../lib/site";
+import A from "../../data/article.json";
+import AUTHORS from "../../data/authors.json";
+import { posts, products, termName, isVideo, type Post } from "../../lib/data";
+import { processArticle } from "../../lib/article";
+import { media } from "../../lib/site";
+import Betty from "../../components/Betty.astro";
+import BETTY from "../../data/betty.json";
+import { productFromHref, productPhrases } from "../../lib/betty";
+
+// "In this article" is the one visible element the live page doesn't have: a list of the article's own H2s.
+// Pending team sign-off (REVAMP-GUIDELINES.md); set to false to remove it everywhere.
+const SHOW_TOC = true;
 
 export function getStaticPaths() {
   return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
 }
 const { post } = Astro.props as { post: Post };
-const { html, toc } = prepareArticle(post.html);
-const related = relatedPosts(post, 3);
-const area = areas.find((a) => post.concern.includes(a.concern));
-const picks = productsFor((area?.key as any) ?? "all", 2);
+type Part = { t: string; light?: boolean; sup?: boolean };
+
+// Betty (src/components/Betty.astro) is a new feature beyond the like-for-like revamp: switch it off in betty.json
+const { html, toc, faq, citations, words, mentions } = processArticle(post.html, {
+  mentions: BETTY.enabled ? { fromHref: productFromHref, phrases: productPhrases(), max: BETTY.maxSurprisesPerArticle } : undefined,
+});
 const video = isVideo(post);
-const url = new URL(`/learn/${post.slug}/`, Astro.site).href;
+// the live page shows a video post's first video above the body; any video already embedded in the body
+// stays where it is, so it's never shown twice
+const inBody = (id: string) => post.html.includes(id);
+const topVideo = video ? post.videos.find((v) => !inBody(v)) : undefined;
+const moreVideos = video ? post.videos.filter((v) => v !== topVideo && !inBody(v)) : [];
+const site = "https://betterhood.in";
+const url = `${site}/learn/${post.slug}/`;
+const author = (AUTHORS as Record<string, { slug: string; name: string }>)[post.author] ?? { slug: "", name: post.author };
+const authorUrl = author.slug ? `/learn/author/${author.slug}/` : "";
+const category = post.category.find((c) => c !== "uncategorized") ?? post.category[0];
 
-const terms = [
-  ...post.concern.map((s) => ({ tax: "by-health-concern", s })),
-  ...post.solution.map((s) => ({ tax: "by-solution", s })),
-  ...post.inside.map((s) => ({ tax: "by-what-inside", s })),
-  ...post.section.filter((s) => s !== "learn-page-banner").map((s) => ({ tax: "post-section-tags", s })),
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+// live byline/trending format: "Sep 16, 2026" (date part only, so the build machine's time zone can't shift it)
+const fmt = (iso: string) => { const [y, m, d] = iso.slice(0, 10).split("-").map(Number); return `${MONTHS[m - 1]} ${d}, ${y}`; };
+// WordPress stores IST wall-clock times; publish them with their offset
+const ist = (iso: string) => (iso && !/[zZ]|[+-]\d\d:\d\d$/.test(iso) ? `${iso}+05:30` : iso);
+const thumb = (p: Post) => p.image?.thumb || p.image?.src || (p.videos[0] ? `https://i.ytimg.com/vi/${p.videos[0]}/hqdefault.jpg` : "");
+
+const trending = posts.filter((p) => p.slug !== post.slug).slice(0, A.trending.count);
+const featured = post.concern[0]
+  ? posts.filter((p) => p.slug !== post.slug && p.concern.some((c) => post.concern.includes(c))).slice(0, A.featuredArticles.count)
+  : [];
+const picks = A.featuredProducts.handles.map((h) => products.find((p) => p.handle === h)).filter(Boolean) as typeof products;
+const rupee = (n: number) => `₹${n.toFixed(2)}`;
+const shopImg = (u: string, w = 500) => (u.includes("cdn.shopify.com") ? `${u}${u.includes("?") ? "&" : "?"}width=${w}` : u);
+const socialIcon = (href: string) => (/linkedin/.test(href) ? "linkedin" : /instagram/.test(href) ? "instagram" : /youtube/.test(href) ? "youtube" : "facebook");
+const socialName = (href: string) => ({ linkedin: "LinkedIn", instagram: "Instagram", youtube: "YouTube", facebook: "Facebook" })[socialIcon(href)];
+
+// ---------- structured data ----------
+const pageId = `${url}#webpage`;
+const org = { "@id": `${site}/#organization` };
+const authorLd = post.author === "betterhood"
+  ? org
+  : { "@type": "Person", "@id": `${site}/#/person/${author.slug || encodeURIComponent(post.author)}`, name: author.name, ...(authorUrl && { url: `${site}${authorUrl}` }), worksFor: org };
+const conditions = post.concern.map((c) => ({ "@type": "MedicalCondition", name: termName("by-health-concern", c) }));
+const image = post.image ? { "@type": "ImageObject", url: new URL(media(post.image.src), site).href, width: post.image.w, height: post.image.h, caption: post.image.alt || undefined } : undefined;
+const keywords = [
+  ...post.concern.map((s) => termName("by-health-concern", s)),
+  ...post.solution.map((s) => termName("by-solution", s)),
+  ...post.inside.map((s) => termName("by-what-inside", s)),
 ];
-
-const jsonLd = [
+const graph: Record<string, unknown>[] = [
   {
-    "@context": "https://schema.org",
-    "@type": video ? "VideoObject" : "BlogPosting",
-    headline: post.title,
-    name: post.title,
+    "@type": conditions.length ? ["WebPage", "MedicalWebPage"] : "WebPage",
+    "@id": pageId,
+    url,
+    name: post.seo.title || post.title,
     description: post.seo.description,
-    datePublished: post.date,
-    uploadDate: video ? post.date : undefined,
-    dateModified: post.modified,
-    image: post.image ? media(post.image.src) : undefined,
-    thumbnailUrl: video && post.videos[0] ? `https://i.ytimg.com/vi/${post.videos[0]}/hqdefault.jpg` : undefined,
-    embedUrl: video && post.videos[0] ? `https://www.youtube.com/embed/${post.videos[0]}` : undefined,
-    author: { "@type": post.author === "betterhood" ? "Organization" : "Person", name: post.author },
-    publisher: { "@type": "Organization", name: "betterhood", logo: { "@type": "ImageObject", url: "https://betterhood.in/img/logo.svg" } },
-    mainEntityOfPage: url,
+    inLanguage: "en-IN",
+    isPartOf: { "@type": "WebSite", "@id": `${site}/#website`, url: `${site}/`, name: "betterhood" },
+    breadcrumb: { "@id": `${url}#breadcrumb` },
+    ...(image && { primaryImageOfPage: image }),
+    ...(conditions.length && { about: conditions }),
+    datePublished: ist(post.date),
+    dateModified: ist(post.modified),
   },
+  video && post.videos[0]
+    ? {
+        "@type": "VideoObject",
+        "@id": `${url}#video`,
+        name: post.title,
+        description: post.seo.description || post.excerpt || post.title,
+        uploadDate: ist(post.date),
+        thumbnailUrl: `https://i.ytimg.com/vi/${post.videos[0]}/hqdefault.jpg`,
+        embedUrl: `https://www.youtube.com/embed/${post.videos[0]}`,
+        contentUrl: `https://www.youtube.com/watch?v=${post.videos[0]}`,
+        publisher: org,
+        isPartOf: { "@id": pageId },
+      }
+    : {
+        "@type": "BlogPosting",
+        "@id": `${url}#article`,
+        headline: post.title,
+        description: post.seo.description,
+        mainEntityOfPage: { "@id": pageId },
+        ...(image && { image }),
+        author: authorLd,
+        publisher: org,
+        datePublished: ist(post.date),
+        dateModified: ist(post.modified),
+        wordCount: words,
+        timeRequired: `PT${post.minutes || Math.max(1, Math.round(words / 230))}M`,
+        articleSection: termName("category", category),
+        ...(keywords.length && { keywords: keywords.join(", ") }),
+        ...(conditions.length && { about: conditions }),
+        inLanguage: "en-IN",
+        ...(citations.length && { citation: citations.map((c) => ({ "@type": "CreativeWork", name: c.name, ...(c.url && { url: c.url }) })) }),
+      },
   {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    "@id": `${url}#breadcrumb`,
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://betterhood.in/" },
-      { "@type": "ListItem", position: 2, name: "Learn", item: "https://betterhood.in/learn/" },
+      { "@type": "ListItem", position: 1, name: A.breadcrumb[0], item: `${site}/` },
+      { "@type": "ListItem", position: 2, name: A.breadcrumb[1], item: `${site}/learn/` },
       { "@type": "ListItem", position: 3, name: post.title, item: url },
     ],
   },
 ];
-const share = encodeURIComponent(`${post.title} ${url}`);
+if (faq.length) {
+  graph.push({
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    isPartOf: { "@id": pageId },
+    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  });
+}
+const jsonLd = { "@context": "https://schema.org", "@graph": graph };
+const heading = (parts: Part[]) => parts;
 ---
-<Base title={post.seo.title || post.title} description={post.seo.description} image={post.image?.src} type="article" published={post.date} modified={post.modified} jsonLd={jsonLd}>
-  <article>
-    <section class="a-top">
-    <header class="a-head">
-      <div class="wrap">
-        <nav class="breadcrumbs" aria-label="Breadcrumb">
-          <a href="/">Home</a><span aria-hidden="true">/</span><a href="/learn/">Learn</a>
-          {post.concern[0] && <><span aria-hidden="true">/</span><a href={`/learn/by-health-concern/${post.concern[0]}/`}>{termName("by-health-concern", post.concern[0])}</a></>}
-        </nav>
-        <div class="a-title">
-          <div class="a-terms">
-            {video && <span class="badge badge-sun"><Icon name="video" size={14} /> Video</span>}
-            {terms.slice(0, 3).map((t) => <a class="badge badge-plum" href={`/learn/${t.tax}/${t.s}/`}>{termName(t.tax, t.s)}</a>)}
-          </div>
-          <h1 class="h1">{post.title}</h1>
-          <div class="a-meta">
-            <span class="a-author"><span class="av">{post.author[0].toUpperCase()}</span> By <strong>{post.author}</strong></span>
-            <span><Icon name="calendar" size={16} /> {formatDate(post.date)}</span>
-            {!video && <span><Icon name="clock" size={16} /> {post.minutes} min read</span>}
-          </div>
-        </div>
-      </div>
-    </header>
+<Base
+  title={post.seo.title || post.title}
+  description={post.seo.description}
+  image={post.image?.src ?? (post.videos[0] ? `https://i.ytimg.com/vi/${post.videos[0]}/hqdefault.jpg` : undefined)}
+  imageAlt={post.image?.alt || post.title}
+  imageWidth={post.image?.w}
+  imageHeight={post.image?.h}
+  type="article"
+  published={ist(post.date)}
+  modified={ist(post.modified)}
+  jsonLd={jsonLd}
+>
+  <div class="a-progress" aria-hidden="true"><span data-progress></span></div>
 
-    <div class="wrap a-fig">
-      {post.videos.length > 0 ? (
-        <div class="a-video">
-          <iframe src={`https://www.youtube-nocookie.com/embed/${post.videos[0]}?rel=0`} title={post.title} loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <div class="a-band">
+    <div class="wrap a-grid">
+      <article class="a-main" data-article>
+        <header class="a-head">
+          <nav class="breadcrumbs a-crumbs" aria-label="Breadcrumb">
+            <a href="/">{A.breadcrumb[0]}</a><span aria-hidden="true">›</span><a href="/learn/">{A.breadcrumb[1]}</a><span aria-hidden="true">›</span><span aria-current="page">{post.title}</span>
+          </nav>
+          <h1 class="a-title">{post.title}</h1>
+          <p class="a-meta">
+            <span class="a-av" aria-hidden="true">{author.name.trim()[0]?.toUpperCase()}</span>
+            <span>{A.meta.by} {authorUrl ? <a href={authorUrl} rel="author">{author.name}</a> : author.name}</span>
+            <span class="a-sep" aria-hidden="true">{A.meta.separator}</span>
+            <time datetime={post.date.slice(0, 10)}>{fmt(post.date)}</time>
+            {category && <><span class="a-sep" aria-hidden="true">{A.meta.separator}</span><a href={`/learn/category/${category}/`} rel="tag">{termName("category", category)}</a></>}
+          </p>
+        </header>
+
+        {topVideo ? (
+          <div class="a-video"><iframe src={`https://www.youtube-nocookie.com/embed/${topVideo}?rel=0`} title={post.title} loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        ) : !video && post.image && (
+          <figure class="a-hero">
+            <img src={media(post.image.src)} alt={post.image.alt} width={post.image.w || 1200} height={post.image.h || 675} fetchpriority="high" decoding="async" />
+          </figure>
+        )}
+
+        {SHOW_TOC && toc.length > 2 && (
+          <details class="a-toc-m">
+            <summary><Icon name="menu" size={18} /> In this article <Icon name="chevron" size={18} class="a-chev" /></summary>
+            <ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.text}</a></li>)}</ol>
+          </details>
+        )}
+
+        {html.trim() && <div class="prose a-prose" set:html={html} />}
+        {moreVideos.map((v) => (
+          <div class="a-video sm"><iframe src={`https://www.youtube-nocookie.com/embed/${v}?rel=0`} title={post.title} loading="lazy" allowfullscreen></iframe></div>
+        ))}
+      </article>
+
+      <aside class="a-side" aria-label="Newsletter and trending">
+        <div class="s-card">
+          <div class="s-nl">
+            <h2 class="s-h">{heading(A.newsletter.heading as Part[]).map((p) => (p.light ? <span class="lt">{p.t}</span> : p.t))}</h2>
+            <form class="s-form" data-bh-form="newsletter">
+              <label class="sr-only" for="nl-side">{A.newsletter.placeholder}</label>
+              <input id="nl-side" type="email" name="email" placeholder={A.newsletter.placeholder} required autocomplete="email" />
+              <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+              <button class="btn btn-sm" type="submit">{A.newsletter.submit}</button>
+              <p data-note hidden></p>
+            </form>
+          </div>
+          <div class="s-tr">
+            <h2 class="s-h">{heading(A.trending.heading as Part[]).map((p) => (p.light ? <span class="lt">{p.t}</span> : p.t))}</h2>
+            <ol class="s-list">
+              {trending.map((p) => (
+                <li><a href={`/learn/${p.slug}/`}><span><time datetime={p.date.slice(0, 10)}>{fmt(p.date)}</time><strong>{p.title}</strong></span><Icon name="arrow-up-right" size={18} class="s-go" /></a></li>
+              ))}
+            </ol>
+          </div>
+          <ul class="s-social">
+            {A.socials.map((s) => <li><a href={s} target="_blank" rel="noopener" aria-label={`betterhood on ${socialName(s)}`}><Icon name={socialIcon(s)} size={18} /></a></li>)}
+          </ul>
         </div>
-      ) : post.image && (
-        <figure class="a-hero">
-          <img src={media(post.image.src)} alt={post.image.alt} width={post.image.w || 1200} height={post.image.h || 675} fetchpriority="high" />
-        </figure>
-      )}
+
+        {SHOW_TOC && toc.length > 2 && (
+          <nav class="a-toc" aria-label="In this article">
+            <p class="a-toc-t">In this article</p>
+            <ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.text}</a></li>)}</ol>
+          </nav>
+        )}
+      </aside>
     </div>
-    </section>
+  </div>
 
-    <div class="wrap">
-      <div class="a-grid">
-        <aside class="a-side a-left">
-          {toc.length > 2 && (
-            <nav class="toc" aria-label="In this article">
-              <p class="toc-t">In this article</p>
-              <ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.text}</a></li>)}</ol>
-            </nav>
-          )}
-          <div class="share">
-            <p class="toc-t">Share</p>
-            <a href={`https://wa.me/?text=${share}`} target="_blank" rel="noopener" aria-label="Share on WhatsApp"><Icon name="whatsapp" /></a>
-            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Share on LinkedIn"><Icon name="linkedin" /></a>
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Share on Facebook"><Icon name="facebook" /></a>
-            <button data-copy={url} aria-label="Copy link"><Icon name="copy" /></button>
-          </div>
-        </aside>
-
-        <div class="a-body">
-          {html.trim() ? <div class="prose" set:html={html} /> : <p class="lead">{post.excerpt}</p>}
-          {post.videos.slice(1).map((v) => (
-            <div class="a-video sm"><iframe src={`https://www.youtube-nocookie.com/embed/${v}?rel=0`} title={post.title} loading="lazy" allowfullscreen></iframe></div>
+  {featured.length > 0 && (
+    <section class="fa" aria-labelledby="fa-h">
+      <div class="wrap">
+        <h2 class="x-h" id="fa-h">{heading(A.featuredArticles.heading as Part[]).map((p) => (p.light ? <span class="lt">{p.t}</span> : p.t))}</h2>
+        <div class="fa-grid">
+          {featured.map((p) => (
+            <article class="fa-card">
+              <a href={`/learn/${p.slug}/`}>
+                <span class="fa-img">{thumb(p) && <img src={media(thumb(p))} alt={p.image?.alt ?? ""} width="768" height="432" loading="lazy" decoding="async" />}</span>
+                <h3>{p.title}</h3>
+              </a>
+            </article>
           ))}
-          <div class="a-tags">
-            {terms.map((t) => <a class="chip" href={`/learn/${t.tax}/${t.s}/`}>{termName(t.tax, t.s)}</a>)}
-          </div>
-          <p class="disclaimer"><Icon name="shield" size={18} /> This article is for education and awareness. It isn't a diagnosis — please consult a qualified physiotherapist or doctor for persistent or severe pain.</p>
         </div>
-
-        <aside class="a-side a-right">
-          <div class="side-cta">
-            <span class="side-ic"><Icon name="clipboard" size={22} /></span>
-            <p class="h3">{area ? `Is it really just ${area.name.toLowerCase()} strain?` : "Not sure what's causing your pain?"}</p>
-            <p class="soft">Take the free, physio-designed {area ? area.label.toLowerCase() : "pain"} assessment. 5 minutes.</p>
-            <a class="btn btn-sm btn-block" href={area?.assessment ?? "/quiz-landing-page/"}>Start assessment <Icon name="arrow" class="arrow" /></a>
-          </div>
-          <div class="side-prods">
-            <p class="toc-t">Physio-picked for you</p>
-            {picks.map((p) => <ProductCard product={p} />)}
-          </div>
-        </aside>
-      </div>
-    </div>
-  </article>
-
-  {related.length > 0 && (
-    <section class="section bg-white">
-      <div class="wrap">
-        <div class="section-head">
-          <div><p class="eyebrow">Keep reading</p><h2 class="h2">Related articles</h2></div>
-          <a class="link" href="/learn/">All articles <Icon name="arrow" /></a>
-        </div>
-        <div class="grid cols-3">{related.map((p) => <PostCard post={p} />)}</div>
       </div>
     </section>
   )}
-  <Newsletter />
+
+  <section class="fp" aria-labelledby="fp-h">
+    <div class="wrap">
+      <div class="fp-head">
+        <div>
+          <h2 class="x-h" id="fp-h">{heading(A.featuredProducts.heading as Part[]).map((p) => (p.light ? <span class="lt">{p.t}</span> : p.t))}</h2>
+          <p class="fp-offer">{A.featuredProducts.offer.map((p) => ("bold" in p && p.bold ? <strong>{p.t}</strong> : p.t))}</p>
+        </div>
+        <div class="fp-nav"><button type="button" data-prev aria-label="Previous" disabled><Icon name="arrow-left" size={20} /></button><button type="button" data-next aria-label="Next"><Icon name="arrow" size={20} /></button></div>
+      </div>
+    </div>
+    <div class="fp-rail" data-rail tabindex="0" aria-label={(A.featuredProducts.heading as Part[]).map((p) => p.t).join("")}>
+      {picks.map((p) => (
+        <article class="pd">
+          <a class="pd-link" href={`https://shop.betterhood.in/products/${p.handle}`}>
+            <span class="pd-img"><img src={shopImg(p.image)} alt={p.title} width="400" height="400" loading="lazy" decoding="async" /></span>
+            <h3>{p.title}</h3>
+            <p class="pd-price">{p.compare > p.price && <s>{rupee(p.compare)}</s>}<span>{rupee(p.price)}</span></p>
+          </a>
+          <a class="btn btn-sm pd-btn" href={`https://shop.betterhood.in/products/${p.handle}`} tabindex="-1" aria-hidden="true">{A.featuredProducts.cta}</a>
+        </article>
+      ))}
+    </div>
+  </section>
+  {BETTY.enabled && (
+    <Betty products={mentions.map((h) => products.find((p) => p.handle === h)!).filter(Boolean)} slug={post.slug} offer={A.featuredProducts.offer} cta={A.featuredProducts.cta} />
+  )}
 </Base>
 
 <style>
-  .a-top { gap: 22px; }
-  .a-head { padding: 0; }
-  .a-fig { flex: 1 1 0; min-height: 0; display: flex; }
-  .a-fig > * { flex: 1; }
-  .a-title { max-width: 980px; margin-top: 18px; display: grid; gap: 14px; }
-  .a-title .h1 { font-size: clamp(32px, 4.2vw, 62px); }
-  .a-terms { display: flex; flex-wrap: wrap; gap: 8px; }
-  .a-meta { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; color: var(--ink-soft); font-size: 15px; }
-  .a-meta > span { display: inline-flex; align-items: center; gap: 6px; }
-  .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--plum-700); color: #fff; font: 700 13px var(--font-display); }
-  .a-hero { margin: 0; border-radius: var(--r-xl); overflow: hidden; background: var(--plum-100); min-height: 240px; position: relative; }
-  .a-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .a-video { aspect-ratio: 16 / 9; border-radius: var(--r-xl); overflow: hidden; background: #000; max-width: 1000px; margin-inline: auto; }
-  .a-fig .a-video { flex: 0 1 auto; height: 100%; max-height: 100%; width: auto; min-height: 220px; }
-  .a-video.sm { border-radius: var(--r-md); margin-top: 24px; }
+  .lt { font-weight: 300; }
+  .a-progress { position: fixed; z-index: 100; top: 0; left: 0; right: 0; height: 3px; pointer-events: none; }
+  .a-progress span { display: block; height: 100%; width: 100%; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); background: linear-gradient(90deg, var(--plum-600), var(--sun-500)); }
+
+  .a-band { background: linear-gradient(180deg, var(--plum-50), var(--cream) 520px); padding: clamp(16px, 2.6vw, 30px) 0 clamp(48px, 6vw, 88px); }
+  .a-grid { display: grid; grid-template-columns: minmax(0, 760px) 340px; gap: clamp(32px, 4.4vw, 64px); justify-content: center; align-items: start; }
+
+  /* ---------- head ---------- */
+  .a-crumbs { margin-bottom: 18px; flex-wrap: nowrap; min-width: 0; }
+  .a-crumbs > * { flex: none; }
+  .a-crumbs > span[aria-current] { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-soft); }
+  .a-title { font-size: clamp(32px, 4.3vw, 54px); line-height: 1.06; letter-spacing: -0.032em; text-wrap: balance; }
+  .a-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 18px; font-size: 15px; color: var(--ink-soft); }
+  .a-meta a { color: var(--plum-700); font-weight: 650; }
+  .a-meta a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .a-av { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--plum-700); color: #fff; font: 700 14px var(--font-display); margin-right: 2px; }
+  .a-sep { color: var(--line-strong); }
+  .a-hero { margin: clamp(22px, 3vw, 32px) 0 0; border-radius: var(--r-xl); overflow: hidden; background: var(--plum-100); box-shadow: 0 30px 60px -40px rgba(36, 12, 44, 0.5); }
+  .a-hero img { width: 100%; height: auto; max-height: 560px; object-fit: cover; }
+  .a-video { margin-top: clamp(22px, 3vw, 32px); aspect-ratio: 16 / 9; border-radius: var(--r-xl); overflow: hidden; background: #000; }
   .a-video iframe { width: 100%; height: 100%; border: 0; }
-  .a-grid { display: grid; grid-template-columns: 220px minmax(0, 720px) 280px; gap: 48px; justify-content: center; padding: 48px 0 80px; }
-  .a-side { position: sticky; top: calc(var(--header-h) + 24px); align-self: start; display: grid; gap: 28px; }
-  .toc-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 12px; }
-  .toc ol { list-style: none; display: grid; gap: 2px; border-left: 2px solid var(--line); max-height: 52vh; overflow-y: auto; }
-  .toc a { display: block; padding: 6px 0 6px 14px; margin-left: -2px; border-left: 2px solid transparent; font-size: 14px; line-height: 1.4; color: var(--ink-soft); transition: all 0.2s; }
-  .toc a:hover, .toc a.on { color: var(--plum-700); border-color: var(--plum-700); }
-  .share { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-  .share .toc-t { width: 100%; margin-bottom: 4px; }
-  .share a, .share button { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); background: var(--white); color: var(--plum-700); transition: all 0.2s; }
-  .share a:hover, .share button:hover { background: var(--plum-700); color: #fff; }
-  .side-cta { padding: 24px; border-radius: var(--r-lg); background: var(--plum-900); color: #fff; display: grid; gap: 10px; }
-  .side-cta .h3 { font-size: 20px; }
-  .side-cta .soft { color: rgba(255, 255, 255, 0.75); font-size: 14.5px; margin-bottom: 6px; }
-  .side-cta .btn { --b-bg: var(--sun-500); --b-bd: var(--sun-500); --b-fg: var(--plum-950); }
-  .side-ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: rgba(255, 255, 255, 0.1); color: var(--sun-500); }
-  .side-prods { display: grid; gap: 14px; }
-  .a-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
-  .disclaimer { display: flex; gap: 10px; margin-top: 24px; padding: 16px 18px; border-radius: var(--r-md); background: var(--plum-50); font-size: 14px; color: var(--ink-soft); }
-  .disclaimer :global(svg) { flex: none; color: var(--plum-500); }
-  @media (max-width: 1200px) { .a-grid { grid-template-columns: minmax(0, 720px) 280px; } .a-left { display: none; } }
-  @media (max-width: 900px) { .a-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-top: 32px; } .a-right { position: static; } .side-prods { grid-template-columns: 1fr 1fr; } .side-prods .toc-t { grid-column: 1 / -1; } }
+  .a-video.sm { border-radius: var(--r-md); margin-top: 24px; }
+
+  /* ---------- body ---------- */
+  .a-prose { margin-top: clamp(28px, 4vw, 44px); font-size: 18.5px; line-height: 1.78; }
+  .a-prose :global(> p:first-child) { font-size: 1.1em; color: var(--ink); }
+  .a-prose :global(h2) { position: relative; padding-top: 0.9em; margin-top: 2em; font-size: clamp(25px, 2.6vw, 33px); letter-spacing: -0.025em; }
+  .a-prose :global(h2::before) { content: ""; position: absolute; top: 0; left: 0; width: 44px; height: 4px; border-radius: 4px; background: var(--sun-500); }
+  .a-prose :global(h3) { color: var(--plum-800); }
+  .a-prose :global(h2[id]), .a-prose :global(h3[id]) { scroll-margin-top: calc(var(--header-h) + 24px); }
+  .a-prose :global(img) { border-radius: var(--r-lg); }
+  .a-prose :global(figure.wp-block-image), .a-prose :global(p > img:only-child) { margin-block: 1.8em; }
+  .a-prose :global(ul li::marker) { content: "● "; font-size: 0.7em; }
+  .a-prose :global(blockquote) { border-left: 4px solid var(--plum-300); background: var(--plum-50); padding: 18px 22px; border-radius: 0 var(--r-md) var(--r-md) 0; font-style: normal; }
+  .a-prose :global(a) { overflow-wrap: anywhere; }
+
+  /* FAQ: the article's own questions and answers, set as a card */
+  .a-prose :global(.a-faq) { margin-top: 1em; padding: clamp(18px, 2.6vw, 30px); border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+  .a-prose :global(.a-faq > * + *) { margin-top: 0.7em; }
+  .a-prose :global(.a-faq .a-q) { display: block; position: relative; padding-left: 40px; margin-top: 1.5em; font: 650 clamp(18px, 1.7vw, 20px)/1.35 var(--font-display); letter-spacing: -0.015em; color: var(--ink); }
+  .a-prose :global(.a-faq > :first-child .a-q), .a-prose :global(.a-faq > .a-q:first-child) { margin-top: 0; }
+  .a-prose :global(.a-faq .a-q::before) { content: "Q"; position: absolute; left: 0; top: -1px; width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: var(--plum-700); color: #fff; font: 700 14px/28px var(--font-display); text-align: center; }
+  .a-prose :global(.a-faq h2.a-q::before), .a-prose :global(.a-faq h3.a-q::before), .a-prose :global(.a-faq h4.a-q::before) { top: 0; }
+  .a-prose :global(.a-faq .a-q + p), .a-prose :global(.a-faq p) { padding-left: 40px; color: var(--ink-soft); }
+  /* question and answer in one paragraph: hang the question back over the badge column */
+  .a-prose :global(.a-faq p > .a-q:first-child) { margin-left: -40px; margin-bottom: 4px; }
+  .a-prose :global(.a-faq h2.a-q), .a-prose :global(.a-faq h3.a-q), .a-prose :global(.a-faq h4.a-q) { padding-top: 0; }
+  .a-prose :global(.a-faq h2.a-q::after) { display: none; }
+  .a-prose :global(.a-faq h2::before) { width: 28px; height: 28px; }
+
+  /* References: smaller, numbered, every link visible */
+  .a-prose :global(.a-refs) { margin-top: 0.8em; padding: 18px 22px; border-radius: var(--r-md); background: var(--plum-50); font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); }
+  .a-prose :global(.a-refs ol), .a-prose :global(.a-refs ul) { padding-left: 1.4em; }
+  .a-prose :global(.a-refs li + li) { margin-top: 0.6em; }
+  .a-prose :global(.a-refs a) { word-break: break-word; }
+  .a-prose :global(.a-refs-h) { font-size: 22px !important; }
+
+  /* ---------- sidebar ---------- */
+  .a-side { display: grid; gap: 24px; align-self: stretch; align-content: start; }
+  .s-card { border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-md); overflow: hidden; }
+  .s-nl { padding: 24px 24px 22px; background: linear-gradient(160deg, var(--plum-50), #fff); border-bottom: 1px solid var(--line); }
+  .s-h { font-size: 22px; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .s-form { display: flex; flex-wrap: wrap; gap: 6px; padding: 5px; border-radius: var(--r-pill); background: #fff; border: 1.5px solid var(--line-strong); transition: border-color 0.2s, box-shadow 0.2s; }
+  .s-form:focus-within { border-color: var(--plum-500); box-shadow: 0 0 0 4px var(--plum-100); }
+  .s-form input[type="email"] { flex: 1; min-width: 0; border: 0; outline: 0; background: none; padding: 0 6px 0 14px; font-size: 15px; min-height: 38px; }
+  .s-form [data-note] { flex-basis: 100%; padding: 4px 12px 2px; font-size: 13.5px; }
+  .s-tr { padding: 22px 24px 8px; }
+  .s-list { list-style: none; }
+  .s-list li + li { border-top: 1px solid var(--line); }
+  .s-list a { display: grid; grid-template-columns: 1fr 20px; gap: 12px; align-items: start; padding: 14px 0; }
+  .s-list span { display: grid; gap: 4px; }
+  .s-list time { font-size: 12.5px; color: var(--ink-mute); }
+  .s-list strong { font: 600 15px/1.35 var(--font-display); letter-spacing: -0.01em; transition: color 0.2s; }
+  .s-list :global(.s-go) { color: var(--plum-500); margin-top: 16px; transition: transform 0.3s var(--ease); }
+  .s-list a:hover strong { color: var(--plum-700); }
+  .s-list a:hover :global(.s-go) { transform: translate(3px, -3px); }
+  .s-social { list-style: none; display: flex; gap: 8px; padding: 14px 24px 20px; border-top: 1px solid var(--line); }
+  .s-social a { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--plum-50); color: var(--plum-700); transition: all 0.2s; }
+  .s-social a:hover { background: var(--plum-700); color: #fff; }
+
+  .a-toc { position: sticky; top: calc(var(--header-h) + 24px); padding: 20px 20px 16px; border-radius: var(--r-lg); background: rgba(255, 255, 255, 0.7); border: 1px solid var(--line); backdrop-filter: blur(8px); }
+  .a-toc-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
+  .a-toc ol { list-style: none; display: grid; gap: 1px; max-height: calc(100vh - var(--header-h) - 130px); overflow-y: auto; border-left: 2px solid var(--line); scrollbar-width: thin; }
+  .a-toc a { display: block; padding: 6px 0 6px 14px; margin-left: -2px; border-left: 2px solid transparent; font-size: 14px; line-height: 1.4; color: var(--ink-soft); transition: color 0.2s, border-color 0.2s; }
+  .a-toc a:hover, .a-toc a.on { color: var(--plum-700); border-color: var(--plum-700); }
+  .a-toc a.on { font-weight: 650; }
+  .a-toc-m { display: none; }
+
+  /* ---------- featured articles ---------- */
+  .x-h { font-size: clamp(28px, 3.4vw, 42px); letter-spacing: -0.03em; }
+  .fa { padding: clamp(48px, 6vw, 88px) 0 clamp(24px, 3vw, 40px); background: #fff; border-top: 1px solid var(--line); }
+  .fa-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 26px); margin-top: clamp(20px, 3vw, 32px); }
+  .fa-card a { display: flex; flex-direction: column; height: 100%; border-radius: var(--r-lg); overflow: hidden; background: var(--cream); border: 1px solid var(--line); transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease); }
+  .fa-card a:hover { transform: translateY(-5px); box-shadow: 0 26px 50px -30px rgba(36, 12, 44, 0.45); }
+  .fa-img { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--plum-100); }
+  .fa-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease); }
+  .fa-card a:hover .fa-img img { transform: scale(1.05); }
+  .fa-card h3 { padding: 16px 18px 20px; font-size: 18px; line-height: 1.3; letter-spacing: -0.012em; }
+
+  /* ---------- featured products ---------- */
+  .fp { padding: clamp(40px, 5vw, 72px) 0 clamp(56px, 7vw, 96px); background: #fff; }
+  .fp-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: clamp(20px, 3vw, 30px); }
+  .fp-offer { margin-top: 8px; color: var(--ink-soft); font-size: 16px; }
+  .fp-offer strong { color: var(--plum-700); padding: 2px 8px; border-radius: 6px; background: var(--sun-100); border: 1px dashed var(--sun-500); font-weight: 700; letter-spacing: 0.02em; }
+  .fp-nav { display: flex; gap: 8px; }
+  .fp-nav button { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line-strong); background: #fff; color: var(--plum-700); transition: all 0.2s; }
+  .fp-nav button:hover:not(:disabled) { background: var(--plum-700); border-color: var(--plum-700); color: #fff; }
+  .fp-nav button:disabled { opacity: 0.35; cursor: default; }
+  .fp-rail {
+    --pad: max(var(--gutter), calc((100vw - var(--wrap)) / 2 + var(--gutter)));
+    display: grid; grid-auto-flow: column; grid-auto-columns: clamp(230px, 22vw, 280px); gap: clamp(14px, 1.6vw, 20px);
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--pad); padding: 6px var(--pad) 22px; scrollbar-width: none;
+  }
+  .fp-rail::-webkit-scrollbar { display: none; }
+  .fp-rail:focus-visible { outline: 3px solid var(--sun-500); outline-offset: -3px; }
+  .pd { scroll-snap-align: start; display: flex; flex-direction: column; border-radius: var(--r-lg); background: var(--cream); border: 1px solid var(--line); overflow: hidden; transition: box-shadow 0.4s var(--ease), transform 0.4s var(--ease); }
+  .pd:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -30px rgba(36, 12, 44, 0.45); }
+  .pd-link { display: flex; flex-direction: column; flex: 1; }
+  .pd-img { display: block; aspect-ratio: 1; background: #fff; overflow: hidden; }
+  .pd-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease); }
+  .pd:hover .pd-img img { transform: scale(1.05); }
+  .pd h3 { padding: 14px 16px 0; font: 600 15px/1.35 var(--font-display); letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .pd-price { display: flex; align-items: baseline; gap: 8px; padding: 8px 16px 0; margin-top: auto; }
+  .pd-price s { color: var(--ink-mute); font-size: 14px; }
+  .pd-price span { font: 700 18px var(--font-display); color: var(--ink); }
+  .pd-btn { margin: 14px 16px 16px; justify-content: center; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1100px) {
+    .a-grid { grid-template-columns: minmax(0, 1fr) 300px; }
+  }
+  @media (max-width: 900px) {
+    .a-grid { grid-template-columns: minmax(0, 1fr); }
+    .a-toc { display: none; }
+    .a-toc-m { display: block; margin-top: 24px; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line); }
+    .a-toc-m summary { list-style: none; display: flex; align-items: center; gap: 10px; padding: 14px 18px; font-weight: 650; cursor: pointer; }
+    .a-toc-m summary::-webkit-details-marker { display: none; }
+    .a-toc-m :global(.a-chev) { margin-left: auto; transition: transform 0.25s; }
+    .a-toc-m[open] :global(.a-chev) { transform: rotate(180deg); }
+    .a-toc-m ol { padding: 0 18px 16px 38px; display: grid; gap: 8px; font-size: 15px; }
+    .a-toc-m a { color: var(--plum-700); }
+    .fa-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .a-prose { font-size: 17.5px; }
+    .a-hero, .a-video { border-radius: var(--r-lg); margin-inline: calc(var(--gutter) * -0.5); }
+    .fa-grid { grid-template-columns: 1fr; }
+    .fa-card a { flex-direction: row; }
+    .fa-img { width: 38%; flex: none; aspect-ratio: auto; min-height: 96px; }
+    .fa-card h3 { padding: 12px 14px; font-size: 15.5px; align-self: center; }
+    .fp-nav { display: none; }
+    .fp-rail { grid-auto-columns: 64vw; }
+    .a-prose :global(.a-faq .a-q), .a-prose :global(.a-faq p) { padding-left: 0; }
+    .a-prose :global(.a-faq .a-q::before) { position: static; display: inline-grid; margin-right: 10px; vertical-align: 2px; }
+  }
 </style>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((b) =>
-    b.addEventListener("click", async () => {
-      await navigator.clipboard?.writeText(b.dataset.copy!);
-      b.style.background = "var(--mint-600)"; b.style.color = "#fff";
-      setTimeout(() => { b.style.background = ""; b.style.color = ""; }, 1400);
-    }),
-  );
-  // highlight the TOC entry for the section being read
-  const links = [...document.querySelectorAll<HTMLAnchorElement>(".toc a")];
+  // reading progress
+  const article = document.querySelector<HTMLElement>("[data-article]");
+  const bar = document.querySelector<HTMLElement>("[data-progress]");
+  if (article && bar) {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = article.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight)));
+      bar.style.setProperty("--p", p.toFixed(4));
+    };
+    addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+    update();
+  }
+
+  // table of contents: highlight the section being read
+  const links = [...document.querySelectorAll<HTMLAnchorElement>(".a-toc a")];
   if (links.length) {
-    const map = new Map(links.map((a) => [a.hash.slice(1), a]));
+    const map = new Map(links.map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
     const io = new IntersectionObserver((es) => es.forEach((e) => {
-      if (e.isIntersecting) { links.forEach((l) => l.classList.remove("on")); map.get(e.target.id)?.classList.add("on"); }
-    }), { rootMargin: "-20% 0px -70% 0px" });
+      if (!e.isIntersecting) return;
+      links.forEach((l) => l.classList.remove("on"));
+      const a = map.get(e.target.id);
+      if (a) { a.classList.add("on"); a.scrollIntoView({ block: "nearest" }); }
+    }), { rootMargin: "-15% 0px -75% 0px" });
     map.forEach((_, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+  }
+  document.querySelectorAll<HTMLAnchorElement>(".a-toc-m a").forEach((a) => a.addEventListener("click", () => a.closest("details")?.removeAttribute("open")));
+
+  // featured products rail
+  const rail = document.querySelector<HTMLElement>("[data-rail]");
+  const prev = document.querySelector<HTMLButtonElement>("[data-prev]");
+  const next = document.querySelector<HTMLButtonElement>("[data-next]");
+  if (rail && prev && next) {
+    const step = () => { const c = rail.firstElementChild as HTMLElement; const w = c.offsetWidth + (parseFloat(getComputedStyle(rail).columnGap) || 0); return Math.max(1, Math.floor(rail.clientWidth / w)) * w; };
+    const sync = () => { prev.disabled = rail.scrollLeft <= 4; next.disabled = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4; };
+    prev.addEventListener("click", () => rail.scrollBy({ left: -step(), behavior: "smooth" }));
+    next.addEventListener("click", () => rail.scrollBy({ left: step(), behavior: "smooth" }));
+    rail.addEventListener("scroll", sync, { passive: true });
+    addEventListener("resize", sync);
+    sync();
   }
 </script>

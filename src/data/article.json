@@ -1,0 +1,98 @@
+{
+  "source": "https://betterhood.in/learn/sciatica-red-flags/",
+  "scraped": "2026-11-09",
+  "breadcrumb": [
+    "Home",
+    "Learn"
+  ],
+  "meta": {
+    "by": "by",
+    "separator": "|"
+  },
+  "newsletter": {
+    "heading": [
+      {
+        "t": "Subscribe"
+      },
+      {
+        "t": " to Newsletter",
+        "light": true
+      }
+    ],
+    "placeholder": "Enter E-mail",
+    "submit": "Submit"
+  },
+  "trending": {
+    "heading": [
+      {
+        "t": "What’s ",
+        "light": true
+      },
+      {
+        "t": "Trending"
+      }
+    ],
+    "count": 4
+  },
+  "featuredArticles": {
+    "heading": [
+      {
+        "t": "Featured",
+        "light": true
+      },
+      {
+        "t": " Articles"
+      }
+    ],
+    "count": 3
+  },
+  "featuredProducts": {
+    "heading": [
+      {
+        "t": "Featured",
+        "light": true
+      },
+      {
+        "t": " Products"
+      }
+    ],
+    "offer": [
+      {
+        "t": "Flat 10% off sitewide with "
+      },
+      {
+        "t": "betterhood10",
+        "bold": true
+      }
+    ],
+    "cta": "View Product",
+    "handles": [
+      "betterhood-premium-breathable-ankle-support-brace",
+      "betterhood-arch-support-insoles-for-flat-feet",
+      "betterhood-knee-sleeve-with-stabilizers-for-joint-support",
+      "betterhood-magnesium-body-lotion-for-recovery",
+      "betterhood-premium-4-strap-knee-brace-with-stabilizers",
+      "betterhood-car-neckrest-cushion",
+      "betterhood-car-backrest-headrest-and-seat-cushion-combo",
+      "pain-relief-and-recovery-roll-on",
+      "betterhood-cervical-neck-support-pillow-for-sleeping",
+      "betterhood-coccyx-seat-cushion-for-chair",
+      "betterhood-contour-cervical-neck-support-pillow-for-sleeping",
+      "betterhood-dual-gel-shoe-insoles-for-everyday-comfort",
+      "betterhood-heel-pads-shoe-insoles-for-everyday-comfort",
+      "lumbar-support-belt",
+      "betterhood-back-support-cushion-for-chair",
+      "betterhood-menthol-magnesium-pain-relief-recovery-patches",
+      "coccyx-memory-foam-chair-cushion-for-seat-ergonomic-design",
+      "lumbar-backrest-cushion-for-chair-ergonomic-memory-foam-back-support",
+      "betterhood-car-seat-cushion",
+      "betterhood-pain-relief-and-recovery-spray"
+    ]
+  },
+  "socials": [
+    "https://www.linkedin.com/company/betterhood-in/",
+    "https://www.instagram.com/betterhood.in",
+    "https://www.youtube.com/@mybetterhood?utm_source=Website&utm_medium=Organic&utm_id=BH21",
+    "https://www.facebook.com/people/betterhoodin/61556286329491/"
+  ]
+}

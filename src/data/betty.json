@@ -1,0 +1,23 @@
+{
+  "_note": "Betty, the betterhood red panda, on article pages (src/components/Betty.astro). Everything in `copy` is NEW copy that isn't on the live site: edit freely, and get it signed off before launch. {product} and {pct} are filled in at runtime.",
+  "enabled": true,
+  "maxSurprisesPerArticle": 3,
+  "triggerLine": 0.62,
+  "parkAfterMs": 7000,
+  "copy": {
+    "name": "Betty",
+    "dockLabel": "Betty, the betterhood red panda",
+    "greet": "Hi, I’m Betty! I’ll keep you company while you read. Watch out for surprises.",
+    "tease": "Psst! I found something for this bit.",
+    "boxLabel": "Open Betty’s surprise: {product}",
+    "markLabel": "Betty’s surprise for {product}",
+    "revealEyebrow": "Betty’s pick for this section",
+    "save": "Save {pct}%",
+    "keepReading": "Keep reading",
+    "trayTitle": "Betty’s finds in this article",
+    "trayEmpty": "Keep reading. I’ll bring you anything useful I spot.",
+    "end": "You read the whole thing! Your spine says thanks.",
+    "hide": "Hide Betty for now",
+    "close": "Close"
+  }
+}

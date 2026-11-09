@@ -11,8 +11,11 @@
     "scrape:physios": "node scripts/scrape-physios.mjs",
     "scrape:extras": "node scripts/scrape-post-extras.mjs && node scripts/scrape-seo.mjs",
     "scrape:home": "node scripts/scrape-home.mjs",
-    "sync": "node scripts/sync-api.mjs && npm run scrape:physios && npm run scrape:extras && npm run content",
-    "mirror:media": "node scripts/mirror-media.mjs"
+    "sync": "node scripts/sync-api.mjs && npm run scrape:physios && npm run scrape:extras && npm run scrape:learn && npm run scrape:article && npm run content",
+    "mirror:media": "node scripts/mirror-media.mjs",
+    "scrape:learn": "node scripts/scrape-learn.mjs",
+    "scrape:article": "node scripts/scrape-article.mjs",
+    "resolve:products": "node scripts/resolve-product-aliases.mjs"
   },
   "author": "",
   "license": "ISC",
