@@ -119,6 +119,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   import { submitLead } from "../scripts/forms";
   import { fromApp, isEmbedded, toApp, waitForApp } from "../scripts/embed";
   import { href } from "../scripts/base";
+  import { appLink } from "../scripts/app-link";
 
   const root = document.querySelector<HTMLElement>("[data-quiz]")!;
   const form: FormDef = JSON.parse(root.querySelector("[data-form-def]")!.textContent!);
@@ -356,6 +357,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   }
 
   function showScores(r: any) {
+    const toAppHref = appLink(cfg.slug, r);
     const pct = Math.round(((r.overall ?? 0) / 10) * 100);
     const bars = [["Strength", r.strength], ["Balance", r.balance], ["Mobility", r.mobility]].filter(([, v]) => v !== null);
     $<HTMLElement>("[data-bar]").style.width = "100%";
@@ -366,7 +368,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       <p class="lead">${cfg.kind === "longevity" ? "Here's the longevity target you've set for your musculoskeletal health." : `Here's your latest ${esc(cfg.title.toLowerCase())} score — combining strength, balance and mobility.`}</p>
       <div class="qz-ring" style="--p:${pct}"><div><strong>${r.overall ?? "–"}</strong><span>out of 10</span></div></div>
       <div class="qz-bars">${bars.map(([k, v]) => `<div><span>${k}</span><i><b style="width:${(+v! / 10) * 100}%"></b></i><span>${v}/10</span></div>`).join("")}</div>
-      <div class="qz-actions"><a class="btn btn-lg" href="${href(cfg.corner)}">Open my betterYou corner →</a><a class="btn btn-ghost btn-lg" href="${location.pathname}">Retake</a></div>
+      <div class="qz-actions">${toAppHref ? `<a class="btn btn-lg" href="${toAppHref}">Track it in the betterhood app →</a><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">Open my betterYou corner</a>` : `<a class="btn btn-lg" href="${href(cfg.corner)}">Open my betterYou corner →</a>`}<a class="btn btn-ghost btn-lg" href="${location.pathname}">Retake</a></div>
     </div>`;
     $(".qz-nav").remove();
     $("[data-step]").textContent = String(total);

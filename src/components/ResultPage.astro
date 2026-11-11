@@ -45,6 +45,19 @@ const condition = a.conditions[r.cat];
     </div>
   </section>
 
+  <section class="section-tight" data-app-cta data-embed-hide hidden>
+    <div class="wrap">
+      <div class="rs-app">
+        <div>
+          <p class="eyebrow">betterhood app</p>
+          <h2 class="h3">Keep this result and get matched with a physio near you</h2>
+          <p class="rs-app-sub">Save your {condition.toLowerCase()} result to your account, follow your plan and book a session, all in one place. Free to use.</p>
+        </div>
+        <a class="btn btn-lg" data-app-link href="#">Save it in the app <Icon name="arrow" class="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
   <CareSections show={["risks"]} />
 
   <section class="section-tight" id="toolkit">
@@ -103,10 +116,14 @@ const condition = a.conditions[r.cat];
   .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 14px; }
   .rs-later { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding: clamp(24px, 4vw, 44px); border-radius: var(--r-xl); background: var(--plum-50); }
   .rs-later > div { max-width: 640px; }
+  .rs-app { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding: clamp(24px, 4vw, 40px); border-radius: var(--r-xl); background: var(--mint-100); border: 1px solid var(--mint-200); }
+  .rs-app > div { max-width: 640px; }
+  .rs-app-sub { margin-top: 8px; color: var(--ink-mute); }
   @media (max-width: 960px) { .rs-grid, .rs-tk { grid-template-columns: 1fr; } }
 </style>
 
 <script>
+  import { appLink } from "../scripts/app-link";
   const meta = JSON.parse(document.querySelector("[data-rs]")!.textContent!);
   let store: Record<string, any> = {};
   try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); } catch {}
@@ -116,6 +133,12 @@ const condition = a.conditions[r.cat];
   if (name) {
     document.querySelectorAll("[data-name]").forEach((el) => (el.textContent = name));
     document.querySelectorAll("[data-name-poss]").forEach((el) => (el.textContent = `${name}'s`));
+  }
+  // "Save it in the app": carries this visitor's result when it is the one on this page.
+  const toApp = appLink(meta.assessment, rec?.result === meta.result ? rec : null);
+  if (toApp) {
+    document.querySelector<HTMLAnchorElement>("[data-app-link]")!.href = toApp;
+    document.querySelector<HTMLElement>("[data-app-cta]")!.hidden = false;
   }
   if (rec?.result === meta.result && rec.advisory) document.querySelector<HTMLElement>("[data-advisory]")!.hidden = false;
 </script>
