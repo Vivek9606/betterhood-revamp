@@ -278,6 +278,7 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
 
   const verify = $<HTMLFormElement>("[data-verify]"), form = $<HTMLFormElement>("[data-form]"), done = $("[data-done]"), loading = $("[data-loading]");
   const F = form.elements as unknown as Record<string, HTMLInputElement>;
+  const V = verify.elements as unknown as Record<string, HTMLInputElement>; // phone + code live in the verify form
 
   let token = ""; // physio session (existing account)
   let signupToken = ""; // verified number, no account yet
@@ -316,7 +317,7 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
   const note = (el: HTMLElement, text: string, ok = false) => { el.hidden = !text; el.className = `form-note ${ok ? "ok" : "err"}`; el.textContent = text; };
 
   // ---------- verify (WhatsApp OTP) ----------
-  const phoneVal = () => F.phone.value.replace(/\D/g, "").replace(/^(91|0)(?=\d{10}$)/, "");
+  const phoneVal = () => V.phone.value.replace(/\D/g, "").replace(/^(91|0)(?=\d{10}$)/, "");
   const vNote = $("[data-verify-note]");
   verify.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -328,7 +329,7 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
       $("[data-otp-row]").hidden = false;
       btn.textContent = "Resend code";
       note(vNote, "Code sent on WhatsApp. It's valid for 10 minutes.", true);
-      F.code.focus();
+      V.code.focus();
     } catch (err) {
       note(vNote, (err as Error).message);
     } finally {
@@ -336,11 +337,11 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
     }
   });
   $("[data-check]").addEventListener("click", async () => {
-    if (!/^\d{6}$/.test(F.code.value)) return note(vNote, "Enter the 6-digit code from WhatsApp.");
+    if (!/^\d{6}$/.test(V.code.value)) return note(vNote, "Enter the 6-digit code from WhatsApp.");
     const btn = $<HTMLButtonElement>("[data-check]");
     btn.disabled = true;
     try {
-      const r = await call<{ token?: string; role?: string; signupToken?: string }>("/auth/otp/verify", { body: { phone: phoneVal(), code: F.code.value } });
+      const r = await call<{ token?: string; role?: string; signupToken?: string }>("/auth/otp/verify", { body: { phone: phoneVal(), code: V.code.value } });
       if (r.signupToken) {
         signupToken = r.signupToken;
         startForm();
