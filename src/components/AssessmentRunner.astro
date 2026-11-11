@@ -118,6 +118,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   import { QuizEngine, type Field, type FormDef } from "../scripts/quiz-engine";
   import { submitLead } from "../scripts/forms";
   import { fromApp, isEmbedded, toApp, waitForApp } from "../scripts/embed";
+  import { href } from "../scripts/base";
 
   const root = document.querySelector<HTMLElement>("[data-quiz]")!;
   const form: FormDef = JSON.parse(root.querySelector("[data-form-def]")!.textContent!);
@@ -300,7 +301,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       const best = totals.reduce((a, b) => (b.score > a.score ? b : a));
       const adv = byLabel(/^critical advisory$/i);
       record = { kind: "pain", area: cfg.area, title: cfg.title, cat: best.cat, condition: cfg.conditions[best.cat], totals, advisory: adv ? engine.shown(adv.id) : false, name, date, result: cfg.results[best.cat] };
-      go = `/${cfg.results[best.cat]}/`;
+      go = href(`/${cfg.results[best.cat]}/`);
     } else {
       const score = (re: RegExp) => { const f = byLabel(re); return f ? Math.round(engine.num(f.id) * 10) / 10 : null; };
       record = { kind: cfg.kind, area: cfg.area, title: cfg.title, name, date, overall: score(/^overall score$/i) ?? score(/^average score$/i), strength: score(/^total \(strength\)$/i), balance: score(/^total \(balance\)$/i), mobility: score(/^total \(mobility\)$/i) };
@@ -365,7 +366,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       <p class="lead">${cfg.kind === "longevity" ? "Here's the longevity target you've set for your musculoskeletal health." : `Here's your latest ${esc(cfg.title.toLowerCase())} score — combining strength, balance and mobility.`}</p>
       <div class="qz-ring" style="--p:${pct}"><div><strong>${r.overall ?? "–"}</strong><span>out of 10</span></div></div>
       <div class="qz-bars">${bars.map(([k, v]) => `<div><span>${k}</span><i><b style="width:${(+v! / 10) * 100}%"></b></i><span>${v}/10</span></div>`).join("")}</div>
-      <div class="qz-actions"><a class="btn btn-lg" href="${cfg.corner}">Open my betterYou corner →</a><a class="btn btn-ghost btn-lg" href="${location.pathname}">Retake</a></div>
+      <div class="qz-actions"><a class="btn btn-lg" href="${href(cfg.corner)}">Open my betterYou corner →</a><a class="btn btn-ghost btn-lg" href="${location.pathname}">Retake</a></div>
     </div>`;
     $(".qz-nav").remove();
     $("[data-step]").textContent = String(total);

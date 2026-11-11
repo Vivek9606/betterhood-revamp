@@ -183,6 +183,7 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
 </style>
 
 <script>
+  import { href } from "../scripts/base";
   const cfg = JSON.parse(document.querySelector("[data-bc]")!.textContent!);
   let store: Record<string, any> = {}, history: any[] = [], name = "";
   try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); history = JSON.parse(localStorage.getItem("bh_history") || "[]"); name = localStorage.getItem("bh_name") || ""; } catch {}
@@ -202,7 +203,7 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
       (card.querySelector("[data-full]") as HTMLElement).hidden = false;
       card.querySelector("[data-condition]")!.textContent = pain.condition;
       card.querySelector("[data-date]")!.textContent = `Assessed on ${fmt(pain.date)}`;
-      (card.querySelector("[data-result]") as HTMLAnchorElement).href = `/${pain.result}/`;
+      (card.querySelector("[data-result]") as HTMLAnchorElement).href = href(`/${pain.result}/`);
     }
     const h = store[cfg.health];
     const sc = document.querySelector("[data-score]")!;
