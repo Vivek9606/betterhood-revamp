@@ -5,9 +5,81 @@ first. The rules for the revamp itself are in [REVAMP-GUIDELINES.md](../REVAMP-G
 
 ---
 
+## 2026-11-11: Website ↔ app wiring (one assessment flow, physio directory sign-up), test deploy
+
+**Merged to `main` and deployed** (with the city pages work from 2026-11-10). Three repos are involved:
+- website: this repo → GitHub Pages, https://vivek9606.github.io/betterhood-revamp
+- backend: `capacitor-app/capacitor-app-backend` → DigitalOcean, https://lionfish-app-snwe2.ondigitalocean.app
+- app: `capacitor-app/capacitor-app-physio` → Vercel, https://capacitor-app-three.vercel.app
+
+This is a **testing** deploy: WhatsApp messages are only logged, and the OTP code is always `123456`. The database
+is the production Supabase, though.
+
+### Asked for
+1. Connect the website's assessments to the app's patient journey, and the physio directory sign-up to the app's
+   physio flow.
+   - **Physio directory:** a physio visiting the website can list themselves in the directory with a full form. On
+     submit, the profile goes live on the website and the physio is shown its URL.
+   - **Assessments:** keep one assessment flow. Taken in the app, it opens inside the app (the user never leaves)
+     and the result is saved to their account. No duplication.
+2. What's needed to make it live, then the full env set to copy-paste (testing deploy, not production).
+3. Commit and push all three repos to trigger the builds, then fix what came up in testing.
+4. A CTA on the result page telling patients to get the app.
+
+### Done
+- **One assessment flow.**
+  - The website owns the assessments. The app opens them in an in-app frame (`WebFlow`) with `?embed=app`, which
+    hides the site's chrome.
+  - The page and the app talk over postMessage: `bh:ready`, `bh:context`, `bh:assessment-result`, `bh:ack` and
+    `bh:directory-published` (`src/scripts/embed.ts` here, `src/lib/web.ts` in the app).
+  - The app's own quiz engine and form copies were deleted. All 9 website assessments (pain, health, longevity)
+    save to the patient's account. Only pain results trigger a physio match.
+- **Physio directory sign-up, `/physio-directory/join/`.**
+  - Steps: WhatsApp OTP, then the full listing form, then publish. Publishing shows the profile URL and checks it
+    until it is live. Listed physios can come back to edit.
+  - Signing up creates the same physio account the app uses. In the app, Profile has a "betterhood.in directory"
+    card that opens this same page.
+  - Listings are stored in the backend's `directory_profiles` table (migration 005).
+  - The site build pulls them in through `scripts/sync-directory.mjs` and renders them at `/physio/{slug}/`. They
+    get the badge "Listed on betterhood", or "Registration verified" once checked; never "certified".
+  - Each publish asks GitHub to rebuild the site (`repository_dispatch` with the event `directory-updated`).
+- **Website results open the app.**
+  - The CTAs: pain result pages get a "Save it in the app" card; health and longevity scores get a "Track it in
+    the betterhood app" button.
+  - The result travels in the URL fragment (`/welcome#import=…`), without the name or contact details. The app
+    saves it once the visitor signs in as a patient.
+- **Fixes found while testing the live deploy:**
+  - `PUBLIC_API_URL` and `PUBLIC_APP_URL` are variables on the `github-pages` environment, so the build job now
+    uses that environment. Without it, the join page showed "Listing isn't available right now".
+  - The join page read the phone and code fields from the wrong form, so "Send code on WhatsApp" crashed.
+  - Links built in the browser didn't get the `/betterhood-revamp/` prefix, so result pages 404'd. Fixed with the
+    `<meta name="bh-base">` tag and `src/scripts/base.ts`.
+
+### Still open
+- [ ] **Test the deployed flows end to end** (the user is starting tomorrow):
+  - an assessment taken in the app
+  - a physio sign-up on the website, the URL going live, then logging in to the app with the same number
+  - editing the listing from the app
+  - admin hide/show of listings
+  - the website result CTA landing in the app
+- [ ] If a listing never goes live, check the DigitalOcean logs for `directory: site rebuild request failed`. That
+      would mean the `SITE_REBUILD_TOKEN` can't dispatch to `Vivek9606/betterhood-revamp`.
+- [ ] A second GitHub Actions job, **"pages build and deployment"** (Jekyll), fails on every push. It's harmless:
+      the real deploy is "Deploy to GitHub Pages". Set **Settings → Pages → Source** to **GitHub Actions** to stop
+      it. Don't add a root `.nojekyll`, or that job would publish the raw source.
+- [ ] Before production:
+  - real WhatsApp provider; remove `OTP_DEV_CODE`
+  - `PUBLIC_SITE_URL` set to betterhood.in, and the app's `VITE_WEBSITE_URL` likewise
+  - CORS for betterhood.in
+- [ ] Not tested on a device yet: the in-app frame inside the native Capacitor shell (iOS/Android). It has only
+      been tested in the browser build.
+- [ ] This log entry isn't committed yet. It goes in with the next push.
+
+---
+
 ## 2026-11-10: Physio city pages (area archives merged)
 
-**On branch `revamp/physio-city-pages`, not merged.** A push to `main` deploys.
+**Merged to `main` and deployed on 2026-11-11** (branch `revamp/physio-city-pages`).
 
 ### Asked for
 1. "What next to work on". I recommended the physio directory and profile template, and raised the thin
