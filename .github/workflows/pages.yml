@@ -32,8 +32,8 @@ jobs:
           PUBLIC_FORM_ENDPOINT: ${{ vars.PUBLIC_FORM_ENDPOINT }}
           PUBLIC_MEDIA_ORIGIN: ${{ vars.PUBLIC_MEDIA_ORIGIN }}
           PUBLIC_TRACK_ENDPOINT: ${{ vars.PUBLIC_TRACK_ENDPOINT }}
-          PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
-          PUBLIC_APP_URL: ${{ vars.PUBLIC_APP_URL }}
+          PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL || secrets.PUBLIC_API_URL }}
+          PUBLIC_APP_URL: ${{ vars.PUBLIC_APP_URL || secrets.PUBLIC_APP_URL }}
       # project pages are served from /<repo>/, so prefix root-relative URLs
       - run: node scripts/rebase-dist.mjs
         env:
