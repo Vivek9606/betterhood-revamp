@@ -1,6 +1,8 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import react from "@astrojs/react";
+import fs from "node:fs";
+import { locationRedirects } from "./src/lib/physio-locations.mjs";
 
 const SHOP = "https://shop.betterhood.in";
 
@@ -26,7 +28,14 @@ export const redirects = {
   "/longevity-goals": "/longevity-goals-before/",
   // was an unfinished template on the old site (placeholder name and lorem ipsum)
   "/diagnostics-page": "/quiz-landing-page/",
+  // 833 one-physio neighbourhood archives merged into their city page, plus old /page/N/ archive URLs.
+  // Why: docs/physio-city-pages.md
+  ...locationRedirects(
+    JSON.parse(fs.readFileSync(new URL("./src/data/taxonomies.json", import.meta.url), "utf8")),
+    JSON.parse(fs.readFileSync(new URL("./src/data/physios.json", import.meta.url), "utf8")),
+  ),
 };
+const redirected = new Set(Object.keys(redirects).map((r) => r + "/"));
 
 export default defineConfig({
   site: "https://betterhood.in",
@@ -37,7 +46,7 @@ export default defineConfig({
     react(),
     sitemap({
       // personal result/confirmation screens and redirect stubs stay out of search
-      filter: (page) => !/\/(result-|completed-message|diagnostics-page|physio-app)/.test(page) && !Object.keys(redirects).some((r) => page.endsWith(r + "/")),
+      filter: (page) => !/\/(result-|completed-message|diagnostics-page|physio-app)/.test(page) && !redirected.has(new URL(page).pathname),
     }),
   ],
   prefetch: { prefetchAll: false, defaultStrategy: "hover" },

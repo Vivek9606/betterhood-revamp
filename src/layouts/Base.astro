@@ -102,6 +102,19 @@ const ld = [org, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])]
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Figtree:ital,wght@0,400..700;1,400..600&display=swap" />
 
     <script is:inline>document.documentElement.classList.remove("no-js")</script>
+    <!-- Embed mode: the Betterhood app opens shared flows (assessments, directory listing) in an in-app frame
+         with ?embed=app&origin=<app origin>. Hide the site chrome; src/scripts/embed.ts talks to the app. -->
+    <script is:inline>
+      (function () {
+        if (window.parent === window) return;
+        var d = document.documentElement, o = null, q = new URLSearchParams(location.search);
+        if (q.get("embed") === "app") o = q.get("origin") || "";
+        try { if (o !== null) sessionStorage.setItem("bh_embed", o); else o = sessionStorage.getItem("bh_embed"); } catch (e) {}
+        if (o === null) return;
+        d.classList.add("embed");
+        if (/^(https?|capacitor|ionic):\/\/[^\/?#]+$/.test(o)) d.dataset.embedOrigin = o;
+      })();
+    </script>
     <script type="application/ld+json" set:html={JSON.stringify(ld)} />
     <slot name="head" />
   </head>

@@ -290,3 +290,7 @@ html.lenis, html.lenis body { height: auto; }
 @keyframes cue { 50% { background-position: 50% 18px; } }
 @media (max-height: 640px) { :is(.l-hero, .t-hero, .ph-hero, .d-hero, .ab-hero, .c-hero, .cw-hero, .pe-hero, .sc-hero, .ql-hero, .lg-hero, .wh-hero, .lt-hero, .pr-hero, .bc-hero)::after { display: none; } }
 @media (max-width: 760px) { :is(.lg-hero, .t-hero, .pr-hero, .wh-hero, .done, .nf, .bc-hero) { background-position: right -40px bottom 20px, 0 0 !important; background-size: auto 46%, 100% 100% !important; } }
+
+/* Embed mode (inside the Betterhood app's in-app frame): no site header, footer or chat. See Base.astro. */
+.embed { --header-h: 0px; }
+.embed .site-header, .embed .site-footer, .embed .ticker, .embed .wa-float, .embed .skip-link, .embed [data-betty-root], .embed .b-reveal, .embed [data-embed-hide] { display: none !important; }

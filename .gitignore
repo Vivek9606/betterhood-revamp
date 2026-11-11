@@ -3,3 +3,4 @@ dist/
 .astro/
 .env
 .before-after/
+src/data/physios-live.json

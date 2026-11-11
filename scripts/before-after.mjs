@@ -6,6 +6,14 @@
 //   node scripts/before-after.mjs --name learn --live https://betterhood.in/learn/ --local http://localhost:4321/learn/
 //   node scripts/before-after.mjs --name learn --live https://betterhood.in/learn/ --shots-only   (just screenshots)
 //
+// Several pages in one PDF: repeat --live/--local (and optionally --label) in matching order. Add a written
+// change log with --notes <file.md>; it is printed after the cover, before the screenshots. --summary replaces
+// the cover's "content is unchanged" line when a change is not like-for-like.
+//
+//   node scripts/before-after.mjs --name physio-city-pages --notes docs/physio-city-pages.md \
+//     --label "City page" --live https://betterhood.in/learn/physio-city/ahmedabad/ --local http://localhost:4321/learn/physio-city/ahmedabad/ \
+//     --label "Area page" --live https://betterhood.in/learn/physio_location/ahmedabad-ambawadi/ --local "http://localhost:4321/learn/physio-city/ahmedabad/?area=ambawadi"
+//
 // Screenshots go to .before-after/<name>/, the PDF to before-and-after/<name>-before-after.pdf.
 // Needs Chrome or Edge installed; the local page must be running (npm run dev / npm run preview).
 import fs from "node:fs";
@@ -15,9 +23,13 @@ import { spawn } from "node:child_process";
 
 const arg = (k, d) => { const i = process.argv.indexOf(`--${k}`); return i > -1 ? process.argv[i + 1] : d; };
 const flag = (k) => process.argv.includes(`--${k}`);
+const args = (k) => process.argv.flatMap((a, i) => (a === `--${k}` ? [process.argv[i + 1]] : []));
 const name = arg("name");
 const live = arg("live");
-const local = arg("local");
+const locals = args("local");
+const labels = args("label");
+const notes = arg("notes");
+const pairs = args("live").map((l, i, all) => ({ live: l, local: locals[i], label: labels[i] || (all.length > 1 ? `Page ${i + 1}` : "") }));
 const title = arg("title", `${name} before and after`);
 if (!name || !live) throw new Error("usage: --name <slug> --live <url> [--local <url>] [--shots-only] [--title <text>]");
 
@@ -144,27 +156,89 @@ async function shoot(url, view, file) {
   return { file, height };
 }
 
-const shots = {};
-for (const view of VIEWS) {
-  shots[view.key] = {};
-  console.log(`${view.key}:`);
-  shots[view.key].before = await shoot(live, view, path.join(OUT, `before-${view.key}.jpg`));
-  if (local) shots[view.key].after = await shoot(local, view, path.join(OUT, `after-${view.key}.jpg`));
+for (const [n, pair] of pairs.entries()) {
+  const tag = pairs.length > 1 ? `${n + 1}-` : "";
+  pair.shots = {};
+  for (const view of VIEWS) {
+    pair.shots[view.key] = {};
+    console.log(`${pair.label || name} · ${view.key}:`);
+    pair.shots[view.key].before = await shoot(pair.live, view, path.join(OUT, `${tag}before-${view.key}.jpg`));
+    if (pair.local) pair.shots[view.key].after = await shoot(pair.local, view, path.join(OUT, `${tag}after-${view.key}.jpg`));
+  }
 }
 
-if (!flag("shots-only") && local) {
+// Minimal Markdown → HTML for the --notes change log: headings, paragraphs, nested lists, tables, quotes,
+// rules, bold, inline code and links.
+function md(src) {
+  const inline = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  const isItem = (l) => /^\s*([-*]|\d+\.)\s/.test(l);
+  const isBlock = (l) => /^(#{1,4}\s|\s*\||>|---+\s*$)/.test(l) || isItem(l);
+  const lines = src.replace(/\r/g, "").split("\n");
+  const out = [];
+  for (let i = 0; i < lines.length; ) {
+    const l = lines[i];
+    let m;
+    if (!l.trim()) { i++; continue; }
+    if ((m = l.match(/^(#{1,4})\s+(.*)/))) { out.push(`<h${m[1].length}>${inline(m[2])}</h${m[1].length}>`); i++; continue; }
+    if (/^---+\s*$/.test(l)) { out.push("<hr>"); i++; continue; }
+    if (/^\s*\|/.test(l)) {
+      const rows = [];
+      while (i < lines.length && /^\s*\|/.test(lines[i])) rows.push(lines[i++]);
+      const cells = (r) => r.trim().replace(/^\||\|$/g, "").split("|").map((c) => inline(c.trim()));
+      const body = rows.filter((r) => !/^\s*\|[\s:|-]+\|\s*$/.test(r));
+      out.push(`<table><thead><tr>${cells(body[0]).map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>${body.slice(1).map((r) => `<tr>${cells(r).map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`);
+      continue;
+    }
+    if (/^>/.test(l)) {
+      const q = [];
+      while (i < lines.length && /^>/.test(lines[i])) q.push(lines[i++].replace(/^>\s?/, ""));
+      out.push(`<blockquote>${inline(q.join(" "))}</blockquote>`);
+      continue;
+    }
+    if (isItem(l)) {
+      let html = "";
+      const stack = [];
+      while (i < lines.length && (isItem(lines[i]) || (stack.length && /^\s{2,}\S/.test(lines[i])))) {
+        const line = lines[i++];
+        const lm = line.match(/^(\s*)([-*]|\d+\.)\s+(.*)/);
+        if (!lm) { html += " " + inline(line.trim()); continue; }
+        const depth = Math.min(Math.floor(lm[1].length / 2), stack.length); // at most one level deeper
+        const tag = /\d/.test(lm[2]) ? "ol" : "ul";
+        while (stack.length > depth + 1) html += `</li></${stack.pop()}>`;
+        if (stack.length === depth + 1) html += "</li>";
+        while (stack.length < depth + 1) { html += `<${tag}>`; stack.push(tag); }
+        html += `<li>${inline(lm[3])}`;
+      }
+      while (stack.length) html += `</li></${stack.pop()}>`;
+      out.push(html);
+      continue;
+    }
+    const p = [];
+    while (i < lines.length && lines[i].trim() && !isBlock(lines[i])) p.push(lines[i++].trim());
+    out.push(`<p>${inline(p.join(" "))}</p>`);
+  }
+  return out.join("\n");
+}
+
+if (!flag("shots-only") && pairs.every((p) => p.local)) {
   // A4 landscape; each page shows the same vertical slice of before (left) and after (right).
   // Pages are paired by proportion of total height, so the two columns stay roughly aligned.
   const PAGE_W = 297, PAGE_H = 210; // mm
   const b64 = (f) => `data:image/jpeg;base64,${fs.readFileSync(f).toString("base64")}`;
   const pages = [];
+  const summary = arg("summary", "Content (text, links, images, posts) is unchanged; only the design and technical SEO differ.");
+  const shortLocal = (u) => u.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/, "");
   const cover = `<section class="pg cover"><h1>${title}</h1>
-    <p><strong>Before:</strong> ${live}<br><strong>After:</strong> redesigned page (local build)</p>
-    <p>Content (text, links, images, posts) is unchanged; only the design and technical SEO differ.</p>
+    ${pairs.map((p) => `<p>${p.label ? `<strong>${p.label}</strong><br>` : ""}<strong>Before:</strong> ${p.live}<br><strong>After:</strong> ${shortLocal(p.local)} (redesigned page, local build)</p>`).join("")}
+    <p>${summary}</p>
     <p class="d">Generated ${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</p></section>`;
   pages.push(cover);
-  for (const view of VIEWS) {
-    const { before, after } = shots[view.key];
+  if (notes) pages.push(`<section class="notes">${md(fs.readFileSync(notes, "utf8"))}</section>`);
+  for (const pair of pairs) for (const view of VIEWS) {
+    const { before, after } = pair.shots[view.key];
     const colWmm = view.mobile ? 84 : 136; // column width on paper
     const usable = PAGE_H - 22; // mm of image per page
     const px = (shot, w) => (shot.height / w) * colWmm; // total mm height at column width
@@ -175,7 +249,7 @@ if (!flag("shots-only") && local) {
         const per = total / n; // spread both over the same page count
         return `<div class="col" style="width:${colWmm}mm;height:${Math.min(per, usable)}mm"><img src="${b64(shot.file)}" style="width:${colWmm}mm;transform:translateY(-${per * i}mm)"></div>`;
       };
-      pages.push(`<section class="pg"><header><span>Before · ${view.key}</span><span>${name} · ${i + 1}/${n}</span><span>After · ${view.key}</span></header>
+      pages.push(`<section class="pg"><header><span>Before · ${view.key}</span><span>${pair.label || name} · ${i + 1}/${n}</span><span>After · ${view.key}</span></header>
         <div class="row">${slice(before, bmm)}${slice(after, amm)}</div></section>`);
     }
   }
@@ -190,6 +264,19 @@ if (!flag("shots-only") && local) {
     .row { display: flex; justify-content: space-around; align-items: flex-start; }
     .col { overflow: hidden; border: .3mm solid #e4dbe6; border-radius: 1.5mm; background: #fff; }
     .col img { display: block; }
+    .notes { width: ${PAGE_W}mm; padding: 14mm 20mm; box-decoration-break: clone; -webkit-box-decoration-break: clone; font-size: 11.5px; line-height: 1.55; page-break-after: always; }
+    .notes h1 { font-size: 22px; margin: 0 0 4mm; }
+    .notes h2 { font-size: 16px; margin: 7mm 0 2.5mm; color: #5e1951; break-after: avoid; }
+    .notes h3 { font-size: 13px; margin: 5mm 0 2mm; break-after: avoid; }
+    .notes h4 { font-size: 12px; margin: 4mm 0 1.5mm; break-after: avoid; }
+    .notes p, .notes ul, .notes ol, .notes table, .notes blockquote { margin: 0 0 2.5mm; }
+    .notes ul, .notes ol { padding-left: 6mm; } .notes li { margin-bottom: 1mm; }
+    .notes code { font: 10.5px ui-monospace, Consolas, monospace; background: #f3ecf2; padding: 0 1mm; border-radius: 1mm; }
+    .notes table { border-collapse: collapse; width: 100%; break-inside: avoid; }
+    .notes th, .notes td { border: .3mm solid #e4dbe6; padding: 1.5mm 2mm; text-align: left; vertical-align: top; }
+    .notes th { background: #f6f0f7; }
+    .notes blockquote { border-left: 1mm solid #d7b3cf; padding-left: 3mm; color: #5b4a5e; }
+    .notes a { color: #5e1951; } .notes hr { border: 0; border-top: .3mm solid #e4dbe6; margin: 5mm 0; }
   </style></head><body>${pages.join("")}</body></html>`;
   const htmlFile = path.resolve(OUT, "sheet.html");
   fs.writeFileSync(htmlFile, html);

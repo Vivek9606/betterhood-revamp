@@ -10,7 +10,9 @@ const initials = p.name.replace(/^Dr\.?\s*/i, "").split(/\s+/).slice(0, 2).map((
 <a class="phc card card-hover" href={`/physio/${p.slug}/`}>
   <div class="phc-top">
     {p.image ? <img src={media(p.image)} alt={p.name} loading="lazy" width="96" height="96" /> : <span class="phc-ph">{initials}</span>}
-    <span class="badge badge-mint phc-v"><Icon name="verified" size={14} /> Certified</span>
+    {p.source === "app"
+      ? <span class={`badge ${p.verified ? "badge-mint" : "badge-plum"} phc-v`}>{p.verified ? <><Icon name="verified" size={14} /> Verified</> : "Listed"}</span>
+      : <span class="badge badge-mint phc-v"><Icon name="verified" size={14} /> Certified</span>}
   </div>
   <p class="phc-name">{p.name}</p>
   <p class="phc-deg muted">{p.degree}{p.years ? ` · ${p.years} yrs exp` : ""}</p>

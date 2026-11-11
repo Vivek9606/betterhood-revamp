@@ -1,0 +1,436 @@
+---
+// City physio pages at /learn/physio-city/{city}/ (same URLs as the live site).
+//
+// The 833 neighbourhood archives (/learn/physio_location/…) were merged in here: each area is now a filter on its
+// city page and the old URLs 301 to /learn/physio-city/{city}/?area={area}. Everything on the page is built
+// from the physio profiles themselves (counts, areas, consultation modes, listed fees, experience), so it stays
+// true as profiles change. Why each element exists: docs/physio-city-pages.md.
+import Base from "../../../layouts/Base.astro";
+import Icon from "../../../components/Icon.astro";
+import PhysioCard from "../../../components/PhysioCard.astro";
+import Faq from "../../../components/Faq.astro";
+import { physios as allPhysios, taxonomies, termName, formatDate, type Term } from "../../../lib/data";
+import { areaCity, areaKey } from "../../../lib/physio-locations.mjs";
+
+export function getStaticPaths() {
+  return taxonomies["physio-city"].map((city) => ({ params: { city: city.slug }, props: { city } }));
+}
+
+const { city } = Astro.props as { city: Term };
+const site = Astro.site!;
+const url = new URL(`/learn/physio-city/${city.slug}/`, site).href;
+const citySlugs = taxonomies["physio-city"].map((c) => c.slug);
+const physios = allPhysios.filter((p) => p.city === city.slug);
+const N = physios.length;
+
+// ---- helpers ----------------------------------------------------------------------------------------------
+const plural = (n: number, one: string, many = one + "s") => `${n} ${n === 1 ? one : many}`;
+const list = (xs: string[]) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs.at(-1)}`);
+const median = (xs: number[]) => {
+  const s = [...xs].sort((a, b) => a - b);
+  return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : Math.round((s[s.length / 2 - 1] + s[s.length / 2]) / 2)) : 0;
+};
+const rupees = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+const tally = <T extends string>(xs: T[]) => {
+  const m = new Map<T, number>();
+  xs.forEach((x) => m.set(x, (m.get(x) ?? 0) + 1));
+  return [...m].sort((a, b) => b[1] - a[1]);
+};
+
+// ---- state (most common on the city's profiles; a few old profiles carry misspelt states) -----------------
+const stateSlug = tally(physios.map((p) => p.state).filter(Boolean))[0]?.[0];
+const stateName = stateSlug ? termName("physio-state", stateSlug) : "";
+const cityLabel = stateName && stateName !== city.name ? `${city.name}, ${stateName}` : city.name;
+
+// ---- areas ------------------------------------------------------------------------------------------------
+const areaName = Object.fromEntries(taxonomies.physio_location.map((a) => [a.slug, a.name.trim()]));
+const physioArea = (p: (typeof physios)[number]) => {
+  const slug = p.area.find((a) => areaCity(a, citySlugs) === city.slug);
+  const key = slug ? areaKey(slug, city.slug) : "";
+  return key ? { key, name: areaName[slug!] ?? key } : undefined;
+};
+const areaMap = new Map<string, { key: string; name: string; physios: typeof physios }>();
+for (const p of physios) {
+  const a = physioArea(p);
+  if (!a) continue;
+  if (!areaMap.has(a.key)) areaMap.set(a.key, { ...a, physios: [] });
+  areaMap.get(a.key)!.physios.push(p);
+}
+const areas = [...areaMap.values()].sort((a, b) => b.physios.length - a.physios.length || a.name.localeCompare(b.name));
+const areasAz = [...areas].sort((a, b) => a.name.localeCompare(b.name));
+const topAreaNames = areas.slice(0, 3).map((a) => a.name);
+const SHOW_AREAS = 14;
+
+// ---- consultation modes, fees, experience -----------------------------------------------------------------
+const MODES = [
+  { label: "Clinic Visit", key: "clinic", name: "Clinic visit", icon: "hospital" },
+  { label: "Home Visit", key: "home", name: "Home visit", icon: "home" },
+  { label: "Video Consultation", key: "video", name: "Video consultation", icon: "video" },
+  { label: "Hospital Visit", key: "hospital", name: "Hospital visit", icon: "building" },
+];
+const modeCount = Object.fromEntries(MODES.map((m) => [m.key, physios.filter((p) => p.modes.includes(m.label)).length]));
+const modes = MODES.filter((m) => modeCount[m.key] > 0);
+const modeKeys = (p: (typeof physios)[number]) => MODES.filter((m) => p.modes.includes(m.label)).map((m) => m.key).join(" ");
+
+// fees are free text on the profiles ("500", "800 - 1,000"); keep plausible per-session amounts only
+const fees = physios
+  .map((p) => (p.fee.match(/\d[\d,]*/g) ?? []).map((x) => +x.replace(/,/g, "")).filter((x) => x >= 100 && x <= 10000))
+  .filter((xs) => xs.length);
+const feeLow = fees.length ? Math.min(...fees.map((f) => f[0])) : 0;
+const feeHigh = fees.length ? Math.max(...fees.map((f) => f.at(-1)!)) : 0;
+const feeMedian = median(fees.map((f) => f[0]));
+
+const years = physios.map((p) => p.years).filter((y): y is number => typeof y === "number" && y > 0);
+const yearsMedian = median(years);
+const tenPlus = years.filter((y) => y >= 10).length;
+
+const specs = tally(physios.flatMap((p) => p.specializations.map((s) => s.trim())).filter((s) => s && !/^physiotherapist$/i.test(s)))
+  .slice(0, 8);
+
+const updated = physios.map((p) => p.date).sort().at(-1);
+
+// ---- nearby + other cities --------------------------------------------------------------------------------
+const cityCount = (slug: string) => allPhysios.filter((p) => p.city === slug).length;
+const sameState = stateSlug
+  ? taxonomies["physio-city"]
+      .filter((c) => c.slug !== city.slug && allPhysios.some((p) => p.city === c.slug && p.state === stateSlug))
+      .map((c) => ({ ...c, n: cityCount(c.slug) }))
+      .sort((a, b) => b.n - a.n)
+  : [];
+const otherCities = taxonomies["physio-city"]
+  .filter((c) => c.slug !== city.slug && !sameState.some((s) => s.slug === c.slug))
+  .map((c) => ({ ...c, n: cityCount(c.slug) }))
+  .filter((c) => c.n > 0)
+  .sort((a, b) => b.n - a.n)
+  .slice(0, 16);
+
+// ---- copy (every sentence is derived from the profiles above) ---------------------------------------------
+const heading = `Physiotherapists in ${city.name}`;
+const lead = N
+  ? `${plural(N, "betterhood-certified physiotherapist")} in ${cityLabel}${areas.length ? `, across ${plural(areas.length, "area")}` : ""}.` +
+    (modes.length ? ` ${list(modes.map((m) => `${modeCount[m.key]} ${modeCount[m.key] === 1 ? "offers" : "offer"} ${m.name.toLowerCase()}s`))}.` : "")
+  : `No physiotherapists are listed in ${city.name} yet.`;
+const title = N >= 3 ? `Physiotherapists in ${cityLabel} (${N} Certified)` : `Physiotherapists in ${cityLabel}`;
+const description = N
+  ? `Find ${plural(N, "betterhood-certified physiotherapist")} in ${cityLabel}${topAreaNames.length ? ` across ${plural(areas.length, "area")} including ${list(topAreaNames)}` : ""}. Compare experience, fees${modeCount.home ? ", home visits" : ""}${modeCount.video ? " and online consultations" : ""}.`
+  : `betterhood physio directory: physiotherapists in ${cityLabel}.`;
+
+const faq: { q: string; a: string }[] = [];
+if (N) {
+  faq.push({
+    q: `How many physiotherapists does betterhood list in ${city.name}?`,
+    a: `betterhood lists ${plural(N, "certified physiotherapist")} in ${cityLabel}${areas.length ? `, across ${plural(areas.length, "area")}${topAreaNames.length ? `. The most covered areas are ${list(topAreaNames)}` : ""}` : ""}.`,
+  });
+  const home = physios.filter((p) => p.modes.includes("Home Visit"));
+  faq.push({
+    q: `Can I get a physiotherapist to visit me at home in ${city.name}?`,
+    a: home.length
+      ? `Yes. ${home.length === N ? `All ${N}` : `${home.length} of the ${N}`} physiotherapists listed in ${city.name} offer home visits${home.length <= 3 ? `: ${list(home.map((p) => p.name))}` : `, including ${list(home.slice(0, 3).map((p) => p.name))}`}. Choose "Home visit" in the filter above to see them.`
+      : `None of the physiotherapists listed in ${city.name} offer home visits at the moment.${modeCount.clinic ? ` ${plural(modeCount.clinic, "physiotherapist sees", "physiotherapists see")} patients at a clinic` : ""}${modeCount.video ? `${modeCount.clinic ? " and" : ""} ${plural(modeCount.video, "offers", "offer")} video consultations` : ""}.`,
+  });
+  if (modeCount.video) {
+    faq.push({
+      q: `Can I consult a physiotherapist in ${city.name} online?`,
+      a: `Yes. ${plural(modeCount.video, "physiotherapist")} in ${city.name} ${modeCount.video === 1 ? "offers" : "offer"} video consultations. Choose "Video consultation" in the filter above to see them.`,
+    });
+  }
+  if (fees.length) {
+    faq.push({
+      q: `How much does physiotherapy cost in ${city.name}?`,
+      a: feeLow === feeHigh
+        ? `The consultation fee listed by physiotherapists in ${city.name} is ${rupees(feeLow)} per session. Fees are set by each physiotherapist, so check their profile for the current fee.`
+        : `Consultation fees listed by physiotherapists in ${city.name} range from ${rupees(feeLow)} to ${rupees(feeHigh)} per session, and the typical (median) fee is ${rupees(feeMedian)}. This is based on the ${plural(fees.length, "profile")} that list a fee. Fees are set by each physiotherapist, so check their profile for the current fee.`,
+    });
+  }
+  if (years.length) {
+    faq.push({
+      q: `How experienced are the physiotherapists in ${city.name}?`,
+      a: `The physiotherapists listed in ${city.name} have a median of ${plural(yearsMedian, "year")} of experience${years.length > 1 ? `, ranging from ${Math.min(...years)} to ${plural(Math.max(...years), "year")}` : ""}.${tenPlus ? ` ${tenPlus} ${tenPlus === 1 ? "has" : "have"} 10 or more years of experience.` : ""}`,
+    });
+  }
+}
+
+// ---- structured data --------------------------------------------------------------------------------------
+const crumbs = [
+  { name: "Home", url: new URL("/", site).href },
+  { name: "Physio Directory", url: new URL("/physio-directory/", site).href },
+  ...(stateSlug ? [{ name: stateName, url: new URL(`/learn/physio-state/${stateSlug}/`, site).href }] : []),
+  { name: city.name, url },
+];
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: heading,
+    description,
+    inLanguage: "en-IN",
+    isPartOf: { "@type": "WebSite", "@id": "https://betterhood.in/#website", url: "https://betterhood.in/", name: "betterhood" },
+    publisher: { "@id": "https://betterhood.in/#organization" },
+    ...(updated ? { dateModified: updated } : {}),
+    about: {
+      "@type": "City",
+      name: city.name,
+      ...(stateName ? { containedInPlace: { "@type": "State", name: stateName, containedInPlace: { "@type": "Country", name: "India" } } } : {}),
+    },
+    breadcrumb: { "@id": `${url}#breadcrumb` },
+    mainEntity: {
+      "@type": "ItemList",
+      name: heading,
+      numberOfItems: N,
+      itemListElement: physios.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: new URL(`/physio/${p.slug}/`, site).href, name: p.name })),
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": `${url}#breadcrumb`,
+    itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: c.url })),
+  },
+];
+const PAGE = 24;
+---
+<Base title={`${title} | betterhood`} description={description} noindex={N === 0} jsonLd={jsonLd} modified={updated}>
+  <section class="cy-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        {crumbs.slice(0, -1).map((c) => <><a href={new URL(c.url).pathname}>{c.name}</a><span aria-hidden="true">/</span></>)}
+        <span aria-current="page">{city.name}</span>
+      </nav>
+      <div class="cy-head">
+        <div class="cy-intro">
+          <p class="eyebrow"><Icon name="pin" size={15} /> Physio directory{stateName && stateName !== city.name ? ` · ${stateName}` : ""}</p>
+          <h1 class="h1">{heading}</h1>
+          <p class="lead">{lead}</p>
+          <div class="cy-cta">
+            <a class="btn" href="#physios"><Icon name="users" /> See all physiotherapists</a>
+            <a class="btn btn-ghost" href={`/physio-directory/?city=${city.slug}`}><Icon name="filter" /> Open in directory</a>
+          </div>
+        </div>
+        {N > 0 && (
+          <dl class="cy-facts" aria-label={`Physiotherapy in ${city.name} at a glance`}>
+            <div><dt>Physiotherapists</dt><dd>{N}</dd></div>
+            <div><dt>Areas covered</dt><dd>{areas.length || "–"}</dd></div>
+            {modeCount.home > 0 && <div><dt>Home visits</dt><dd>{modeCount.home}</dd></div>}
+            {modeCount.video > 0 && <div><dt>Online consults</dt><dd>{modeCount.video}</dd></div>}
+            {fees.length > 0 && <div><dt>Typical fee</dt><dd>{rupees(feeMedian)}<small>per session</small></dd></div>}
+            {years.length > 0 && <div><dt>Median experience</dt><dd>{yearsMedian}<small>{yearsMedian === 1 ? "year" : "years"}</small></dd></div>}
+            {updated && <p class="cy-upd">Updated <time datetime={updated}>{formatDate(updated)}</time></p>}
+          </dl>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" id="physios">
+    <div class="wrap">
+      {N === 0 ? (
+        <p class="empty">No physiotherapists are listed here yet. <a class="link" href="/physio-directory/">Browse the full directory</a></p>
+      ) : (
+        <>
+          <div class="cy-filters" data-filters>
+            {areas.length > 0 && (
+              <div class="cy-frow">
+                <p class="cy-flabel" id="f-area">Area</p>
+                <div class="chips" role="group" aria-labelledby="f-area" data-area-chips>
+                  <button class="chip" type="button" data-area="" aria-pressed="true">All areas <span class="cy-n">{N}</span></button>
+                  {areas.map((a, i) => (
+                    <button class="chip" type="button" data-area={a.key} aria-pressed="false" hidden={i >= SHOW_AREAS ? true : undefined} data-extra={i >= SHOW_AREAS ? "" : undefined}>
+                      {a.name} <span class="cy-n">{a.physios.length}</span>
+                    </button>
+                  ))}
+                  {areas.length > SHOW_AREAS && <button class="chip cy-more" type="button" data-more-areas aria-expanded="false">+ {areas.length - SHOW_AREAS} more areas</button>}
+                </div>
+              </div>
+            )}
+            {modes.length > 1 && (
+              <div class="cy-frow">
+                <p class="cy-flabel" id="f-mode">Consultation</p>
+                <div class="chips" role="group" aria-labelledby="f-mode">
+                  <button class="chip" type="button" data-mode="" aria-pressed="true">Any</button>
+                  {modes.map((m) => <button class="chip" type="button" data-mode={m.key} aria-pressed="false"><Icon name={m.icon} size={15} /> {m.name} <span class="cy-n">{modeCount[m.key]}</span></button>)}
+                </div>
+              </div>
+            )}
+            <p class="cy-status" aria-live="polite" data-status>Showing all {plural(N, "physiotherapist")} in {city.name}</p>
+          </div>
+
+          <div class="grid cols-4 cy-grid" data-grid>
+            {physios.map((p, i) => (
+              <div class="cy-item" data-area={physioArea(p)?.key ?? ""} data-modes={modeKeys(p)} hidden={i >= PAGE ? true : undefined}><PhysioCard physio={p} /></div>
+            ))}
+          </div>
+          <p class="empty" data-none hidden>No physiotherapists match these filters. <button class="link" type="button" data-reset>Clear filters</button></p>
+          {N > PAGE && <div class="cy-more-wrap"><button class="btn btn-ghost" type="button" data-show-more>Show more</button></div>}
+        </>
+      )}
+    </div>
+  </section>
+
+  {areas.length > 0 && (
+    <section class="section-tight cy-areas" aria-labelledby="by-area">
+      <div class="wrap">
+        <p class="eyebrow">By area</p>
+        <h2 class="h2" id="by-area">Physiotherapists by area in {city.name}</h2>
+        <p class="lead cy-sub">{plural(areas.length, "area")} of {city.name} have a betterhood-certified physiotherapist. Choose an area to filter the list above.</p>
+        <div class="cy-area-list">
+          {areasAz.map((a) => (
+            <div class="cy-area" id={`area-${a.key}`}>
+              <h3><a href={`#area-${a.key}`} data-area-link={a.key}>{a.name}</a> <span class="cy-n">{a.physios.length}</span></h3>
+              <ul>{a.physios.map((p) => <li><a href={`/physio/${p.slug}/`}>{p.name}</a>{p.degree && <span class="muted"> · {p.degree}</span>}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {specs.length > 0 && (
+    <section class="section-tight">
+      <div class="wrap cy-specs">
+        <h2 class="h3">Common specialisations in {city.name}</h2>
+        <ul class="chips">{specs.map(([s, n]) => <li class="chip">{s} <span class="cy-n">{n}</span></li>)}</ul>
+      </div>
+    </section>
+  )}
+
+  {faq.length > 0 && (
+    <section class="section">
+      <div class="wrap"><Faq items={faq} title={`Physiotherapy in ${city.name}: common questions`} /></div>
+    </section>
+  )}
+
+  <section class="section-tight cy-cities">
+    <div class="wrap">
+      {sameState.length > 0 && (
+        <div>
+          <h2 class="h3">Other cities in {stateName}</h2>
+          <ul>{sameState.map((c) => <li><a href={`/learn/physio-city/${c.slug}/`}>Physiotherapists in {c.name}</a> <span class="muted">{c.n}</span></li>)}</ul>
+        </div>
+      )}
+      <div>
+        <h2 class="h3">{sameState.length ? "More cities" : "Other cities"}</h2>
+        <ul>{otherCities.map((c) => <li><a href={`/learn/physio-city/${c.slug}/`}>Physiotherapists in {c.name}</a> <span class="muted">{c.n}</span></li>)}</ul>
+        <a class="link" href="/physio-directory/">All cities in the directory <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cy-hero { padding: 32px 0 44px; background: linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .cy-head { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 32px 56px; align-items: end; margin-top: 24px; }
+  .cy-intro .eyebrow { display: inline-flex; align-items: center; gap: 6px; }
+  .cy-intro .lead { margin-top: 14px; max-width: 640px; }
+  .cy-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .cy-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 0; }
+  .cy-facts > div { background: var(--white); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; }
+  .cy-facts dt { font-size: 12.5px; font-weight: 600; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.06em; }
+  .cy-facts dd { margin: 4px 0 0; font: 650 26px/1.1 var(--font-display); color: var(--plum-700); display: flex; align-items: baseline; gap: 6px; }
+  .cy-facts dd small { font: 500 13px var(--font-body); color: var(--ink-mute); }
+  .cy-upd { grid-column: 1 / -1; font-size: 13px; color: var(--ink-mute); }
+
+  .cy-filters { display: grid; gap: 14px; padding: 20px; margin-bottom: 28px; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); }
+  .cy-frow { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: start; }
+  .cy-flabel { font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); padding-top: 9px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; }
+  .chip { cursor: pointer; }
+  li.chip { cursor: default; }
+  .cy-n { font-size: 12px; font-weight: 600; opacity: 0.65; }
+  .cy-more { border-style: dashed; }
+  .cy-status { font-size: 14px; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 12px; }
+  .cy-more-wrap { display: flex; justify-content: center; margin-top: 36px; }
+
+  .cy-areas { background: var(--white); border-block: 1px solid var(--line); }
+  .cy-sub { margin-top: 10px; }
+  .cy-area-list { margin-top: 28px; columns: 4 220px; column-gap: 32px; }
+  .cy-area { break-inside: avoid; margin-bottom: 20px; scroll-margin-top: calc(var(--header-h, 72px) + 24px); }
+  .cy-area h3 { font: 650 16px/1.3 var(--font-display); margin-bottom: 6px; }
+  .cy-area h3 a:hover { color: var(--plum-700); text-decoration: underline; text-underline-offset: 3px; }
+  .cy-area ul { list-style: none; padding: 0; display: grid; gap: 3px; font-size: 14.5px; }
+  .cy-area li a { color: var(--ink-soft); }
+  .cy-area li a:hover { color: var(--plum-700); text-decoration: underline; }
+  .cy-specs { display: grid; gap: 14px; }
+  .cy-cities .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px 56px; }
+  .cy-cities ul { list-style: none; padding: 0; margin: 14px 0 16px; columns: 2 180px; column-gap: 24px; font-size: 15px; }
+  .cy-cities li { margin-bottom: 6px; break-inside: avoid; }
+  .cy-cities li a:hover { color: var(--plum-700); text-decoration: underline; }
+
+  @media (max-width: 900px) { .cy-head { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) {
+    .cy-frow { grid-template-columns: 1fr; gap: 6px; }
+    .cy-flabel { padding-top: 0; }
+    .cy-filters { padding: 16px; }
+    .cy-facts dd { font-size: 22px; }
+  }
+</style>
+
+<script>
+  // Area + consultation filters. State lives in ?area=&mode= (old area URLs redirect here with ?area=), and
+  // #area-{key} links from the area index work too. The canonical URL stays the plain city page.
+  const root = document.querySelector<HTMLElement>("[data-filters]");
+  if (root) {
+    const items = [...document.querySelectorAll<HTMLElement>("[data-grid] > .cy-item")];
+    const status = document.querySelector<HTMLElement>("[data-status]")!;
+    const none = document.querySelector<HTMLElement>("[data-none]")!;
+    const more = document.querySelector<HTMLButtonElement>("[data-show-more]");
+    const moreAreas = document.querySelector<HTMLButtonElement>("[data-more-areas]");
+    const areaBtns = [...root.querySelectorAll<HTMLButtonElement>("[data-area]")];
+    const modeBtns = [...root.querySelectorAll<HTMLButtonElement>("[data-mode]")];
+    const cityName = document.querySelector("h1")!.textContent!.replace(/^Physiotherapists in /, "");
+    const STEP = 24;
+    let limit = STEP;
+    const state = { area: "", mode: "" };
+
+    const showAllAreas = () => {
+      root.querySelectorAll<HTMLElement>("[data-extra]").forEach((b) => (b.hidden = false));
+      moreAreas?.remove();
+    };
+
+    function render(sync = true) {
+      if (state.area && !areaBtns.some((b) => b.dataset.area === state.area)) state.area = "";
+      if (state.mode && !modeBtns.some((b) => b.dataset.mode === state.mode)) state.mode = "";
+      areaBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.area === state.area)));
+      modeBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === state.mode)));
+      const active = areaBtns.find((b) => b.dataset.area === state.area && state.area);
+      if (active?.hidden) showAllAreas();
+      const match = items.filter((el) => (!state.area || el.dataset.area === state.area) && (!state.mode || el.dataset.modes!.split(" ").includes(state.mode)));
+      items.forEach((el) => (el.hidden = true));
+      match.slice(0, limit).forEach((el) => (el.hidden = false));
+      if (more) more.hidden = match.length <= limit;
+      none.hidden = match.length > 0;
+      const areaName = active ? active.firstChild!.textContent!.trim() : "";
+      const modeName = modeBtns.find((b) => b.dataset.mode === state.mode && state.mode)?.textContent!.replace(/\d+\s*$/, "").trim().toLowerCase();
+      status.textContent = `Showing ${match.length} ${match.length === 1 ? "physiotherapist" : "physiotherapists"} in ${areaName ? `${areaName}, ` : ""}${cityName}${modeName ? ` offering ${modeName}s` : ""}`;
+      if (sync) {
+        const q = new URLSearchParams();
+        if (state.area) q.set("area", state.area);
+        if (state.mode) q.set("mode", state.mode);
+        history.replaceState(null, "", location.pathname + (q.size ? `?${q}` : "") );
+      }
+    }
+
+    areaBtns.forEach((b) => b.addEventListener("click", () => { state.area = b.dataset.area!; limit = STEP; render(); }));
+    modeBtns.forEach((b) => b.addEventListener("click", () => { state.mode = b.dataset.mode!; limit = STEP; render(); }));
+    moreAreas?.addEventListener("click", showAllAreas);
+    more?.addEventListener("click", () => { limit += STEP; render(false); });
+    document.querySelector("[data-reset]")?.addEventListener("click", () => { state.area = state.mode = ""; render(); });
+    document.querySelectorAll<HTMLAnchorElement>("[data-area-link]").forEach((a) =>
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        state.area = a.dataset.areaLink!; limit = STEP; render();
+        document.getElementById("physios")!.scrollIntoView({ behavior: "smooth" });
+      }),
+    );
+
+    const q = new URLSearchParams(location.search);
+    const hash = location.hash.match(/^#area-(.+)$/)?.[1];
+    state.area = q.get("area") || hash || "";
+    state.mode = q.get("mode") || "";
+    if (state.area || state.mode) {
+      render(true);
+      document.getElementById("physios")!.scrollIntoView();
+    } else render(false);
+  }
+</script>

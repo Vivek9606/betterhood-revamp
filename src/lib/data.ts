@@ -4,12 +4,21 @@ import taxJson from "../data/taxonomies.json";
 import productsJson from "../data/products.json";
 
 export type Post = (typeof postsJson)[number];
-export type Physio = (typeof physiosJson)[number];
+/** A directory profile. Most were carried over from WordPress; `source: "app"` ones were listed by the physio
+ *  at /physio-directory/join/ (website or Betterhood app) and come from the API at build time. */
+export type Physio = (typeof physiosJson)[number] & { source?: "app"; verified?: boolean; bookingUrl?: string };
 export type Term = { id: number; slug: string; name: string; count: number; description: string; parent: number };
 export type Product = (typeof productsJson)[number];
 
 export const posts = postsJson as Post[];
-export const physios = physiosJson as Physio[];
+// Listings made through the Betterhood API (scripts/sync-directory.mjs). Optional so `astro dev` works without it.
+const liveFile = import.meta.glob("../data/physios-live.json", { eager: true, import: "default" }) as Record<string, Physio[]>;
+const carried = new Set(physiosJson.map((p) => p.slug));
+const specialityByName = new Map((taxJson as Record<string, Term[]>).physio_speciality.map((t) => [t.name.toLowerCase(), t.slug]));
+export const livePhysios: Physio[] = (Object.values(liveFile)[0] ?? [])
+  .filter((p) => !carried.has(p.slug))
+  .map((p) => ({ ...p, speciality: p.specializations.map((s) => specialityByName.get(s.toLowerCase())).filter(Boolean) as string[] }));
+export const physios = [...(physiosJson as Physio[]), ...livePhysios];
 export const products = productsJson as Product[];
 export const taxonomies = taxJson as Record<string, Term[]>;
 

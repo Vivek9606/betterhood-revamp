@@ -27,7 +27,8 @@ Node 20+ is required.
 | `src/pages/learn/[slug].astro` | All 758 articles at `/learn/{slug}/`. Same sections as the live article (byline, sidebar newsletter + What's Trending, Featured Articles, Featured Products); copy from `src/data/article.json` (`npm run scrape:article`). Body processed by `src/lib/article.ts` (ids, FAQ/References styling, FAQPage + citation JSON-LD; text never changed) |
 | `src/pages/learn/author/[...path].astro` | Author archives at `/learn/author/{slug}/` and `/page/{n}/` (slugs in `src/data/authors.json`) |
 | `src/pages/learn/index.astro` | Learn hub. Same sections, copy and posts as the live `/learn/` (featured, trending, filterable grid, must knows, expert, newsletter); copy from `src/data/learn.json` (`npm run scrape:learn`). Filters sync to the URL (`?h=back-pain&type=videos&q=…`) |
-| `src/pages/learn/[tax]/[term].astro` | Every archive at `/learn/{taxonomy}/{term}/`: category, by-health-concern, by-solution, by-what-inside, post-section-tags, podcast-season, physio-city, physio-state, physio_location, physio_speciality, physio_experience, physio_qualification |
+| `src/pages/learn/[tax]/[term].astro` | Every archive at `/learn/{taxonomy}/{term}/`: category, by-health-concern, by-solution, by-what-inside, post-section-tags, podcast-season, physio-state, physio_speciality, physio_experience, physio_qualification |
+| `src/pages/learn/physio-city/[city].astro` | City physio pages at `/learn/physio-city/{city}/`: area + consultation filters, key facts, A–Z area index, FAQ, JSON-LD. The old `/learn/physio_location/…` area archives 301 here (`src/lib/physio-locations.mjs`; why: `docs/physio-city-pages.md`) |
 | `src/pages/physio/[slug].astro` | All 1,817 physio profiles at `/physio/{slug}/` |
 | `src/pages/physio-directory.astro` | Directory with state/city/area/mode filters; old `?state=&city=&area=` links still work |
 | `src/pages/assessment-*.astro` | The 9 assessments, rebuilt as a step-by-step UI |
@@ -66,6 +67,17 @@ browser, so the scores and diagnosis are the same as on the old site:
 
 The old betterYou corner required a WordPress login. The new one needs no account: results are saved
 in the visitor's browser (localStorage) on their device.
+
+## Shared with the Betterhood app
+
+The assessments and the physio directory listing exist once, here. The Betterhood app ([capacitor-app](../capacitor-app)) opens these pages in an in-app frame:
+
+- **Embed mode** (`?embed=app&origin=…`, set up in `src/layouts/Base.astro`): hides the header, footer, ticker and chat. `src/scripts/embed.ts` handles messages to and from the app.
+- **Assessments** (`AssessmentRunner.astro`): in the app, contact questions are skipped (the patient is signed in), known details are prefilled, and the result goes to the app, which saves it to the patient's account. No lead webhook is sent. If the app doesn't confirm within 4 s, the runner carries on as on the website.
+- **Physio directory listing** (`src/pages/physio-directory/join.astro`): verify the number on WhatsApp (same login as the app), fill in the profile, publish. The listing is stored by the Betterhood API. Every build pulls the live listings (`scripts/sync-directory.mjs`, needs `PUBLIC_API_URL`) and merges them into the directory, city pages and `/physio/{slug}/` (`src/lib/data.ts`). The API triggers a rebuild on each save (`repository_dispatch: directory-updated` in `.github/workflows/pages.yml`).
+- Self-listed profiles carry a "Listed on betterhood" badge, not "betterhood certified" (that's for PhysioEdge-certified physios). They get "Registration verified" once an admin checks their council registration, and a "Book a session" button that opens the physio's booking page in the app.
+
+Set repo variables `PUBLIC_API_URL` (and optionally `PUBLIC_APP_URL`) in GitHub → Settings → Variables.
 
 ## Forms (action needed)
 
