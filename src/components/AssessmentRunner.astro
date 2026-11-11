@@ -19,7 +19,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
 <section class="qz" data-quiz>
   <div class="wrap qz-wrap">
     <div class="qz-top">
-      <a class="qz-back-link" href="/quiz-landing-page/"><Icon name="arrow-left" size={18} /> All assessments</a>
+      <a class="qz-back-link" href="/quiz-landing-page/" data-embed-hide><Icon name="arrow-left" size={18} /> All assessments</a>
       <p class="qz-step muted" aria-live="polite">Step <span data-step>1</span> of <span data-steps>{steps}</span></p>
     </div>
     <div class="qz-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-bar></span></div>
@@ -117,6 +117,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
 <script>
   import { QuizEngine, type Field, type FormDef } from "../scripts/quiz-engine";
   import { submitLead } from "../scripts/forms";
+  import { fromApp, isEmbedded, toApp, waitForApp } from "../scripts/embed";
 
   const root = document.querySelector<HTMLElement>("[data-quiz]")!;
   const form: FormDef = JSON.parse(root.querySelector("[data-form-def]")!.textContent!);
@@ -134,9 +135,12 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   const hasVisibleContact = form.fields.some((f) => !f.hidden && CONTACT.test(f.label));
   const hiddenContact = form.fields.filter((f) => f.hidden && CONTACT.test(f.label));
   const maxPage = Math.max(...form.fields.map((f) => f.page));
+  // Inside the Betterhood app the patient is signed in: no contact questions, and the app logs the result.
+  const embedded = isEmbedded();
+  const askContact = (f: Field) => !(embedded && CONTACT.test(f.label));
   // health/longevity forms took name & email from the logged-in account; ask for them on a final step instead
   const pages = [...Array(maxPage).keys()].map((i) => i + 1);
-  const extraContactStep = !hasVisibleContact && hiddenContact.length > 0;
+  const extraContactStep = !embedded && !hasVisibleContact && hiddenContact.length > 0;
   const total = pages.length + (extraContactStep ? 1 : 0);
   $("[data-steps]").textContent = String(total);
 
@@ -144,6 +148,11 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
   const fieldsOn = (page: number) => form.fields.filter((f) => f.page === page && engine.shown(f.id));
   const val = (id: number) => engine.values[id];
+  // A page with nothing to answer (only info text, or fields hidden by logic) is skipped.
+  const blank = (page: number) => fieldsOn(page).every((f) => f.type === "html" || f.hidden || !askContact(f));
+  /** Index of the next step to show after step i (total = past the end). */
+  const after = (i: number) => { let j = i + 1; while (j < pages.length && blank(pages[j])) j++; return j; };
+  const before = (i: number) => { let j = i - 1; while (j > 0 && j < pages.length && blank(pages[j])) j--; return Math.max(0, j); };
 
   function optLabel(label: string) {
     // "A. Lift at least 10 kgs | so I can carry…" -> main + sub line
@@ -202,7 +211,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
           const html = /consent/.test(f.css) ? `<div class="qz-consent">${f.html}</div>` : `<div class="qz-html">${f.html}</div>`;
           target === "aside" ? (asideHtml += html) : (mainHtml += html);
         } else if (isQuestion(f)) mainHtml += renderQuestion(f);
-        else if (isInput(f)) mainHtml += renderInput(f);
+        else if (isInput(f) && askContact(f)) mainHtml += renderInput(f);
       }
       if (page === 1) mainHtml += renderDemo();
     }
@@ -220,7 +229,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     $<HTMLElement>("[data-bar]").style.width = `${pct}%`;
     $(".qz-bar").setAttribute("aria-valuenow", String(pct));
     prev.hidden = idx === 0;
-    const last = idx === total - 1;
+    const last = after(idx) >= total;
     next.innerHTML = idx === 0 ? `Let's start <span aria-hidden="true">→</span>` : last ? `See my results <span aria-hidden="true">→</span>` : `Next <span aria-hidden="true">→</span>`;
     if (idx > 0) (main.querySelector("input, select") as HTMLElement | null)?.focus({ preventScroll: true });
   }
@@ -263,16 +272,16 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     e.preventDefault();
     read();
     if (!validate()) return;
-    if (idx < total - 1) {
-      // skip pages whose questions are all hidden by conditional logic
-      do idx++; while (idx < pages.length && fieldsOn(pages[idx]).every((f) => f.type === "html" || f.hidden));
+    const n = after(idx);
+    if (n < total) {
+      idx = n;
       render();
       root.scrollIntoView({ behavior: "smooth" });
     } else finish();
   });
   prev.addEventListener("click", () => {
     read();
-    do idx--; while (idx > 0 && idx < pages.length && fieldsOn(pages[idx]).every((f) => f.type === "html" || f.hidden));
+    idx = before(idx);
     render();
   });
 
@@ -301,11 +310,48 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     history.push({ slug: cfg.slug, ...record });
     try { localStorage.setItem("bh_results", JSON.stringify(store)); localStorage.setItem("bh_history", JSON.stringify(history.slice(-60))); if (name) localStorage.setItem("bh_name", name); } catch {}
 
+    // In the app: hand the result over (the app saves it to the patient's account and shows next steps).
+    // If the app doesn't confirm, carry on exactly as on the website.
+    if (embedded) {
+      const acked = waitForApp("bh:ack", 4000);
+      if (toApp({ type: "bh:assessment-result", result: { slug: cfg.slug, ...record } })) {
+        showSaving();
+        acked.then((ok) => { if (!ok) (go ? (location.href = go) : showScores(record)); });
+        return;
+      }
+    }
+
     // lead capture only when PUBLIC_FORM_ENDPOINT is configured (never interrupt with a mail client here)
     if (import.meta.env.PUBLIC_FORM_ENDPOINT) submitLead(`assessment:${cfg.slug}`, { name, email, phone, ...record, answers: engine.values }).catch(() => {});
 
     if (go) { location.href = go; return; }
     showScores(record);
+  }
+
+  function showSaving() {
+    $<HTMLElement>("[data-bar]").style.width = "100%";
+    grid.classList.remove("has-aside"); aside.hidden = true;
+    main.innerHTML = `<div class="qz-done"><span class="badge badge-mint">Assessment complete</span><h2 class="h2">Saving your result…</h2><p class="lead">Just a moment.</p></div>`;
+    $(".qz-nav").remove();
+  }
+
+  // The app shares what it already knows about the patient (name, phone, age, sex) so we don't ask again.
+  type Prefill = { name?: string; email?: string; phone?: string; age?: number; sex?: "F" | "M" | "O" };
+  if (embedded) {
+    fromApp<{ type: string; prefill?: Prefill }>("bh:context", ({ prefill: p }) => {
+      if (!p) return;
+      const fill = (re: RegExp, v: string | undefined) => {
+        const f = byLabel(re);
+        if (f && v && !engine.values[f.id]) engine.values[f.id] = v;
+      };
+      fill(/^(first name|full name)$/i, p.name);
+      fill(/^email$/i, p.email);
+      fill(/^phone number$/i, p.phone);
+      fill(/^age \(in years\)/i, p.age ? String(p.age) : undefined);
+      fill(/^gender/i, p.sex === "F" ? "Female" : p.sex === "M" ? "Male" : undefined);
+      if (idx === 0) render();
+    });
+    toApp({ type: "bh:ready", flow: "assessment", slug: cfg.slug });
   }
 
   function showScores(r: any) {

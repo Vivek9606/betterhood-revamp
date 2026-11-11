@@ -13,6 +13,8 @@ export function getStaticPaths() {
 const { physio: p } = Astro.props as { physio: Physio };
 // physios with photos/videos get the enhanced profile layout
 const extra = (physioMedia as Record<string, any>)[p.slug];
+// listed by the physio themselves at /physio-directory/join/ (not a PhysioEdge-certified profile)
+const listed = p.source === "app";
 const url = new URL(`/physio/${p.slug}/`, Astro.site).href;
 const initials = p.name.replace(/^Dr\.?\s*/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("");
 const place = p.location || p.address || p.place;
@@ -51,7 +53,9 @@ const jsonLd = {
       <div class="ph-card">
         <div class="ph-photo">
           {p.image ? <img src={media(p.image)} alt={p.name} width="320" height="320" fetchpriority="high" /> : <span class="ph-ph">{initials}</span>}
-          <span class="badge badge-mint ph-ver"><Icon name="verified" size={15} /> betterhood certified</span>
+          {listed
+            ? <span class={`badge ${p.verified ? "badge-mint" : "badge-plum"} ph-ver`}>{p.verified ? <><Icon name="verified" size={15} /> Registration verified</> : "Listed on betterhood"}</span>
+            : <span class="badge badge-mint ph-ver"><Icon name="verified" size={15} /> betterhood certified</span>}
         </div>
         <div class="ph-info">
           <h1 class="h1">{p.name}</h1>
@@ -67,7 +71,8 @@ const jsonLd = {
             </ul>
           )}
           <div class="ph-actions">
-            <a class="btn" href={contact.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" /> Ask betterhood to connect</a>
+            {p.bookingUrl && <a class="btn" href={p.bookingUrl} rel="noopener"><Icon name="calendar" /> Book a session</a>}
+            <a class={p.bookingUrl ? "btn btn-ghost" : "btn"} href={contact.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" /> Ask betterhood to connect</a>
             <a class="icon-round" href={`https://wa.me/?text=${msg}`} target="_blank" rel="noopener" aria-label="Share on WhatsApp"><Icon name="share" /></a>
             <button class="icon-round" data-copy={url} aria-label="Copy profile link"><Icon name="copy" /></button>
           </div>
@@ -134,11 +139,19 @@ const jsonLd = {
             </>
           )}
         </div>
-        <div class="ph-cert">
-          <Icon name="verified" size={28} />
-          <p><strong>betterhood certified</strong>This physiotherapist is part of India's network of physios trained in preventive pain care.</p>
-          <a class="link" href="/physioedge-course/">Are you a physio? Get certified <Icon name="arrow" /></a>
-        </div>
+        {listed ? (
+          <div class="ph-cert">
+            <Icon name="stethoscope" size={28} />
+            <p><strong>Listed by the physiotherapist</strong>{p.name.split(" ").slice(0, 2).join(" ")} created and keeps this profile up to date.{p.verified ? " Their council registration has been checked by betterhood." : ""}</p>
+            <a class="link" href="/physio-directory/join/">Are you a physio? List your practice <Icon name="arrow" /></a>
+          </div>
+        ) : (
+          <div class="ph-cert">
+            <Icon name="verified" size={28} />
+            <p><strong>betterhood certified</strong>This physiotherapist is part of India's network of physios trained in preventive pain care.</p>
+            <a class="link" href="/physioedge-course/">Are you a physio? Get certified <Icon name="arrow" /></a>
+          </div>
+        )}
       </aside>
     </div>
   </section>

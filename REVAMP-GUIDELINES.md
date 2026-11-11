@@ -87,6 +87,8 @@ content is unchanged and only the design differs.
 | Learn hub | `/learn/` | Redesigned, in review | [learn-before-after.pdf](before-and-after/learn-before-after.pdf) |
 | Article template | `/learn/{slug}/` | Redesigned, in review | [article-before-after.pdf](before-and-after/article-before-after.pdf) |
 | Author archives | `/learn/author/{slug}/` | Restored (were missing), not yet redesigned | – |
+| Physio city pages | `/learn/physio-city/{city}/` | Redesigned, in review; the 833 area archives are merged in (see Approved additions) | [physio-city-pages-before-after.pdf](before-and-after/physio-city-pages-before-after.pdf) |
+| Physio area archives | `/learn/physio_location/{slug}/` | Removed: 301 to the city page with the area filter set | (in the city pages PDF) |
 | Physio directory | `/physio-directory/` | To do | – |
 | Physio profile template | `/physio/{slug}/` | To do | – |
 | Assessments & results | `/assessment-*/`, `/result-*/` | To do | – |
@@ -112,5 +114,15 @@ sign-off before launch.
   - The artwork is an original stand-in drawn in SVG, to be replaced with the official Betty art.
   - Renamed product links are mapped to current products by `npm run resolve:products`, which writes
     `src/data/product-aliases.json`.
+
+- **Physio area archives merged into city pages** (approved 10 November 2026, after Search Console showed close
+  to zero clicks on the area URLs). This one changes URLs and adds page content, so it goes beyond like-for-like.
+  - The 833 `/learn/physio_location/{city}-{area}/` archives (712 of them listed one physio or none) now
+    301-redirect to `/learn/physio-city/{city}/?area={area}`. The old `/page/N/` archive URLs redirect too.
+  - City pages (`src/pages/learn/physio-city/[city].astro`) gained an area filter and a consultation-type filter,
+    a key facts panel, an A–Z area index, common specialisations, a FAQ, and links to other cities. All of it is
+    worked out from the profile data, and the wording needs sign-off.
+  - Mapping and redirects: `src/lib/physio-locations.mjs`. The full change log and the reasons are in
+    [docs/physio-city-pages.md](docs/physio-city-pages.md), and also in the before/after PDF.
 
 See [README.md](README.md) for how to run, build and deploy the project.

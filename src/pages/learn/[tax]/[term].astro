@@ -15,7 +15,9 @@ export function getStaticPaths() {
       if (items.length || t.count) paths.push({ params: { tax, term: t.slug }, props: { tax, t, kind: "posts" as const } });
     }
   }
-  for (const tax of Object.keys(physioTax) as (keyof typeof physioTax)[]) {
+  // City pages have their own template (learn/physio-city/[city].astro); area pages were merged into them and
+  // now redirect (see src/lib/physio-locations.mjs).
+  for (const tax of (Object.keys(physioTax) as (keyof typeof physioTax)[]).filter((x) => x !== "physio-city" && x !== "physio_location")) {
     for (const t of taxonomies[tax] ?? []) paths.push({ params: { tax, term: t.slug }, props: { tax, t, kind: "physios" as const } });
   }
   return paths;
@@ -27,23 +29,17 @@ const posts = kind === "posts" ? postsIn(tax as keyof typeof postTax, t.slug) : 
 const physios = kind === "physios" ? physiosIn(tax as keyof typeof physioTax, t.slug) : [];
 const area = tax === "by-health-concern" ? areas.find((a) => a.concern === t.slug) : undefined;
 
-// physio city pages list the areas inside that city
-const cityAreas = tax === "physio-city"
-  ? taxonomies.physio_location.filter((l) => l.slug.startsWith(t.slug + "-") && l.count > 0).slice(0, 40)
-  : [];
-const parent = tax === "physio_location" ? taxonomies["physio-city"].find((c) => t.slug.startsWith(c.slug + "-")) : undefined;
 
 const isPhysio = kind === "physios";
 const heading = isPhysio
-  ? tax === "physio_location" ? `Physiotherapists in ${t.name}${parent ? `, ${parent.name}` : ""}`
-  : tax === "physio-city" || tax === "physio-state" ? `Physiotherapists in ${t.name}`
+  ? tax === "physio-state" ? `Physiotherapists in ${t.name}`
   : `${t.name} physiotherapists`
   : t.name;
-const directoryHref = tax === "physio-city" ? `/physio-directory/?city=${t.slug}` : tax === "physio-state" ? `/physio-directory/?state=${t.slug}` : tax === "physio_location" ? `/physio-directory/?area=${t.slug}` : "/physio-directory/";
+const directoryHref = tax === "physio-state" ? `/physio-directory/?state=${t.slug}` : "/physio-directory/";
 const count = isPhysio ? physios.length : posts.length;
 const PAGE = 24;
 const desc = t.description || (isPhysio
-  ? `Find betterhood-certified physiotherapists${tax.includes("city") || tax.includes("state") || tax.includes("location") ? ` in ${t.name}` : ` — ${t.name}`}. Verified profiles with qualifications, experience, consultation modes and fees.`
+  ? `Find betterhood-certified physiotherapists${tax.includes("state") ? ` in ${t.name}` : ` — ${t.name}`}. Verified profiles with qualifications, experience, consultation modes and fees.`
   : `Expert-led betterhood articles and videos on ${t.name.toLowerCase()}: causes, exercises, posture, relief and recovery.`);
 ---
 <Base title={`${heading} | betterhood`} description={desc} noindex={count === 0}>
@@ -52,7 +48,6 @@ const desc = t.description || (isPhysio
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <a href="/">Home</a><span aria-hidden="true">/</span>
         {isPhysio ? <a href="/physio-directory/">Physio Directory</a> : <a href="/learn/">Learn</a>}
-        {parent && <><span aria-hidden="true">/</span><a href={`/learn/physio-city/${parent.slug}/`}>{parent.name}</a></>}
         <span aria-hidden="true">/</span><span>{t.name}</span>
       </nav>
       <div class="t-head">
@@ -67,12 +62,6 @@ const desc = t.description || (isPhysio
           {area && <a class="btn btn-sm" href={area.assessment}><Icon name="clipboard" /> Free {area.label.toLowerCase()} assessment</a>}
         </div>
       </div>
-      {cityAreas.length > 0 && (
-        <div class="t-areas">
-          <p class="f-t">Popular areas in {t.name}</p>
-          <div class="chips">{cityAreas.map((a) => <a class="chip" href={`/learn/physio_location/${a.slug}/`}>{a.name}</a>)}</div>
-        </div>
-      )}
     </div>
   </section>
 
@@ -97,7 +86,6 @@ const desc = t.description || (isPhysio
   .t-side { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
   .t-count { padding: 10px 18px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-size: 15px; }
   .t-count strong { font-family: var(--font-display); color: var(--plum-700); }
-  .t-areas { margin-top: 28px; }
   .f-t { font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .t-more { display: flex; justify-content: center; margin-top: 40px; }

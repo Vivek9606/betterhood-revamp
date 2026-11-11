@@ -23,6 +23,7 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
           <h1 class="h1">betterhood certified <span class="hl">physiotherapists</span></h1>
           <p class="lead">Find trusted, certified physiotherapists specializing in preventive pain care.</p>
         </div>
+        <a class="d-list-cta" href="/physio-directory/join/"><Icon name="stethoscope" size={18} /> Are you a physio? <strong>List your practice</strong> <Icon name="arrow" /></a>
         <ul class="d-stats">
           <li><strong>{physios.length.toLocaleString("en-IN")}+</strong><span>verified physios</span></li>
           <li><strong>{cities.length}</strong><span>cities</span></li>
@@ -76,7 +77,10 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
           <h2 class="h2">Get certified. Get featured. Get discovered.</h2>
           <p class="soft">Join India's most trusted network of certified physiotherapists through the PhysioEdge course.</p>
         </div>
-        <a class="btn btn-sun btn-lg" href="/physioedge-course/">Explore PhysioEdge <Icon name="arrow" class="arrow" /></a>
+        <div class="d-join-ctas">
+          <a class="btn btn-sun btn-lg" href="/physio-directory/join/">List your practice, free <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-ghost btn-lg d-join-alt" href="/physioedge-course/">Explore PhysioEdge</a>
+        </div>
       </div>
       <div class="d-cities">
         <h2 class="h3">Browse by city</h2>
@@ -107,6 +111,11 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
   .d-join { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; padding: clamp(28px, 4vw, 48px); border-radius: var(--r-xl); background: var(--plum-900); color: #fff; }
   .d-join .eyebrow { color: var(--sun-500); }
   .d-join .soft { color: rgba(255, 255, 255, 0.75); margin-top: 10px; }
+  .d-join-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+  .d-join-alt { color: #fff; border-color: rgba(255, 255, 255, 0.35); }
+  .d-join-alt:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+  .d-list-cta { order: -1; flex-basis: 100%; display: inline-flex; align-items: center; gap: 8px; width: fit-content; padding: 8px 16px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); color: var(--plum-700); font-size: 14.5px; box-shadow: var(--shadow-sm, none); }
+  .d-list-cta:hover { border-color: var(--plum-300); }
   .d-cities { margin-top: 56px; }
   .d-cities ul { list-style: none; margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 4px 20px; }
   .d-cities a { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
@@ -117,7 +126,7 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
 
 <script>
   import { media } from "../lib/site";
-  type Row = { s: string; n: string; g: string; i: string; p: string; y: number; c: string; st: string; a: string[]; sp: string[]; m: string[]; f: string };
+  type Row = { s: string; n: string; g: string; i: string; p: string; y: number; c: string; st: string; a: string[]; sp: string[]; m: string[]; f: string; x?: "listed" | "verified" };
   const $ = <T extends Element>(s: string) => document.querySelector<T>(s)!;
   const grid = $<HTMLElement>("[data-grid]"), count = $<HTMLElement>("[data-count]"), more = $<HTMLButtonElement>("[data-more]");
   const q = $<HTMLInputElement>("#dq"), fs = $<HTMLSelectElement>("#fs"), fc = $<HTMLSelectElement>("#fc"), fa = $<HTMLSelectElement>("#fa");
@@ -131,7 +140,7 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
   const initials = (n: string) => n.replace(/^Dr\.?\s*/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("");
   const card = (r: Row) => `<a class="phc card card-hover" href="/physio/${r.s}/">
     <div class="phc-top">${r.i ? `<img src="${media(r.i)}" alt="${esc(r.n)}" loading="lazy" width="96" height="96">` : `<span class="phc-ph">${esc(initials(r.n))}</span>`}
-    <span class="badge badge-mint phc-v">✓ Certified</span></div>
+    <span class="badge ${r.x === "listed" ? "badge-plum" : "badge-mint"} phc-v">${r.x === "listed" ? "Listed" : r.x === "verified" ? "✓ Verified" : "✓ Certified"}</span></div>
     <p class="phc-name">${esc(r.n)}</p><p class="phc-deg muted">${esc(r.g)}${r.y ? ` · ${r.y} yrs exp` : ""}</p>
     ${r.sp.length ? `<ul class="phc-tags">${r.sp.slice(0, 2).map((s) => `<li>${esc(s)}</li>`).join("")}</ul>` : ""}
     ${r.p ? `<p class="phc-place">📍 ${esc(r.p.replace(/\.$/, ""))}</p>` : ""}</a>`;

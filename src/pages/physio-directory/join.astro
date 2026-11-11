@@ -1,0 +1,611 @@
+---
+// Physios list themselves on the directory. One flow for everyone:
+//  - on the website: verify the number on WhatsApp, fill in the profile, publish;
+//  - in the Betterhood app: the app opens this page in an in-app frame (embed mode) and passes the signed-in
+//    session, so the physio goes straight to the form.
+// The Betterhood API stores the listing (same account as the app) and triggers a site rebuild; the profile goes
+// live at /physio/{slug}/ (see scripts/sync-directory.mjs and src/lib/data.ts).
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import { physios, taxonomies } from "../../lib/data";
+
+const byName = (a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name);
+const states = [...taxonomies["physio-state"]].sort(byName);
+const cities = [...taxonomies["physio-city"]].sort(byName);
+const cityState: Record<string, string> = {};
+physios.forEach((p) => { if (p.city && p.state) cityState[p.city] ??= p.state; });
+const specs = [...taxonomies.physio_speciality].sort((a, b) => b.count - a.count).map((t) => t.name);
+const degrees = [...taxonomies.physio_qualification].sort((a, b) => b.count - a.count).map((t) => t.name);
+const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Visit"];
+const api = (import.meta.env.PUBLIC_API_URL ?? "").replace(/\/$/, "");
+const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
+---
+<Base title="List your practice on the betterhood physio directory" description="Physiotherapists: create your free profile on the betterhood physio directory. Verify your number on WhatsApp, add your details and get your own profile page on betterhood.in.">
+  <section class="jn" data-join data-api={api}>
+    <div class="wrap jn-wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb" data-embed-hide><a href="/">Home</a><span aria-hidden="true">/</span><a href="/physio-directory/">Physio Directory</a><span aria-hidden="true">/</span><span>List your practice</span></nav>
+
+      <header class="jn-head">
+        <p class="eyebrow">For physiotherapists</p>
+        <h1 class="h2" data-title>List your practice on betterhood</h1>
+        <p class="lead">Patients across India look for physios here. Create your profile in about 5 minutes. It gets its own page on betterhood.in that you can share anywhere.</p>
+        <ol class="jn-steps" aria-label="Steps">
+          <li data-dot="verify" class="is-on"><span>1</span> Verify your number</li>
+          <li data-dot="form"><span>2</span> Your details</li>
+          <li data-dot="done"><span>3</span> Live on betterhood</li>
+        </ol>
+      </header>
+
+      <p class="form-note err" data-unavailable hidden>Listing isn't available right now. Please write to <a class="link" href="mailto:care@betterhood.in">care@betterhood.in</a> and we'll add you.</p>
+      <div class="jn-card jn-loading" data-loading hidden><span class="jn-spin" aria-hidden="true"></span> Loading your details…</div>
+
+      <!-- 1 · verify the number (WhatsApp OTP, same login as the Betterhood app) -->
+      <form class="jn-card jn-verify" data-verify hidden novalidate>
+        <h2 class="h3">Verify your mobile number</h2>
+        <p class="muted">We'll send a 6-digit code on WhatsApp. Use the number you use for your practice. You'll log in to the Betterhood physio app with it too.</p>
+        <div class="jn-row">
+          <div class="field">
+            <label for="j-phone">Mobile number</label>
+            <input class="input" id="j-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" required pattern="[0-9 +]{10,15}" />
+          </div>
+          <button class="btn" type="submit" data-send>Send code on WhatsApp</button>
+        </div>
+        <div class="jn-row" data-otp-row hidden>
+          <div class="field">
+            <label for="j-otp">6-digit code</label>
+            <input class="input" id="j-otp" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}" />
+          </div>
+          <button class="btn" type="button" data-check>Verify</button>
+        </div>
+        <p class="form-note" data-verify-note hidden></p>
+      </form>
+
+      <!-- 2 · the profile -->
+      <form class="jn-card jn-form" data-form hidden novalidate>
+        <fieldset>
+          <legend>About you</legend>
+          <div class="jn-photo">
+            <div class="jn-avatar" data-avatar><Icon name="user" size={30} /></div>
+            <div class="field">
+              <label for="j-photo">Profile photo</label>
+              <input id="j-photo" type="file" accept="image/jpeg,image/png,image/webp" data-photo />
+              <p class="jn-hint">A clear, front-facing photo. We crop it to a square.</p>
+            </div>
+          </div>
+          <div class="jn-grid">
+            <div class="field"><label for="j-name">Full name *</label><input class="input" id="j-name" name="name" required minlength="2" maxlength="80" autocomplete="name" placeholder="Dr. Ananya Rao" /></div>
+            <div class="field"><label for="j-email">Email</label><input class="input" id="j-email" name="email" type="email" maxlength="120" autocomplete="email" placeholder="you@clinic.in" /></div>
+            <div class="field"><label for="j-degree">Highest qualification *</label><input class="input" id="j-degree" name="degree" required minlength="2" maxlength="120" list="j-degrees" placeholder="MPT - Orthopaedics" /></div>
+            <div class="field"><label for="j-years">Years of experience *</label><input class="input" id="j-years" name="years" type="number" inputmode="numeric" min="0" max="60" required /></div>
+          </div>
+          <datalist id="j-degrees">{degrees.map((d) => <option value={d} />)}</datalist>
+          <div class="field">
+            <label for="j-about">About you *</label>
+            <textarea class="textarea" id="j-about" name="about" rows="6" required minlength="40" maxlength="4000" placeholder="Who you help, how you work and what patients can expect. Leave a blank line between paragraphs."></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Where you practise</legend>
+          <div class="jn-grid">
+            <div class="field">
+              <label for="j-state">State *</label>
+              <select class="select" id="j-state" name="state" required>
+                <option value="">Select</option>
+                {states.map((s) => <option value={s.slug}>{s.name}</option>)}
+                <option value="__other">Other</option>
+              </select>
+            </div>
+            <div class="field" data-other="state" hidden><label for="j-state-o">State name *</label><input class="input" id="j-state-o" maxlength="60" /></div>
+            <div class="field">
+              <label for="j-city">City *</label>
+              <select class="select" id="j-city" name="city" required>
+                <option value="">Select</option>
+                {cities.map((c) => <option value={c.slug} data-state={cityState[c.slug] ?? ""}>{c.name}</option>)}
+                <option value="__other">Other city</option>
+              </select>
+            </div>
+            <div class="field" data-other="city" hidden><label for="j-city-o">City name *</label><input class="input" id="j-city-o" maxlength="60" /></div>
+            <div class="field"><label for="j-locality">Area / locality</label><input class="input" id="j-locality" name="locality" maxlength="120" placeholder="Koramangala" /></div>
+            <div class="field"><label for="j-fee">Consultation fee (₹)</label><input class="input" id="j-fee" name="fee" type="number" inputmode="numeric" min="0" max="999999" placeholder="800" /></div>
+          </div>
+          <div class="field"><label for="j-address">Clinic / practice address</label><input class="input" id="j-address" name="address" maxlength="300" placeholder="Clinic name, street, landmark" /></div>
+          <div class="field">
+            <span class="jn-label">How patients can see you *</span>
+            <div class="jn-checks">
+              {modes.map((m) => <label class="jn-check"><input type="checkbox" name="modes" value={m} /> {m}</label>)}
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Specializations</legend>
+          <p class="jn-hint">Pick up to 15. Add your own if it isn't listed.</p>
+          <div class="jn-chips" data-specs>
+            {specs.map((s) => <button type="button" class="chip" aria-pressed="false" data-spec={s}>{s}</button>)}
+          </div>
+          <div class="jn-row jn-add">
+            <label class="sr-only" for="j-spec-add">Add a specialization</label>
+            <input class="input" id="j-spec-add" maxlength="60" placeholder="e.g. Vestibular rehabilitation" />
+            <button class="btn btn-ghost" type="button" data-spec-add>Add</button>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Education *</legend>
+          <div class="jn-rows" data-rows="education"></div>
+          <button class="link jn-more" type="button" data-add="education"><Icon name="plus" size={16} /> Add a qualification</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Experience</legend>
+          <div class="jn-rows" data-rows="experience"></div>
+          <button class="link jn-more" type="button" data-add="experience"><Icon name="plus" size={16} /> Add a role</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Registration</legend>
+          <div class="jn-grid">
+            <div class="field"><label for="j-reg">Council registration number</label><input class="input" id="j-reg" name="regNo" maxlength="60" /></div>
+            <div class="field"><label for="j-council">Registration council</label><input class="input" id="j-council" name="council" maxlength="120" placeholder="Karnataka State Allied & Healthcare Council" /></div>
+          </div>
+          <p class="jn-hint">We check your registration and add a “Registration verified” badge to your profile.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Certifications & awards</legend>
+          <div class="jn-grid">
+            <div class="field"><label for="j-certs">Certifications (one per line)</label><textarea class="textarea" id="j-certs" name="certifications" rows="4" maxlength="2500"></textarea></div>
+            <div class="field"><label for="j-awards">Awards (one per line)</label><textarea class="textarea" id="j-awards" name="awards" rows="4" maxlength="2500"></textarea></div>
+          </div>
+        </fieldset>
+
+        <label class="jn-check jn-consent"><input type="checkbox" name="consent" required /> I confirm these details are accurate and agree to them being published on betterhood.in.</label>
+        <p class="form-note err" data-form-note hidden></p>
+        <div class="jn-actions">
+          <button class="btn btn-lg" type="submit" data-submit>Publish my profile <Icon name="arrow" class="arrow" /></button>
+        </div>
+      </form>
+
+      <!-- 3 · done -->
+      <div class="jn-card jn-done" data-done hidden>
+        <span class="badge badge-mint" data-done-badge>Profile published</span>
+        <h2 class="h3" data-done-title>Your profile is on betterhood</h2>
+        <p class="muted">This is your profile link. Share it with patients, on WhatsApp and in your Instagram bio.</p>
+        <div class="jn-url">
+          <a data-url target="_blank" rel="noopener"></a>
+          <button class="btn btn-sm btn-ghost" type="button" data-copy-url><Icon name="copy" size={16} /> Copy</button>
+        </div>
+        <p class="jn-live" data-live><span class="jn-spin" aria-hidden="true"></span> Going live. This usually takes a few minutes.</p>
+        <div class="jn-actions">
+          <a class="btn" data-view target="_blank" rel="noopener">View my profile <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-ghost" data-share target="_blank" rel="noopener"><Icon name="whatsapp" /> Share on WhatsApp</a>
+          <button class="btn btn-ghost" type="button" data-edit>Edit details</button>
+        </div>
+        {appUrl && (
+          <div class="jn-app" data-embed-hide>
+            <p><strong>Run your practice from the Betterhood physio app.</strong> Log in with the same number to manage bookings, share exercise plans and keep this profile up to date.</p>
+            <a class="btn btn-sun" href={`${appUrl}/login`} rel="noopener">Open the app <Icon name="arrow" class="arrow" /></a>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <template data-tpl="education">
+    <div class="jn-item">
+      <input class="input" data-k="degree" maxlength="120" placeholder="Degree, e.g. BPT" aria-label="Degree" />
+      <input class="input" data-k="institute" maxlength="160" placeholder="College / university" aria-label="College or university" />
+      <input class="input" data-k="year" maxlength="30" placeholder="Year, e.g. Class of 2019" aria-label="Year" />
+      <button class="jn-x" type="button" data-remove aria-label="Remove">×</button>
+    </div>
+  </template>
+  <template data-tpl="experience">
+    <div class="jn-item">
+      <input class="input" data-k="role" maxlength="160" placeholder="Role, e.g. Senior Physiotherapist" aria-label="Role" />
+      <input class="input" data-k="place" maxlength="160" placeholder="Hospital / clinic" aria-label="Hospital or clinic" />
+      <input class="input" data-k="date" maxlength="60" placeholder="2019 – present" aria-label="Dates" />
+      <button class="jn-x" type="button" data-remove aria-label="Remove">×</button>
+    </div>
+  </template>
+</Base>
+
+<style>
+  .jn { padding: 24px 0 80px; min-height: 80vh; background: radial-gradient(70% 60% at 100% 0%, var(--mint-100), transparent 60%), linear-gradient(180deg, var(--plum-50), var(--cream)); }
+  .jn-wrap { max-width: 880px; display: grid; gap: 20px; }
+  .jn-head { display: grid; gap: 12px; margin-top: 12px; }
+  .jn-steps { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 6px; font-size: 14.5px; color: var(--ink-mute); }
+  .jn-steps li { display: inline-flex; align-items: center; gap: 8px; }
+  .jn-steps span { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: #fff; border: 1.5px solid var(--line-strong); font-weight: 700; font-size: 13px; }
+  .jn-steps .is-on { color: var(--plum-800); font-weight: 600; }
+  .jn-steps .is-on span { background: var(--plum-700); border-color: var(--plum-700); color: #fff; }
+  .jn-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: clamp(20px, 4vw, 40px); box-shadow: var(--shadow-md); display: grid; gap: 16px; }
+  .jn-loading { display: flex; align-items: center; gap: 12px; color: var(--ink-soft); }
+  .jn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+  .jn-row .field { flex: 1 1 220px; }
+  .jn-form fieldset { border: 0; padding: 0 0 24px; margin: 0; display: grid; gap: 14px; border-bottom: 1px solid var(--line); }
+  .jn-form fieldset:last-of-type { border-bottom: 0; }
+  .jn-form legend { font: 650 20px/1.2 var(--font-display); letter-spacing: -0.01em; margin-bottom: 14px; padding: 0; }
+  .jn-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .jn-hint { font-size: 13.5px; color: var(--ink-mute); }
+  .jn-label { font-size: 14px; font-weight: 600; color: var(--ink-soft); }
+  .jn-photo { display: flex; gap: 18px; align-items: center; }
+  .jn-avatar { flex: none; width: 88px; height: 88px; border-radius: 26px; background: var(--plum-100) center / cover no-repeat; color: var(--plum-500); display: grid; place-items: center; }
+  .jn-avatar.has-img :global(svg) { display: none; }
+  .jn-checks { display: flex; flex-wrap: wrap; gap: 8px; }
+  .jn-check { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--r-md); border: 1.5px solid var(--line-strong); cursor: pointer; font-size: 15px; }
+  .jn-check:has(input:checked) { border-color: var(--plum-600); background: var(--plum-50); }
+  .jn-check input { accent-color: var(--plum-700); width: 18px; height: 18px; }
+  .jn-consent { border: 0; padding: 0; align-items: flex-start; color: var(--ink-soft); }
+  .jn-consent input { margin-top: 2px; flex: none; }
+  .jn-chips { display: flex; flex-wrap: wrap; gap: 8px; max-height: 210px; overflow: auto; padding: 2px; }
+  .jn-add .input { flex: 1 1 220px; }
+  .jn-rows { display: grid; gap: 10px; }
+  .jn-item { display: grid; grid-template-columns: 1fr 1.3fr 0.8fr auto; gap: 8px; align-items: center; }
+  .jn-x { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: #fff; font-size: 20px; color: var(--ink-mute); cursor: pointer; }
+  .jn-x:hover { color: #a43a1f; border-color: #a43a1f; }
+  .jn-more { justify-self: start; display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; font-weight: 600; color: var(--plum-700); cursor: pointer; padding: 0; }
+  .jn-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .jn-url { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; justify-content: space-between; padding: 12px 14px 12px 18px; border-radius: var(--r-md); background: var(--plum-50); border: 1px solid var(--plum-200); }
+  .jn-url a { font-weight: 650; color: var(--plum-700); overflow-wrap: anywhere; min-width: 0; }
+  .jn-live { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--ink-soft); }
+  .jn-live.is-live { color: var(--mint-700); font-weight: 600; }
+  .jn-app { display: grid; gap: 12px; padding: 20px; border-radius: var(--r-lg); background: var(--plum-900); color: rgba(255, 255, 255, 0.85); }
+  .jn-app strong { color: #fff; }
+  .jn-app .btn { justify-self: start; }
+  /* global: the spinner is also inserted by the script below, which scoped styles don't reach */
+  :global(.jn-spin) { width: 18px; height: 18px; flex: none; border-radius: 50%; border: 2.5px solid var(--plum-200); border-top-color: var(--plum-700); animation: jnspin 0.9s linear infinite; }
+  @keyframes jnspin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { :global(.jn-spin) { animation-duration: 3s; } }
+  @media (max-width: 640px) {
+    .jn-grid { grid-template-columns: 1fr; }
+    .jn-item { grid-template-columns: 1fr auto; }
+    .jn-item .input:not(:first-child) { grid-column: 1; }
+    .jn-item .jn-x { grid-row: 1; grid-column: 2; }
+  }
+  :global(.embed) .jn { padding-top: 8px; }
+</style>
+
+<script>
+  import { fromApp, isEmbedded, toApp, waitForApp } from "../../scripts/embed";
+
+  type Listing = Record<string, any>;
+  const root = document.querySelector<HTMLElement>("[data-join]")!;
+  const $ = <T extends Element = HTMLElement>(s: string, el: ParentNode = root) => el.querySelector<T>(s)!;
+  const $$ = <T extends Element = HTMLElement>(s: string, el: ParentNode = root) => [...el.querySelectorAll<T>(s)];
+  const API = root.dataset.api!;
+  const TOKEN_KEY = "bh_dir_token";
+
+  const verify = $<HTMLFormElement>("[data-verify]"), form = $<HTMLFormElement>("[data-form]"), done = $("[data-done]"), loading = $("[data-loading]");
+  const F = form.elements as unknown as Record<string, HTMLInputElement>;
+
+  let token = ""; // physio session (existing account)
+  let signupToken = ""; // verified number, no account yet
+  let editing = false;
+  let photo: string | undefined; // new photo, as a data URL
+  try { token = sessionStorage.getItem(TOKEN_KEY) || ""; } catch {}
+
+  // ---------- API ----------
+  async function call<T = any>(path: string, opts: { method?: string; body?: unknown; auth?: boolean } = {}): Promise<T> {
+    let res: Response;
+    try {
+      res = await fetch(API + path, {
+        method: opts.method ?? (opts.body === undefined ? "GET" : "POST"),
+        headers: { ...(opts.body !== undefined ? { "Content-Type": "application/json" } : {}), ...(opts.auth && token ? { Authorization: `Bearer ${token}` } : {}) },
+        body: opts.body === undefined ? undefined : JSON.stringify(opts.body),
+      });
+    } catch {
+      throw new Error("Can't reach betterhood. Check your connection and try again.");
+    }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw Object.assign(new Error(data.message || "Something went wrong. Please try again."), { status: res.status });
+    return data as T;
+  }
+
+  // ---------- steps ----------
+  function show(step: "verify" | "form" | "done" | "loading") {
+    verify.hidden = step !== "verify";
+    form.hidden = step !== "form";
+    done.hidden = step !== "done";
+    loading.hidden = step !== "loading";
+    const dot = step === "loading" ? "verify" : step;
+    const order = ["verify", "form", "done"];
+    $$("[data-dot]").forEach((li) => li.classList.toggle("is-on", order.indexOf(li.dataset.dot!) <= order.indexOf(dot)));
+    if (step !== "loading") root.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  const note = (el: HTMLElement, text: string, ok = false) => { el.hidden = !text; el.className = `form-note ${ok ? "ok" : "err"}`; el.textContent = text; };
+
+  // ---------- verify (WhatsApp OTP) ----------
+  const phoneVal = () => F.phone.value.replace(/\D/g, "").replace(/^(91|0)(?=\d{10}$)/, "");
+  const vNote = $("[data-verify-note]");
+  verify.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!/^[6-9]\d{9}$/.test(phoneVal())) return note(vNote, "Enter a valid 10-digit Indian mobile number.");
+    const btn = $<HTMLButtonElement>("[data-send]");
+    btn.disabled = true;
+    try {
+      await call("/auth/otp/request", { body: { phone: phoneVal() } });
+      $("[data-otp-row]").hidden = false;
+      btn.textContent = "Resend code";
+      note(vNote, "Code sent on WhatsApp. It's valid for 10 minutes.", true);
+      F.code.focus();
+    } catch (err) {
+      note(vNote, (err as Error).message);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+  $("[data-check]").addEventListener("click", async () => {
+    if (!/^\d{6}$/.test(F.code.value)) return note(vNote, "Enter the 6-digit code from WhatsApp.");
+    const btn = $<HTMLButtonElement>("[data-check]");
+    btn.disabled = true;
+    try {
+      const r = await call<{ token?: string; role?: string; signupToken?: string }>("/auth/otp/verify", { body: { phone: phoneVal(), code: F.code.value } });
+      if (r.signupToken) {
+        signupToken = r.signupToken;
+        startForm();
+      } else if (r.role === "physio" && r.token) {
+        setToken(r.token);
+        await loadMine();
+      } else {
+        note(vNote, "This number is registered as a patient on betterhood. Use the number you use for your practice.");
+      }
+    } catch (err) {
+      note(vNote, (err as Error).message);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+  function setToken(t: string) {
+    token = t;
+    try { if (!isEmbedded()) sessionStorage.setItem(TOKEN_KEY, t); } catch {}
+  }
+
+  // Existing account: their listing (edit) or what the app already knows (prefill).
+  async function loadMine() {
+    show("loading");
+    const r = await call<{ listing: Listing | null; prefill: Listing }>("/directory/me", { auth: true });
+    editing = !!r.listing;
+    fill(r.listing ? r.listing.profile : r.prefill);
+    if (r.listing?.hasPhoto && r.listing.status === "live") setAvatar(`${API}/public/directory/${r.listing.slug}/photo?v=${Date.parse(r.listing.updatedAt)}`);
+    startForm();
+  }
+
+  // ---------- the form ----------
+  function startForm() {
+    $("[data-title]").textContent = editing ? "Update your directory profile" : "List your practice on betterhood";
+    $("[data-submit]").firstChild!.textContent = editing ? "Save changes " : "Publish my profile ";
+    if (!$$("[data-rows=education] .jn-item").length) addRow("education");
+    if (!$$("[data-rows=experience] .jn-item").length) addRow("experience");
+    show("form");
+  }
+
+  function addRow(kind: string, values: Record<string, string> = {}) {
+    const tpl = $<HTMLTemplateElement>(`[data-tpl=${kind}]`, document);
+    const row = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+    $$<HTMLInputElement>("[data-k]", row).forEach((i) => (i.value = values[i.dataset.k!] ?? ""));
+    $(`[data-rows=${kind}]`).append(row);
+  }
+  root.addEventListener("click", (e) => {
+    const t = e.target as HTMLElement;
+    const add = t.closest<HTMLElement>("[data-add]");
+    if (add) addRow(add.dataset.add!);
+    const rm = t.closest("[data-remove]");
+    if (rm) rm.closest(".jn-item")!.remove();
+    const chip = t.closest<HTMLButtonElement>("[data-spec]");
+    if (chip) {
+      const on = chip.getAttribute("aria-pressed") !== "true";
+      if (on && selectedSpecs().length >= 15) return note($("[data-form-note]"), "You can pick up to 15 specializations.");
+      chip.setAttribute("aria-pressed", String(on));
+    }
+  });
+  const selectedSpecs = () => $$<HTMLButtonElement>("[data-spec][aria-pressed=true]").map((b) => b.dataset.spec!);
+  function addSpec(name: string, on = true) {
+    name = name.trim();
+    if (!name) return;
+    let chip = $$<HTMLButtonElement>("[data-spec]").find((b) => b.dataset.spec!.toLowerCase() === name.toLowerCase());
+    if (!chip) {
+      chip = Object.assign(document.createElement("button"), { type: "button", className: "chip", textContent: name });
+      chip.dataset.spec = name;
+      $("[data-specs]").prepend(chip);
+    }
+    chip.setAttribute("aria-pressed", String(on));
+  }
+  $("[data-spec-add]").addEventListener("click", () => {
+    const i = $<HTMLInputElement>("#j-spec-add");
+    addSpec(i.value);
+    i.value = "";
+  });
+
+  // State → its cities; "Other" opens a text field.
+  const state = $<HTMLSelectElement>("#j-state"), city = $<HTMLSelectElement>("#j-city");
+  function syncPlace() {
+    $("[data-other=state]").hidden = state.value !== "__other";
+    $("[data-other=city]").hidden = city.value !== "__other";
+    $$<HTMLOptionElement>("option[data-state]", city).forEach((o) => (o.hidden = !!state.value && state.value !== "__other" && !!o.dataset.state && o.dataset.state !== state.value));
+    if (city.selectedOptions[0]?.hidden) city.value = "";
+  }
+  state.addEventListener("change", syncPlace);
+  city.addEventListener("change", () => {
+    const st = city.selectedOptions[0]?.dataset.state;
+    if (st && !state.value) state.value = st;
+    syncPlace();
+  });
+
+  // Photo: centre-crop to a 480px square JPEG in the browser (keeps uploads small).
+  function setAvatar(src: string) {
+    const a = $("[data-avatar]");
+    a.style.backgroundImage = `url("${src}")`;
+    a.classList.add("has-img");
+  }
+  $<HTMLInputElement>("[data-photo]").addEventListener("change", async (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    try {
+      const img = await createImageBitmap(file);
+      const side = Math.min(img.width, img.height), size = Math.min(480, side);
+      const c = Object.assign(document.createElement("canvas"), { width: size, height: size });
+      c.getContext("2d")!.drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, size, size);
+      photo = c.toDataURL("image/jpeg", 0.85);
+      setAvatar(photo);
+    } catch {
+      note($("[data-form-note]"), "Couldn't read that image. Try a JPEG or PNG.");
+    }
+  });
+
+  function fill(p: Listing) {
+    const set = (k: string, v: unknown) => { if (F[k] && v !== undefined && v !== null) F[k].value = String(v); };
+    ["name", "email", "degree", "years", "about", "locality", "address", "fee", "regNo", "council"].forEach((k) => set(k, p[k]));
+    if (p.state && [...state.options].some((o) => o.value === p.state)) state.value = p.state;
+    else if (p.stateName) { state.value = "__other"; $<HTMLInputElement>("#j-state-o").value = p.stateName; }
+    syncPlace();
+    if (p.city && [...city.options].some((o) => o.value === p.city)) city.value = p.city;
+    else if (p.cityName) { city.value = "__other"; $<HTMLInputElement>("#j-city-o").value = p.cityName; }
+    syncPlace();
+    $$<HTMLInputElement>("input[name=modes]").forEach((i) => (i.checked = (p.modes ?? []).includes(i.value)));
+    (p.specializations ?? []).forEach((s: string) => addSpec(s));
+    $$("[data-rows] .jn-item").forEach((r) => r.remove());
+    (p.education ?? []).forEach((r: Record<string, string>) => addRow("education", r));
+    (p.experience ?? []).forEach((r: Record<string, string>) => addRow("experience", r));
+    $<HTMLTextAreaElement>("#j-certs").value = (p.certifications ?? []).join("\n");
+    $<HTMLTextAreaElement>("#j-awards").value = (p.awards ?? []).join("\n");
+  }
+
+  function collect() {
+    const rows = (kind: string, need: string) =>
+      $$(`[data-rows=${kind}] .jn-item`)
+        .map((r) => Object.fromEntries($$<HTMLInputElement>("[data-k]", r).map((i) => [i.dataset.k!, i.value.trim()])))
+        .filter((r) => r[need]);
+    const lines = (id: string) => $<HTMLTextAreaElement>(id).value.split("\n").map((s) => s.trim()).filter(Boolean);
+    const other = (sel: HTMLSelectElement, id: string) => (sel.value === "__other" ? $<HTMLInputElement>(id).value.trim() : sel.selectedOptions[0]?.text ?? "");
+    return {
+      name: F.name.value.trim(),
+      email: F.email.value.trim(),
+      ...(photo ? { photo } : {}),
+      degree: F.degree.value.trim(),
+      years: Number(F.years.value),
+      regNo: F.regNo.value.trim() || undefined,
+      council: F.council.value.trim() || undefined,
+      state: state.value === "__other" ? "" : state.value,
+      stateName: other(state, "#j-state-o"),
+      city: city.value === "__other" ? "" : city.value,
+      cityName: other(city, "#j-city-o"),
+      locality: F.locality.value.trim() || undefined,
+      address: F.address.value.trim() || undefined,
+      modes: $$<HTMLInputElement>("input[name=modes]:checked").map((i) => i.value),
+      fee: F.fee.value.replace(/\D/g, "") || undefined,
+      specializations: selectedSpecs(),
+      about: F.about.value.trim(),
+      education: rows("education", "degree"),
+      experience: rows("experience", "role"),
+      certifications: lines("#j-certs"),
+      awards: lines("#j-awards"),
+    };
+  }
+
+  const fNote = $("[data-form-note]");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    note(fNote, "");
+    if (!form.reportValidity()) return;
+    const body = collect();
+    const problem =
+      (state.value === "__other" && !body.stateName && "Enter your state.") ||
+      (city.value === "__other" && !body.cityName && "Enter your city.") ||
+      (!body.modes.length && "Choose at least one way patients can see you.") ||
+      (!body.education.length && "Add at least one qualification under Education.");
+    if (problem) return note(fNote, problem);
+    const btn = $<HTMLButtonElement>("[data-submit]");
+    btn.disabled = true;
+    try {
+      let r: Listing;
+      if (token) r = await call("/directory/me", { method: "PUT", body, auth: true });
+      else {
+        const ref = new URLSearchParams(location.search).get("ref") || undefined;
+        r = await call("/directory/signup", { body: { signupToken, profile: body, referredBy: ref } });
+        setToken(r.token);
+      }
+      toApp({ type: "bh:directory-published", slug: r.slug, url: r.url, status: r.status, created: !editing });
+      finished(r, editing);
+      editing = true;
+      photo = undefined;
+    } catch (err) {
+      const status = (err as { status?: number }).status;
+      if (status === 401 && !isEmbedded()) { token = ""; try { sessionStorage.removeItem(TOKEN_KEY); } catch {} }
+      note(fNote, (err as Error).message);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // ---------- done ----------
+  function finished(r: Listing, wasEdit: boolean) {
+    const a = $<HTMLAnchorElement>("[data-url]");
+    a.href = r.url;
+    a.textContent = r.url.replace(/^https?:\/\//, "");
+    $<HTMLAnchorElement>("[data-view]").href = r.url;
+    $<HTMLAnchorElement>("[data-share]").href = `https://wa.me/?text=${encodeURIComponent(`My physiotherapy profile is on betterhood: ${r.url}`)}`;
+    $("[data-done-badge]").textContent = wasEdit ? "Changes saved" : "Profile published";
+    $("[data-done-title]").textContent = wasEdit ? "Your profile is updated" : "Your profile is on betterhood";
+    const live = $("[data-live]");
+    live.classList.remove("is-live");
+    if (wasEdit) live.innerHTML = `<span class="jn-spin" aria-hidden="true"></span> Your changes will show on your profile within a few minutes.`;
+    else watchLive(r.url);
+    show("done");
+  }
+
+  // The site is static: a new profile appears after the next build. Check until it's there.
+  let watching = 0;
+  function watchLive(url: string) {
+    const live = $("[data-live]");
+    const u = new URL(url);
+    live.innerHTML = `<span class="jn-spin" aria-hidden="true"></span> Going live. This usually takes a few minutes. You can close this page.`;
+    if (u.origin !== location.origin) return;
+    const run = ++watching;
+    let n = 0;
+    const tick = async () => {
+      if (run !== watching) return;
+      try {
+        const res = await fetch(u.pathname, { method: "HEAD", cache: "no-store" });
+        if (res.ok) {
+          live.classList.add("is-live");
+          live.textContent = "✓ Your profile is live.";
+          return;
+        }
+      } catch {}
+      if (++n < 60) setTimeout(tick, 15_000);
+      else live.textContent = "Still publishing. Your link will work shortly, no need to wait here.";
+    };
+    setTimeout(tick, 15_000);
+  }
+
+  $("[data-copy-url]").addEventListener("click", async (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    try { await navigator.clipboard.writeText($<HTMLAnchorElement>("[data-url]").href); b.lastChild!.textContent = " Copied"; } catch {}
+  });
+  $("[data-edit]").addEventListener("click", () => startForm());
+
+  // ---------- start ----------
+  async function start() {
+    if (!API) { $("[data-unavailable]").hidden = false; return; }
+    if (isEmbedded()) {
+      // In the app: it sends the signed-in physio's session, so no OTP.
+      show("loading");
+      const ctx = waitForApp<{ type: string; token?: string }>("bh:context", 4000);
+      toApp({ type: "bh:ready", flow: "directory" });
+      const c = await ctx;
+      if (c?.token) token = c.token;
+      fromApp<{ type: string; token?: string }>("bh:context", (m) => { if (m.token) token = m.token; });
+    }
+    if (!token) return show("verify");
+    try {
+      await loadMine();
+    } catch (err) {
+      token = "";
+      try { sessionStorage.removeItem(TOKEN_KEY); } catch {}
+      show("verify");
+      note(vNote, (err as { status?: number }).status === 403 ? "This number isn't a physio account. Verify your practice number." : "");
+    }
+  }
+  start();
+</script>
