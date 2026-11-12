@@ -5,6 +5,97 @@ first. The rules for the revamp itself are in [REVAMP-GUIDELINES.md](../REVAMP-G
 
 ---
 
+## 2026-11-12: Deploy fix, master admin dashboard (journeys)
+
+### Deploy fix
+- Profile switch returned "Route POST:/auth/switch not found": DigitalOcean was still on the old build. Migration
+  006 lacked `set search_path = app`, failed on startup, and DO kept the previous version.
+- Fixed in backend `d8f2f9b`: the line is in 006, and the migration runner now defaults to the `app` schema.
+  Migration 006 is applied; discharge, booking location and switching are live on the test API.
+
+### Master admin dashboard (web app `/admin`, API mode)
+Decided with the user: bring in last-active tracking, website lead forms and website assessments; no Shopify
+orders yet; admins can view, add notes and tags, but not edit or delete user data.
+
+- **Backend `aae2abf`** (migration 007): `last_seen_at` on physios and patients (set on `/me/bootstrap`),
+  `web_submissions`, `admin_notes`, `admin_tags`. New: `GET /admin/journeys`, `GET /admin/timeline/:type/:id`,
+  notes and tags endpoints, `POST /public/web/submissions`.
+- **App `e3a8487`**: Overview (milestones for both journeys, activity split, 12-week trends, "needs attention"
+  lists), Consumer journey, Physio journey, Website. Tables filter by stage and activity, export CSV, and open a
+  drawer with the timeline, notes and tags. The older tabs (To assign, Physio profiles, Assessments) are unchanged.
+- **Website**: `forms.ts` saves every lead form to the API (and still posts to `PUBLIC_FORM_ENDPOINT` when set);
+  a lead saved by the API no longer falls back to the mail client. `AssessmentRunner` saves each result taken
+  outside the app (result and any contact details the visitor typed, not the answers).
+- Stages. Consumer: signed up, assessed, has a physio, booked, on a plan, exercising, discharged. Physio: signed
+  up, profile set up (4 of 6 items), first patient, treating, running practice (plans and invoices).
+  Active = something in the last 7 days, slipping = 8 to 21, inactive = longer.
+
+### Verified
+- 27 API checks on a throwaway local database (journeys, timelines, website submissions, notes, tags, access).
+- The dashboard was clicked through in a browser against that local API: all four tabs, the drawer, adding a note.
+- **Not click-tested:** the website forms and assessment posting to the API (the endpoint itself is tested).
+
+### Still open
+- [ ] `ADMIN_PHONES` must be set on DigitalOcean for anyone to sign in at `/admin`.
+- [ ] Last-active dates start from this deploy; earlier activity is inferred from bookings, plans and sessions.
+- [ ] Shopify orders in the consumer journey (needs Admin API credentials on the backend).
+- [ ] Anonymous website assessments can't be tied to a person unless they typed a phone number.
+- [ ] From 2026-11-11: confirm the "1–2 additional days" reading; user testing of the APK and Vercel build.
+
+---
+
+## 2026-11-11 (evening): App demo feedback round
+
+**Pushed to `main` in both app repos** (website unaffected):
+- backend `b598a8e`: discharge, profile switch, practice on bookings, consultation notes, migration 006
+- app `14d8aa1` and `b9279c0`: all screens below, plus the Capacitor Browser plugin registered in Android
+- Test APK: `C:\Vivek\tracking-user-journey\betterhood-test-2026-11-11.apk` (built 19:03)
+
+### What changed, against the demo feedback
+**Consumer**
+- Sign-up goes straight to Home; the assessment is optional (Tools, Care).
+- Bottom nav: Home, Care, Shop, Learn, Tools. Profile moved to the avatar on Home.
+- New Diagnostics page: condition result pages by body area, the assessment, the person's own results.
+- Shop and product pages are native screens (Shopify product JSON). Shopify sends `X-Frame-Options: DENY`, so
+  checkout can't be embedded; "Buy now" opens the cart permalink in the in-app browser (`@capacitor/browser`).
+- Booking: when the physio has 2+ practices, the consumer picks one; slots follow that practice's days and the
+  booking stores `location`.
+
+**Physio**
+- "(PT)" after the name (Home, sidebar, profile). Home has a six-tile overview: today, requests, active plans,
+  adherence, outstanding payments, consents due.
+- Discharge flow: outcome, summary, home advice (optionally sent on the physio's WhatsApp); completes the active
+  plan. Discharged patients sort last with a badge; "Take on again" readmits.
+- Group sessions: Edit sheet, optionally applied to the rest of a weekly series.
+- Tools tab grouped by use case (treat patients, run your day, get paid, grow your practice, learn).
+
+**Bugs**
+- Looping pages: plan steps were pushed onto history, so Back after sending hit empty steps that bounced to
+  Patients. Steps now replace history.
+- Photos not uploading: full-size data URLs went over the backend limit (400k chars / 1MB body). Photos are now
+  resized on device to 512px JPEG.
+- Consent form wiped the care plan: it now returns to the plan (`returnToFlow`) with the draft intact.
+- Flow order is now consultation (complaint, findings, diagnosis) → treatment plan → care plan → preview.
+- Care plan days: 1–7 days a week (interpreted "1–2 additional days" as adding 1 and 2 days/week options).
+
+**Both**
+- Switch between physio and consumer profiles on the same number (`POST /auth/switch`). A consumer without a
+  physio account goes to quick physio setup.
+
+### Verified
+- 20 API checks on a throwaway PGlite database, all passing (switching, discharge/readmit, booking location,
+  complaint/findings, group edit, photo size). Script: scratchpad `apitest2.mjs` (temporary).
+- App typechecks and builds. **The new screens weren't click-tested in a browser or on a phone.**
+
+### Still open (start here tomorrow)
+- [ ] User tests the APK and the Vercel build; collect issues.
+- [ ] Confirm the "1–2 additional days" reading (days/week vs extra days at the end of a plan).
+- [ ] Confirm DigitalOcean ran migration 006 (check that discharge and booking location work on the test API).
+- [ ] APK builds need `JAVA_HOME=/c/Users/Rentorzo/.jdks/jdk-21.0.13+9`; Android Studio's JBR is now Java 25,
+      which Gradle 8.11 can't run.
+
+---
+
 ## 2026-11-11: Website ↔ app wiring (one assessment flow, physio directory sign-up), test deploy
 
 **Merged to `main` and deployed** (with the city pages work from 2026-11-10). Three repos are involved:

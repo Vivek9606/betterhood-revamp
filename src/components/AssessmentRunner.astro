@@ -116,7 +116,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
 
 <script>
   import { QuizEngine, type Field, type FormDef } from "../scripts/quiz-engine";
-  import { submitLead } from "../scripts/forms";
+  import { recordSubmission, submitLead } from "../scripts/forms";
   import { fromApp, isEmbedded, toApp, waitForApp } from "../scripts/embed";
   import { href } from "../scripts/base";
   import { appLink } from "../scripts/app-link";
@@ -324,7 +324,9 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     }
 
     // lead capture only when PUBLIC_FORM_ENDPOINT is configured (never interrupt with a mail client here)
-    if (import.meta.env.PUBLIC_FORM_ENDPOINT) submitLead(`assessment:${cfg.slug}`, { name, email, phone, ...record, answers: engine.values }).catch(() => {});
+    if (import.meta.env.PUBLIC_FORM_ENDPOINT) submitLead(`assessment:${cfg.slug}`, { name, email, phone, ...record, answers: engine.values }, { record: false }).catch(() => {});
+    // The result (not the answers) also goes to the Betterhood API for the admin dashboard. In the app, the app saves it instead.
+    recordSubmission("assessment", cfg.slug, { ...record, name, email, phone });
 
     if (go) { location.href = go; return; }
     showScores(record);
