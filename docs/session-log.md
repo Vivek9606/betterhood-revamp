@@ -30,6 +30,19 @@ orders yet; admins can view, add notes and tags, but not edit or delete user dat
   up, profile set up (4 of 6 items), first patient, treating, running practice (plans and invoices).
   Active = something in the last 7 days, slipping = 8 to 21, inactive = longer.
 
+### Rebuilt as a growth dashboard (same day, after feedback that the first version wasn't useful to a founder)
+Modelled on `seo-dashboard-v2`: sidebar with sections, a summary sentence per page, KPI cards with change against
+the previous period, a trend chart, ranked breakdowns, and a "Where to look first" list.
+
+- **Backend `f29d858`**: `/admin/journeys` also returns a 180-day daily series, weekly care-plan cohorts with
+  retention by week, who exercised on which day, and booking and assessment events. No new migration.
+- **App `c9db4bc`**: `screens/admin/kit.tsx` (KPI card, trend chart, funnel, cohort grid, insights),
+  `Growth.tsx` (Overview, Consumer journey, Physio journey, Website), `Admin.tsx` (sidebar shell; Operations
+  section keeps Assign a physio, Verification & listings, Assessments). Period switch: 7, 28 or 90 days.
+- Checked in a browser on a local database seeded with about five months of made-up activity (46 physios, 420
+  consumers). The phone-width layout was not checked.
+- "Collected by physios" is invoices marked paid in the app, not Betterhood revenue.
+
 ### Verified
 - 27 API checks on a throwaway local database (journeys, timelines, website submissions, notes, tags, access).
 - The dashboard was clicked through in a browser against that local API: all four tabs, the drawer, adding a note.
