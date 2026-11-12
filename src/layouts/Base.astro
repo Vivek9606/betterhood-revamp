@@ -13,6 +13,8 @@ interface Props {
   imageHeight?: number;
   type?: "website" | "article" | "profile";
   noindex?: boolean;
+  /** Absolute URL of the page that should rank instead of this one (default: this page). */
+  canonicalUrl?: string | null;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   published?: string;
   modified?: string;
@@ -28,13 +30,14 @@ const {
   imageHeight,
   type = "website",
   noindex = false,
+  canonicalUrl,
   jsonLd,
   published,
   modified,
   overlayHeader = false,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const canonical = canonicalUrl || new URL(Astro.url.pathname, Astro.site).href;
 const fullTitle = /betterhood/i.test(title) ? title : `${title} | betterhood`;
 const ogImage = new URL(media(image), Astro.site).href;
 const isDefaultImage = image === "/img/og-home.jpg";

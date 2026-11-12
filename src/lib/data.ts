@@ -3,14 +3,22 @@ import physiosJson from "../data/physios.json";
 import taxJson from "../data/taxonomies.json";
 import productsJson from "../data/products.json";
 
-export type Post = (typeof postsJson)[number];
+/** Extra settings a post published from the Content Lab (SEO dashboard) carries. */
+export type LabMeta = { noindex: boolean; canonical: string | null; betty: boolean; products: string[]; focusKeyword: string | null };
+export type Post = (typeof postsJson)[number] & { lab?: LabMeta };
 /** A directory profile. Most were carried over from WordPress; `source: "app"` ones were listed by the physio
  *  at /physio-directory/join/ (website or Betterhood app) and come from the API at build time. */
 export type Physio = (typeof physiosJson)[number] & { source?: "app"; verified?: boolean; bookingUrl?: string };
 export type Term = { id: number; slug: string; name: string; count: number; description: string; parent: number };
 export type Product = (typeof productsJson)[number];
 
-export const posts = postsJson as Post[];
+// Posts published from the Content Lab (scripts/sync-lab.mjs). Optional so `astro dev` works without it. A Lab post
+// with the same slug as a carried-over post replaces it (that's how a refresh goes live); newest first, as before.
+const labFile = import.meta.glob("../data/posts-lab.json", { eager: true, import: "default" }) as Record<string, Post[]>;
+export const labPosts: Post[] = Object.values(labFile)[0] ?? [];
+const labSlugs = new Set(labPosts.map((p) => p.slug));
+export const posts = [...labPosts, ...(postsJson as Post[]).filter((p) => !labSlugs.has(p.slug))]
+  .sort((a, b) => b.date.localeCompare(a.date));
 // Listings made through the Betterhood API (scripts/sync-directory.mjs). Optional so `astro dev` works without it.
 const liveFile = import.meta.glob("../data/physios-live.json", { eager: true, import: "default" }) as Record<string, Physio[]>;
 const carried = new Set(physiosJson.map((p) => p.slug));

@@ -4,3 +4,4 @@ dist/
 .env
 .before-after/
 src/data/physios-live.json
+src/data/posts-lab.json

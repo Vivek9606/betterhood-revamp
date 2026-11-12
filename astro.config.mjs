@@ -36,6 +36,11 @@ export const redirects = {
   ),
 };
 const redirected = new Set(Object.keys(redirects).map((r) => r + "/"));
+// Content Lab posts marked "hide from Google" stay out of the sitemap (scripts/sync-lab.mjs writes the file)
+const labFile = new URL("./src/data/posts-lab.json", import.meta.url);
+const hiddenLab = new Set(
+  (fs.existsSync(labFile) ? JSON.parse(fs.readFileSync(labFile, "utf8")) : []).filter((p) => p.lab?.noindex).map((p) => `/learn/${p.slug}/`),
+);
 
 export default defineConfig({
   site: "https://betterhood.in",
@@ -46,7 +51,7 @@ export default defineConfig({
     react(),
     sitemap({
       // personal result/confirmation screens and redirect stubs stay out of search
-      filter: (page) => !/\/(result-|completed-message|diagnostics-page|physio-app)/.test(page) && !redirected.has(new URL(page).pathname),
+      filter: (page) => !/\/(result-|completed-message|diagnostics-page|physio-app)/.test(page) && !redirected.has(new URL(page).pathname) && !hiddenLab.has(new URL(page).pathname),
     }),
   ],
   prefetch: { prefetchAll: false, defaultStrategy: "hover" },

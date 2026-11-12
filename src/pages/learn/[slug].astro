@@ -26,9 +26,11 @@ export function getStaticPaths() {
 const { post } = Astro.props as { post: Post };
 type Part = { t: string; light?: boolean; sup?: boolean };
 
-// Betty (src/components/Betty.astro) is a new feature beyond the like-for-like revamp: switch it off in betty.json
+// Betty (src/components/Betty.astro) is a new feature beyond the like-for-like revamp: switch it off in betty.json,
+// or per post from the Content Lab (post.lab.betty)
+const bettyOn = BETTY.enabled && post.lab?.betty !== false;
 const { html, toc, faq, citations, words, mentions } = processArticle(post.html, {
-  mentions: BETTY.enabled ? { fromHref: productFromHref, phrases: productPhrases(), max: BETTY.maxSurprisesPerArticle } : undefined,
+  mentions: bettyOn ? { fromHref: productFromHref, phrases: productPhrases(), max: BETTY.maxSurprisesPerArticle } : undefined,
 });
 const video = isVideo(post);
 // the live page shows a video post's first video above the body; any video already embedded in the body
@@ -148,6 +150,8 @@ const heading = (parts: Part[]) => parts;
   imageWidth={post.image?.w}
   imageHeight={post.image?.h}
   type="article"
+  noindex={post.lab?.noindex}
+  canonicalUrl={post.lab?.canonical}
   published={ist(post.date)}
   modified={ist(post.modified)}
   jsonLd={jsonLd}
@@ -268,7 +272,7 @@ const heading = (parts: Part[]) => parts;
       ))}
     </div>
   </section>
-  {BETTY.enabled && (
+  {bettyOn && (
     <Betty products={mentions.map((h) => products.find((p) => p.handle === h)!).filter(Boolean)} slug={post.slug} offer={A.featuredProducts.offer} cta={A.featuredProducts.cta} />
   )}
 </Base>

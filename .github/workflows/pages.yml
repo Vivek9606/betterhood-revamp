@@ -4,9 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # Sent by the Betterhood API when a physio publishes or edits a directory listing (SITE_REBUILD_* there).
+  # directory-updated: sent by the Betterhood API when a physio publishes or edits a directory listing (SITE_REBUILD_* there).
+  # lab-published: sent by the SEO dashboard's Content Lab when a blog post is published, updated or unpublished.
   repository_dispatch:
-    types: [directory-updated]
+    types: [directory-updated, lab-published]
 
 permissions:
   contents: read
@@ -36,6 +37,9 @@ jobs:
           PUBLIC_TRACK_ENDPOINT: ${{ vars.PUBLIC_TRACK_ENDPOINT }}
           PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL || secrets.PUBLIC_API_URL }}
           PUBLIC_APP_URL: ${{ vars.PUBLIC_APP_URL || secrets.PUBLIC_APP_URL }}
+          # Content Lab posts (scripts/sync-lab.mjs): the SEO dashboard's Supabase URL and publishable key
+          LAB_SUPABASE_URL: ${{ vars.LAB_SUPABASE_URL }}
+          LAB_SUPABASE_KEY: ${{ vars.LAB_SUPABASE_KEY }}
       # project pages are served from /<repo>/, so prefix root-relative URLs
       - run: node scripts/rebase-dist.mjs
         env:
