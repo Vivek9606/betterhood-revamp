@@ -19,88 +19,110 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
 <section class="qz" data-quiz>
   <div class="wrap qz-wrap">
     <div class="qz-top">
-      <a class="qz-back-link" href="/quiz-landing-page/" data-embed-hide><Icon name="arrow-left" size={18} /> All assessments</a>
+      <a class="qz-back-link" href="/quiz-landing-page/" data-embed-hide><Icon name="arrow-left" size={18} /> <span><span class="lbl-long">All </span>assessments</span></a>
+      <button type="button" class="qz-jump" data-jump hidden>How to test <span aria-hidden="true">↓</span></button>
       <p class="qz-step muted" aria-live="polite">Step <span data-step>1</span> of <span data-steps>{steps}</span></p>
     </div>
     <div class="qz-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-bar></span></div>
 
     <form class="qz-card" data-form novalidate>
-      <div class="qz-grid">
-        <div class="qz-main" data-main>
-          <noscript><p class="empty">This assessment needs JavaScript to run. Please enable it, or <a class="link" href="/contact-us/">contact us</a> for help.</p></noscript>
-        </div>
-        <aside class="qz-aside" data-aside hidden></aside>
+      <div class="qz-main" data-main>
+        <noscript><p class="empty">This assessment needs JavaScript to run. Please enable it, or <a class="link" href="/contact-us/">contact us</a> for help.</p></noscript>
       </div>
-      <p class="qz-err" data-err role="alert" hidden></p>
       <div class="qz-nav">
-        <button type="button" class="btn btn-ghost" data-prev hidden><Icon name="arrow-left" /> Back</button>
-        <button type="submit" class="btn btn-lg" data-next>Let's start <Icon name="arrow" class="arrow" /></button>
+        <button type="button" class="btn btn-ghost" data-prev hidden><Icon name="arrow-left" /> Previous</button>
+        <button type="submit" class="btn btn-lg" data-next>Start Assessment</button>
       </div>
+      <aside class="qz-side" data-side hidden></aside>
+      <aside class="qz-below" data-below hidden></aside>
     </form>
-    <p class="qz-safe muted"><Icon name="lock" size={15} /> Your answers stay private and are used only to generate your results. Results are indicative and don't replace a medical consultation.</p>
+    <div class="qz-note" data-note hidden></div>
   </div>
   <script type="application/json" data-form-def set:html={JSON.stringify(prepared)} />
   <script type="application/json" data-config set:html={JSON.stringify(config)} />
 </section>
 
 <style is:global>
-  .qz { padding: 24px 0 72px; background: radial-gradient(70% 60% at 100% 0%, var(--plum-100), transparent 60%), var(--cream); min-height: 80vh; }
-  .qz-wrap { max-width: 1060px; }
-  .qz-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 14.5px; }
+  /* Laid out like the live betterhood.in assessments: the answers, then Previous/Next right below them, so the question,
+     its answers and the buttons share one screen. "How to test" sits beside the question on wide screens; "Did you know"
+     comes after the buttons. Nothing scrolls inside the card. */
+  .qz { padding: 20px 0 64px; background: radial-gradient(70% 60% at 100% 0%, var(--plum-100), transparent 60%), var(--cream); min-height: 70vh; }
+  .qz-wrap { max-width: 1100px; }
+  .qz-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 14.5px; }
   .qz-back-link { display: inline-flex; gap: 6px; align-items: center; color: var(--plum-700); font-weight: 600; }
-  .qz-bar { height: 8px; border-radius: 8px; background: var(--plum-100); overflow: hidden; margin-bottom: 24px; }
+  .qz-step { margin-left: auto; white-space: nowrap; }
+  .qz-jump { display: none; }
+  .qz-bar { height: 8px; border-radius: 8px; background: var(--plum-100); overflow: hidden; margin-bottom: 18px; }
   .qz-bar span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, var(--plum-600), var(--sun-500)); transition: width 0.5s var(--ease); }
-  .qz-card { --qz-pad: clamp(22px, 4vw, 48px); background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: var(--qz-pad); box-shadow: var(--shadow-md); }
-  .qz-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
-  .qz-grid.has-aside { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
-  .qz-main { display: grid; gap: 22px; align-content: start; animation: qzin 0.45s var(--ease); }
+
+  .qz-card { --qz-pad: clamp(20px, 3.4vw, 40px); display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "main" "nav" "side" "below"; column-gap: 40px; align-items: start; background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: var(--qz-pad); box-shadow: var(--shadow-md); }
+  .qz-main { grid-area: main; display: grid; gap: 20px; align-content: start; min-width: 0; animation: qzin 0.45s var(--ease); }
+  .qz-nav { grid-area: nav; display: flex; justify-content: space-between; gap: 12px; margin-top: 22px; }
+  .qz-nav [data-next] { margin-left: auto; }
+  .qz-side { grid-area: side; display: grid; gap: 16px; align-content: start; min-width: 0; }
+  .qz-below { grid-area: below; min-width: 0; }
+  .qz-side:not([hidden]), .qz-below:not([hidden]) { margin-top: 24px; }
+  @media (min-width: 861px) {
+    .qz-card.has-side { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-areas: "main side" "nav side" "below below"; grid-template-rows: auto 1fr auto; }
+    .qz-card.has-side .qz-side { margin-top: 0; }
+  }
   @keyframes qzin { from { opacity: 0; transform: translateX(14px); } }
-  .qz-q { font: 650 clamp(22px, 2.8vw, 30px)/1.2 var(--font-display); letter-spacing: -0.02em; margin-bottom: 16px; }
-  .qz-hint { color: var(--ink-mute); font-size: 15px; margin: -10px 0 16px; }
-  .qz-opts { display: grid; gap: 10px; }
-  .qz-opt { position: relative; display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: var(--r-lg); border: 1.5px solid var(--line-strong); cursor: pointer; transition: all 0.2s var(--ease); background: #fff; }
+
+  .qz-field { gap: 14px; }
+  .qz-q { font: 650 clamp(21px, 2.3vw, 27px)/1.22 var(--font-display); letter-spacing: -0.02em; margin-bottom: 14px; }
+  .qz-hint { color: var(--ink-mute); font-size: 14.5px; margin-top: -8px; }
+  .qz-opts { display: grid; gap: 8px; }
+  .qz-opt { position: relative; display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-radius: var(--r-md); border: 1.5px solid var(--line-strong); cursor: pointer; transition: border-color 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease); background: #fff; }
   .qz-opt:hover { border-color: var(--plum-300); background: var(--plum-50); }
   .qz-opt input { position: absolute; opacity: 0; pointer-events: none; }
-  .qz-opt .tick { flex: none; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--line-strong); display: grid; place-items: center; transition: all 0.2s; color: transparent; }
-  .qz-opt.multi .tick { border-radius: 7px; }
+  .qz-opt .tick { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line-strong); display: grid; place-items: center; transition: all 0.2s; color: transparent; }
+  .qz-opt.multi .tick { border-radius: 6px; }
   .qz-opt:has(input:checked) { border-color: var(--plum-700); background: var(--plum-50); box-shadow: 0 0 0 3px var(--plum-100); }
   .qz-opt:has(input:checked) .tick { background: var(--plum-700); border-color: var(--plum-700); color: #fff; }
   .qz-opt:has(input:focus-visible) { outline: 3px solid var(--sun-500); outline-offset: 2px; }
-  .qz-opt .lbl { font-weight: 550; line-height: 1.4; }
+  .qz-opt .lbl { font-weight: 550; line-height: 1.35; }
   .qz-opt .lbl small { display: block; font-weight: 400; color: var(--ink-mute); margin-top: 2px; }
+  /* short answers (A. 120 degrees, Yes / No…) sit side by side */
+  .qz-opts.short { display: flex; flex-wrap: wrap; }
+  .qz-opts.short .qz-opt { flex: 0 1 auto; white-space: nowrap; padding-right: 22px; }
+
+  /* Required-answer message: a quiet line under the question, like the live site. Nothing moves or gets covered. */
+  .qz-field.invalid .qz-opt, .qz-field.invalid .qz-scale span { border-color: #c2410c; }
+  .field.invalid .input { border-color: #c2410c; }
+  .qz-ferr { color: #b42318; font-size: 14px; font-weight: 500; margin-top: -4px; }
+
   .qz-scale { display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px; }
   .qz-scale label { position: relative; cursor: pointer; }
   .qz-scale input { position: absolute; opacity: 0; }
-  .qz-scale span { display: grid; place-items: center; height: 54px; border-radius: 14px; font: 700 18px var(--font-display); background: hsl(calc(140 - var(--i) * 14) 70% 92%); color: hsl(calc(140 - var(--i) * 14) 60% 28%); border: 2px solid transparent; transition: transform 0.2s var(--ease), border-color 0.2s; }
+  .qz-scale span { display: grid; place-items: center; height: 50px; border-radius: 12px; font: 700 18px var(--font-display); background: hsl(calc(140 - var(--i) * 14) 70% 92%); color: hsl(calc(140 - var(--i) * 14) 60% 28%); border: 2px solid transparent; transition: transform 0.2s var(--ease), border-color 0.2s; }
   .qz-scale label:hover span { transform: translateY(-3px); }
   .qz-scale input:checked + span { border-color: var(--plum-900); transform: translateY(-4px) scale(1.05); box-shadow: var(--shadow-md); }
   .qz-scale input:focus-visible + span { outline: 3px solid var(--sun-500); }
-  .qz-scale-desc { min-height: 48px; padding: 12px 16px; border-radius: var(--r-md); background: var(--plum-50); font-weight: 550; }
+  .qz-scale-desc { padding: 10px 14px; border-radius: var(--r-md); background: var(--plum-50); font-weight: 550; }
   .qz-scale-ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-mute); }
   .qz-inputs { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-  .qz-html .assessment_heading, .qz-html h2 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-display); letter-spacing: -0.03em; margin-bottom: 14px; }
+
+  .qz-html .assessment_heading, .qz-html h2 { font: 700 clamp(28px, 3.6vw, 42px)/1.08 var(--font-display); letter-spacing: -0.03em; margin-bottom: 10px; }
   .qz-html .assessment_heading span, .qz-html h2 span, .qz-html h3 span { color: var(--plum-600); font-style: italic; font-weight: 500; }
-  .qz-html p { color: var(--ink-soft); margin-top: 10px; }
-  .qz-html h4 { font: 650 22px var(--font-display); color: var(--plum-700); }
-  .qz-html h3 { font: 650 20px var(--font-display); margin-bottom: 8px; }
-  .qz-html img { border-radius: var(--r-md); margin-top: 12px; max-height: 340px; width: auto; }
-  .qz-html .consent, .qz-consent { font-size: 13.5px; color: var(--ink-mute); padding: 14px 16px; border-radius: var(--r-md); background: var(--plum-50); }
-  .qz-consent a { color: var(--plum-700); text-decoration: underline; }
-  .qz-aside { display: grid; gap: 16px; align-content: start; }
-  .qz-aside .dyk_wrapper { padding: 22px; border-radius: var(--r-lg); background: var(--sun-100); border: 1px solid var(--sun-200); }
-  .qz-aside .dyk_wrapper .heading { display: flex; align-items: center; gap: 10px; }
-  .qz-aside .dyk_wrapper .heading img { width: 34px; height: 34px; margin: 0; }
-  .qz-aside .dyk_wrapper h3 { margin: 0; }
-  .qz-aside .right_col { padding: 22px; border-radius: var(--r-lg); background: var(--plum-50); }
-  .qz-aside img { border-radius: var(--r-md); margin-top: 12px; }
-  .qz-about { padding: 20px; border-radius: var(--r-lg); border: 1px dashed var(--line-strong); display: grid; gap: 14px; }
-  .qz-about p { font-weight: 650; }
-  .qz-err { margin-top: 16px; color: #a43a1f; background: var(--coral-100); padding: 12px 16px; border-radius: var(--r-md); font-size: 15px; }
-  /* Back / Next stay pinned to the bottom of the screen while the question scrolls, so there's no scrolling to reach Next. */
-  .qz-nav { position: sticky; bottom: 0; z-index: 5; display: flex; justify-content: space-between; gap: 12px; margin: 24px calc(-1 * var(--qz-pad)) calc(-1 * var(--qz-pad)); padding: 14px var(--qz-pad) max(14px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(8px); border-radius: 0 0 var(--r-xl) var(--r-xl); }
-  .qz-nav [data-next] { margin-left: auto; }
-  .qz-safe { display: flex; gap: 8px; align-items: flex-start; justify-content: center; font-size: 13.5px; margin-top: 18px; text-align: center; }
-  .qz-safe svg { flex: none; margin-top: 3px; }
+  .qz-html p { color: var(--ink-soft); margin-top: 8px; }
+  .qz-html h4 { font: 650 20px var(--font-display); color: var(--plum-700); }
+  .qz-html h3 { font: 650 20px var(--font-display); margin-bottom: 6px; }
+  .qz-html img { border-radius: var(--r-md); margin-top: 12px; max-height: 300px; width: auto; }
+  .qz-consent a, .qz-note a { color: var(--plum-700); text-decoration: underline; }
+
+  /* How to test / Did you know */
+  .qz-side .dyk_wrapper, .qz-below .dyk_wrapper { padding: 18px 20px; border-radius: var(--r-lg); background: var(--sun-100); border: 1px solid var(--sun-200); }
+  .qz-side .dyk_wrapper .heading, .qz-below .dyk_wrapper .heading { display: flex; align-items: center; gap: 10px; }
+  .qz-side .dyk_wrapper .heading img, .qz-below .dyk_wrapper .heading img { width: 30px; height: 30px; margin: 0; }
+  .qz-side .dyk_wrapper h3, .qz-below .dyk_wrapper h3 { margin: 0; }
+  .qz-side .right_col { padding: 18px 20px; border-radius: var(--r-lg); background: var(--plum-50); }
+  .qz-side img { border-radius: var(--r-md); margin-top: 10px; max-height: 240px; width: auto; }
+  .qz-below .qz-html p, .qz-side .qz-html p { margin-top: 6px; }
+
+  /* the form's own privacy note, under the card on every step (as on the live site) */
+  .qz-note { margin-top: 16px; padding: 14px 18px; border-radius: var(--r-md); background: rgba(255, 255, 255, 0.6); font-size: 13px; line-height: 1.5; color: var(--ink-mute); text-align: center; }
+  .qz-note p { margin: 0; }
+
   .qz-done { text-align: center; display: grid; gap: 16px; justify-items: center; padding: 12px 0; }
   .qz-ring { --p: 0; width: 180px; height: 180px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--plum-700) calc(var(--p) * 1%), var(--plum-100) 0); }
   .qz-ring > div { width: 146px; height: 146px; border-radius: 50%; background: #fff; display: grid; place-items: center; align-content: center; }
@@ -111,34 +133,44 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   .qz-bars i { height: 10px; border-radius: 10px; background: var(--plum-100); overflow: hidden; }
   .qz-bars b { display: block; height: 100%; background: linear-gradient(90deg, var(--sun-500), var(--mint-600)); border-radius: inherit; }
   .qz-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 8px; }
-  @media (max-width: 860px) { .qz-grid.has-aside { grid-template-columns: 1fr; } }
-  @media (max-width: 560px) {
-    .qz-scale { grid-template-columns: repeat(6, 1fr); }
-    .qz-scale span { height: 46px; }
-    .qz-nav .btn-lg { min-height: 50px; padding: 12px 20px; }
-    /* Phones: tighter spacing so a question and its answers fit on one screen. */
-    .qz { padding: 14px 0 40px; min-height: 0; }
-    .qz-wrap { padding-inline: 12px; }
-    .qz-top { margin-bottom: 10px; }
-    .qz-bar { margin-bottom: 14px; }
-    .qz-card { --qz-pad: 18px; border-radius: var(--r-lg); }
-    .qz-nav { border-radius: 0 0 var(--r-lg) var(--r-lg); }
-    .qz-main { gap: 16px; }
-    .qz-grid { gap: 20px; }
-    .qz-q { font-size: 21px; }
-    .qz-q { margin-bottom: 12px; }
-    .qz-hint { margin: -6px 0 12px; font-size: 14px; }
-    .qz-opts { gap: 8px; }
-    .qz-opt { padding: 12px 14px; gap: 12px; }
-    .qz-html .assessment_heading, .qz-html h2 { font-size: 28px; }
-    .qz-html img { max-height: 200px; }
-    .qz-aside .dyk_wrapper, .qz-aside .right_col { padding: 16px; }
+
+  @media (max-width: 860px) {
+    /* phones: the side notes follow the buttons; a "How to test ↓" link jumps to them on test steps */
+    .qz-jump:not([hidden]) { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--plum-300); background: var(--plum-50); color: var(--plum-700); font: 600 13px var(--font-body, inherit); cursor: pointer; white-space: nowrap; }
+    body:has(.qz) .ticker, body:has(.qz) .wa-float { display: none; }
   }
-  /* In the app the screen is the frame: less gap above. */
+  @media (max-width: 560px) {
+    .qz { padding: 8px 0 40px; }
+    .qz-wrap { padding-inline: 12px; }
+    .qz-top { margin-bottom: 6px; font-size: 13.5px; gap: 8px; }
+    .qz-bar { height: 6px; margin-bottom: 10px; }
+    .qz-card { --qz-pad: 16px; border-radius: var(--r-lg); }
+    .qz-main { gap: 14px; }
+    .qz-field { gap: 10px; }
+    .qz-q { font-size: 19px; line-height: 1.25; margin-bottom: 10px; }
+    .qz-hint { margin-top: -6px; font-size: 13.5px; }
+    .qz-opts { gap: 7px; }
+    .qz-opt { padding: 10px 12px; gap: 10px; }
+    .qz-opt .tick { width: 20px; height: 20px; }
+    .qz-opt .lbl { font-size: 15px; line-height: 1.3; }
+    .qz-opts.dense { gap: 5px; }
+    .qz-opts.dense .qz-opt { padding: 5px 12px; min-height: 40px; }
+    .qz-opts.dense .qz-opt .lbl { font-size: 14px; line-height: 1.25; }
+    .qz-scale { grid-template-columns: repeat(6, 1fr); }
+    .qz-scale span { height: 44px; }
+    .qz-scale-desc { padding: 9px 12px; font-size: 14.5px; }
+    .qz-html .assessment_heading, .qz-html h2 { font-size: 26px; }
+    .qz-html p { font-size: 15px; }
+    .qz-html img { max-height: 180px; }
+    .qz-nav { margin-top: 10px; }
+    .qz-nav .btn-lg { min-height: 48px; padding: 10px 20px; }
+    .qz-side .dyk_wrapper, .qz-below .dyk_wrapper, .qz-side .right_col { padding: 14px 16px; }
+    .qz-note { padding: 12px 14px; font-size: 12.5px; }
+  }
+  @media (max-width: 400px) { .qz-back-link .lbl-long { display: none; } .qz-back-link > span { text-transform: capitalize; } }
   .embed .qz { padding-top: 10px; }
-  /* The floating WhatsApp button would sit on top of Next: lift it above the pinned bar. */
-  body:has(.qz) .wa-float { bottom: calc(96px + env(safe-area-inset-bottom)); }
 </style>
+
 
 <script>
   import { QuizEngine, type Field, type FormDef } from "../scripts/quiz-engine";
@@ -152,27 +184,33 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   const cfg = JSON.parse(root.querySelector("[data-config]")!.textContent!);
   const engine = new QuizEngine(form);
   const $ = <T extends Element>(s: string) => root.querySelector<T>(s)!;
-  const main = $<HTMLElement>("[data-main]"), aside = $<HTMLElement>("[data-aside]"), grid = $<HTMLElement>(".qz-grid");
-  const next = $<HTMLButtonElement>("[data-next]"), prev = $<HTMLButtonElement>("[data-prev]"), err = $<HTMLElement>("[data-err]");
+  const main = $<HTMLElement>("[data-main]"), side = $<HTMLElement>("[data-side]"), below = $<HTMLElement>("[data-below]");
+  const next = $<HTMLButtonElement>("[data-next]"), prev = $<HTMLButtonElement>("[data-prev]");
+  const card = $<HTMLElement>("[data-form]"), jump = $<HTMLButtonElement>("[data-jump]"), note = $<HTMLElement>("[data-note]");
 
-  const DEMO = /^(gender|age \(in years\)|weight|height)/i;
+  // Phones: "How to test" follows the buttons, so a small link at the top jumps down to it.
+  jump.addEventListener("click", () => side.scrollIntoView({ behavior: "smooth", block: "start" }));
+  // After a step change, bring the top of the quiz back into view if you had scrolled past it.
+  function frameIntoView() {
+    const top = root.getBoundingClientRect().top + scrollY - (document.getElementById("topbar")?.offsetHeight ?? 0);
+    if (scrollY > top + 4) scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+  }
+
   const CONTACT = /^(first name|full name|email|phone number)$/i;
   const isQuestion = (f: Field) => !f.hidden && ["checkbox", "quiz", "radio", "select"].includes(f.type);
   const isInput = (f: Field) => !f.hidden && ["text", "email", "phone", "number", "textarea"].includes(f.type);
-  const demo = form.fields.filter((f) => f.hidden && DEMO.test(f.label));
-  const hasVisibleContact = form.fields.some((f) => !f.hidden && CONTACT.test(f.label));
-  const hiddenContact = form.fields.filter((f) => f.hidden && CONTACT.test(f.label));
   const maxPage = Math.max(...form.fields.map((f) => f.page));
   // Inside the Betterhood app the patient is signed in: no contact questions, and the app logs the result.
   const embedded = isEmbedded();
   const askContact = (f: Field) => !(embedded && CONTACT.test(f.label));
-  // health/longevity forms took name & email from the logged-in account; ask for them on a final step instead
   const pages = [...Array(maxPage).keys()].map((i) => i + 1);
-  const extraContactStep = !embedded && !hasVisibleContact && hiddenContact.length > 0;
-  const total = pages.length + (extraContactStep ? 1 : 0);
+  const total = pages.length;
   $("[data-steps]").textContent = String(total);
 
   let idx = 0;
+  const consent = form.fields.filter((f) => f.type === "html" && /consent/.test(f.css)).map((f) => f.html).join("");
+  note.innerHTML = consent;
+  note.hidden = !consent;
   const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
   const fieldsOn = (page: number) => form.fields.filter((f) => f.page === page && engine.shown(f.id));
   const val = (id: number) => engine.values[id];
@@ -201,7 +239,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     }
     return `<fieldset class="qz-field" data-id="${f.id}"><legend class="qz-q">${esc(label)}</legend>
       ${multi ? `<p class="qz-hint">${esc(f.description || "Choose all that apply.")}</p>` : f.description ? `<p class="qz-hint">${esc(f.description)}</p>` : ""}
-      <div class="qz-opts">${opts.map((c) => {
+      <div class="qz-opts${opts.length > 5 ? " dense" : ""}${opts.every((c) => c.label.length <= 22 && !c.label.includes("|")) ? " short" : ""}">${opts.map((c) => {
         const on = Array.isArray(cur) ? cur.includes(c.value) : cur === c.value;
         return `<label class="qz-opt ${multi ? "multi" : ""}"><input type="${multi ? "checkbox" : "radio"}" name="f${f.id}" value="${esc(c.value)}" ${on ? "checked" : ""}><span class="tick">✓</span><span class="lbl">${optLabel(c.label)}</span></label>`;
       }).join("")}</div></fieldset>`;
@@ -213,43 +251,28 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     return `<div class="field" data-id="${f.id}"><label for="i${f.id}">${esc(f.label)}${required ? " *" : ""}</label>
       <input class="input" id="i${f.id}" name="f${f.id}" type="${t}" ${required ? "required" : ""} autocomplete="${ac}" ${t === "tel" ? 'inputmode="tel" pattern="[0-9+ ]{10,15}"' : ""} ${t === "number" ? 'inputmode="numeric" min="1" max="250"' : ""} value="${esc(typeof v === "string" ? v : "")}"></div>`;
   }
-  function renderDemo() {
-    if (!demo.length) return "";
-    return `<div class="qz-about"><p>A little about you <span class="muted" style="font-weight:400">(optional — makes the analysis more accurate)</span></p><div class="qz-inputs">${demo.map((f) => {
-      if (f.type === "select") {
-        const v = val(f.id);
-        return `<div class="field" data-id="${f.id}"><label for="i${f.id}">${esc(f.label)}</label><select class="select" id="i${f.id}" name="f${f.id}"><option value="">Select</option>${(f.choices ?? []).filter((c) => c.value && c.label !== "Select").map((c) => `<option ${v === c.value ? "selected" : ""}>${esc(c.value)}</option>`).join("")}</select></div>`;
-      }
-      return renderInput(f, false);
-    }).join("")}</div></div>`;
-  }
-
   function render() {
-    err.hidden = true;
-    const isExtra = extraContactStep && idx === pages.length;
     const page = pages[idx];
-    let mainHtml = "", asideHtml = "";
-    if (isExtra) {
-      mainHtml = `<div class="qz-html"><h2>You are done! <span>Where should we save your results?</span></h2><p>We'll show your scores right away and keep them in your betterYou corner on this device.</p></div>
-        <div class="qz-inputs">${hiddenContact.map((f) => renderInput(f, /name/i.test(f.label))).join("")}</div>`;
-    } else {
-      for (const f of fieldsOn(page)) {
-        if (f.type === "html") {
-          const target = /right_html|dyk_html/.test(f.css) ? "aside" : "main";
-          const html = /consent/.test(f.css) ? `<div class="qz-consent">${f.html}</div>` : `<div class="qz-html">${f.html}</div>`;
-          target === "aside" ? (asideHtml += html) : (mainHtml += html);
-        } else if (isQuestion(f)) mainHtml += renderQuestion(f);
-        else if (isInput(f) && askContact(f)) mainHtml += renderInput(f);
-      }
-      if (page === 1) mainHtml += renderDemo();
+    let mainHtml = "", sideHtml = "", belowHtml = "";
+    for (const f of fieldsOn(page)) {
+      if (f.type === "html") {
+        if (/consent/.test(f.css)) continue; // shown under the card
+        const html = `<div class="qz-html">${f.html}</div>`;
+        // "How to test" (and the pain forms' "Did you know") sit beside the question; the health forms' "Did you know" goes below
+        if (/right_html/.test(f.css)) sideHtml += html;
+        else if (/dyk_html/.test(f.css)) belowHtml += html;
+        else mainHtml += html;
+      } else if (isQuestion(f)) mainHtml += renderQuestion(f);
+      else if (isInput(f) && askContact(f)) mainHtml += renderInput(f);
     }
     main.innerHTML = mainHtml;
     // group stray inputs (final contact step on pain forms) into a grid
     const loose = [...main.querySelectorAll<HTMLElement>(":scope > .field")];
     if (loose.length) { const g = document.createElement("div"); g.className = "qz-inputs"; loose[0].before(g); loose.forEach((l) => g.append(l)); }
-    aside.innerHTML = asideHtml;
-    aside.hidden = !asideHtml;
-    grid.classList.toggle("has-aside", !!asideHtml);
+    side.innerHTML = sideHtml; side.hidden = !sideHtml;
+    below.innerHTML = belowHtml; below.hidden = !belowHtml;
+    card.classList.toggle("has-side", !!sideHtml);
+    jump.hidden = !/how to test/i.test(side.textContent ?? "");
     main.style.animation = "none"; void main.offsetWidth; main.style.animation = "";
 
     $("[data-step]").textContent = String(idx + 1);
@@ -258,7 +281,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     $(".qz-bar").setAttribute("aria-valuenow", String(pct));
     prev.hidden = idx === 0;
     const last = after(idx) >= total;
-    next.innerHTML = idx === 0 ? `Let's start <span aria-hidden="true">→</span>` : last ? `See my results <span aria-hidden="true">→</span>` : `Next <span aria-hidden="true">→</span>`;
+    next.textContent = idx === 0 ? "Start Assessment" : last ? "Submit Assessment" : "Next";
     if (idx > 0) (main.querySelector("input, select") as HTMLElement | null)?.focus({ preventScroll: true });
   }
 
@@ -271,16 +294,29 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       else { const i = el.querySelector<HTMLInputElement | HTMLSelectElement>("input, select"); if (i) engine.values[id] = i.value.trim(); }
     });
   }
+  function clearErrors(scope: ParentNode = main) {
+    scope.querySelectorAll(".qz-ferr").forEach((e) => e.remove());
+    scope.querySelectorAll(".invalid").forEach((e) => e.classList.remove("invalid"));
+  }
+  function flag(el: HTMLElement, msg: string) {
+    el.classList.add("invalid");
+    el.insertAdjacentHTML("beforeend", `<p class="qz-ferr" role="alert">${esc(msg)}</p>`);
+  }
   function validate() {
+    clearErrors();
+    let first: HTMLElement | null = null;
     for (const el of main.querySelectorAll<HTMLElement>("fieldset[data-id]")) {
       const f = engine.byId.get(+el.dataset.id!)!;
       const v = engine.values[f.id];
-      if (f.required && (!v || (Array.isArray(v) && !v.length))) { err.textContent = "Please choose an answer to continue."; err.hidden = false; el.scrollIntoView({ behavior: "smooth", block: "center" }); return false; }
+      if (f.required && (!v || (Array.isArray(v) && !v.length))) { flag(el, "This field is required."); first ??= el; }
     }
     for (const i of main.querySelectorAll<HTMLInputElement>("input.input")) {
-      if (!i.checkValidity()) { err.textContent = i.validationMessage || "Please check this field."; err.hidden = false; i.focus(); return false; }
+      if (!i.checkValidity()) { const box = i.closest<HTMLElement>(".field")!; flag(box, i.validity.valueMissing ? "This field is required." : i.validationMessage || "Please check this field."); first ??= box; }
     }
-    return true;
+    if (!first) return true;
+    const r = first.getBoundingClientRect();
+    if (r.top < 80 || r.bottom > innerHeight) first.scrollIntoView({ behavior: "smooth", block: "center" });
+    return false;
   }
 
   main.addEventListener("change", (e) => {
@@ -293,7 +329,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       if (t.checked && none(t)) box.querySelectorAll<HTMLInputElement>("input").forEach((x) => x !== t && (x.checked = false));
       else if (t.checked) box.querySelectorAll<HTMLInputElement>("input").forEach((x) => none(x) && (x.checked = false));
     }
-    err.hidden = true;
+    clearErrors(t.closest(".qz-field, .field") ?? main);
   });
 
   $<HTMLFormElement>("[data-form]").addEventListener("submit", (e) => {
@@ -304,14 +340,14 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     if (n < total) {
       idx = n;
       render();
-      // Back to the top of the question (in the app's frame, the very top).
-      root.scrollIntoView({ behavior: "smooth", block: "start" });
+      frameIntoView();
     } else finish();
   });
   prev.addEventListener("click", () => {
     read();
     idx = before(idx);
     render();
+    frameIntoView();
   });
 
   function byLabel(re: RegExp) { return form.fields.find((f) => re.test(f.label)); }
@@ -361,7 +397,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
 
   function showSaving() {
     $<HTMLElement>("[data-bar]").style.width = "100%";
-    grid.classList.remove("has-aside"); aside.hidden = true;
+    card.classList.remove("has-side"); side.hidden = true; below.hidden = true; jump.hidden = true;
     main.innerHTML = `<div class="qz-done"><span class="badge badge-mint">Assessment complete</span><h2 class="h2">Saving your result…</h2><p class="lead">Just a moment.</p></div>`;
     $(".qz-nav").remove();
   }
@@ -390,7 +426,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     const pct = Math.round(((r.overall ?? 0) / 10) * 100);
     const bars = [["Strength", r.strength], ["Balance", r.balance], ["Mobility", r.mobility]].filter(([, v]) => v !== null);
     $<HTMLElement>("[data-bar]").style.width = "100%";
-    grid.classList.remove("has-aside"); aside.hidden = true;
+    card.classList.remove("has-side"); side.hidden = true; below.hidden = true; jump.hidden = true;
     main.innerHTML = `<div class="qz-done">
       <span class="badge badge-mint">Assessment complete</span>
       <h2 class="h2">${r.name ? `Well done, ${esc(r.name)}!` : "Well done!"}</h2>
