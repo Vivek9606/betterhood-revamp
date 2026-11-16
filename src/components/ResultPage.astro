@@ -136,17 +136,24 @@ const condition = a.conditions[r.cat];
 
 <script>
   import { appLink } from "../scripts/app-link";
-  import { accountHref, accountsOn, invite, openApp, session } from "../scripts/account";
+  import { accountHref, accountsOn, invite, openApp, session, shortName } from "../scripts/account";
   const meta = JSON.parse(document.querySelector("[data-rs]")!.textContent!);
   let store: Record<string, any> = {};
   try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); } catch {}
   const rec = store[meta.assessment];
-  let saved = ""; try { saved = localStorage.getItem("bh_name") || ""; } catch {}
-  const name = (rec?.name || saved).trim();
-  if (name) {
+  // The greeting: the name typed into this result on this device, else the signed-in account's first name (a past
+  // result opened from the account on another device or from the app), else the last name typed on this device.
+  const greet = () => {
+    let saved = ""; try { saved = localStorage.getItem("bh_name") || ""; } catch {}
+    const own = rec?.result === meta.result ? String(rec?.name || "").trim() : "";
+    const acct = accountsOn() && session()?.name ? shortName(session()!.name) : "";
+    const name = own || acct || saved.trim();
+    if (!name) return;
     document.querySelectorAll("[data-name]").forEach((el) => (el.textContent = name));
     document.querySelectorAll("[data-name-poss]").forEach((el) => (el.textContent = `${name}'s`));
-  }
+  };
+  greet();
+  document.addEventListener("bh:account", greet);
   // Keep this result: signed in → it's already in the account (AssessmentRunner saved it), open the app signed in.
   // Signed out → save it to a free account (synced on sign-in), or carry it to the app in the link.
   const mine = rec?.result === meta.result ? rec : null;
