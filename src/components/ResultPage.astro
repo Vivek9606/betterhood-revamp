@@ -141,13 +141,13 @@ const condition = a.conditions[r.cat];
   let store: Record<string, any> = {};
   try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); } catch {}
   const rec = store[meta.assessment];
-  // The greeting: the name typed into this result on this device, else the signed-in account's first name (a past
-  // result opened from the account on another device or from the app), else the last name typed on this device.
+  // The greeting: the signed-in account's first name; signed out, the name typed into this result on this device
+  // (the browser only ever holds the current person's results: see clearPersonal in scripts/account.ts).
   const greet = () => {
     let saved = ""; try { saved = localStorage.getItem("bh_name") || ""; } catch {}
     const own = rec?.result === meta.result ? String(rec?.name || "").trim() : "";
     const acct = accountsOn() && session()?.name ? shortName(session()!.name) : "";
-    const name = own || acct || saved.trim();
+    const name = acct || own || saved.trim();
     if (!name) return;
     document.querySelectorAll("[data-name]").forEach((el) => (el.textContent = name));
     document.querySelectorAll("[data-name-poss]").forEach((el) => (el.textContent = `${name}'s`));

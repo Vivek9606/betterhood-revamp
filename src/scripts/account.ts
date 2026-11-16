@@ -30,6 +30,16 @@ const KEY = "bh_account";
 const SIGNUP_KEY = "bh_signup"; // verified number without an account (physio sign-up continues on the join page)
 const SYNCED_KEY = "bh_synced"; // website results already saved to the account
 const INVITE_KEY = "bh_invite"; // {ref, name, at}: arrived from a physio's invite link (?physio=<ref>)
+const OWNER_KEY = "bh_owner"; // userId whose results/name this browser holds (absent: a guest's, not yet signed in)
+// Everything personal this browser keeps for one person. It never outlives that person's session: cleared on sign-out
+// and whenever a different account signs in, so the next person on a shared browser can't see it or have it synced
+// into their account.
+const PERSONAL_KEYS = ["bh_results", "bh_history", "bh_name", SYNCED_KEY, INVITE_KEY, OWNER_KEY];
+function clearPersonal() {
+  try { PERSONAL_KEYS.forEach((k) => localStorage.removeItem(k)); } catch {}
+}
+const owner = () => { try { return localStorage.getItem(OWNER_KEY); } catch { return null; } };
+const setOwner = (id: string) => { try { localStorage.setItem(OWNER_KEY, id); } catch {} };
 
 // ---------- physio invite links ----------
 export interface Invite { ref: string; name?: string; at: number }
@@ -65,7 +75,11 @@ function save(s: Session | null) {
   try { s ? localStorage.setItem(KEY, JSON.stringify(s)) : localStorage.removeItem(KEY); } catch {}
   document.dispatchEvent(new CustomEvent("bh:account", { detail: s }));
 }
-export function signOut() { save(null); try { sessionStorage.removeItem("bh_dir_token"); } catch {} }
+export function signOut() {
+  clearPersonal();
+  try { sessionStorage.removeItem("bh_dir_token"); } catch {}
+  save(null);
+}
 
 export class ApiError extends Error { constructor(msg: string, public status = 0, public code = "") { super(msg); } }
 
@@ -121,9 +135,16 @@ export function clearPendingSignup() { try { sessionStorage.removeItem(SIGNUP_KE
 
 /** Called with any new session token (sign in, sign up, join page, handoff). */
 export async function startSession(s: Omit<Session, "at">) {
+  // Another account's data in this browser (signed in before without signing out, or switched via the app):
+  // drop it before anything reads or syncs it. A guest's results (no owner yet) are this person's and get saved.
+  const prev = session();
+  const held = owner();
+  if ((held && held !== s.userId) || (prev && prev.userId !== s.userId)) clearPersonal();
+  cached = null;
   save({ ...s, at: Date.now() });
   try { const me = await summary(true); save({ ...s, name: me.name, at: Date.now() }); } catch {}
   if (s.role === "patient") await syncResults();
+  setOwner(s.userId);
 }
 
 let cached: Promise<Summary> | null = null;
@@ -242,6 +263,10 @@ export function boot() {
     return;
   }
   document.documentElement.classList.add("has-accounts");
+  // Browsers signed in before data had an owner (or holding another account's data): we can't tell whose the
+  // saved results are, so drop them once. The account's own results are on the server and show on /account/.
+  const me = session();
+  if (me && owner() !== me.userId) { clearPersonal(); setOwner(me.userId); }
   paintHeader();
   document.addEventListener("bh:account", paintHeader);
   addEventListener("storage", (e) => { if (e.key === KEY) paintHeader(); });
