@@ -10,7 +10,10 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const ease = [0.22, 1, 0.36, 1] as const;
 
 if (!reduce) {
-  const lenis = new Lenis({ duration: 1.1, smoothWheel: true, anchors: { offset: -90 } });
+  // Wheel/touch inside a dialog (Betty's gift reveal, lead form, gallery…) or any inner scroll box (Betty's tray)
+  // scrolls that box natively. Without this, Lenis swallows the events while it is stopped for an open dialog,
+  // so a popup taller than the screen could not be scrolled.
+  const lenis = new Lenis({ duration: 1.1, smoothWheel: true, anchors: { offset: -90 }, allowNestedScroll: true, prevent: (node) => node.nodeName === "DIALOG" });
   const raf = (t: number) => { lenis.raf(t); requestAnimationFrame(raf); };
   requestAnimationFrame(raf);
   (window as any).__lenis = lenis;

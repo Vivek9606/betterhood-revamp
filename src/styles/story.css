@@ -116,7 +116,7 @@
 .st-cprod:hover { border-color: var(--plum-300); box-shadow: var(--shadow-md); transform: translateX(4px); }
 .st-cprod img { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; background: var(--plum-50); }
 .st-cprod-info { display: grid; gap: 3px; min-width: 0; }
-.st-cprod-t { font-weight: 650; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.st-cprod-t { font-weight: 650; line-height: 1.3; }
 .st-cprod-r { font-size: 13.5px; color: var(--ink-mute); }
 .st-cprod-r > span { color: #e3a008; }
 .st-cprod-p { display: flex; gap: 8px; align-items: baseline; }

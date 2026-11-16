@@ -127,7 +127,12 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   .qz-ring { --p: 0; width: 180px; height: 180px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--plum-700) calc(var(--p) * 1%), var(--plum-100) 0); }
   .qz-ring > div { width: 146px; height: 146px; border-radius: 50%; background: #fff; display: grid; place-items: center; align-content: center; }
   .qz-ring strong { font: 700 46px/1 var(--font-display); color: var(--plum-700); }
-  .qz-ring span { font-size: 13px; color: var(--ink-mute); }
+  .qz-ring span { max-width: 112px; margin-top: 6px; font-size: 12px; line-height: 1.3; text-align: center; color: var(--ink-mute); }
+  .qz-cheer { max-width: 520px; font-size: 16.5px; line-height: 1.55; color: var(--ink-soft); }
+  .qz-areas { max-width: 520px; font-size: 15px; color: var(--ink-soft); }
+  .qz-areas b { color: var(--mint-700); }
+  .qz-grow b { color: var(--plum-700); }
+  .qz-scale-note { max-width: 520px; font-size: 13px; color: var(--ink-mute); }
   .qz-bars { width: 100%; max-width: 520px; display: grid; gap: 12px; text-align: left; }
   .qz-bars div { display: grid; grid-template-columns: 100px 1fr 54px; gap: 12px; align-items: center; font-weight: 600; font-size: 15px; }
   .qz-bars i { height: 10px; border-radius: 10px; background: var(--plum-100); overflow: hidden; }
@@ -398,7 +403,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   function showSaving() {
     $<HTMLElement>("[data-bar]").style.width = "100%";
     card.classList.remove("has-side"); side.hidden = true; below.hidden = true; jump.hidden = true;
-    main.innerHTML = `<div class="qz-done"><span class="badge badge-mint">Assessment complete</span><h2 class="h2">Saving your result…</h2><p class="lead">Just a moment.</p></div>`;
+    main.innerHTML = `<div class="qz-done"><span class="badge badge-mint">Check-in complete</span><h2 class="h2">Saving your results…</h2><p class="lead">Just a moment.</p></div>`;
     $(".qz-nav").remove();
   }
 
@@ -421,19 +426,47 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     toApp({ type: "bh:ready", flow: "assessment", slug: cfg.slug });
   }
 
+  // Results are a check-in, not a grade: warm, informative, and about what comes next.
+  // Longevity = goals the person set for age 70; health (level 2) = where they are today.
+  const list = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(", ")} & ${xs[xs.length - 1]}` : xs[0] ?? "");
+  function encouragement(longevity: boolean, overall: number | null) {
+    const o = overall ?? 0;
+    if (longevity) {
+      if (o >= 7.5) return "Ambitious goals! Building strength, balance and mobility now is the best way to make them happen, and every step counts.";
+      if (o >= 4.5) return "A great, realistic set of goals. Small, regular habits started today keep you active and independent for years to come.";
+      return "A gentle, steady start is a great goal. Every bit of movement you add now pays off later, and you can raise your goals any time.";
+    }
+    if (o >= 7.5) return "You're in great shape. Keeping up what you're doing will help protect your joints, bones and muscles for years to come.";
+    if (o >= 5) return "You have a solid foundation to build on. A few minutes of the right exercises each day can take you even further.";
+    if (o >= 3) return "You've taken an important first step. Knowing where you stand makes it easier to focus on what will help you most.";
+    return "Thank you for checking in. This is simply your starting point. Gentle, guided exercises can make a real difference, and we're here to help.";
+  }
   function showScores(r: any) {
     const toAppHref = appLink(cfg.slug, r);
+    const longevity = cfg.kind === "longevity";
     const pct = Math.round(((r.overall ?? 0) / 10) * 100);
-    const bars = [["Strength", r.strength], ["Balance", r.balance], ["Mobility", r.mobility]].filter(([, v]) => v !== null);
+    const bars = ([["Strength", r.strength], ["Balance", r.balance], ["Mobility", r.mobility]] as [string, number | null][]).filter(([, v]) => v !== null) as [string, number][];
+    // strengths = areas at 5+ (always at least the best one); the rest are where a little focus helps most
+    const top = Math.max(...bars.map(([, v]) => v));
+    const strong = bars.filter(([, v]) => v >= 5 || v === top).map(([k]) => k);
+    const grow = bars.filter(([k]) => !strong.includes(k)).map(([k]) => k);
+    const areas = bars.length
+      ? longevity
+        ? `<p class="qz-areas">What you're working towards: <b>${list(bars.map(([k]) => k))}</b></p>`
+        : `<p class="qz-areas">Your strengths: <b>${list(strong)}</b></p>${grow.length ? `<p class="qz-areas qz-grow">Where a little focus will help most: <b>${list(grow)}</b></p>` : ""}`
+      : "";
     $<HTMLElement>("[data-bar]").style.width = "100%";
     card.classList.remove("has-side"); side.hidden = true; below.hidden = true; jump.hidden = true;
     main.innerHTML = `<div class="qz-done">
-      <span class="badge badge-mint">Assessment complete</span>
-      <h2 class="h2">${r.name ? `Well done, ${esc(r.name)}!` : "Well done!"}</h2>
-      <p class="lead">${cfg.kind === "longevity" ? "Here's the longevity target you've set for your musculoskeletal health." : `Here's your latest ${esc(cfg.title.toLowerCase())} score — combining strength, balance and mobility.`}</p>
-      <div class="qz-ring" style="--p:${pct}"><div><strong>${r.overall ?? "–"}</strong><span>out of 10</span></div></div>
-      <div class="qz-bars">${bars.map(([k, v]) => `<div><span>${k}</span><i><b style="width:${(+v! / 10) * 100}%"></b></i><span>${v}/10</span></div>`).join("")}</div>
-      <div class="qz-actions">${toAppHref ? `<a class="btn btn-lg" href="${toAppHref}">Track it in the betterhood app →</a><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">Open my betterYou corner</a>` : `<a class="btn btn-lg" href="${href(cfg.corner)}">Open my betterYou corner →</a>`}<a class="btn btn-ghost btn-lg" href="${location.pathname}">Retake</a></div>
+      <span class="badge badge-mint">Your results are ready</span>
+      <h2 class="h2">${r.name ? `Your health check-in is complete, ${esc(r.name)}!` : "Your health check-in is complete!"}</h2>
+      <p class="lead">${longevity ? "Here's your musculoskeletal health snapshot: the strength, balance and mobility you'd like to have at 70." : `Here's your ${esc(cfg.title.toLowerCase())} snapshot, bringing together your strength, balance and mobility.`}</p>
+      <div class="qz-ring" style="--p:${pct}"><div><strong>${r.overall ?? "–"}</strong><span>${longevity ? "Your longevity goals snapshot" : "Your current health snapshot"}</span></div></div>
+      <p class="qz-cheer">${encouragement(longevity, r.overall)}</p>
+      ${areas}
+      <div class="qz-bars">${bars.map(([k, v]) => `<div><span>${k}</span><i><b style="width:${(v / 10) * 100}%"></b></i><span>${v}</span></div>`).join("")}</div>
+      <p class="qz-scale-note">Shown on a 0–10 scale. This is a snapshot to track your progress over time, not a test you pass or fail.</p>
+      <div class="qz-actions">${toAppHref ? `<a class="btn btn-lg" href="${toAppHref}">Track your progress in the betterhood app →</a><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner</a>` : `<a class="btn btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner →</a>`}<a class="btn btn-ghost btn-lg" href="${location.pathname}">Check in again</a></div>
     </div>`;
     $(".qz-nav").remove();
     $("[data-step]").textContent = String(total);

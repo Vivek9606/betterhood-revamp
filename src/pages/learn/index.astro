@@ -23,6 +23,8 @@ const thumb = (p: Post) => p.image?.thumb || p.image?.src || (p.videos[0] ? `htt
 
 const featured = posts.find((p) => p.slug === L.featured.slug) ?? posts[0];
 const trending = posts.slice(0, L.trending.count);
+// banner carousel: the pinned post first, then must-knows (then newest) with a photo, skipping what's trending
+const slides = [featured, ...[...postsIn("post-section-tags", "absolute-must-knows"), ...posts].filter((p, i, all) => p.image?.src && p.slug !== featured.slug && !trending.includes(p) && all.indexOf(p) === i)].slice(0, 5);
 const first = posts.slice(0, L.browse.perPage);
 const mustKnows = postsIn("post-section-tags", "absolute-must-knows").slice(0, L.mustKnows.count);
 const expert = postsIn("post-section-tags", "expert-section");
@@ -77,18 +79,29 @@ const socialName = (href: string) => ({ linkedin: "LinkedIn", instagram: "Instag
         <a href="/">{L.breadcrumb[0]}</a><span aria-hidden="true">›</span><span aria-current="page">{L.breadcrumb[1]}</span>
       </nav>
       <div class="lb-grid">
-        <article class="lf" data-reveal>
-          <img class="lf-img" src={media(featured.image?.src ?? "")} alt={featured.image?.alt ?? ""} width={featured.image?.w ?? 1920} height={featured.image?.h ?? 1085} fetchpriority="high" decoding="async" />
-          <div class="lf-shade" aria-hidden="true"></div>
-          <div class="lf-body">
-            <time class="lf-date" datetime={featured.date.slice(0, 10)}>{fmt(featured.date)}</time>
-            <h2 class="lf-title"><a href={`/learn/${featured.slug}/`} class="lf-link">{featured.title}</a></h2>
-            <div class="lf-foot">
-              <span class="lf-by"><span class="lf-av" aria-hidden="true">b</span>{L.featured.byline}</span>
-              <span class="btn btn-light lf-cta" aria-hidden="true">{L.featured.cta} <Icon name="arrow" class="arrow" /></span>
+        <section class="lf" data-reveal data-carousel aria-roledescription="carousel" aria-label="Featured articles">
+          {slides.map((p, i) => (
+            <article class={`lf-slide${i === 0 ? " is-on" : ""}`} aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}`} aria-hidden={i === 0 ? undefined : "true"} inert={i !== 0}>
+              <img class="lf-img" src={media(p.image?.src ?? "")} alt={p.image?.alt ?? ""} width={p.image?.w ?? 1920} height={p.image?.h ?? 1085} fetchpriority={i === 0 ? "high" : undefined} loading={i === 0 ? undefined : "lazy"} decoding="async" />
+              <div class="lf-shade" aria-hidden="true"></div>
+              <div class="lf-body">
+                <time class="lf-date" datetime={p.date.slice(0, 10)}>{fmt(p.date)}</time>
+                <h2 class={`lf-title${p.title.length > 60 ? " lf-long" : ""}`} data-no-split><a href={`/learn/${p.slug}/`} class="lf-link">{p.title}</a></h2>
+                <div class="lf-foot">
+                  <span class="lf-by"><span class="lf-av" aria-hidden="true">b</span>{L.featured.byline}</span>
+                  <span class="btn btn-light lf-cta" aria-hidden="true">{L.featured.cta} <Icon name="arrow" class="arrow" /></span>
+                </div>
+              </div>
+            </article>
+          ))}
+          {slides.length > 1 && (
+            <div class="lf-ctrl">
+              <button type="button" class="lf-arr" data-car-prev aria-label="Previous article"><Icon name="arrow-left" size={18} /></button>
+              <div class="lf-dots">{slides.map((p, i) => <button type="button" class="lf-dot" aria-label={`Show article ${i + 1}: ${p.title}`} aria-current={i === 0 ? "true" : undefined} data-car-dot={i}><i></i></button>)}</div>
+              <button type="button" class="lf-arr" data-car-next aria-label="Next article"><Icon name="arrow" size={18} /></button>
             </div>
-          </div>
-        </article>
+          )}
+        </section>
 
         <aside class="la" aria-label="Newsletter and trending">
           <div class="la-nl">
@@ -269,22 +282,40 @@ const socialName = (href: string) => ({ linkedin: "LinkedIn", instagram: "Instag
   .lb-crumbs { margin-bottom: 18px; }
   .lb-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: clamp(20px, 2.4vw, 32px); align-items: stretch; }
 
-  .lf { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-xl); min-height: clamp(420px, 60vh, 600px); background: var(--plum-800); color: #fff; display: flex; }
+  .lf { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-xl); min-height: clamp(420px, 60vh, 600px); background: var(--plum-800); color: #fff; display: grid; }
+  /* slides stack in one grid cell (the tallest sets the height) and crossfade slowly */
+  .lf-slide { grid-area: 1 / 1; position: relative; isolation: isolate; display: flex; opacity: 0; visibility: hidden; transition: opacity 1.1s ease-in-out, visibility 0s 1.1s; }
+  .lf-slide.is-on { opacity: 1; visibility: visible; transition: opacity 1.1s ease-in-out, visibility 0s; }
+  .lf-slide .lf-img { transform: scale(1.06); transition: transform 7s ease-in-out; }
+  .lf-slide.is-on .lf-img { transform: scale(1); }
+  .lf-slide .lf-shade { background: linear-gradient(180deg, rgba(27, 8, 32, 0) 18%, rgba(27, 8, 32, 0.6) 52%, rgba(27, 8, 32, 0.92)); }
+  .lf .lf-title.lf-long { font-size: clamp(24px, 2.5vw, 34px); line-height: 1.12; max-width: 26ch; }
+  .lf-ctrl { position: absolute; z-index: 3; top: clamp(14px, 2vw, 22px); right: clamp(14px, 2vw, 22px); display: flex; align-items: center; gap: 4px; padding: 5px; border-radius: var(--r-pill); background: rgba(27, 8, 32, 0.38); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.18); }
+  .lf-arr { width: 34px; height: 34px; display: grid; place-items: center; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.14); color: #fff; cursor: pointer; transition: background 0.3s ease-in-out; }
+  .lf-arr:hover { background: rgba(255, 255, 255, 0.3); }
+  .lf-dots { display: flex; align-items: center; }
+  .lf-dot { width: 20px; height: 34px; display: grid; place-items: center; padding: 0; border: 0; background: none; cursor: pointer; }
+  .lf-dot i { position: relative; overflow: hidden; display: block; width: 7px; height: 7px; border-radius: 99px; background: rgba(255, 255, 255, 0.45); transition: width 0.5s ease-in-out; }
+  .lf-dot[aria-current] i { width: 20px; background: rgba(255, 255, 255, 0.3); }
+  .lf-dot[aria-current] i::after { content: ""; position: absolute; inset: 0; background: var(--sun-500); transform-origin: left; animation: lf-fill var(--lf-ms, 7000ms) linear forwards; }
+  .lf.is-paused .lf-dot[aria-current] i::after { animation-play-state: paused; }
+  .lf.no-auto .lf-dot[aria-current] i::after { animation: none; }
+  @keyframes lf-fill { from { transform: scaleX(0); } }
+  .lf-arr:focus-visible, .lf-dot:focus-visible { outline: 3px solid var(--sun-500); outline-offset: 1px; }
   .lf-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform 1.2s var(--ease); }
-  .lf:hover .lf-img { transform: scale(1.035); }
   .lf-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(27, 8, 32, 0) 30%, rgba(27, 8, 32, 0.55) 62%, rgba(27, 8, 32, 0.9)); }
   .lf-body { align-self: flex-end; width: 100%; padding: clamp(22px, 3.4vw, 44px); display: grid; gap: 14px; }
   .lf-date { justify-self: start; padding: 6px 12px; border-radius: var(--r-pill); font-size: 13.5px; font-weight: 600; background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.22); }
   .lf-title { font-size: clamp(28px, 3.6vw, 50px); line-height: 1.04; letter-spacing: -0.03em; max-width: 18ch; }
   .lf-link::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
   .lf-link:focus-visible { outline: none; }
-  .lf:has(.lf-link:focus-visible) { outline: 3px solid var(--sun-500); outline-offset: 3px; }
+  .lf-slide:has(.lf-link:focus-visible) { outline: 3px solid var(--sun-500); outline-offset: -3px; border-radius: inherit; }
   .lf-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-top: 6px; }
   .lf-by { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; color: rgba(255, 255, 255, 0.85); }
   .lf-av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--sun-500); color: var(--plum-950); font: 800 15px var(--font-display); }
   .lf-cta { pointer-events: none; }
-  .lf:hover .lf-cta { transform: translateY(-2px); }
-  .lf:hover .lf-cta :global(svg) { transform: translateX(3px); }
+  .lf-slide:hover .lf-cta { transform: translateY(-2px); }
+  .lf-slide:hover .lf-cta :global(svg) { transform: translateX(3px); }
 
   .la { display: grid; grid-template-rows: auto 1fr; border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-md); overflow: hidden; }
   .la-nl { padding: 26px 26px 24px; background: linear-gradient(160deg, var(--plum-50), #fff); border-bottom: 1px solid var(--line); }
@@ -361,7 +392,7 @@ const socialName = (href: string) => ({ linkedin: "LinkedIn", instagram: "Instag
   .lc-body { display: grid; align-content: start; gap: 8px; padding: 16px 18px 20px; flex: 1; }
   .rail-in .lc-body { flex: none; min-height: 118px; }
   .lc-body time { font-size: 13px; color: var(--ink-mute); font-weight: 500; }
-  .lc-body h3 { font-size: 18px; line-height: 1.28; letter-spacing: -0.012em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .lc-body h3 { font-size: 18px; line-height: 1.28; letter-spacing: -0.012em; }
   .lc :global(mark) { background: var(--sun-200); color: inherit; border-radius: 3px; }
 
   /* ---------- rails (must knows, expert) ---------- */
@@ -469,6 +500,42 @@ const socialName = (href: string) => ({ linkedin: "LinkedIn", instagram: "Instag
 </style>
 
 <script>
+  // Featured banner carousel: slow crossfade, auto-advances, pauses on hover/focus/hidden tab, swipe on touch.
+  {
+    const car = document.querySelector<HTMLElement>("[data-carousel]");
+    const slides = car ? [...car.querySelectorAll<HTMLElement>(".lf-slide")] : [];
+    if (car && slides.length > 1) {
+      const dots = [...car.querySelectorAll<HTMLButtonElement>("[data-car-dot]")];
+      const MS = 7000;
+      const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      car.style.setProperty("--lf-ms", `${MS}ms`);
+      car.classList.toggle("no-auto", still);
+      let i = 0, t = 0, paused = false;
+      const arm = () => { clearTimeout(t); if (!still && !paused && !document.hidden) t = window.setTimeout(() => show(i + 1), MS); };
+      const show = (n: number) => {
+        i = (n + slides.length) % slides.length;
+        slides.forEach((s, k) => { const on = k === i; s.classList.toggle("is-on", on); s.inert = !on; if (on) s.removeAttribute("aria-hidden"); else s.setAttribute("aria-hidden", "true"); });
+        dots.forEach((d, k) => (k === i ? d.setAttribute("aria-current", "true") : d.removeAttribute("aria-current")));
+        arm();
+      };
+      const pause = (p: boolean) => { paused = p; car.classList.toggle("is-paused", p); if (p) clearTimeout(t); else arm(); };
+      car.querySelector("[data-car-prev]")!.addEventListener("click", () => show(i - 1));
+      car.querySelector("[data-car-next]")!.addEventListener("click", () => show(i + 1));
+      dots.forEach((d) => d.addEventListener("click", () => show(+d.dataset.carDot!)));
+      car.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") pause(true); });
+      car.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") pause(false); });
+      car.addEventListener("focusin", () => pause(true));
+      car.addEventListener("focusout", (e) => { if (!car.contains(e.relatedTarget as Node)) pause(false); });
+      car.addEventListener("keydown", (e) => { if (e.key === "ArrowLeft") show(i - 1); if (e.key === "ArrowRight") show(i + 1); });
+      document.addEventListener("visibilitychange", arm);
+      // swipe: a horizontal drag of 40px+ changes slide; a tap still opens the article
+      let x0 = 0, y0 = 0;
+      car.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+      car.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(i + (dx < 0 ? 1 : -1)); }, { passive: true });
+      arm();
+    }
+  }
+
   import { media } from "../../lib/site";
   type Row = { s: string; t: string; d: string; e: string; i: string; m: number; v: boolean; c: string[]; w: string[]; h: string[]; o: string[] };
 
