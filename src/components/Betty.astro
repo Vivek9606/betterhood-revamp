@@ -123,6 +123,7 @@ const MARK = MARK_SVG.match(/ d="([^"]+)"/)![1];
 <script type="application/json" id="betty-data" set:html={JSON.stringify(data)} />
 
 <script>
+  import { toApp } from "../scripts/embed";
   type P = { t: string; y: string; p: number; c: number; i: string };
   type D = { slug: string; copy: Record<string, string>; triggerLine: number; parkAfterMs: number; products: Record<string, P> };
 
@@ -232,6 +233,11 @@ const MARK = MARK_SVG.match(/ d="([^"]+)"/)![1];
       }
     };
     const shut = () => dlg.close();
+    // Inside the app the shop is an app screen: ask the app to open the product there (bh:open-product).
+    go.addEventListener("click", (e) => {
+      const h = go.href.split("/products/")[1];
+      if (h && toApp({ type: "bh:open-product", handle: h })) { e.preventDefault(); shut(); }
+    });
     dlg.querySelector(".b-x")!.addEventListener("click", shut);
     dlg.querySelector(".b-r-back")!.addEventListener("click", shut);
     dlg.addEventListener("click", (e) => { if (e.target === dlg) shut(); });

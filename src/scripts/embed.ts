@@ -6,6 +6,7 @@
 //   page → app  bh:assessment-result   { result }                    an assessment was completed
 //   app → page  bh:ack                 { id }                        the app saved it
 //   page → app  bh:directory-published { slug, url, status }         a directory listing was saved
+//   page → app  bh:open-product        { handle }                    open a shop product in the app (Betty)
 
 export type AppMessage = { type: string; [k: string]: unknown };
 
