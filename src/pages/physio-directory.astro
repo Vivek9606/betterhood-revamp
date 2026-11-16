@@ -13,7 +13,7 @@ const areaNames = Object.fromEntries(taxonomies.physio_location.map((l) => [l.sl
 const featured = [...physios].sort((a, b) => Number(!!b.image) - Number(!!a.image) || b.years - a.years).slice(0, 24);
 const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Visit"];
 ---
-<Base title="Physio Directory — betterhood Certified Physiotherapists" description={`Find trusted, betterhood-certified physiotherapists specializing in preventive pain care. ${physios.length}+ verified profiles across ${cities.length} Indian cities.`}>
+<Base title="Physio Directory: betterhood Certified Physiotherapists" description={`Find trusted, betterhood-certified physiotherapists specializing in preventive pain care. ${physios.length}+ verified profiles across ${cities.length} Indian cities.`}>
   <section class="d-hero">
     <div class="wrap">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Physio Directory</span></nav>
@@ -171,7 +171,7 @@ const modes = ["Clinic Visit", "Home Visit", "Video Consultation", "Hospital Vis
     if (reset) shown = 24;
     const l = list();
     count.textContent = l.length.toLocaleString("en-IN");
-    grid.innerHTML = l.length ? l.slice(0, shown).map(card).join("") : `<p class="empty" style="grid-column:1/-1">No physiotherapists match these filters yet — try a nearby city or clear a filter.</p>`;
+    grid.innerHTML = l.length ? l.slice(0, shown).map(card).join("") : `<p class="empty" style="grid-column:1/-1">No physiotherapists match these filters yet, try a nearby city or clear a filter.</p>`;
     more.hidden = shown >= l.length;
     const u = new URL(location.href);
     (["state", "city", "area"] as const).forEach((k, i) => { const v = [fs, fc, fa][i].value; v ? u.searchParams.set(k, v) : u.searchParams.delete(k); });

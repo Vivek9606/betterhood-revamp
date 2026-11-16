@@ -10,7 +10,7 @@ import { SHOP } from "../lib/site";
 const learn = posts.filter((p) => p.image).slice(1, 7);
 const products = productsByHandle((recommendations as Record<string, string[]>)["longevity-goals-before"] ?? []).slice(0, 10);
 ---
-<Base title="Longevity goals" description="Get started on your longevity journey. Set personalized musculoskeletal health goals based on the life you envision at 70 — what you do now shapes your future quality of life.">
+<Base title="Longevity goals" description="Get started on your longevity journey. Set personalized musculoskeletal health goals based on the life you envision at 70, what you do now shapes your future quality of life.">
   <section class="lg-hero bg-plum">
     <div class="wrap lg-grid">
       <div class="stack" style="--stack:18px">
@@ -28,7 +28,7 @@ const products = productsByHandle((recommendations as Record<string, string[]>)[
 
   <section class="section-tight">
     <div class="wrap">
-      <div class="section-head"><div><p class="eyebrow">Parametric view</p><h2 class="h2">Your musculoskeletal health — today vs. target</h2></div></div>
+      <div class="section-head"><div><p class="eyebrow">Parametric view</p><h2 class="h2">Your musculoskeletal health: today vs. target</h2></div></div>
       <div class="pv">
         <article class="card pv-main">
           <p class="f-t">Overall musculoskeletal health score</p>
@@ -101,6 +101,6 @@ const products = productsByHandle((recommendations as Record<string, string[]>)[
   if (goal?.overall != null) document.querySelector("[data-target]")!.textContent = String(goal.overall);
   if (now !== null) document.querySelector("[data-now]")!.textContent = String(now);
   if (goal || now !== null) document.querySelector("[data-msg]")!.textContent =
-    goal && now !== null ? (now >= goal.overall ? "You're at or above your target — keep it up!" : `You're ${Math.round((goal.overall - now) * 10) / 10} points from your target. Your protocols in betterYou corner will help close the gap.`)
+    goal && now !== null ? (now >= goal.overall ? "You're at or above your target, keep it up!" : `You're ${Math.round((goal.overall - now) * 10) / 10} points from your target. Your protocols in betterYou corner will help close the gap.`)
     : goal ? "Target set! Now take a health assessment to measure where you are today." : "Now set your longevity goals to see your target.";
 </script>

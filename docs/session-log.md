@@ -327,3 +327,19 @@ GitHub Pages deploy.
   - about 76 standalone pages
 - Next pages in the plan: the physio directory and the physio profile template (see Progress in
   REVAMP-GUIDELINES.md).
+
+## 2026-11-16: One account across website and app (pushed)
+- Website: /account/ (OTP → existing account, or role choice → patient sign-up / physio join), header account button + menu, AccountCta banner (home, assessments, Slouch Catcher, betterYou corners), result-page Save / Open in app, signed-in assessments saved to the account (source=web), guest results synced on sign-in. Files: src/scripts/account.ts, src/pages/account.astro, src/components/AccountCta.astro.
+- App: #handoff capture + HandoffGate (src/lib/handoff.ts, App.tsx), "Open betterhood.in" in patient and physio profiles.
+- Backend: routes/account.ts (POST /auth/handoff, /auth/handoff/redeem, GET /me/summary incl. suggestedPhysioName), assessments accept source, consumer numbers may also create a physio listing.
+- Tested end to end on a local throwaway stack; guides: capacitor-app/flow-guides/Physio-flow-website-and-app.pdf and Consumer-flow-website-and-app.pdf (screens in account-flows-2026-11-16/).
+- Open: patient path in app login shows physio marketing panel; betterYou corner/Slouch Catcher not synced to account; handoff codes are in-memory (single API instance only); deploy needs PUBLIC_API_URL/PUBLIC_APP_URL + backend CORS_ORIGINS for the website origin.
+
+## 2026-11-16: Physio invite links + em dash cleanup (pushed)
+- Each physio has a personal assessment link: /quiz-landing-page/?physio=<ref> (ref = live directory slug, else booking slug). Shared from the website /account/ invite card (copy / WhatsApp) and the app Patients screen (Invite button + card).
+- Website stores the invite for 14 days (bh_invite), shows "Dr. X asked you to take this" on the quiz landing, assessment and result pages; result CTA becomes "Save & send to Dr. X".
+- Backend: migration 008 adds patients.invited_by; POST /patient/assessments with invitedBy links an unassigned patient straight to that physio (match_status confirmed), or "suggested" if the physio already has a hand-added record for the number. GET /public/physio-invite/:ref; /me/summary returns inviteRef + invitedPatients.
+- App: "From your link" badge in the patient list; Assessments card on patient detail (opens the result page).
+- Tested end to end locally (screens in capacitor-app/flow-guides/account-flows-2026-11-16/invite/).
+- Open idea: only auto-link invited patients in the physio's city, otherwise "suggested" for admin.
+- Removed em dashes from all copy in website, app and backend src (commas/colons instead). Left alone: raw scrape in content-src/ and image file names that contain the character.

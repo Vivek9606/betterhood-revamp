@@ -45,7 +45,20 @@ const isActive = (href: string) => href.startsWith("/") && href !== "/" && path.
 
     <div class="actions">
       <a class="icon-btn" href="/learn/#search" aria-label="Search articles"><Icon name="search" size={21} /></a>
-      <a class="icon-btn hide-sm" href={`${SHOP}/account/`} aria-label="Account"><Icon name="user" size={21} /></a>
+      <div class="acct" data-account-ui>
+        <a class="icon-btn acct-btn" href="/account/" aria-label="Sign in" data-account-btn data-acct-toggle aria-haspopup="true" aria-expanded="false">
+          <Icon name="user" size={21} /><span class="acct-ini" data-account-label></span>
+        </a>
+        <div class="acct-menu" data-acct-menu hidden>
+          <p class="acct-hi">Hi, <b data-account-name>there</b></p>
+          <a class="acct-app" href="#" data-open-app="/">Open the betterhood app <Icon name="arrow-up-right" size={16} /></a>
+          <a href="/account/">My account</a>
+          <a href="/quiz-landing-page/" data-role-only="patient">Take an assessment</a>
+          <a href="/physio-directory/join/" data-role-only="physio">Edit my directory listing</a>
+          <a href={`${SHOP}/account/`}>Shop orders</a>
+          <button type="button" data-sign-out>Sign out</button>
+        </div>
+      </div>
       <a class="icon-btn" href={`${SHOP}/cart`} aria-label="Cart"><Icon name="cart" size={21} /></a>
       <a class="btn btn-sm hide-md" href="/quiz-landing-page/">Free assessment</a>
     </div>
@@ -125,6 +138,11 @@ const isActive = (href: string) => href.startsWith("/") && href !== "/" && path.
     </nav>
     <div class="drawer-foot">
       <a class="btn btn-block" href="/quiz-landing-page/">Take a free pain assessment</a>
+      <div class="drawer-acct" data-account-ui>
+        <a class="btn btn-ghost btn-block" href="/account/" data-signed-out>Sign in or create an account</a>
+        <a class="btn btn-ghost btn-block" href="/account/" data-signed-in hidden>My account</a>
+        <a class="btn btn-sun btn-block" href="#" data-open-app="/">Open the betterhood app</a>
+      </div>
       <p class="muted">Need help? <a href={contact.phoneHref}>{contact.phone}</a> · <a href={`mailto:${contact.email}`}>{contact.email}</a></p>
     </div>
   </aside>
@@ -198,6 +216,23 @@ const isActive = (href: string) => href.startsWith("/") && href !== "/" && path.
   .drawer-nav details a { display: block; padding: 9px 4px; color: var(--ink-soft); }
   .drawer-nav details a.all { color: var(--plum-700); font-weight: 600; }
   .drawer-foot { margin-top: auto; padding: 20px 16px 28px; display: grid; gap: 14px; font-size: 14px; }
+  .drawer-acct { display: grid; gap: 10px; }
+
+  /* account: signed out = a person icon linking to /account/; signed in = initials + a small menu */
+  .acct { position: relative; }
+  .acct-ini { display: none; }
+  .acct-btn.is-in { background: var(--plum-700); color: #fff; width: 38px; height: 38px; margin: 3px; font: 700 13.5px/1 var(--font-display); letter-spacing: 0.02em; }
+  .acct-btn.is-in:hover { background: var(--plum-800); color: #fff; }
+  .acct-btn.is-in :global(svg) { display: none; }
+  .acct-btn.is-in .acct-ini { display: inline; }
+  .acct-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; width: 250px; padding: 8px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-lg); display: grid; animation: drop 0.25s var(--ease); }
+  .acct-menu[hidden] { display: none; }
+  .acct-hi { padding: 8px 12px 10px; margin: 0 0 4px; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--ink-mute); }
+  .acct-hi b { color: var(--ink); }
+  .acct-menu a, .acct-menu button { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border: 0; border-radius: var(--r-sm); background: none; font: 500 15px var(--font-body, inherit); color: var(--ink); text-align: left; cursor: pointer; }
+  .acct-menu a:hover, .acct-menu button:hover { background: var(--plum-50); color: var(--plum-700); }
+  .acct-menu .acct-app { background: var(--sun-100); font-weight: 650; color: var(--plum-900); margin-bottom: 4px; }
+  .acct-menu [hidden] { display: none; }
 
   @media (max-width: 1100px) { .hide-md { display: none; } .primary { margin-left: 8px; } .nav-link { padding: 10px 10px; } }
   @media (max-width: 960px) {
@@ -212,6 +247,23 @@ const isActive = (href: string) => href.startsWith("/") && href !== "/" && path.
 </style>
 
 <script>
+  import { boot, session, signOut } from "../scripts/account";
+  boot();
+  // account menu: signed out, the icon just goes to /account/
+  const acctBtn = document.querySelector<HTMLAnchorElement>("[data-acct-toggle]");
+  const acctMenu = document.querySelector<HTMLElement>("[data-acct-menu]");
+  if (acctBtn && acctMenu) {
+    const shut = () => { acctMenu.hidden = true; acctBtn.setAttribute("aria-expanded", "false"); };
+    acctBtn.addEventListener("click", (e) => {
+      if (!session()) return;
+      e.preventDefault();
+      acctMenu.hidden = !acctMenu.hidden;
+      acctBtn.setAttribute("aria-expanded", String(!acctMenu.hidden));
+    });
+    document.addEventListener("click", (e) => { if (!(e.target as Element).closest(".acct")) shut(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") shut(); });
+    document.querySelectorAll("[data-sign-out]").forEach((b) => b.addEventListener("click", () => { signOut(); shut(); }));
+  }
   // hide on scroll down, reveal on scroll up; overlay header turns solid after the hero
   const bar = document.getElementById("topbar")!;
   // heroes size themselves to "screen minus this bar"

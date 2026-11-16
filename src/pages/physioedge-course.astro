@@ -79,7 +79,7 @@ const course = { "@context": "https://schema.org", "@type": "Course", name: "The
         ))}
       </ol>
       <div class="structure">
-        <p class="f-t">Module structure — each module is broken down into 4 key components</p>
+        <p class="f-t">Module structure: each module is broken down into 4 key components</p>
         <ul>{structure.map(([ic, t, d]) => <li><span><Icon name={ic} size={20} /></span><div><strong>{t}</strong><p class="muted">{d}</p></div></li>)}</ul>
       </div>
     </div>

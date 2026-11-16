@@ -1,4 +1,4 @@
-// Served at /lab-catalog.json — what the SEO dashboard's Content Lab offers writers: the post categories, products
+// Served at /lab-catalog.json, what the SEO dashboard's Content Lab offers writers: the post categories, products
 // (for links and Betty), authors and every page worth linking to. Built from the same data as the site, so the Lab
 // never offers a category, product or page the website doesn't have.
 import AUTHORS from "../data/authors.json";

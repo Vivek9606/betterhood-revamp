@@ -53,7 +53,7 @@ const awards = [...new Set(p.awards)];
 const degrees = p.education.map((e) => e.degree).join(", ");
 const modeIcon: Record<string, string> = { "Clinic Visit": "hospital", "Home Visit": "home", "Video Consultation": "video", "Hospital Visit": "building" };
 const modeNote: Record<string, string> = {
-  "Home Visit": `${firstName} comes to you — ideal after surgery, a stroke or when travel is hard.`,
+  "Home Visit": `${firstName} comes to you, ideal after surgery, a stroke or when travel is hard.`,
   "Video Consultation": "Assessment and guided exercise sessions from home, anywhere in India.",
   "Clinic Visit": "Hands-on treatment with equipment at the clinic.",
   "Hospital Visit": "Bedside rehabilitation during a hospital stay.",
@@ -63,7 +63,7 @@ const condIcon = (c: string) =>
   : /surgery|surgical/i.test(c) ? "stethoscope" : /muscle|strength/i.test(c) ? "dumbbell" : /mobility/i.test(c) ? "posture" : "check-circle";
 
 const book = `https://api.whatsapp.com/send?phone=917483305929&text=${encodeURIComponent(`Hi betterhood, I'd like to book a session with ${p.name} (${url})`)}`;
-const share = `https://wa.me/?text=${encodeURIComponent(`${p.name}, ${role} in ${cityName} — ${url}`)}`;
+const share = `https://wa.me/?text=${encodeURIComponent(`${p.name}, ${role} in ${cityName}, ${url}`)}`;
 // lead with named conditions (what people search for), not generic ones like "Muscle Recovery"
 const condShort = conditions.filter((c) => !/conditions$|after surgery|recovery|mobility/i.test(c)).slice(0, 4).join(", ").replace(/Guillain-Barré Syndrome \(GBS\)/, "GBS").replace(/Spinal Cord Injury \(SCI\)/, "spinal cord injury");
 

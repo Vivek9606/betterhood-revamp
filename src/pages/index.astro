@@ -4,6 +4,7 @@
 // hero + trust (the live product range strip is left out, by request), shop by concern, co-created story, use cases, clinically accountable +
 // physios, categories, testimonials, "most people wait too long", press, sticky assessment CTA.
 import Base from "../layouts/Base.astro";
+import AccountCta from "../components/AccountCta.astro";
 import Hero from "../components/story/Hero.tsx";
 import Concern from "../components/story/Concern.tsx";
 import Story from "../components/story/Story.tsx";
@@ -99,6 +100,8 @@ const jsonLd = [
 
   <Decades client:visible title={age.title} sub={age.sub} intro={age.intro} decades={age.decades} />
   <Finale client:visible title={age.outro.title} text={age.outro.text} cta={age.outro.cta} />
+
+  <AccountCta />
 
   <section class="st-pressbar" aria-label="Featured in">
     <h2 class="sr-only">Featured in</h2>

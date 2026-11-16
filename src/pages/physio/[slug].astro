@@ -23,10 +23,10 @@ const nearby = physios.filter((q) => q.slug !== p.slug && ((p.city && q.city ===
 const topAreas = p.city ? taxonomies.physio_location.filter((l) => l.slug.startsWith(p.city + "-") && l.count > 0).sort((a, b) => b.count - a.count).slice(0, 10) : [];
 const topCities = [...taxonomies["physio-city"]].sort((a, b) => b.count - a.count).slice(0, 10);
 const modeIcon: Record<string, string> = { "Clinic Visit": "hospital", "Home Visit": "home", "Video Consultation": "video", "Hospital Visit": "building" };
-const msg = encodeURIComponent(`Check out ${p.name} on betterhood — find expert physiotherapy care near you. ${url}`);
+const msg = encodeURIComponent(`Check out ${p.name} on betterhood, find expert physiotherapy care near you. ${url}`);
 const fee = p.fee && /^\d+$/.test(p.fee) ? `₹${(+p.fee).toLocaleString("en-IN")}` : p.fee;
 const otherPractice = p.practice.filter((x) => !["Practice Location", "Consultation Fee"].includes(x.label));
-const description = p.seo.description || `${p.name}${p.degree ? `, ${p.degree}` : ""} — betterhood-certified physiotherapist${place ? ` in ${place}` : ""}${p.years ? ` with ${p.years} years of experience` : ""}.`;
+const description = p.seo.description || `${p.name}${p.degree ? `, ${p.degree}` : ""}, betterhood-certified physiotherapist${place ? ` in ${place}` : ""}${p.years ? ` with ${p.years} years of experience` : ""}.`;
 
 const jsonLd = {
   "@context": "https://schema.org",

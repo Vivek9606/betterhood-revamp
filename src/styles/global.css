@@ -1,5 +1,5 @@
 /* ==========================================================================
-   betterhood — design tokens
+   betterhood, design tokens
    Plum (from the logo) carries the brand; a warm cream canvas keeps it human;
    mint signals "better" (recovery, verified, progress); sun is for small joys.
    ========================================================================== */
@@ -252,7 +252,8 @@ a.chip:hover, button.chip:hover { border-color: var(--plum-300); color: var(--pl
 @keyframes vt-in { from { opacity: 0; transform: translateY(16px); filter: blur(4px); } }
 @media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
 
-.sw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+/* each word is clipped to reveal it; the side padding keeps italic letters (which lean past the box) whole */
+.sw { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.12em 0.1em; margin: 0 -0.12em -0.1em; }
 .sw-i { display: inline-block; will-change: transform; }
 
 html.lenis, html.lenis body { height: auto; }
@@ -294,3 +295,8 @@ html.lenis, html.lenis body { height: auto; }
 /* Embed mode (inside the Betterhood app's in-app frame): no site header, footer or chat. See Base.astro. */
 .embed { --header-h: 0px; }
 .embed .site-header, .embed .site-footer, .embed .ticker, .embed .wa-float, .embed .skip-link, .embed [data-betty-root], .embed .b-reveal, .embed [data-embed-hide] { display: none !important; }
+
+/* "Dr. Rao asked you to take this": shown when a visitor arrived from a physio's invite link (scripts/account.ts) */
+.invite-note { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0; padding: 12px 16px; border-radius: var(--r-md); background: var(--mint-100, #e3f6ea); color: var(--ink); font-size: 15px; line-height: 1.45; max-width: 760px; }
+.invite-note[hidden] { display: none; }
+.invite-note strong { color: var(--plum-800); }

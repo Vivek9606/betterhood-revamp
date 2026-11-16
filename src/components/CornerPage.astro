@@ -1,8 +1,9 @@
 ---
-// betterYou corner — the visitor's personal dashboard. The old site required a WordPress login;
+// betterYou corner, the visitor's personal dashboard. The old site required a WordPress login;
 // here everything is read from results saved on the visitor's own device by the assessments.
 import Base from "../layouts/Base.astro";
 import Icon from "./Icon.astro";
+import AccountCta from "./AccountCta.astro";
 import ProductCard from "./ProductCard.astro";
 import CareSections from "./CareSections.astro";
 import recommendations from "../data/recommendations.json";
@@ -89,8 +90,8 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
               <p class="f-t">Multi-modal tests</p>
               <ul>
                 <li><Icon name="activity" size={18} /> Functional tests <span class="badge badge-mint">Live</span></li>
-                <li><Icon name="heart" size={18} /> Blood biomarkers — vitamins & mineral sufficiency, bone turnover, inflammation & hormonal markers <span class="badge badge-sun">Coming soon</span></li>
-                <li><Icon name="target" size={18} /> Imaging markers — bone mineral density, 10-year osteoporotic fracture risk <span class="badge badge-sun">Coming soon</span></li>
+                <li><Icon name="heart" size={18} /> Blood biomarkers: vitamins & mineral sufficiency, bone turnover, inflammation & hormonal markers <span class="badge badge-sun">Coming soon</span></li>
+                <li><Icon name="target" size={18} /> Imaging markers: bone mineral density, 10-year osteoporotic fracture risk <span class="badge badge-sun">Coming soon</span></li>
               </ul>
             </div>
           </article>
@@ -142,6 +143,7 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
     <div class="wrap"><p class="bc-note muted"><Icon name="lock" size={15} /> Your results are stored privately on this device and browser. Clearing your browser data will reset them.</p></div>
   </section>
   <script type="application/json" data-bc set:html={JSON.stringify(cfg)} />
+  <AccountCta heading="Keep your corner with you" sub="Create your free betterhood account to save your results and protocols, track your progress and follow your plan in the betterhood app." />
 </Base>
 
 <style is:global>

@@ -1,0 +1,69 @@
+---
+// "Your betterhood account" banner. Signed out: why to create the free account (works on the website and in
+// the app). Signed in: welcome back, open the app signed in, and the tools to try next.
+// Hidden inside the app's frame and when accounts aren't configured (data-account-ui, see scripts/account.ts).
+import Icon from "./Icon.astro";
+
+interface Props { heading?: string; sub?: string; next?: string }
+const {
+  heading = "Save your results and track your progress",
+  sub = "Create your free betterhood account with just your mobile number. Your assessments, your plan and your physio, on the website and in the betterhood app.",
+  next,
+} = Astro.props;
+const tools = [
+  { icon: "clipboard", t: "Take an assessment", href: "/quiz-landing-page/" },
+  { icon: "camera", t: "Slouch Catcher", href: "/slouch-catcher/" },
+  { icon: "leaf", t: "betterYou corner", href: "/better-you-corner-back-health/" },
+  { icon: "map", t: "Find a physio", href: "/physio-directory/" },
+];
+---
+<section class="section-tight" data-account-ui data-embed-hide hidden>
+  <div class="wrap">
+    <div class="acta" data-acta>
+      <div class="acta-out" data-signed-out>
+        <div class="acta-copy">
+          <p class="eyebrow">Free betterhood account</p>
+          <h2 class="h3">{heading}</h2>
+          <p>{sub}</p>
+        </div>
+        <div class="acta-acts">
+          <a class="btn btn-sun btn-lg" href={`/account/${next ? `?next=${encodeURIComponent(next)}` : ""}`}>Create my free account <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-light" href="/account/">I already have one, sign in</a>
+        </div>
+      </div>
+      <div class="acta-in" data-signed-in hidden>
+        <div class="acta-copy">
+          <p class="eyebrow">Welcome back</p>
+          <h2 class="h3">Hi <span data-account-name>there</span>, pick up where you left off</h2>
+          <p>You're signed in. The betterhood app opens straight to your account: your results, your plan and your physio.</p>
+        </div>
+        <div class="acta-acts">
+          <a class="btn btn-sun btn-lg" href="#" data-open-app="/">Open the betterhood app <Icon name="arrow-up-right" /></a>
+        </div>
+        <ul class="acta-tools">
+          {tools.map((t) => <li><a href={t.href}><Icon name={t.icon} size={18} /> {t.t}</a></li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* clip, not hidden: the decorative ring overhangs, and a hidden box can still be scrolled sideways by focus */
+  .acta { position: relative; overflow: hidden; overflow: clip; padding: clamp(24px, 4vw, 44px); border-radius: var(--r-xl); background: radial-gradient(60% 120% at 100% 0%, var(--plum-600), transparent 60%), var(--plum-900); color: #fff; }
+  .acta::after { content: ""; position: absolute; right: -80px; bottom: -120px; width: 320px; height: 320px; border-radius: 50%; border: 1.5px solid rgba(255, 181, 71, 0.35); pointer-events: none; }
+  .acta-out, .acta-in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; }
+  .acta-out[hidden], .acta-in[hidden] { display: none; }
+  .acta-copy { flex: 1 1 380px; max-width: 640px; display: grid; gap: 8px; }
+  .acta-copy .eyebrow { color: var(--sun-500); }
+  .acta-copy p:last-child { color: rgba(255, 255, 255, 0.78); }
+  .acta-acts { display: flex; flex-wrap: wrap; gap: 10px; position: relative; z-index: 1; }
+  .acta-tools { flex-basis: 100%; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; position: relative; z-index: 1; }
+  .acta-tools a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.18); font-size: 14.5px; font-weight: 600; transition: background 0.3s ease-in-out; }
+  .acta-tools a:hover { background: rgba(255, 255, 255, 0.2); }
+</style>
+
+<script>
+  import { accountsOn } from "../scripts/account";
+  if (accountsOn()) document.querySelectorAll<HTMLElement>("section[data-account-ui]").forEach((s) => s.querySelector("[data-acta]") && (s.hidden = false));
+</script>

@@ -184,8 +184,8 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
         </div>
         {appUrl && (
           <div class="jn-app" data-embed-hide>
-            <p><strong>Run your practice from the Betterhood physio app.</strong> Log in with the same number to manage bookings, share exercise plans and keep this profile up to date.</p>
-            <a class="btn btn-sun" href={`${appUrl}/login`} rel="noopener">Open the app <Icon name="arrow" class="arrow" /></a>
+            <p><strong>Run your practice from the Betterhood physio app.</strong> You're already signed in: manage bookings, share exercise plans and keep this profile up to date.</p>
+            <a class="btn btn-sun" href={`${appUrl}/login`} data-open-app="/app" rel="noopener">Open my dashboard in the app <Icon name="arrow" class="arrow" /></a>
           </div>
         )}
       </div>
@@ -268,6 +268,7 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
 
 <script>
   import { fromApp, isEmbedded, toApp, waitForApp } from "../../scripts/embed";
+  import { accountsOn, clearPendingSignup, pendingSignup, session as siteSession, startSession, wireAppLinks } from "../../scripts/account";
 
   type Listing = Record<string, any>;
   const root = document.querySelector<HTMLElement>("[data-join]")!;
@@ -347,9 +348,12 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
         startForm();
       } else if (r.role === "physio" && r.token) {
         setToken(r.token);
+        if (accountsOn()) await startSession({ token: r.token, role: "physio", userId: (r as any).userId });
         await loadMine();
       } else {
-        note(vNote, "This number is registered as a patient on betterhood. Use the number you use for your practice.");
+        // A consumer account: same number can be a physio too. Sign in here, then create the physio side.
+        if (accountsOn() && r.token) await startSession({ token: r.token, role: "patient", userId: (r as any).userId });
+        note(vNote, "This number has a betterhood consumer account. To list yourself, open the betterhood app and use “Switch to physio” in your profile, or verify the number you use for your practice.");
       }
     } catch (err) {
       note(vNote, (err as Error).message);
@@ -525,6 +529,8 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
         const ref = new URLSearchParams(location.search).get("ref") || undefined;
         r = await call("/directory/signup", { body: { signupToken, profile: body, referredBy: ref } });
         setToken(r.token);
+        clearPendingSignup();
+        if (accountsOn()) await startSession({ token: r.token, role: "physio", userId: r.userId });
       }
       toApp({ type: "bh:directory-published", slug: r.slug, url: r.url, status: r.status, created: !editing });
       finished(r, editing);
@@ -541,6 +547,7 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
 
   // ---------- done ----------
   function finished(r: Listing, wasEdit: boolean) {
+    wireAppLinks(root);
     const a = $<HTMLAnchorElement>("[data-url]");
     a.href = r.url;
     a.textContent = r.url.replace(/^https?:\/\//, "");
@@ -597,6 +604,14 @@ const appUrl = (import.meta.env.PUBLIC_APP_URL ?? "").replace(/\/$/, "");
       const c = await ctx;
       if (c?.token) token = c.token;
       fromApp<{ type: string; token?: string }>("bh:context", (m) => { if (m.token) token = m.token; });
+    }
+    if (!token && !isEmbedded() && accountsOn()) {
+      const s = siteSession();
+      if (s?.role === "physio") setToken(s.token);
+      else {
+        const pend = pendingSignup();
+        if (pend) { signupToken = pend.token; V.phone.value = pend.phone; startForm(); return; }
+      }
     }
     if (!token) return show("verify");
     try {

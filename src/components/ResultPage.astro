@@ -48,12 +48,22 @@ const condition = a.conditions[r.cat];
   <section class="section-tight" data-app-cta data-embed-hide hidden>
     <div class="wrap">
       <div class="rs-app">
-        <div>
-          <p class="eyebrow">betterhood app</p>
-          <h2 class="h3">Keep this result and get matched with a physio near you</h2>
-          <p class="rs-app-sub">Save your {condition.toLowerCase()} result to your account, follow your plan and book a session, all in one place. Free to use.</p>
+        <div data-out>
+          <p class="eyebrow">Your free betterhood account</p>
+          <h2 class="h3" data-out-h>Keep this result and get matched with a physio near you</h2>
+          <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> asked for this result. Save it to your free account and it goes straight to them.</span></p>
+          <p class="rs-app-sub" data-out-sub>Save your {condition.toLowerCase()} result to your account, follow your plan and book a session, on the website or in the app. Free to use.</p>
         </div>
-        <a class="btn btn-lg" data-app-link href="#">Save it in the app <Icon name="arrow" class="arrow" /></a>
+        <div data-in hidden>
+          <p class="eyebrow">✓ Saved to your account</p>
+          <h2 class="h3">Your next step is waiting in the app</h2>
+          <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> can now see this result in their patient list.</span></p>
+          <p class="rs-app-sub" data-in-sub>We've added this {condition.toLowerCase()} result to your betterhood account. Open the app to see the physio we suggest, follow your plan and book a session.</p>
+        </div>
+        <div class="rs-app-acts">
+          <a class="btn btn-lg" data-account-link href="/account/" hidden>Save my result <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-lg btn-ghost" data-app-link href="#">Get the app <Icon name="arrow" class="arrow" /></a>
+        </div>
       </div>
     </div>
   </section>
@@ -119,11 +129,14 @@ const condition = a.conditions[r.cat];
   .rs-app { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding: clamp(24px, 4vw, 40px); border-radius: var(--r-xl); background: var(--mint-100); border: 1px solid var(--mint-200); }
   .rs-app > div { max-width: 640px; }
   .rs-app-sub { margin-top: 8px; color: var(--ink-mute); }
+  .rs-app-acts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .rs-app .invite-note { margin: 10px 0 0; }
   @media (max-width: 960px) { .rs-grid, .rs-tk { grid-template-columns: 1fr; } }
 </style>
 
 <script>
   import { appLink } from "../scripts/app-link";
+  import { accountHref, accountsOn, invite, openApp, session } from "../scripts/account";
   const meta = JSON.parse(document.querySelector("[data-rs]")!.textContent!);
   let store: Record<string, any> = {};
   try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); } catch {}
@@ -134,11 +147,35 @@ const condition = a.conditions[r.cat];
     document.querySelectorAll("[data-name]").forEach((el) => (el.textContent = name));
     document.querySelectorAll("[data-name-poss]").forEach((el) => (el.textContent = `${name}'s`));
   }
-  // "Save it in the app": carries this visitor's result when it is the one on this page.
-  const toApp = appLink(meta.assessment, rec?.result === meta.result ? rec : null);
-  if (toApp) {
-    document.querySelector<HTMLAnchorElement>("[data-app-link]")!.href = toApp;
-    document.querySelector<HTMLElement>("[data-app-cta]")!.hidden = false;
-  }
+  // Keep this result: signed in → it's already in the account (AssessmentRunner saved it), open the app signed in.
+  // Signed out → save it to a free account (synced on sign-in), or carry it to the app in the link.
+  const mine = rec?.result === meta.result ? rec : null;
+  const toApp = appLink(meta.assessment, mine);
+  const cta = document.querySelector<HTMLElement>("[data-app-cta]")!;
+  const appA = cta.querySelector<HTMLAnchorElement>("[data-app-link]")!;
+  const acctA = cta.querySelector<HTMLAnchorElement>("[data-account-link]")!;
+  const paint = () => {
+    const signedIn = accountsOn() && session()?.role === "patient";
+    cta.querySelector<HTMLElement>("[data-out]")!.hidden = signedIn;
+    cta.querySelector<HTMLElement>("[data-in]")!.hidden = !signedIn;
+    acctA.hidden = signedIn || !accountsOn();
+    // came from a physio's invite link: the result is for them, not for matching
+    const inv = invite();
+    if (inv?.name) {
+      cta.querySelector<HTMLElement>("[data-out-h]")!.textContent = `Send this result to ${inv.name}`;
+      cta.querySelector<HTMLElement>("[data-out-sub]")!.hidden = true;
+      cta.querySelector<HTMLElement>("[data-in-sub]")!.textContent = `It's in your betterhood account and in ${inv.name}'s patient list. Open the app to follow your plan and book your session.`;
+      acctA.innerHTML = `Save &amp; send to ${inv.name.replace(/[<>&"]/g, "")} →`;
+    }
+    acctA.href = accountHref(location.pathname);
+    appA.innerHTML = signedIn ? "Open it in the app →" : "Get the app →";
+    appA.classList.toggle("btn-ghost", !signedIn && accountsOn());
+    if (toApp) appA.href = toApp;
+    cta.hidden = !(toApp || accountsOn());
+  };
+  appA.addEventListener("click", (e) => { if (accountsOn() && session()) { e.preventDefault(); openApp("/me"); } });
+  paint();
+  document.addEventListener("bh:account", paint);
+  document.addEventListener("bh:invite", paint);
   if (rec?.result === meta.result && rec.advisory) document.querySelector<HTMLElement>("[data-advisory]")!.hidden = false;
 </script>

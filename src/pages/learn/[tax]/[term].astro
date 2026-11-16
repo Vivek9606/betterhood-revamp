@@ -39,7 +39,7 @@ const directoryHref = tax === "physio-state" ? `/physio-directory/?state=${t.slu
 const count = isPhysio ? physios.length : posts.length;
 const PAGE = 24;
 const desc = t.description || (isPhysio
-  ? `Find betterhood-certified physiotherapists${tax.includes("state") ? ` in ${t.name}` : ` — ${t.name}`}. Verified profiles with qualifications, experience, consultation modes and fees.`
+  ? `Find betterhood-certified physiotherapists${tax.includes("state") ? ` in ${t.name}` : `: ${t.name}`}. Verified profiles with qualifications, experience, consultation modes and fees.`
   : `Expert-led betterhood articles and videos on ${t.name.toLowerCase()}: causes, exercises, posture, relief and recovery.`);
 ---
 <Base title={`${heading} | betterhood`} description={desc} noindex={count === 0}>
@@ -67,7 +67,7 @@ const desc = t.description || (isPhysio
 
   <section class="section-tight">
     <div class="wrap">
-      {count === 0 && <p class="empty">Nothing here yet — check back soon, or <a class="link" href={isPhysio ? "/physio-directory/" : "/learn/"}>browse everything</a>.</p>}
+      {count === 0 && <p class="empty">Nothing here yet: check back soon, or <a class="link" href={isPhysio ? "/physio-directory/" : "/learn/"}>browse everything</a>.</p>}
       <div class:list={["grid", isPhysio ? "cols-4" : "cols-3", "t-grid"]} data-pager>
         {isPhysio
           ? physios.map((p, i) => <div class="t-item" hidden={i >= PAGE}><PhysioCard physio={p} /></div>)

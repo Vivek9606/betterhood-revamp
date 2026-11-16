@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import Faq from "../components/Faq.astro";
+import AccountCta from "../components/AccountCta.astro";
 
 const personas = [
   ["🦐", "Shrimp", "0-40", "Full curl mode! Time to straighten up and fix that slouch"],
@@ -44,7 +45,7 @@ const faqs = [
   { q: "Can I use this for office challenges?", a: "Perfect for it! Create a “Slouch of the Week” board, run posture improvement contests, or just keep colleagues on their toes. Offices love gamifying health!" },
 ];
 ---
-<Base title="Slouch Catcher — Caught Your Friend Slouching?" description="Upload their photo and reveal their posture animal. Warning: they might turn out to be a shrimp. Join the Slouch Catcher waitlist from betterhood.">
+<Base title="Slouch Catcher: Caught Your Friend Slouching?" description="Upload their photo and reveal their posture animal. Warning: they might turn out to be a shrimp. Join the Slouch Catcher waitlist from betterhood.">
   <section class="sc-hero">
     <div class="wrap sc-grid">
       <div class="stack" style="--stack:20px">
@@ -111,6 +112,8 @@ const faqs = [
       </div>
     </div>
   </section>
+
+  <AccountCta heading="Caught slouching? Find out what it's doing to your back" sub="Take a free 5-minute posture-related pain check and save it to your betterhood account. Your results, exercise plan and physio, on the website and in the app." next="/quiz-landing-page/" />
 
   <section class="section"><div class="wrap"><Faq items={faqs} /></div></section>
 

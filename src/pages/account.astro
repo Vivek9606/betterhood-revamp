@@ -1,0 +1,332 @@
+---
+// /account/: sign in or create a betterhood account (the same account as the betterhood app), and a small
+// "your betterhood" home once signed in. Logic: src/scripts/account.ts.
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+
+const perks = [
+  { icon: "clipboard", t: "Your results, saved", d: "Every assessment you take is kept in one place, on the website and in the app." },
+  { icon: "activity", t: "Track your progress", d: "Check in again any time and see how your strength, balance and mobility change." },
+  { icon: "stethoscope", t: "Get matched with a physio", d: "Based on your pain check, we suggest a betterhood-certified physio near you." },
+  { icon: "heart", t: "Your plan in your pocket", d: "Follow your exercise plan, book sessions and message your physio in the app." },
+];
+const tools = [
+  { icon: "clipboard", t: "Free pain assessment", d: "5 minutes to find what's behind your back, neck, shoulder or knee pain.", href: "/quiz-landing-page/" },
+  { icon: "camera", t: "Slouch Catcher", d: "Catch a friend slouching and reveal their posture animal.", href: "/slouch-catcher/" },
+  { icon: "leaf", t: "betterYou corner", d: "Routines and reading for back, neck, shoulder and knee health.", href: "/better-you-corner-back-health/" },
+  { icon: "map", t: "Find a physio", d: "betterhood-certified physiotherapists near you.", href: "/physio-directory/" },
+];
+const physioTools = [
+  { icon: "map", t: "Your directory listing", d: "Your public profile on betterhood.in. Patients find and book you here.", href: "/physio-directory/join/" },
+  { icon: "camera", t: "Slouch Catcher", d: "A fun posture check to share with your patients and followers.", href: "/slouch-catcher/" },
+  { icon: "award", t: "PhysioEdge course", d: "Certification in preventive pain care for physiotherapists.", href: "/physioedge-course/" },
+  { icon: "clipboard", t: "Assessments", d: "Send patients a physio-designed pain check before their first visit.", href: "/quiz-landing-page/" },
+];
+---
+<Base title="Your betterhood account" description="Sign in or create your free betterhood account to save your assessment results, track your progress and get matched with a physio. The same account works in the betterhood app." noindex>
+  <section class="ac" data-ac>
+    <div class="wrap ac-wrap">
+      <!-- signed out -->
+      <div class="ac-grid" data-view="out" hidden>
+        <div class="ac-pitch">
+          <p class="eyebrow">Your betterhood account</p>
+          <h1 class="h1">One account for the website <span class="hl">and the app</span></h1>
+          <p class="lead">Sign in with your mobile number. No password: we send a code on WhatsApp. New here? We'll set up your free account in a minute.</p>
+          <ul class="ac-perks">
+            {perks.map((p) => <li><span class="ac-ic"><Icon name={p.icon} size={20} /></span><span><strong>{p.t}</strong><small>{p.d}</small></span></li>)}
+          </ul>
+        </div>
+
+        <div class="ac-card">
+          <!-- 1 · number + code -->
+          <form class="ac-step" data-step="phone" novalidate>
+            <h2 class="h3">Sign in or create an account</h2>
+            <div class="field">
+              <label for="ac-phone">Mobile number</label>
+              <div class="ac-phone"><span>+91</span><input class="input" id="ac-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" maxlength="14" placeholder="98765 43210" required /></div>
+            </div>
+            <div class="field" data-code-row hidden>
+              <label for="ac-code">6-digit code from WhatsApp</label>
+              <input class="input ac-code" id="ac-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}" />
+            </div>
+            <p class="form-note" data-note hidden></p>
+            <button class="btn btn-lg btn-block" type="submit" data-go>Send code on WhatsApp</button>
+            <p class="ac-fine">By continuing you agree to our <a class="link" href="/terms-of-services/">terms</a> and <a class="link" href="/privacy-policy/">privacy policy</a>.</p>
+          </form>
+
+          <!-- 2 · new number: who are you? -->
+          <div class="ac-step" data-step="role" hidden>
+            <span class="badge badge-mint"><Icon name="check-circle" size={15} /> Number verified</span>
+            <h2 class="h3">Welcome to betterhood! Who are you joining as?</h2>
+            <button class="ac-role" type="button" data-role="patient"><span class="ac-ic"><Icon name="heart" size={22} /></span><span><strong>For my own health</strong><small>Assessments, progress, exercise plans and a physio near you</small></span><Icon name="chevron-right" size={18} /></button>
+            <button class="ac-role" type="button" data-role="physio"><span class="ac-ic"><Icon name="stethoscope" size={22} /></span><span><strong>I'm a physiotherapist</strong><small>Your directory listing, bookings, plans and invoices</small></span><Icon name="chevron-right" size={18} /></button>
+          </div>
+
+          <!-- 3 · patient sign-up -->
+          <form class="ac-step" data-step="patient" hidden novalidate>
+            <h2 class="h3">Tell us a little about you</h2>
+            <div class="field"><label for="ac-name">Your name *</label><input class="input" id="ac-name" name="name" autocomplete="name" maxlength="80" required /></div>
+            <div class="ac-two">
+              <div class="field"><label for="ac-age">Age</label><input class="input" id="ac-age" name="age" type="number" inputmode="numeric" min="1" max="120" /></div>
+              <div class="field"><label for="ac-city">City</label><input class="input" id="ac-city" name="city" autocomplete="address-level2" maxlength="80" /></div>
+            </div>
+            <p class="ac-fine">Your city helps us suggest a physio near you.</p>
+            <p class="form-note" data-note hidden></p>
+            <button class="btn btn-lg btn-block" type="submit">Create my account</button>
+            <button class="ac-back" type="button" data-back="role">Back</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- signed in -->
+      <div class="ac-in" data-view="in" hidden>
+        <div class="ac-hello">
+          <div>
+            <p class="eyebrow" data-who>Your betterhood account</p>
+            <h1 class="h1">Hi, <span data-account-name>there</span></h1>
+            <p class="lead" data-status>You're signed in on this device.</p>
+          </div>
+          <div class="ac-acts">
+            <a class="btn btn-lg btn-sun" href="#" data-open-app="/">Open the betterhood app <Icon name="arrow-up-right" /></a>
+            <button class="btn btn-ghost" type="button" data-sign-out>Sign out</button>
+          </div>
+        </div>
+
+        <!-- patient -->
+        <div data-role-only="patient" hidden>
+          <div class="ac-panel">
+            <div class="ac-panel-h"><h2 class="h3">Your results</h2><a class="link" href="/quiz-landing-page/">Take an assessment <Icon name="arrow" /></a></div>
+            <ul class="ac-results" data-results></ul>
+            <p class="muted" data-no-results hidden>No results yet. A 5-minute assessment is the best place to start: it tells you what's likely behind your pain and what helps.</p>
+          </div>
+          <div class="ac-app">
+            <div><p class="eyebrow">In the betterhood app</p><h2 class="h3">Your plan, your physio and your progress in one place</h2><p class="muted">You're already signed in: the app opens straight to your account. Follow your exercise plan, book sessions and check in on your progress.</p></div>
+            <a class="btn btn-lg" href="#" data-open-app="/">Continue in the app <Icon name="arrow" class="arrow" /></a>
+          </div>
+          <h2 class="h3 ac-sub">Keep going</h2>
+          <ul class="ac-tools">{tools.map((t) => <li><a class="card card-hover" href={t.href}><span class="ac-ic"><Icon name={t.icon} size={20} /></span><strong>{t.t}</strong><small>{t.d}</small></a></li>)}</ul>
+        </div>
+
+        <!-- physio -->
+        <div data-role-only="physio" hidden>
+          <div class="ac-panel">
+            <div class="ac-panel-h"><h2 class="h3">Your practice</h2></div>
+            <ul class="ac-stats" data-stats></ul>
+            <div class="ac-listing" data-listing></div>
+          </div>
+          <div class="ac-panel ac-invite">
+            <div class="ac-panel-h"><h2 class="h3">Send your patients the free pain assessment</h2><span class="badge badge-mint" data-invited hidden></span></div>
+            <p class="muted">Share your personal link before a first visit. Patients who take the assessment from it and save their result join <strong>your</strong> patient list in the app, with their answers and likely cause ready for you.</p>
+            <div class="ac-link"><code data-invite-link>…</code><button class="btn btn-sm btn-ghost" type="button" data-invite-copy>Copy link</button></div>
+            <div class="ac-acts"><a class="btn btn-wa" href="#" target="_blank" rel="noopener" data-invite-wa><Icon name="whatsapp" size={18} /> Send on WhatsApp</a></div>
+          </div>
+          <div class="ac-app">
+            <div><p class="eyebrow">Betterhood physio app</p><h2 class="h3">Run your practice from your phone</h2><p class="muted">Bookings, exercise plans, invoices and your patients, already signed in with this number.</p></div>
+            <a class="btn btn-lg" href="#" data-open-app="/app">Open my dashboard <Icon name="arrow" class="arrow" /></a>
+          </div>
+          <h2 class="h3 ac-sub">Tools for your practice</h2>
+          <ul class="ac-tools">{physioTools.map((t) => <li><a class="card card-hover" href={t.href}><span class="ac-ic"><Icon name={t.icon} size={20} /></span><strong>{t.t}</strong><small>{t.d}</small></a></li>)}</ul>
+        </div>
+      </div>
+
+      <div class="ac-card" data-view="off" hidden><h1 class="h3">Accounts are coming soon</h1><p class="muted">Signing in isn't available on this site yet. You can still take any assessment and keep your results on this device.</p></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ac { padding: clamp(24px, 4vw, 56px) 0 80px; min-height: 78vh; background: radial-gradient(70% 60% at 100% 0%, var(--plum-100), transparent 60%), radial-gradient(50% 50% at 0% 100%, var(--sun-100), transparent 70%), var(--cream); }
+  .ac-wrap { max-width: 1100px; }
+  .ac-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+  .ac-pitch { display: grid; gap: 16px; padding-top: 8px; }
+  .ac-pitch .h1, .ac-hello .h1 { font-size: clamp(34px, 4.2vw, 54px); line-height: 1.05; }
+  .ac-perks { list-style: none; display: grid; gap: 14px; margin-top: 10px; }
+  .ac-perks li { display: flex; gap: 14px; align-items: flex-start; }
+  .ac-perks strong { display: block; font-size: 16px; }
+  .ac-perks small { display: block; color: var(--ink-mute); font-size: 14.5px; line-height: 1.45; margin-top: 2px; }
+  .ac-ic { flex: none; width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: var(--plum-100); color: var(--plum-700); }
+  .ac-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: clamp(22px, 3.4vw, 36px); box-shadow: var(--shadow-lg); }
+  .ac-step { display: grid; gap: 16px; animation: acin 0.45s var(--ease); }
+  .ac-step[hidden] { display: none; }
+  @keyframes acin { from { opacity: 0; transform: translateY(8px); } }
+  .ac-phone { display: flex; align-items: stretch; }
+  .ac-phone span { display: grid; place-items: center; padding: 0 14px; border: 1.5px solid var(--line-strong); border-right: 0; border-radius: var(--r-md) 0 0 var(--r-md); background: var(--plum-50); font-weight: 600; color: var(--ink-soft); }
+  .ac-phone .input { border-radius: 0 var(--r-md) var(--r-md) 0; flex: 1; min-width: 0; }
+  .ac-code { letter-spacing: 0.4em; font-size: 20px; font-weight: 700; }
+  .ac-fine { font-size: 13px; color: var(--ink-mute); }
+  .ac-two { display: grid; grid-template-columns: 1fr 1.6fr; gap: 12px; }
+  .ac-role { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: var(--r-lg); border: 1.5px solid var(--line-strong); background: #fff; text-align: left; cursor: pointer; transition: border-color 0.25s ease-in-out, background 0.25s ease-in-out; }
+  .ac-role:hover { border-color: var(--plum-500); background: var(--plum-50); }
+  .ac-role > span:nth-child(2) { flex: 1; }
+  .ac-role strong { display: block; font-size: 16px; }
+  .ac-role small { display: block; color: var(--ink-mute); font-size: 14px; margin-top: 2px; }
+  .ac-back { justify-self: start; border: 0; background: none; color: var(--plum-700); font-weight: 600; cursor: pointer; padding: 0; }
+
+  .ac-in { display: grid; gap: 22px; }
+  .ac-in[hidden] { display: none; }
+  .ac-in > div { display: grid; gap: 22px; }
+  .ac-in > div[hidden] { display: none; }
+  .ac-hello { display: flex !important; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 18px; }
+  .ac-acts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .ac-panel { background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: clamp(20px, 3vw, 32px); display: grid; gap: 14px; }
+  .ac-panel-h { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .ac-results, .ac-stats { list-style: none; display: grid; gap: 10px; }
+  .ac-results :global(li a) { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 14px 16px; border-radius: var(--r-md); background: var(--plum-50); }
+  .ac-results :global(li a:hover) { background: var(--plum-100); }
+  .ac-results :global(strong) { display: block; }
+  .ac-results :global(small) { color: var(--ink-mute); }
+  .ac-results :global(.ac-val) { font: 700 18px var(--font-display); color: var(--plum-700); white-space: nowrap; }
+  .ac-stats { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+  .ac-stats :global(li) { padding: 16px; border-radius: var(--r-md); background: var(--plum-50); }
+  .ac-stats :global(b) { display: block; font: 700 28px var(--font-display); color: var(--plum-800); }
+  .ac-listing { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--r-md); border: 1px dashed var(--plum-300); }
+  .ac-listing:empty { display: none; }
+  .ac-app { display: flex !important; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding: clamp(22px, 3.4vw, 36px); border-radius: var(--r-xl); background: var(--plum-900); color: #fff; }
+  .ac-app > div { max-width: 600px; display: grid; gap: 8px; }
+  .ac-app .eyebrow { color: var(--sun-500); }
+  .ac-app .muted { color: rgba(255, 255, 255, 0.75); }
+  .ac-sub { margin-top: 6px; }
+  .ac-invite .muted { color: var(--ink-mute); max-width: 720px; }
+  .ac-link { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: var(--r-md); background: var(--plum-50); }
+  .ac-link code { font: 600 14.5px/1.4 var(--font-body); color: var(--plum-800); overflow-wrap: anywhere; min-width: 0; }
+  .btn-wa { background: #1fa855; color: #fff; }
+  .btn-wa:hover { background: #178a45; }
+  .ac-tools { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .ac-tools a { display: grid; gap: 8px; padding: 18px; height: 100%; align-content: start; }
+  .ac-tools small { color: var(--ink-mute); font-size: 14px; line-height: 1.45; }
+  @media (max-width: 960px) { .ac-grid { grid-template-columns: 1fr; } .ac-tools { grid-template-columns: 1fr 1fr; } .ac-pitch { order: 2; } }
+  @media (max-width: 560px) { .ac-tools { grid-template-columns: 1fr; } .ac-two { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  import { accountsOn, cleanPhone, shortName, requestCode, session, signOut, signUpPatient, summary, validPhone, verifyCode, wireAppLinks, type ApiError } from "../scripts/account";
+  import { href } from "../scripts/base";
+
+  const root = document.querySelector<HTMLElement>("[data-ac]")!;
+  const $ = <T extends Element = HTMLElement>(s: string) => root.querySelector<T>(s)!;
+  const view = (v: "out" | "in" | "off") => root.querySelectorAll<HTMLElement>("[data-view]").forEach((el) => (el.hidden = el.dataset.view !== v));
+  const step = (s: string) => { root.querySelectorAll<HTMLElement>("[data-step]").forEach((el) => (el.hidden = el.dataset.step !== s)); (root.querySelector(`[data-step="${s}"] input`) as HTMLElement | null)?.focus(); };
+  const note = (scope: string, text: string, ok = false) => { const n = $(`[data-step="${scope}"] [data-note]`); n.hidden = !text; n.className = `form-note ${ok ? "ok" : "err"}`; n.textContent = text; };
+  const next = new URLSearchParams(location.search).get("next");
+  const safeNext = next && /^\/(?!\/)/.test(next) ? next : "";
+  let signupToken = "", phone = "";
+
+  const esc = (s: string) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  const fmtDate = (iso: string) => new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+
+  async function done() {
+    if (safeNext) { location.href = href(safeNext); return; }
+    await paintIn();
+  }
+
+  async function paintIn() {
+    view("in");
+    wireAppLinks(root);
+    const s = session()!;
+    $("[data-who]").textContent = s.role === "physio" ? "Your physio account" : "Your betterhood account";
+    try {
+      const me = await summary(true);
+      document.querySelectorAll("[data-account-name]").forEach((el) => (el.textContent = shortName(me.name)));
+      if (me.role === "patient") {
+        const status = me.physioName ? `Your physio: ${me.physioName}${me.activePlan ? " · your exercise plan is ready in the app" : ""}.` : me.matchStatus === "suggested" ? `We've suggested a physio near you${me.suggestedPhysioName ? `: ${me.suggestedPhysioName}` : ""}. See their profile and book in the app.` : "Signed in as " + me.phone + ". The same account works in the betterhood app.";
+        $("[data-status]").textContent = status;
+        const list = me.assessments || [];
+        $("[data-no-results]").hidden = list.length > 0;
+        $("[data-results]").innerHTML = list.map((a: any) => {
+          const val = a.kind === "pain" ? esc(a.condition || "Result ready") : a.scores?.overall != null ? `${a.scores.overall}` : "";
+          const link = a.kind === "pain" && a.result ? href(`/${a.result}/`) : href(a.kind === "longevity" ? "/betteryou-corner-overall-skeletomuscular-health/" : `/better-you-corner-${a.area}-health/`);
+          return `<li><a href="${link}"><span><strong>${esc(a.title)}</strong><small>${fmtDate(a.createdAt)}${a.source === "web" ? " · on the website" : " · in the app"}</small></span><span class="ac-val">${val}</span></a></li>`;
+        }).join("");
+      } else {
+        $("[data-status]").textContent = `Signed in as ${me.phone}. The same number signs you in to the physio app.`;
+        $("[data-stats]").innerHTML = `<li><b>${me.patients ?? 0}</b>patients</li><li><b>${me.upcomingBookings ?? 0}</b>upcoming bookings</li><li><b>${me.listing ? (me.listing.status === "live" ? "Live" : "Hidden") : "Not yet"}</b>directory listing</li>`;
+        $("[data-listing]").innerHTML = me.listing
+          ? `<span>Your profile: <a class="link" href="${esc(me.listing.url)}" target="_blank" rel="noopener">${esc(me.listing.url.replace(/^https?:\/\//, ""))}</a></span><a class="btn btn-sm btn-ghost" href="${href("/physio-directory/join/")}">Edit listing</a>`
+          : `<span><strong>Get found by patients.</strong> Publish your free profile on betterhood.in in a few minutes.</span><a class="btn btn-sm" href="${href("/physio-directory/join/")}">Create my listing</a>`;
+        // personal invite link: any assessment taken from it links the patient to this physio
+        const link = `${location.origin}${href("/quiz-landing-page/")}?physio=${encodeURIComponent(me.inviteRef || me.userId)}`;
+        $("[data-invite-link]").textContent = link.replace(/^https?:\/\//, "");
+        const msg = `Hi! Before your visit, please take this free 5-minute pain assessment from betterhood. Save your result at the end and it comes straight to me, so we can make the most of your first session.
+
+${link}
+
+${me.name}`;
+        $<HTMLAnchorElement>("[data-invite-wa]").href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+        const copy = $<HTMLButtonElement>("[data-invite-copy]");
+        copy.onclick = async () => { try { await navigator.clipboard.writeText(link); copy.textContent = "Copied ✓"; setTimeout(() => (copy.textContent = "Copy link"), 2000); } catch { prompt("Copy your link", link); } };
+        const inv = $("[data-invited]");
+        inv.hidden = !me.invitedPatients;
+        inv.textContent = `${me.invitedPatients} joined from your link`;
+      }
+    } catch (e) {
+      if ((e as ApiError).status === 401) { view("out"); step("phone"); }
+    }
+  }
+
+  // ---------- number → code ----------
+  const pf = $<HTMLFormElement>('[data-step="phone"]');
+  let sent = false;
+  pf.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = $<HTMLButtonElement>("[data-go]");
+    const P = pf.elements as unknown as Record<string, HTMLInputElement>;
+    phone = cleanPhone(P.phone.value);
+    if (!validPhone(phone)) return note("phone", "Enter a valid 10-digit Indian mobile number.");
+    btn.disabled = true;
+    try {
+      if (!sent || !P.code.value) {
+        await requestCode(phone);
+        sent = true;
+        $("[data-code-row]").hidden = false;
+        btn.textContent = "Continue";
+        note("phone", "Code sent on WhatsApp. It's valid for 10 minutes.", true);
+        P.code.focus();
+      } else {
+        if (!/^\d{6}$/.test(P.code.value)) throw new Error("Enter the 6-digit code from WhatsApp.");
+        const r = await verifyCode(phone, P.code.value);
+        if (r.signedIn) return done();
+        signupToken = r.signupToken;
+        step("role");
+      }
+    } catch (err) {
+      note("phone", (err as Error).message);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+  (pf.elements as any).phone.addEventListener("input", () => { if (sent) { sent = false; $("[data-code-row]").hidden = true; $<HTMLButtonElement>("[data-go]").textContent = "Send code on WhatsApp"; } });
+
+  // ---------- new number ----------
+  root.querySelectorAll<HTMLButtonElement>("[data-role]").forEach((b) => b.addEventListener("click", () => {
+    if (b.dataset.role === "physio") { location.href = href("/physio-directory/join/?from=account"); return; }
+    step("patient");
+  }));
+  root.querySelectorAll<HTMLButtonElement>("[data-back]").forEach((b) => b.addEventListener("click", () => step(b.dataset.back!)));
+  const ptf = $<HTMLFormElement>('[data-step="patient"]');
+  ptf.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const F = ptf.elements as unknown as Record<string, HTMLInputElement>;
+    const name = F.name.value.trim();
+    if (name.length < 2) return note("patient", "Please enter your name.");
+    const age = F.age.value ? Number(F.age.value) : undefined;
+    if (age !== undefined && !(age >= 1 && age <= 120)) return note("patient", "Please check your age.");
+    const btn = ptf.querySelector<HTMLButtonElement>("[type=submit]")!;
+    btn.disabled = true;
+    try {
+      await signUpPatient({ signupToken, name, age, city: F.city.value.trim() || undefined });
+      await done();
+    } catch (err) {
+      note("patient", (err as Error).message);
+      if ((err as ApiError).code === "signup_expired") setTimeout(() => step("phone"), 1500);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  root.querySelectorAll("[data-sign-out]").forEach((b) => b.addEventListener("click", () => { signOut(); view("out"); step("phone"); }));
+  document.addEventListener("bh:account", () => { if (session() && root.querySelector<HTMLElement>('[data-view="out"]')!.hidden === false && !signupToken) paintIn(); });
+
+  if (!accountsOn()) view("off");
+  else if (session()) paintIn();
+  else { view("out"); step("phone"); }
+</script>

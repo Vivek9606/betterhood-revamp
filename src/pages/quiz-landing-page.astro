@@ -1,11 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
+import AccountCta from "../components/AccountCta.astro";
 import { media, areas } from "../lib/site";
 
 const imgs: Record<string, string> = { back: "2024/12/bp-1.webp", neck: "2024/12/Neck-Pain.svg", shoulder: "2024/12/Shoulder-Pain.svg", knee: "2024/12/Knee-Pain.svg" };
 const how = [
-  ["clipboard", "Answer clinically designed questions", "About your symptoms, triggers and history — 5–10 minutes."],
+  ["clipboard", "Answer clinically designed questions", "About your symptoms, triggers and history (5–10 minutes)."],
   ["activity", "Get a preliminary diagnosis", "A differential analysis points to the most likely root cause."],
   ["target", "Receive your care toolkit", "Posture, recovery, fitness and nutrition protocols, plus physio-picked essentials."],
 ];
@@ -16,8 +17,9 @@ const how = [
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Pain assessments</span></nav>
       <div class="ql-head">
         <span class="badge badge-sun">Free · 5–10 minutes · physio-designed</span>
+        <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> asked you to take this. Pick the area that hurts, and save your result at the end so it reaches them before your visit.</span></p>
         <h1 class="h1">Choose your <span class="hl">health concern</span></h1>
-        <p class="lead">Designed by our experts to understand your symptoms and find the root cause — before small issues become chronic problems.</p>
+        <p class="lead">Designed by our experts to understand your symptoms and find the root cause, before small issues become chronic problems.</p>
       </div>
       <div class="ql-grid">
         {areas.map((a, i) => (
@@ -41,6 +43,8 @@ const how = [
       </ol>
     </div>
   </section>
+
+  <AccountCta heading="Save every result to your free account" sub="Take any assessment and keep your results in one place, on the website and in the betterhood app. Check in again any time to see your progress." />
 
   <section class="section-tight">
     <div class="wrap">

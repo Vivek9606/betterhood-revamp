@@ -282,7 +282,7 @@
    "required": false,
    "hidden": false,
    "css": "dyk_html",
-   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Sitting for long periods can lead to tight hamstrings, pulling on the knee joint and causing pain—proof that staying active is key to keeping your knees happy! </p> </div>"
+   "html": "<div class=\"dyk_wrapper\"> <div class=\"heading\"> <img src=\"/wp-content/uploads/2024/11/did_you_know_light_icon.svg\"> <h3>Did <span>You Know?</span></h3> </div> <p>Sitting for long periods can lead to tight hamstrings, pulling on the knee joint and causing pain, proof that staying active is key to keeping your knees happy! </p> </div>"
   },
   {
    "id": 80,

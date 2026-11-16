@@ -64,7 +64,7 @@ document.querySelectorAll<HTMLFormElement>("form[data-bh-form]").forEach((f) => 
       if (note) {
         note.hidden = false;
         note.className = "form-note ok";
-        note.textContent = how === "sent" ? f.dataset.success || "Thank you! We'll be in touch soon." : "Your email app has opened with your details — just hit send.";
+        note.textContent = how === "sent" ? f.dataset.success || "Thank you! We'll be in touch soon." : "Your email app has opened with your details, just hit send.";
       }
       if (how === "sent") f.reset();
     } catch {

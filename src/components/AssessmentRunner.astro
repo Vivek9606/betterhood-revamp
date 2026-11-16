@@ -18,6 +18,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
 ---
 <section class="qz" data-quiz>
   <div class="wrap qz-wrap">
+    <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> will see your result once you save it at the end.</span></p>
     <div class="qz-top">
       <a class="qz-back-link" href="/quiz-landing-page/" data-embed-hide><Icon name="arrow-left" size={18} /> <span><span class="lbl-long">All </span>assessments</span></a>
       <button type="button" class="qz-jump" data-jump hidden>How to test <span aria-hidden="true">↓</span></button>
@@ -138,6 +139,10 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   .qz-bars i { height: 10px; border-radius: 10px; background: var(--plum-100); overflow: hidden; }
   .qz-bars b { display: block; height: 100%; background: linear-gradient(90deg, var(--sun-500), var(--mint-600)); border-radius: inherit; }
   .qz-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 8px; }
+  .qz-saved { padding: 8px 14px; border-radius: 999px; background: var(--mint-100); color: var(--mint-700); font-weight: 650; font-size: 14.5px; }
+  .qz-keep { width: 100%; max-width: 640px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 16px 18px; border-radius: var(--r-lg); background: var(--plum-50); border: 1px solid var(--plum-200); text-align: left; }
+  .qz-keep > div { flex: 1 1 280px; display: grid; gap: 4px; }
+  .qz-keep span { font-size: 14.5px; color: var(--ink-mute); }
 
   @media (max-width: 860px) {
     /* phones: the side notes follow the buttons; a "How to test ↓" link jumps to them on test steps */
@@ -183,6 +188,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   import { fromApp, isEmbedded, toApp, waitForApp } from "../scripts/embed";
   import { href } from "../scripts/base";
   import { appLink } from "../scripts/app-link";
+  import { accountHref, accountsOn, openApp, saveResult, session } from "../scripts/account";
 
   const root = document.querySelector<HTMLElement>("[data-quiz]")!;
   const form: FormDef = JSON.parse(root.querySelector("[data-form-def]")!.textContent!);
@@ -396,8 +402,12 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     // The result (not the answers) also goes to the Betterhood API for the admin dashboard. In the app, the app saves it instead.
     recordSubmission("assessment", cfg.slug, { ...record, name, email, phone });
 
-    if (go) { location.href = go; return; }
+    // Signed in on the website: the result goes straight to their account (and so into the app).
+    const s = accountsOn() ? session() : null;
+    const saving = s?.role === "patient" ? Promise.race([saveResult(cfg.slug, record), new Promise<boolean>((r) => setTimeout(() => r(false), 5000))]) : Promise.resolve(false);
+    if (go) { next.disabled = true; saving.then(() => (location.href = go)); return; }
     showScores(record);
+    saving.then((ok) => { if (ok) { const b = main.querySelector<HTMLElement>("[data-saved]"); if (b) b.hidden = false; } });
   }
 
   function showSaving() {
@@ -443,6 +453,8 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   }
   function showScores(r: any) {
     const toAppHref = appLink(cfg.slug, r);
+    const accounts = accountsOn();
+    const signedIn = accounts && session()?.role === "patient";
     const longevity = cfg.kind === "longevity";
     const pct = Math.round(((r.overall ?? 0) / 10) * 100);
     const bars = ([["Strength", r.strength], ["Balance", r.balance], ["Mobility", r.mobility]] as [string, number | null][]).filter(([, v]) => v !== null) as [string, number][];
@@ -466,10 +478,15 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       ${areas}
       <div class="qz-bars">${bars.map(([k, v]) => `<div><span>${k}</span><i><b style="width:${(v / 10) * 100}%"></b></i><span>${v}</span></div>`).join("")}</div>
       <p class="qz-scale-note">Shown on a 0–10 scale. This is a snapshot to track your progress over time, not a test you pass or fail.</p>
-      <div class="qz-actions">${toAppHref ? `<a class="btn btn-lg" href="${toAppHref}">Track your progress in the betterhood app →</a><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner</a>` : `<a class="btn btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner →</a>`}<a class="btn btn-ghost btn-lg" href="${location.pathname}">Check in again</a></div>
+      ${signedIn
+        ? `<p class="qz-saved" data-saved hidden>✓ Saved to your betterhood account</p>
+           <div class="qz-actions"><button type="button" class="btn btn-lg btn-sun" data-open-in-app>Track your progress in the app →</button><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner</a><a class="btn btn-ghost btn-lg" href="${location.pathname}">Check in again</a></div>`
+        : `${accounts ? `<div class="qz-keep"><div><strong>Keep this result and see your progress over time</strong><span>Create your free betterhood account with your mobile number. It works on the website and in the app.</span></div><a class="btn btn-sun" href="${accountHref(cfg.corner)}">Save my results →</a></div>` : ""}
+           <div class="qz-actions">${toAppHref ? `<a class="btn btn-lg" href="${toAppHref}">Track your progress in the betterhood app →</a><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner</a>` : `<a class="btn btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner →</a>`}<a class="btn btn-ghost btn-lg" href="${location.pathname}">Check in again</a></div>`}
     </div>`;
     $(".qz-nav").remove();
     $("[data-step]").textContent = String(total);
+    main.querySelector("[data-open-in-app]")?.addEventListener("click", () => openApp("/me"));
   }
 
   render();

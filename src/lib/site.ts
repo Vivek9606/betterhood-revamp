@@ -32,7 +32,7 @@ export const socials = [
 ];
 
 export const offers = [
-  "10% off orders above ₹2,999 — code betterhood10",
+  "10% off orders above ₹2,999 with code betterhood10",
   "🚀 Express Pan-India Delivery in 2–4 Days",
   "Physio-Trusted Pain Care",
   "🎁 Guaranteed FREE GIFT at Checkout",
