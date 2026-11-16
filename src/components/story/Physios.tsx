@@ -1,84 +1,81 @@
-import { useRef, useState } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValueEvent, useReducedMotion, type MotionValue } from "motion/react";
-import { Rich, EASE } from "./primitives";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import { Rich, Reveal, EASE } from "./primitives";
 
 interface P { name: string; role: string; image: string; badge: string; quote: string | null }
 interface Props {
   clinic: { title: string; sub: string; steps: { text: string; icon: string }[] };
   physios: { title: string; people: P[] };
 }
-const STEP = 60;
 
-function Orbiter({ p, i, rot, active, onPick }: { p: P; i: number; rot: MotionValue<number>; active: boolean; onPick: () => void }) {
-  const t = useTransform(rot, (r) => {
-    const a = i * STEP + r;
-    return `translate(-50%, -50%) rotate(${a}deg) translateY(calc(var(--orbit-r) * -1)) rotate(${-a}deg)`;
-  });
-  return (
-    <motion.button className={`st-orb ${active ? "on" : ""}`} style={{ transform: t }} onClick={onPick} aria-label={p.name} aria-pressed={active}>
-      <img src={p.image} alt="" loading="lazy" decoding="async" width={108} height={108} />
-    </motion.button>
-  );
-}
+const STAGES = ["Observe", "Test", "Review"];
 
-// "Not just co-creators" (the clinic promise) on the left; the physios we work with orbit on the right,
-// turning one step per scroll beat. All names and credentials are also in a plain list for crawlers.
+// "Not just co-creators": every product carries a clinical sign-off file. The three checks tick off as the file
+// scrolls into view and an approval stamp lands; below it, the physios who sign off, all visible at once.
 export default function Physios({ clinic, physios }: Props) {
-  const ref = useRef<HTMLElement>(null);
+  const file = useRef<HTMLDivElement>(null);
+  const seen = useInView(file, { once: true, margin: "0px 0px -20% 0px" });
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const p = useSpring(scrollYProgress, { stiffness: 80, damping: 24 });
-  const people = physios.people;
-  const n = people.length;
-  const [pick, setPick] = useState<number | null>(null);
-  const scrollRot = useTransform(p, [0, 1], [0, -STEP * (n - 1)]);
-  const [active, setActive] = useState(0);
-  const [step, setStep] = useState(0);
-  useMotionValueEvent(scrollRot, "change", (r) => { setActive(((Math.round(-r / STEP) % n) + n) % n); setPick(null); });
-  useMotionValueEvent(p, "change", (v) => setStep(Math.min(clinic.steps.length - 1, Math.floor(v * clinic.steps.length))));
-  const current = pick ?? active;
-  const ring = useTransform(p, [0, 1], [0, 90]);
-  const ringRot = useTransform(ring, (v) => `rotate(${v}deg)`);
-  const ph = people[current];
+  const on = reduce || seen;
+  const n = clinic.steps.length;
 
   return (
-    <section ref={ref} className="st-physios" aria-label="Clinically accountable physios">
-      <div className="st-physios-stage">
-        <div className="wrap st-physios-grid">
-          <div className="st-physios-copy">
+    <section className="st-physios" aria-label="Clinically accountable physios">
+      <div className="wrap">
+        <div className="st-signoff">
+          <div className="st-signoff-copy">
             <h2 className="st-h2"><Rich text={clinic.title} bold="em" /></h2>
             <p className="st-lead">{clinic.sub}</p>
-            <ol className="st-checks">
+          </div>
+
+          <div className="st-file" ref={file}>
+            <div className="st-file-head">
+              <span className="st-file-tag">Product file</span>
+              <span className="st-file-title">Clinical sign-off</span>
+            </div>
+            <ol className="st-file-steps">
               {clinic.steps.map((s, i) => (
-                <li key={s.text} className={reduce || i <= step ? "on" : ""}>
-                  <span><img src={s.icon} alt="" width={36} height={36} loading="lazy" /></span>
-                  <p><Rich text={s.text} /></p>
+                <li key={s.text} className={on ? "on" : ""} style={{ transitionDelay: on && !reduce ? `${0.25 + i * 0.45}s` : undefined }}>
+                  <span className="st-file-icon"><img src={s.icon} alt="" width={40} height={40} loading="lazy" /></span>
+                  <div>
+                    <p className="st-file-stage">{String(i + 1).padStart(2, "0")} · {STAGES[i] ?? "Check"}</p>
+                    <p className="st-file-text"><Rich text={s.text} /></p>
+                  </div>
+                  <span className="st-file-tick" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </span>
                 </li>
               ))}
             </ol>
+            <motion.div
+              className="st-stamp"
+              aria-hidden="true"
+              initial={reduce ? false : { opacity: 0, scale: 1.6, rotate: -4 }}
+              animate={on ? { opacity: 1, scale: 1, rotate: -12 } : undefined}
+              transition={{ duration: 0.7, ease: EASE, delay: reduce ? 0 : 0.35 + n * 0.45 }}
+            >
+              <span>Physio</span>
+              <b>Approved</b>
+              <span>✓ before launch</span>
+            </motion.div>
           </div>
+        </div>
 
-          <div className="st-orbit-col">
-            <h2 className="st-orbit-title">{physios.title}</h2>
-            <div className="st-orbit">
-              <motion.div className="st-orbit-ring" style={reduce ? undefined : { transform: ringRot }} aria-hidden="true" />
-              <div className="st-orbit-core" aria-live="polite">
-                <AnimatePresence mode="wait">
-                  <motion.div key={ph.name} className="st-core-in" initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.92 }} transition={{ duration: 0.4, ease: EASE }}>
-                    <img src={ph.image} alt={ph.name} width={92} height={92} loading="lazy" />
-                    <p className="st-core-n">{ph.name}</p>
-                    <p className="st-core-r">{ph.role}</p>
-                    {ph.badge && <span className="st-verified">✓ {ph.badge}</span>}
-                    {ph.quote && <p className="st-core-q">{ph.quote}</p>}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-              {people.map((x, i) => <Orbiter key={x.name} p={x} i={i} rot={scrollRot} active={i === current} onPick={() => setPick(i)} />)}
-            </div>
-            <ul className="sr-only">
-              {people.map((x) => <li key={x.name}>{x.name}, {x.role}{x.badge ? ` (${x.badge})` : ""}</li>)}
-            </ul>
-          </div>
+        <div className="st-panel">
+          <h3 className="st-panel-title">{physios.title}</h3>
+          <ul className="st-panel-list">
+            {physios.people.map((p, i) => (
+              <Reveal as="li" key={p.name} i={i % 3} className="st-sign">
+                <img src={p.image} alt={p.name} width={88} height={88} loading="lazy" decoding="async" />
+                <div className="st-sign-body">
+                  <p className="st-sign-name">{p.name}</p>
+                  <p className="st-sign-role">{p.role}</p>
+                  {p.quote && <p className="st-sign-quote">{p.quote}</p>}
+                  {p.badge && <span className="st-verified">✓ {p.badge}</span>}
+                </div>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
