@@ -38,8 +38,9 @@ const condition = a.conditions[r.cat];
         <div class="rs-diag" set:html={diagnosis} />
         <div class="rs-cta">
           <a class="btn btn-lg" href="#toolkit">See my toolkit <Icon name="arrow" class="arrow" /></a>
-          <a class="btn btn-ghost btn-lg" href={corner}>Save to betterYou corner</a>
+          <a class="btn btn-ghost btn-lg" href={corner}>Open my betterYou corner</a>
         </div>
+        <p class="rs-saved" data-saved hidden><Icon name="check-circle" size={16} /> <span data-saved-text>Saved to your betterYou corner</span></p>
       </div>
       <div class="rs-img" set:html={imageHtml} />
     </div>
@@ -52,7 +53,7 @@ const condition = a.conditions[r.cat];
           <p class="eyebrow">Your free betterhood account</p>
           <h2 class="h3" data-out-h>Keep this result and get matched with a physio near you</h2>
           <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> asked for this result. Save it to your free account and it goes straight to them.</span></p>
-          <p class="rs-app-sub" data-out-sub>Save your {condition.toLowerCase()} result to your account, follow your plan and book a session, on the website or in the app. Free to use.</p>
+          <p class="rs-app-sub" data-out-sub>Your {condition.toLowerCase()} result is already in your betterYou corner on this device. Sign in with your mobile number to keep it on every device and in the app, get matched with a physio near you and book a session. Free to use.</p>
         </div>
         <div data-in hidden>
           <p class="eyebrow">✓ Saved to your account</p>
@@ -61,7 +62,7 @@ const condition = a.conditions[r.cat];
           <p class="rs-app-sub" data-in-sub>We've added this {condition.toLowerCase()} result to your betterhood account. Open the app to see the physio we suggest, follow your plan and book a session.</p>
         </div>
         <div class="rs-app-acts">
-          <a class="btn btn-lg" data-account-link href="/account/" hidden>Save my result <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-lg" data-account-link href="/account/" hidden>Sign in to keep it everywhere <Icon name="arrow" class="arrow" /></a>
           <a class="btn btn-lg btn-ghost" data-app-link href="#">Get the app <Icon name="arrow" class="arrow" /></a>
         </div>
       </div>
@@ -132,6 +133,7 @@ const condition = a.conditions[r.cat];
   .rs-app-acts { display: flex; flex-wrap: wrap; gap: 10px; }
   .rs-app .invite-note { margin: 10px 0 0; }
   @media (max-width: 960px) { .rs-grid, .rs-tk { grid-template-columns: 1fr; } }
+  .rs-saved { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 14px; font-weight: 600; color: var(--mint-700); }
 </style>
 
 <script>
@@ -196,4 +198,15 @@ const condition = a.conditions[r.cat];
   document.addEventListener("bh:account", paint);
   document.addEventListener("bh:invite", paint);
   if (rec?.result === meta.result && rec.advisory) document.querySelector<HTMLElement>("[data-advisory]")!.hidden = false;
+  // The result was saved the moment they finished (this browser; the account too when signed in). Say so, so nobody
+  // thinks there's a save step left.
+  if (mine && !isEmbedded()) {
+    const saved = document.querySelector<HTMLElement>("[data-saved]")!;
+    const sayWhere = () => {
+      saved.querySelector("[data-saved-text]")!.textContent = accountsOn() && session()?.role === "patient" ? "Saved to your betterYou corner and your betterhood account" : "Saved to your betterYou corner";
+    };
+    sayWhere();
+    saved.hidden = false;
+    document.addEventListener("bh:account", sayWhere);
+  }
 </script>

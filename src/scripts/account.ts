@@ -21,7 +21,7 @@ export interface Session { token: string; role: Role; userId: string; name?: str
 export interface Summary {
   role: Role; userId: string; name: string; phone: string;
   // patient
-  hasPhysioProfile?: boolean; physioName?: string | null; suggestedPhysioName?: string | null; matchStatus?: string | null; activePlan?: boolean; assessments?: any[];
+  hasPhysioProfile?: boolean; physioName?: string | null; suggestedPhysioName?: string | null; matchStatus?: string | null; activePlan?: boolean; assessments?: any[]; results?: any[];
   // physio
   hasPatientProfile?: boolean; listing?: { slug: string; status: string; url: string } | null; patients?: number; upcomingBookings?: number; inviteRef?: string; invitedPatients?: number;
 }
@@ -164,7 +164,7 @@ export async function startSession(s: Omit<Session, "at">) {
   cached = null;
   save({ ...s, at: Date.now() });
   try { const me = await summary(true); save({ ...s, name: me.name, at: Date.now() }); } catch {}
-  if (s.role === "patient") await syncResults();
+  if (s.role === "patient") { await syncResults(); await pullResults(); }
   setOwner(s.userId);
 }
 
@@ -258,6 +258,53 @@ export async function syncResults() {
     if (!/^assessment-/.test(slug) || !r?.area || done.includes(resultId(slug, r.date || "", r.id))) continue;
     await saveResult(slug, r);
   }
+}
+
+/** An account result in the shape the website keeps in bh_results / bh_history (what the betterYou corner reads). */
+function toLocal(a: any): SiteResult {
+  const base = { id: a.id, slug: a.slug, kind: a.kind || "pain", area: a.area, title: a.title, date: a.takenAt || a.createdAt };
+  if (base.kind === "pain") {
+    return { ...base, cat: a.cat, condition: a.condition, result: a.result, advisory: !!a.advisory, painScore: a.painScore, totals: Object.entries(a.totals || {}).map(([cat, score]) => ({ cat, score })) };
+  }
+  const s = a.scores || {};
+  return { ...base, overall: s.overall ?? null, strength: s.strength ?? null, balance: s.balance ?? null, mobility: s.mobility ?? null };
+}
+
+/**
+ * The signed-in patient's results (from any device, the app included) → this browser, so the betterYou corner shows
+ * them. The newest result per assessment wins; history gains any run it doesn't have. true = something changed.
+ */
+export async function pullResults(): Promise<boolean> {
+  const s = session();
+  if (!accountsOn() || !s || s.role !== "patient") return false;
+  let list: any[] = [];
+  try { list = (await summary(true)).results ?? []; } catch { return false; }
+  if (!list.length) return false;
+  let store: Record<string, SiteResult> = {}, history: SiteResult[] = [], done: string[] = [];
+  try {
+    store = JSON.parse(localStorage.getItem("bh_results") || "{}");
+    history = JSON.parse(localStorage.getItem("bh_history") || "[]");
+    done = JSON.parse(localStorage.getItem(SYNCED_KEY) || "[]");
+  } catch {}
+  const t = (d?: string) => Date.parse(d || "") || 0;
+  let changed = false;
+  for (const a of list) {
+    if (!a?.slug || !/^assessment-/.test(a.slug)) continue;
+    const r = toLocal(a);
+    const cur = store[a.slug];
+    // Same result already here (this device took it): keep the local copy, it has more detail.
+    if (!cur || (cur.id !== a.id && t(cur.date) < t(r.date))) { store[a.slug] = r; changed = true; }
+    if (!history.some((h) => h.id === a.id || (h.slug === a.slug && h.date === r.date))) { history.push(r); changed = true; }
+    if (!done.includes(a.id)) done.push(a.id);
+  }
+  if (!changed) return false;
+  history.sort((x, y) => t(x.date) - t(y.date));
+  try {
+    localStorage.setItem("bh_results", JSON.stringify(store));
+    localStorage.setItem("bh_history", JSON.stringify(history.slice(-60)));
+    localStorage.setItem(SYNCED_KEY, JSON.stringify(done.slice(-80)));
+  } catch {}
+  return true;
 }
 
 // ---------- results taken with this number elsewhere ----------

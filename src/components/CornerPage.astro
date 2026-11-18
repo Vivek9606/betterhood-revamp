@@ -140,7 +140,7 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
   )}
 
   <section class="section-tight">
-    <div class="wrap"><p class="bc-note muted"><Icon name="lock" size={15} /> Your results are stored privately on this device and browser. Clearing your browser data will reset them.</p></div>
+    <div class="wrap"><p class="bc-note muted"><Icon name="lock" size={15} /> <span data-note-local>Your results are saved privately on this device. Sign in with your mobile number to see them on every device and in the app.</span><span data-note-acct hidden>Your results are saved to your betterhood account and show here on every device you sign in on.</span></p></div>
   </section>
   <script type="application/json" data-bc set:html={JSON.stringify(cfg)} />
   <AccountCta heading="Keep your corner with you" sub="Create your free betterhood account to save your results and protocols, track your progress and follow your plan in the betterhood app." />
@@ -186,10 +186,8 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
 
 <script>
   import { href } from "../scripts/base";
+  import { accountsOn, pullResults, session } from "../scripts/account";
   const cfg = JSON.parse(document.querySelector("[data-bc]")!.textContent!);
-  let store: Record<string, any> = {}, history: any[] = [], name = "";
-  try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); history = JSON.parse(localStorage.getItem("bh_history") || "[]"); name = localStorage.getItem("bh_name") || ""; } catch {}
-  if (name) document.querySelector("[data-hello]")!.textContent = `${name}'s`;
   const ring = (el: Element | null, v: number | null) => {
     if (!el) return;
     el.querySelector("[data-overall]")!.textContent = v === null ? "X" : String(v);
@@ -197,38 +195,53 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
   };
   const fmt = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
 
-  if (cfg.area !== "overall") {
-    const pain = store[cfg.pain];
-    if (pain) {
+  // Everything shown comes from this browser's copy (bh_results / bh_history): saved the moment an assessment is
+  // finished, and, when signed in, topped up from the account so results from other devices and the app show too.
+  function render() {
+    let store: Record<string, any> = {}, history: any[] = [], name = "";
+    try { store = JSON.parse(localStorage.getItem("bh_results") || "{}"); history = JSON.parse(localStorage.getItem("bh_history") || "[]"); name = localStorage.getItem("bh_name") || ""; } catch {}
+    const signedIn = accountsOn() && session()?.role === "patient";
+    if (signedIn && session()?.name) name = session()!.name!.split(" ")[0];
+    if (name) document.querySelector("[data-hello]")!.textContent = `${name}'s`;
+    (document.querySelector("[data-note-local]") as HTMLElement).hidden = signedIn;
+    (document.querySelector("[data-note-acct]") as HTMLElement).hidden = !signedIn;
+
+    if (cfg.area !== "overall") {
+      const pain = store[cfg.pain];
       const card = document.querySelector("[data-diagnosis]")!;
-      (card.querySelector("[data-empty]") as HTMLElement).hidden = true;
-      (card.querySelector("[data-full]") as HTMLElement).hidden = false;
-      card.querySelector("[data-condition]")!.textContent = pain.condition;
-      card.querySelector("[data-date]")!.textContent = `Assessed on ${fmt(pain.date)}`;
-      (card.querySelector("[data-result]") as HTMLAnchorElement).href = href(`/${pain.result}/`);
-    }
-    const h = store[cfg.health];
-    const sc = document.querySelector("[data-score]")!;
-    ring(sc.querySelector("[data-ring]"), h?.overall ?? null);
-    if (h) {
-      sc.querySelector("[data-bars]")!.innerHTML = [["Strength", h.strength], ["Balance", h.balance], ["Mobility", h.mobility]]
-        .filter(([, v]) => v !== null).map(([k, v]) => `<div><span>${k}</span><i><b style="width:${v * 10}%"></b></i><span>${v}/10</span></div>`).join("");
-      const runs = history.filter((x) => x.slug === cfg.health && x.overall !== null).slice(-10);
-      if (runs.length > 1) {
-        (sc.querySelector("[data-history]") as HTMLElement).hidden = false;
-        sc.querySelector("[data-spark]")!.innerHTML = runs.map((r) => `<span style="height:${Math.max(8, r.overall * 10)}%" title="${fmt(r.date)}: ${r.overall}/10"></span>`).join("");
+      (card.querySelector("[data-empty]") as HTMLElement).hidden = !!pain;
+      (card.querySelector("[data-full]") as HTMLElement).hidden = !pain;
+      if (pain) {
+        card.querySelector("[data-condition]")!.textContent = pain.condition;
+        card.querySelector("[data-date]")!.textContent = `Assessed on ${fmt(pain.date)}`;
+        (card.querySelector("[data-result]") as HTMLAnchorElement).href = href(`/${pain.result}/`);
       }
+      const h = store[cfg.health];
+      const sc = document.querySelector("[data-score]")!;
+      ring(sc.querySelector("[data-ring]"), h?.overall ?? null);
+      if (h) {
+        sc.querySelector("[data-bars]")!.innerHTML = [["Strength", h.strength], ["Balance", h.balance], ["Mobility", h.mobility]]
+          .filter(([, v]) => v !== null && v !== undefined).map(([k, v]) => `<div><span>${k}</span><i><b style="width:${v * 10}%"></b></i><span>${v}/10</span></div>`).join("");
+        const runs = history.filter((x) => x.slug === cfg.health && x.overall != null).slice(-10);
+        if (runs.length > 1) {
+          (sc.querySelector("[data-history]") as HTMLElement).hidden = false;
+          sc.querySelector("[data-spark]")!.innerHTML = runs.map((r) => `<span style="height:${Math.max(8, r.overall * 10)}%" title="${fmt(r.date)}: ${r.overall}/10"></span>`).join("");
+        }
+      }
+    } else {
+      const taken = cfg.healths.filter((h: any) => store[h.slug]?.overall != null);
+      const avg = taken.length ? Math.round((taken.reduce((s: number, h: any) => s + store[h.slug].overall, 0) / taken.length) * 10) / 10 : null;
+      ring(document.querySelector("[data-overall-card] [data-ring]"), avg);
+      document.querySelector("[data-taken]")!.textContent = taken.length
+        ? `Your overall score considers the most recent result of your back, neck, shoulder, and knee assessments. You have taken ${taken.length} out of 4 assessments.${taken.length < 4 ? " Complete the rest for optimal results." : ""}`
+        : "You have not taken the assessment yet. Get started with the Assessments.";
+      document.querySelectorAll<HTMLElement>("[data-area-list] li").forEach((li) => {
+        const r = store[li.dataset.k!];
+        if (r?.overall != null) { li.querySelector("b")!.style.width = `${r.overall * 10}%`; li.querySelector("strong")!.textContent = `${r.overall}`; li.querySelector("a")!.firstChild!.textContent = "Retake "; }
+      });
     }
-  } else {
-    const taken = cfg.healths.filter((h: any) => store[h.slug]?.overall != null);
-    const avg = taken.length ? Math.round((taken.reduce((s: number, h: any) => s + store[h.slug].overall, 0) / taken.length) * 10) / 10 : null;
-    ring(document.querySelector("[data-overall-card] [data-ring]"), avg);
-    document.querySelector("[data-taken]")!.textContent = taken.length
-      ? `Your overall score considers the most recent result of your back, neck, shoulder, and knee assessments. You have taken ${taken.length} out of 4 assessments.${taken.length < 4 ? " Complete the rest for optimal results." : ""}`
-      : "You have not taken the assessment yet. Get started with the Assessments.";
-    document.querySelectorAll<HTMLElement>("[data-area-list] li").forEach((li) => {
-      const r = store[li.dataset.k!];
-      if (r?.overall != null) { li.querySelector("b")!.style.width = `${r.overall * 10}%`; li.querySelector("strong")!.textContent = `${r.overall}`; li.querySelector("a")!.firstChild!.textContent = "Retake "; }
-    });
   }
+  render();
+  pullResults().then((changed) => changed && render());
+  document.addEventListener("bh:account", () => { render(); pullResults().then((c) => c && render()); });
 </script>

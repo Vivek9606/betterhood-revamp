@@ -432,7 +432,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       localStorage.setItem("bh_results", JSON.stringify(store));
       localStorage.setItem("bh_history", JSON.stringify(history.slice(-60)));
       if (name) localStorage.setItem("bh_name", name);
-      // So "Save my result" doesn't ask for them again (cleared on sign-out with everything personal).
+      // So signing in afterwards doesn't ask for them again (cleared on sign-out with everything personal).
       if (name || phone) localStorage.setItem("bh_contact", JSON.stringify({ name, phone }));
     } catch {}
 
@@ -531,7 +531,8 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       ${signedIn
         ? `<p class="qz-saved" data-saved hidden>✓ Saved to your betterhood account</p>
            <div class="qz-actions"><button type="button" class="btn btn-lg btn-sun" data-open-in-app>Track your progress in the app →</button><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner</a><a class="btn btn-ghost btn-lg" href="${location.pathname}">Check in again</a></div>`
-        : `${accounts ? `<div class="qz-keep"><div><strong>Keep this result and see your progress over time</strong><span>Create your free betterhood account with your mobile number. It works on the website and in the app.</span></div><a class="btn btn-sun" href="${accountHref(cfg.corner)}">Save my results →</a></div>` : ""}
+        : `<p class="qz-saved">✓ Saved to your betterYou corner</p>
+           ${accounts ? `<div class="qz-keep"><div><strong>See your progress on every device</strong><span>It's saved on this device. Sign in with your mobile number to keep it in your free betterhood account, on the website and in the app.</span></div><a class="btn btn-sun" href="${accountHref(cfg.corner)}">Sign in to keep it everywhere →</a></div>` : ""}
            <div class="qz-actions">${toAppHref ? `<a class="btn btn-lg" href="${toAppHref}">Track your progress in the betterhood app →</a><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner</a>` : `<a class="btn btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner →</a>`}<a class="btn btn-ghost btn-lg" href="${location.pathname}">Check in again</a></div>`}
     </div>`;
     $(".qz-nav").remove();
