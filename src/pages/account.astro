@@ -49,6 +49,7 @@ const physioTools = [
               <label for="ac-code">6-digit code from WhatsApp</label>
               <input class="input ac-code" id="ac-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}" />
             </div>
+            <label class="ac-check"><input type="checkbox" name="updates" /> <span>Send me appointment and care updates on WhatsApp</span></label>
             <p class="form-note" data-note hidden></p>
             <button class="btn btn-lg btn-block" type="submit" data-go>Send code on WhatsApp</button>
             <p class="ac-fine">By continuing you agree to our <a class="link" href="/terms-of-services/">terms</a> and <a class="link" href="/privacy-policy/">privacy policy</a>.</p>
@@ -71,6 +72,12 @@ const physioTools = [
               <div class="field"><label for="ac-city">City</label><input class="input" id="ac-city" name="city" autocomplete="address-level2" maxlength="80" /></div>
             </div>
             <p class="ac-fine">Your city helps us suggest a physio near you.</p>
+            <fieldset class="ac-sex"><legend>Sex</legend>
+              <label><input type="radio" name="sex" value="F" /><span>Female</span></label>
+              <label><input type="radio" name="sex" value="M" /><span>Male</span></label>
+              <label><input type="radio" name="sex" value="O" /><span>Other</span></label>
+            </fieldset>
+            <label class="ac-check"><input type="checkbox" name="agree" /> <span data-consent-text></span></label>
             <p class="form-note" data-note hidden></p>
             <button class="btn btn-lg btn-block" type="submit">Create my account</button>
             <button class="ac-back" type="button" data-back="role">Back</button>
@@ -94,6 +101,12 @@ const physioTools = [
 
         <!-- patient -->
         <div data-role-only="patient" hidden>
+          <div class="ac-panel ac-claim" data-claim hidden>
+            <div class="ac-panel-h"><h2 class="h3">Results taken with your number</h2></div>
+            <p class="muted">These were taken on betterhood.in with your mobile number, on another device or before you signed up. Add the ones that are yours to your account. Your physio sees them too.</p>
+            <ul class="ac-results" data-claim-list></ul>
+            <div class="ac-acts"><button class="btn" type="button" data-claim-all>These are all mine</button></div>
+          </div>
           <div class="ac-panel">
             <div class="ac-panel-h"><h2 class="h3">Your results</h2><a class="link" href="/quiz-landing-page/">Take an assessment <Icon name="arrow" /></a></div>
             <ul class="ac-results" data-results></ul>
@@ -160,6 +173,18 @@ const physioTools = [
   .ac-role > span:nth-child(2) { flex: 1; }
   .ac-role strong { display: block; font-size: 16px; }
   .ac-role small { display: block; color: var(--ink-mute); font-size: 14px; margin-top: 2px; }
+  .ac-check { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; line-height: 1.45; color: var(--ink-soft); cursor: pointer; }
+  .ac-check input { flex: none; width: 18px; height: 18px; margin-top: 2px; accent-color: var(--plum-700); }
+  .ac-sex { border: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .ac-sex legend { font-weight: 600; font-size: 14.5px; margin-bottom: 8px; width: 100%; }
+  .ac-sex label { position: relative; cursor: pointer; }
+  .ac-sex input { position: absolute; opacity: 0; }
+  .ac-sex span { display: inline-block; padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--line-strong); font-weight: 550; transition: all 0.2s ease-in-out; }
+  .ac-sex input:checked + span { border-color: var(--plum-700); background: var(--plum-50); color: var(--plum-800); }
+  .ac-sex input:focus-visible + span { outline: 3px solid var(--sun-500); outline-offset: 2px; }
+  .ac-claim { border-color: var(--plum-300); }
+  .ac-claim :global(li) { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 16px; border-radius: var(--r-md); background: var(--plum-50); }
+  .ac-claim :global(li > span:last-child) { display: flex; gap: 8px; }
   .ac-back { justify-self: start; border: 0; background: none; color: var(--plum-700); font-weight: 600; cursor: pointer; padding: 0; }
 
   .ac-in { display: grid; gap: 22px; }
@@ -199,7 +224,7 @@ const physioTools = [
 </style>
 
 <script>
-  import { accountsOn, cleanPhone, shortName, requestCode, session, signOut, signUpPatient, summary, validPhone, verifyCode, wireAppLinks, type ApiError } from "../scripts/account";
+  import { accountsOn, cleanPhone, consentItem, lastContact, recordConsents, resolveWebResults, shortName, requestCode, session, signOut, signUpPatient, summary, validPhone, verifyCode, webResults, wireAppLinks, SIGNUP_CONSENT, type ApiError, type WebResult } from "../scripts/account";
   import { href } from "../scripts/base";
 
   const root = document.querySelector<HTMLElement>("[data-ac]")!;
@@ -209,7 +234,12 @@ const physioTools = [
   const note = (scope: string, text: string, ok = false) => { const n = $(`[data-step="${scope}"] [data-note]`); n.hidden = !text; n.className = `form-note ${ok ? "ok" : "err"}`; n.textContent = text; };
   const next = new URLSearchParams(location.search).get("next");
   const safeNext = next && /^\/(?!\/)/.test(next) ? next : "";
-  let signupToken = "", phone = "";
+  let signupToken = "", phone = "", updates = false;
+  // What the person typed into their last assessment on this device: no need to type it again.
+  const typed = lastContact();
+  if (typed.phone) root.querySelector<HTMLInputElement>("#ac-phone")!.value = cleanPhone(typed.phone);
+  if (typed.name) root.querySelector<HTMLInputElement>("#ac-name")!.value = typed.name;
+  $("[data-consent-text]").textContent = SIGNUP_CONSENT;
 
   const esc = (s: string) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
   const fmtDate = (iso: string) => new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
@@ -230,6 +260,7 @@ const physioTools = [
       if (me.role === "patient") {
         const status = me.physioName ? `Your physio: ${me.physioName}${me.activePlan ? " · your exercise plan is ready in the app" : ""}.` : me.matchStatus === "suggested" ? `We've suggested a physio near you${me.suggestedPhysioName ? `: ${me.suggestedPhysioName}` : ""}. See their profile and book in the app.` : "Signed in as " + me.phone + ". The same account works in the betterhood app.";
         $("[data-status]").textContent = status;
+        paintClaims();
         const list = me.assessments || [];
         $("[data-no-results]").hidden = list.length > 0;
         $("[data-results]").innerHTML = list.map((a: any) => {
@@ -263,6 +294,25 @@ ${me.name}`;
     }
   }
 
+  // ---------- results taken with this number on another device ----------
+  async function paintClaims() {
+    let rows: WebResult[] = [];
+    try { rows = await webResults(); } catch {}
+    const box = $("[data-claim]");
+    box.hidden = !rows.length;
+    $("[data-claim-list]").innerHTML = rows.map((r) => `<li data-id="${esc(r.id)}"><span><strong>${esc(r.title)}</strong><small> · ${fmtDate(r.takenAt)}</small></span><span><button class="btn btn-sm" type="button" data-mine>This is mine</button><button class="btn btn-sm btn-ghost" type="button" data-not-mine>Not mine</button></span></li>`).join("");
+    const resolve = async (claim: string[], disown: string[]) => {
+      box.querySelectorAll("button").forEach((b) => ((b as HTMLButtonElement).disabled = true));
+      try { await resolveWebResults(claim, disown); } catch {}
+      paintIn();
+    };
+    box.querySelectorAll<HTMLElement>("[data-id]").forEach((li) => {
+      li.querySelector("[data-mine]")!.addEventListener("click", () => resolve([li.dataset.id!], []));
+      li.querySelector("[data-not-mine]")!.addEventListener("click", () => resolve([], [li.dataset.id!]));
+    });
+    $<HTMLButtonElement>("[data-claim-all]").onclick = () => resolve(rows.map((r) => r.id), []);
+  }
+
   // ---------- number → code ----------
   const pf = $<HTMLFormElement>('[data-step="phone"]');
   let sent = false;
@@ -283,8 +333,13 @@ ${me.name}`;
         P.code.focus();
       } else {
         if (!/^\d{6}$/.test(P.code.value)) throw new Error("Enter the 6-digit code from WhatsApp.");
+        updates = !!P.updates.checked;
         const r = await verifyCode(phone, P.code.value);
-        if (r.signedIn) return done();
+        if (r.signedIn) {
+          // Only a tick is a choice: an empty box never switches off updates someone agreed to elsewhere.
+          if (updates) await recordConsents([consentItem("whatsapp_updates", true)]).catch(() => {});
+          return done();
+        }
         signupToken = r.signupToken;
         step("role");
       }
@@ -310,10 +365,15 @@ ${me.name}`;
     if (name.length < 2) return note("patient", "Please enter your name.");
     const age = F.age.value ? Number(F.age.value) : undefined;
     if (age !== undefined && !(age >= 1 && age <= 120)) return note("patient", "Please check your age.");
+    if (!F.agree.checked) return note("patient", "Please tick the box to agree before creating your account.");
+    const sex = (ptf.querySelector<HTMLInputElement>("input[name=sex]:checked")?.value || undefined) as "F" | "M" | "O" | undefined;
     const btn = ptf.querySelector<HTMLButtonElement>("[type=submit]")!;
     btn.disabled = true;
     try {
-      await signUpPatient({ signupToken, name, age, city: F.city.value.trim() || undefined });
+      await signUpPatient({
+        signupToken, name, age, sex, city: F.city.value.trim() || undefined,
+        consents: [consentItem("terms", true, SIGNUP_CONSENT), consentItem("share_with_physio", true, SIGNUP_CONSENT), ...(updates ? [consentItem("whatsapp_updates", true)] : [])],
+      });
       await done();
     } catch (err) {
       note("patient", (err as Error).message);

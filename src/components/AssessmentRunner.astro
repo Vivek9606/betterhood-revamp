@@ -5,6 +5,7 @@
 import Icon from "./Icon.astro";
 import { mediaHtml } from "../lib/site";
 import { bySlug, cornerSlugs } from "../lib/assessments";
+import { createHash } from "node:crypto";
 
 interface Props { slug: string }
 const { slug } = Astro.props;
@@ -13,7 +14,9 @@ const forms = import.meta.glob("../data/forms/*.json", { eager: true, import: "d
 const form = forms[`../data/forms/${slug}.json`];
 // absolute media URLs inside the HTML snippets
 const prepared = { ...form, fields: form.fields.map((f: any) => ({ ...f, html: f.html ? mediaHtml(f.html) : f.html, default: f.default ? mediaHtml(f.default) : f.default })) };
-const config = { ...a, corner: `/${cornerSlugs[a.area]}/` };
+// Which version of the questions was asked: changes whenever a question, choice or rule changes.
+const formVersion = `${form.formId}-${createHash("sha1").update(JSON.stringify([form.fields.map((f: any) => [f.id, f.label, f.choices]), form.logic, form.formulas])).digest("hex").slice(0, 8)}`;
+const config = { ...a, corner: `/${cornerSlugs[a.area]}/`, formVersion };
 const steps = Math.max(...form.fields.map((f: any) => f.page));
 ---
 <section class="qz" data-quiz>
@@ -188,7 +191,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   import { fromApp, isEmbedded, toApp, waitForApp } from "../scripts/embed";
   import { href } from "../scripts/base";
   import { appLink } from "../scripts/app-link";
-  import { accountHref, accountsOn, openApp, saveResult, session } from "../scripts/account";
+  import { accountHref, accountsOn, invite, openApp, saveResult, session } from "../scripts/account";
 
   const root = document.querySelector<HTMLElement>("[data-quiz]")!;
   const form: FormDef = JSON.parse(root.querySelector("[data-form-def]")!.textContent!);
@@ -362,12 +365,52 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   });
 
   function byLabel(re: RegExp) { return form.fields.find((f) => re.test(f.label)); }
+
+  // ---------- what the person answered, in their words ----------
+  // Saved with the result (account, app, admin, their physio): the question as asked and the answer as shown, never
+  // form field ids. Only questions they actually saw count; contact details are kept separately.
+  const plain = (s: string) => s.replace(/<[^>]*>/g, " ").replace(/\s*\|\s*/g, " — ").replace(/\s+/g, " ").trim();
+  const question = (f: Field) => plain(f.label).replace(/^(q?\d+[.)]\s*)/i, "");
+  const choiceLabel = (f: Field, v: string) => plain(f.choices?.find((c) => c.value === v)?.label ?? v);
+  function answers() {
+    const out: { q: string; a: string | string[] }[] = [];
+    for (const f of form.fields) {
+      if (!isQuestion(f) || !engine.shown(f.id)) continue;
+      const v = engine.values[f.id];
+      const a = Array.isArray(v) ? v.filter(Boolean).map((x) => choiceLabel(f, x)) : v ? choiceLabel(f, v) : "";
+      if (a.length) out.push({ q: question(f), a });
+    }
+    return out;
+  }
+  /** 0–10 from the "Pain on a scale" question ("7 - Severe - …"), when the assessment has one. */
+  function painScore() {
+    const f = form.fields.find((x) => isQuestion(x) && /pain on a scale/i.test(x.label));
+    const v = f && engine.values[f.id];
+    const n = typeof v === "string" && v ? parseInt(choiceLabel(f!, v), 10) : NaN;
+    return Number.isFinite(n) && n >= 0 && n <= 10 ? n : undefined;
+  }
+  /** Which answers set off the critical advisory ("Pain on a scale: 8 - Intense…"), not just that it showed. */
+  function advisoryReasons() {
+    const adv = byLabel(/^critical advisory$/i);
+    const logic = adv && form.logic[adv.id];
+    if (!adv || !logic || !engine.shown(adv.id)) return [];
+    return logic.rules
+      .filter((r) => r.operator === "is" && ([] as string[]).concat(engine.values[+r.fieldId] ?? []).includes(r.value))
+      .map((r) => { const f = engine.byId.get(+r.fieldId)!; return `${question(f)}: ${choiceLabel(f, r.value)}`; });
+  }
+  /** A result's id for its whole life (website, account, app, admin). Random, so it can't be guessed. */
+  function newResultId() {
+    const b = crypto.getRandomValues(new Uint8Array(16));
+    return "as_w" + [...b].map((x) => (x % 36).toString(36)).join("").slice(0, 20);
+  }
+
   function finish() {
     const name = String(engine.values[(byLabel(/^(first name|full name)$/i) ?? { id: -1 }).id] ?? "").trim();
     const email = String(engine.values[(byLabel(/^email$/i) ?? { id: -1 }).id] ?? "");
     const phone = String(engine.values[(byLabel(/^phone number$/i) ?? { id: -1 }).id] ?? "");
     const store = JSON.parse(localStorage.getItem("bh_results") || "{}");
     const date = new Date().toISOString();
+    const detail = { id: newResultId(), answers: answers(), painScore: painScore(), advisoryReasons: advisoryReasons(), formVersion: cfg.formVersion };
     let record: Record<string, unknown>;
     let go = "";
 
@@ -375,16 +418,23 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       const totals = Object.entries(cfg.totals as Record<string, string>).map(([id, cat]) => ({ cat, score: engine.num(+id) }));
       const best = totals.reduce((a, b) => (b.score > a.score ? b : a));
       const adv = byLabel(/^critical advisory$/i);
-      record = { kind: "pain", area: cfg.area, title: cfg.title, cat: best.cat, condition: cfg.conditions[best.cat], totals, advisory: adv ? engine.shown(adv.id) : false, name, date, result: cfg.results[best.cat] };
+      record = { ...detail, kind: "pain", area: cfg.area, title: cfg.title, cat: best.cat, condition: cfg.conditions[best.cat], totals, advisory: adv ? engine.shown(adv.id) : false, name, date, result: cfg.results[best.cat] };
       go = href(`/${cfg.results[best.cat]}/`);
     } else {
       const score = (re: RegExp) => { const f = byLabel(re); return f ? Math.round(engine.num(f.id) * 10) / 10 : null; };
-      record = { kind: cfg.kind, area: cfg.area, title: cfg.title, name, date, overall: score(/^overall score$/i) ?? score(/^average score$/i), strength: score(/^total \(strength\)$/i), balance: score(/^total \(balance\)$/i), mobility: score(/^total \(mobility\)$/i) };
+      record = { ...detail, kind: cfg.kind, area: cfg.area, title: cfg.title, name, date, overall: score(/^overall score$/i) ?? score(/^average score$/i), strength: score(/^total \(strength\)$/i), balance: score(/^total \(balance\)$/i), mobility: score(/^total \(mobility\)$/i) };
     }
     store[cfg.slug] = record;
     const history = JSON.parse(localStorage.getItem("bh_history") || "[]");
-    history.push({ slug: cfg.slug, ...record });
-    try { localStorage.setItem("bh_results", JSON.stringify(store)); localStorage.setItem("bh_history", JSON.stringify(history.slice(-60))); if (name) localStorage.setItem("bh_name", name); } catch {}
+    const { answers: _a, ...brief } = record;
+    history.push({ slug: cfg.slug, ...brief });
+    try {
+      localStorage.setItem("bh_results", JSON.stringify(store));
+      localStorage.setItem("bh_history", JSON.stringify(history.slice(-60)));
+      if (name) localStorage.setItem("bh_name", name);
+      // So "Save my result" doesn't ask for them again (cleared on sign-out with everything personal).
+      if (name || phone) localStorage.setItem("bh_contact", JSON.stringify({ name, phone }));
+    } catch {}
 
     // In the app: hand the result over (the app saves it to the patient's account and shows next steps).
     // If the app doesn't confirm, carry on exactly as on the website.
@@ -400,7 +450,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     // lead capture only when PUBLIC_FORM_ENDPOINT is configured (never interrupt with a mail client here)
     if (import.meta.env.PUBLIC_FORM_ENDPOINT) submitLead(`assessment:${cfg.slug}`, { name, email, phone, ...record, answers: engine.values }, { record: false }).catch(() => {});
     // The result (not the answers) also goes to the Betterhood API for the admin dashboard. In the app, the app saves it instead.
-    recordSubmission("assessment", cfg.slug, { ...record, name, email, phone });
+    recordSubmission("assessment", cfg.slug, { ...record, name, email, phone, invitedBy: invite()?.ref }, record.id as string);
 
     // Signed in on the website: the result goes straight to their account (and so into the app).
     const s = accountsOn() ? session() : null;

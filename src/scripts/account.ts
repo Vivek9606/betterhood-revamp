@@ -34,12 +34,33 @@ const OWNER_KEY = "bh_owner"; // userId whose results/name this browser holds (a
 // Everything personal this browser keeps for one person. It never outlives that person's session: cleared on sign-out
 // and whenever a different account signs in, so the next person on a shared browser can't see it or have it synced
 // into their account.
-const PERSONAL_KEYS = ["bh_results", "bh_history", "bh_name", SYNCED_KEY, INVITE_KEY, OWNER_KEY];
+const CONTACT_KEY = "bh_contact"; // {name, phone} typed into the last assessment, so sign-up doesn't ask again
+const PERSONAL_KEYS = ["bh_results", "bh_history", "bh_name", CONTACT_KEY, SYNCED_KEY, INVITE_KEY, OWNER_KEY];
 function clearPersonal() {
   try { PERSONAL_KEYS.forEach((k) => localStorage.removeItem(k)); } catch {}
 }
 const owner = () => { try { return localStorage.getItem(OWNER_KEY); } catch { return null; } };
 const setOwner = (id: string) => { try { localStorage.setItem(OWNER_KEY, id); } catch {} };
+
+/** Name and phone typed into the last assessment on this device (to prefill sign-in and sign-up). */
+export function lastContact(): { name?: string; phone?: string } {
+  try { return JSON.parse(localStorage.getItem(CONTACT_KEY) || "{}") || {}; } catch { return {}; }
+}
+
+// ---------- consent ----------
+// The exact words shown, stored with a version in the account's consent log. Change the version whenever the words change.
+export const CONSENT_VERSION = "web-2026-11-18";
+export const CONSENT_WORDING = {
+  terms: "I agree to betterhood's Terms of Service and Privacy Policy.",
+  share_with_physio: "I agree to share my assessment answers and progress with the physio I'm matched with.",
+  whatsapp_updates: "Send me appointment and care updates on WhatsApp.",
+} as const;
+export type ConsentPurpose = keyof typeof CONSENT_WORDING;
+/** The one tick box on patient sign-up (the same words as the app's sign-up). It covers the terms and sharing with the physio. */
+export const SIGNUP_CONSENT = "I agree to betterhood's Terms and Privacy Policy, and to share my assessment answers and progress with the physio I'm matched with.";
+export const consentItem = (purpose: ConsentPurpose, granted: boolean, wording: string = CONSENT_WORDING[purpose]) => ({ purpose, granted, version: CONSENT_VERSION, wording });
+/** Record consents for the signed-in account (e.g. the WhatsApp choice made on the sign-in screen). */
+export const recordConsents = (items: ReturnType<typeof consentItem>[]) => call("/me/consents", { body: { consents: items, channel: "web" }, auth: true });
 
 // ---------- physio invite links ----------
 export interface Invite { ref: string; name?: string; at: number }
@@ -118,8 +139,8 @@ export async function verifyCode(phone: string, code: string): Promise<{ signedI
   return { signedIn: true, role: r.role! };
 }
 
-export async function signUpPatient(input: { signupToken: string; name: string; age?: number; city?: string }) {
-  const r = await call<{ token: string; role: Role; userId: string }>("/auth/signup-patient", { body: input });
+export async function signUpPatient(input: { signupToken: string; name: string; age?: number; sex?: "F" | "M" | "O"; city?: string; consents: ReturnType<typeof consentItem>[] }) {
+  const r = await call<{ token: string; role: Role; userId: string }>("/auth/signup-patient", { body: { ...input, channel: "web" } });
   try { sessionStorage.removeItem(SIGNUP_KEY); } catch {}
   await startSession({ token: r.token, role: r.role, userId: r.userId });
 }
@@ -197,15 +218,21 @@ async function takeHandoff() {
 // ---------- assessment results ----------
 type SiteResult = Record<string, any> & { slug?: string; kind?: string; date?: string };
 const r1 = (n: unknown) => (typeof n === "number" && Number.isFinite(n) ? Math.round(n * 10) / 10 : null);
-/** Stable id per result so saving twice (here and in the app) never makes a duplicate. */
-function resultId(slug: string, date: string) {
+/** A result's id: its own (results taken from 2026-11-18 on carry one everywhere), else derived from slug and date. */
+function resultId(slug: string, date: string, own?: unknown) {
+  if (typeof own === "string" && /^as_[a-z0-9]{6,24}$/.test(own)) return own;
   let h = 0;
   for (const c of `${slug}|${date}`) h = (h * 31 + c.charCodeAt(0)) >>> 0;
   const t = (Date.parse(date) || 0).toString(36);
   return `as_w${h.toString(36)}${t}`.replace(/[^a-z0-9_]/g, "").slice(0, 27);
 }
 function toInput(slug: string, r: SiteResult) {
-  const base = { id: resultId(slug, r.date || ""), slug, kind: r.kind || "pain", area: r.area, title: String(r.title || slug).slice(0, 120), source: "web", invitedBy: invite()?.ref };
+  const base = {
+    id: resultId(slug, r.date || "", r.id), slug, kind: r.kind || "pain", area: r.area, title: String(r.title || slug).slice(0, 120), source: "web", invitedBy: invite()?.ref,
+    answers: Array.isArray(r.answers) && r.answers.length ? r.answers : undefined, painScore: typeof r.painScore === "number" ? r.painScore : undefined,
+    advisoryReasons: Array.isArray(r.advisoryReasons) && r.advisoryReasons.length ? r.advisoryReasons : undefined,
+    takenAt: r.date || undefined, formVersion: typeof r.formVersion === "string" ? r.formVersion : undefined,
+  };
   if ((r.kind || "pain") === "pain") {
     return { ...base, kind: "pain", cat: r.cat, condition: r.condition, result: r.result, advisory: r.advisory ? "Critical advisory" : undefined, totals: Object.fromEntries((r.totals || []).map((t: any) => [t.cat, r1(t.score) ?? 0])) };
   }
@@ -228,10 +255,17 @@ export async function syncResults() {
   let all: Record<string, SiteResult> = {}, done: string[] = [];
   try { all = JSON.parse(localStorage.getItem("bh_results") || "{}"); done = JSON.parse(localStorage.getItem(SYNCED_KEY) || "[]"); } catch {}
   for (const [slug, r] of Object.entries(all)) {
-    if (!/^assessment-/.test(slug) || !r?.area || done.includes(resultId(slug, r.date || ""))) continue;
+    if (!/^assessment-/.test(slug) || !r?.area || done.includes(resultId(slug, r.date || "", r.id))) continue;
     await saveResult(slug, r);
   }
 }
+
+// ---------- results taken with this number elsewhere ----------
+// Results typed with this phone on another device (or before signing up). Shown by title and date until the person
+// confirms they're theirs; "not mine" hides them for good.
+export interface WebResult { id: string; slug: string; title: string; takenAt: string }
+export const webResults = () => call<{ results: WebResult[] }>("/patient/web-results", { auth: true }).then((r) => r.results);
+export const resolveWebResults = (claim: string[], disown: string[]) => call("/patient/web-results", { body: { claim, disown }, auth: true });
 
 // ---------- header ----------
 /** "Dr. Ananya Rao" → "Dr. Ananya", "Riya Sharma" → "Riya". */

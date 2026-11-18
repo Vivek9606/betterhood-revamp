@@ -15,11 +15,11 @@ const pick = (data: Record<string, unknown>, re: RegExp) => {
 };
 
 /** Save a submission to the Betterhood API. Resolves false (never throws) when there's no API or it fails. */
-export async function recordSubmission(kind: "form" | "assessment", form: string, data: Record<string, unknown>): Promise<boolean> {
+export async function recordSubmission(kind: "form" | "assessment", form: string, data: Record<string, unknown>, resultId?: string): Promise<boolean> {
   if (!API) return false;
   try {
     const { website: _honeypot, ...rest } = data;
-    const body = JSON.stringify({ kind, form: form.slice(0, 80), page: location.pathname, name: pick(rest, /name/i), phone: pick(rest, /phone|mobile|tel/i), email: pick(rest, /email/i), data: rest });
+    const body = JSON.stringify({ kind, form: form.slice(0, 80), page: location.pathname, name: pick(rest, /name/i), phone: pick(rest, /phone|mobile|tel/i), email: pick(rest, /email/i), data: rest, resultId });
     // keepalive: assessments move on to the result page straight after
     const res = await fetch(`${API}/public/web/submissions`, { method: "POST", headers: { "Content-Type": "application/json" }, body, keepalive: body.length < 60000 });
     return res.ok;
