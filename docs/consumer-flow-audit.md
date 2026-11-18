@@ -32,7 +32,9 @@ somewhere else.
 
 ## Phase 1: Identity, consent and data capture (do first)
 
-### 1. The WhatsApp opt-in is pre-ticked and never saved  `[ ]`
+### 1. The WhatsApp opt-in is pre-ticked and never saved  `[x]`
+
+> Done on `data-capture` (2026-11-18): unticked everywhere, recorded in `consents_log` and `whatsapp_opt_in`.
 - **What happens:**
   - The app login has "Send me appointment and patient updates on WhatsApp", ticked by default.
   - The value goes to the OTP screen and then gets dropped (`capacitor-app-physio/src/screens/auth/Phone.tsx:17,29`).
@@ -46,7 +48,9 @@ somewhere else.
   - `sendWhatsApp` checks the opt-in for anything that isn't transactional. OTPs and booking confirmations are fine
     without it.
 
-### 2. Consent to share health data is set without being asked  `[ ]`
+### 2. Consent to share health data is set without being asked  `[x]`
+
+> Done on `data-capture`: purpose, wording, version and channel logged; nothing set without a tick.
 - **What happens:**
   - `POST /auth/signup-patient` writes `consent_at = now()` for every sign-up (`capacitor-app-backend/src/routes/auth.ts:116`).
   - The app's sign-up does have a tick box, "share my answers with the physio I'm matched with".
@@ -58,7 +62,9 @@ somewhere else.
   - Add the explicit tick box on the website.
   - Admin shows the consent status on each person's timeline.
 
-### 3. Assessment answers are never stored  `[ ]`
+### 3. Assessment answers are never stored  `[x]`
+
+> Done on `data-capture`: every answer, pain score, advisory reasons, taken-at and form version stored. Shown to the physio, the patient and admin.
 - **What happens:**
   - Only the result reaches the database: the category, scores and condition.
   - The answers go only to `PUBLIC_FORM_ENDPOINT`, if it's set (`AssessmentRunner.astro:401-403`).
@@ -86,7 +92,9 @@ somewhere else.
   - Backfill by phone.
 - **Decision needed:** confirm this model before building it. It touches most patient endpoints.
 
-### 5. Website results get lost or attached to the wrong person  `[ ]`
+### 5. Website results get lost or attached to the wrong person  `[x]`
+
+> Done on `data-capture`: one stable result id; results typed with a phone are joined only after the verified owner confirms them ("This is mine" / "Not mine").
 - **Lost:**
   - A guest's result lives only in that browser's localStorage, so it syncs only if they sign in on the same
     browser.
@@ -117,7 +125,9 @@ somewhere else.
   - Add the same fields to `web_submissions`.
   - Admin gets "Where sign-ups come from".
 
-### 7. A website assessment taken while signed in is counted twice  `[ ]`
+### 7. A website assessment taken while signed in is counted twice  `[x]`
+
+> Done on `data-capture`: same result id → saved once, submission linked.
 - **What happens:** it's saved as a `web_submissions` row and as an `assessments` row (`AssessmentRunner.astro:403-407`).
 - **Fix:** when signed in, skip `recordSubmission`, or link the two rows (`web_submissions.assessment_id`). Then check
   the admin website KPIs.
