@@ -42,6 +42,22 @@ export async function submitLead(form: string, data: Record<string, unknown>, op
   return "mailto" as const;
 }
 
+/**
+ * Newsletter sign-up: goes to the Betterhood API, which emails a confirmation link (double opt-in).
+ * Resolves the message to show, or throws.
+ */
+async function subscribeNewsletter(f: HTMLFormElement, data: Record<string, unknown>): Promise<string> {
+  if (!API) throw new Error("no api");
+  const res = await fetch(`${API}/public/newsletter/subscribe`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: data.email, name: data.name || undefined, source: f.dataset.source || "website", page: location.pathname }),
+  });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(body.message || "failed");
+  return body.message || "Almost there: check your inbox and tap the link to confirm.";
+}
+
 function collect(f: HTMLFormElement) {
   const data: Record<string, unknown> = {};
   new FormData(f).forEach((v, k) => {
@@ -59,6 +75,19 @@ document.querySelectorAll<HTMLFormElement>("form[data-bh-form]").forEach((f) => 
     const btn = f.querySelector<HTMLButtonElement>("button[type=submit]");
     if ((f.elements.namedItem("website") as HTMLInputElement | null)?.value) return; // honeypot
     btn?.setAttribute("disabled", "");
+    if (f.dataset.bhForm === "newsletter") {
+      try {
+        const msg = await subscribeNewsletter(f, collect(f));
+        if (note) { note.hidden = false; note.className = "form-note ok"; note.textContent = msg; }
+        f.reset();
+      } catch (err) {
+        const m = err instanceof Error && err.message !== "failed" && err.message !== "no api" ? err.message : "Couldn't sign you up just now. Please try again in a minute.";
+        if (note) { note.hidden = false; note.className = "form-note err"; note.textContent = m.replace(/^email: /, ""); }
+      } finally {
+        btn?.removeAttribute("disabled");
+      }
+      return;
+    }
     try {
       const how = await submitLead(f.dataset.bhForm!, collect(f));
       if (note) {

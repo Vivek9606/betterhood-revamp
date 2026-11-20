@@ -106,7 +106,7 @@ const socialName = (href: string) => ({ linkedin: "LinkedIn", instagram: "Instag
         <aside class="la" aria-label="Newsletter and trending">
           <div class="la-nl">
             <h2 class="la-h" data-no-split>{(L.newsletterTop.heading as Part[]).map((p) => (p.light ? <span class="lt">{p.t}</span> : p.t))}</h2>
-            <form class="la-form" data-bh-form="newsletter">
+            <form class="la-form" data-bh-form="newsletter" data-source="learn-top">
               <label class="sr-only" for="nl-top">{L.newsletterTop.placeholder}</label>
               <input id="nl-top" type="email" name="email" placeholder={L.newsletterTop.placeholder} required autocomplete="email" />
               <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
@@ -251,7 +251,7 @@ const socialName = (href: string) => ({ linkedin: "LinkedIn", instagram: "Instag
           <p>{L.newsletter.text}</p>
         </div>
         <div class="ln-act">
-          <form class="ln-form" data-bh-form="newsletter">
+          <form class="ln-form" data-bh-form="newsletter" data-source="learn-banner">
             <label class="sr-only" for="nl-band">{L.newsletter.placeholder}</label>
             <input id="nl-band" type="email" name="email" placeholder={L.newsletter.placeholder} required autocomplete="email" />
             <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />

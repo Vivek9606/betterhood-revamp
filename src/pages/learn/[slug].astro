@@ -200,7 +200,7 @@ const heading = (parts: Part[]) => parts;
         <div class="s-card">
           <div class="s-nl">
             <h2 class="s-h">{heading(A.newsletter.heading as Part[]).map((p) => (p.light ? <span class="lt">{p.t}</span> : p.t))}</h2>
-            <form class="s-form" data-bh-form="newsletter">
+            <form class="s-form" data-bh-form="newsletter" data-source="article-sidebar">
               <label class="sr-only" for="nl-side">{A.newsletter.placeholder}</label>
               <input id="nl-side" type="email" name="email" placeholder={A.newsletter.placeholder} required autocomplete="email" />
               <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
