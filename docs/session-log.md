@@ -5,6 +5,19 @@ first. The rules for the revamp itself are in [REVAMP-GUIDELINES.md](../REVAMP-G
 
 ---
 
+## 2026-11-23: Production hosting plan (betterhood.in + /app on Cloudflare Pages)
+
+Discussion only. No code changed. Agreed: the website at `betterhood.in/`, the app's web build at
+`betterhood.in/app/`, one Cloudflare Pages project serving a build-output-only repo (`betterhood-dist`). The
+website repo and the app repo keep their own CI. Each builds itself on push to `main` and writes only its own
+part of the deploy repo. The full plan, the code facts checked, the access status and the next steps are in
+[deploy-cloudflare-plan.md](deploy-cloudflare-plan.md).
+
+Still open: the user is installing `gh` and will run `gh auth login`. Cloudflare setup is theirs. Resume at
+"Next steps" in that doc.
+
+---
+
 ## 2026-11-12: Deploy fix, master admin dashboard (journeys)
 
 ### Deploy fix

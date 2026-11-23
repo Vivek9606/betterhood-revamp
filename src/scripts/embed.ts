@@ -7,6 +7,7 @@
 //   app → page  bh:ack                 { id }                        the app saved it
 //   page → app  bh:directory-published { slug, url, status }         a directory listing was saved
 //   page → app  bh:open-product        { handle }                    open a shop product in the app (Betty)
+//   page → app  bh:open-link           { url }                       a link that leaves the website (the shop, WhatsApp…)
 
 export type AppMessage = { type: string; [k: string]: unknown };
 
@@ -38,5 +39,19 @@ export function waitForApp<T extends AppMessage>(type: string, ms: number): Prom
     if (!isEmbedded() || !appOrigin()) return resolve(undefined);
     const off = fromApp<T>(type, (m) => { clearTimeout(t); off(); resolve(m); });
     const t = setTimeout(() => { off(); resolve(undefined); }, ms);
+  });
+}
+
+/**
+ * Links that leave the website can't load inside the app's frame (the shop refuses to be framed), so in embed
+ * mode the app opens them: shop products in its own shop, everything else in its in-app browser.
+ */
+export function wireOutboundLinks() {
+  if (!isEmbedded() || !appOrigin()) return;
+  document.addEventListener("click", (e) => {
+    if (e.defaultPrevented || e.button !== 0) return;
+    const a = (e.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
+    if (!a || !/^https?:$/.test(a.protocol) || a.origin === location.origin) return;
+    if (toApp({ type: "bh:open-link", url: a.href })) e.preventDefault();
   });
 }

@@ -132,6 +132,8 @@ const ld = [org, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])]
 
     <script>
       import "../scripts/forms";
+      import { wireOutboundLinks } from "../scripts/embed";
+      wireOutboundLinks();
       import "../scripts/motion-site";
     </script>
   </body>
