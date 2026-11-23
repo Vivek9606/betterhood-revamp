@@ -5,6 +5,9 @@ import { redirects } from "../astro.config.mjs";
 
 const dist = new URL("../dist/", import.meta.url);
 const lines = Object.entries(redirects).flatMap(([from, to]) => [`${from}  ${to}  301`, `${from}/  ${to}  301`]);
+// Cloudflare Pages: betterhood.in/app/ is the app's web build (a single-page app, written by capacitor-app's CI).
+// Its client-side routes have no files, so serve its index.html for them.
+lines.push("/app  /app/  301", "/app/*  /app/index.html  200");
 fs.writeFileSync(new URL("_redirects", dist), lines.join("\n") + "\n");
 fs.writeFileSync(
   new URL("vercel-redirects.json", dist),
