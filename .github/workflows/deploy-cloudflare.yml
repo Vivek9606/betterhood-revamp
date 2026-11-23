@@ -1,0 +1,73 @@
+name: Deploy to betterhood-dist (Cloudflare Pages)
+
+# Builds the website and writes it to Vivek9606/betterhood-dist, which Cloudflare Pages serves at betterhood.in.
+# The website owns everything in the deploy repo except app/ (written by capacitor-app's workflow).
+# Plan: docs/deploy-cloudflare-plan.md
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # directory-updated: sent by the Betterhood API when a physio publishes or edits a directory listing (SITE_REBUILD_* there).
+  # lab-published: sent by the SEO dashboard's Content Lab when a blog post is published, updated or unpublished.
+  repository_dispatch:
+    types: [directory-updated, lab-published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dist-website
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # PUBLIC_* and LAB_* are variables on the production environment.
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          PUBLIC_FORM_ENDPOINT: ${{ vars.PUBLIC_FORM_ENDPOINT }}
+          PUBLIC_MEDIA_ORIGIN: ${{ vars.PUBLIC_MEDIA_ORIGIN }}
+          PUBLIC_TRACK_ENDPOINT: ${{ vars.PUBLIC_TRACK_ENDPOINT }}
+          PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
+          PUBLIC_APP_URL: ${{ vars.PUBLIC_APP_URL }}
+          LAB_SUPABASE_URL: ${{ vars.LAB_SUPABASE_URL }}
+          LAB_SUPABASE_KEY: ${{ vars.LAB_SUPABASE_KEY }}
+
+      - name: Check out betterhood-dist
+        uses: actions/checkout@v4
+        with:
+          repository: Vivek9606/betterhood-dist
+          ssh-key: ${{ secrets.DIST_DEPLOY_KEY }}
+          path: out
+
+      - name: Commit and push (everything except app/)
+        working-directory: out
+        env:
+          MSG: website@${{ github.sha }} (${{ github.event_name }})
+        run: |
+          git config user.name "betterhood-ci"
+          git config user.email "ci@users.noreply.github.com"
+          apply() {
+            rsync -a --delete --exclude '/.git/' --exclude '/app/' --exclude '/README.md' "$GITHUB_WORKSPACE/dist/" ./
+            git add -A
+            git diff --cached --quiet && { echo "no changes"; return 1; }
+            git commit -q -m "$MSG"
+          }
+          apply || exit 0
+          # The app workflow may push at the same time: on a rejected push, take the latest and re-apply.
+          for i in 1 2 3 4 5; do
+            git push origin HEAD:main && exit 0
+            sleep $((i * 3))
+            git fetch -q origin main && git reset -q --hard origin/main
+            apply || exit 0
+          done
+          exit 1
