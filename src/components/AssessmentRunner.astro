@@ -369,7 +369,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     const t = e.target as HTMLInputElement;
     if (t.dataset.desc !== undefined) main.querySelector("[data-scale-desc]")!.textContent = t.dataset.desc!;
     // "None of the above" clears the other ticks, and vice versa
-    if (t.type === "checkbox") {
+    if (t.type === "checkbox" && t.closest(".qz-opts")) {
       const box = t.closest(".qz-opts")!;
       const none = (x: HTMLInputElement) => /^none of the above/i.test(x.value);
       if (t.checked && none(t)) box.querySelectorAll<HTMLInputElement>("input").forEach((x) => x !== t && (x.checked = false));
