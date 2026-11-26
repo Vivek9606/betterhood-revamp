@@ -67,9 +67,10 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
           <article class="card bc-card bc-score" id="progress" data-score>
             <p class="f-t">Your latest {a.name.toLowerCase()}-health score</p>
             <div class="bc-ring" data-ring><div><strong data-overall>X</strong><span>/ 10</span></div></div>
+            <p class="bc-nudge" data-nudge hidden>Because you took the {a.label.toLowerCase()} assessment, check your {a.name.toLowerCase()} health score next. It shows where you stand today, so you know where to start, and you can watch it improve.</p>
             <p class="soft">Your overall {a.name.toLowerCase()} health score combines your functional scores for strength, balance, and mobility to provide an indicative health rating on a scale of 1 to 10.</p>
             <div class="bc-bars" data-bars></div>
-            <a class="btn btn-sun" href={a.health}>Update your health score <Icon name="arrow" class="arrow" /></a>
+            <a class="btn btn-sun" href={a.health} data-score-btn>Check your health score <Icon name="arrow" class="arrow" /></a>
             <div class="bc-hist" data-history hidden><p class="f-t">Your progress</p><div class="spark" data-spark></div></div>
           </article>
         </>
@@ -169,6 +170,7 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
   .bc-bars i, .bc-areas i { height: 10px; border-radius: 10px; background: var(--plum-100); overflow: hidden; }
   .bc-bars b, .bc-areas b { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--sun-500), var(--mint-600)); border-radius: inherit; transition: width 0.8s var(--ease); }
   .bc-hist { width: 100%; }
+  .bc-nudge { padding: 12px 14px; border-radius: var(--r-md); background: var(--sun-100); border: 1px solid var(--sun-200); font-weight: 600; color: var(--ink-soft); }
   .spark { display: flex; align-items: flex-end; gap: 6px; height: 80px; margin-top: 10px; }
   .spark span { flex: 1; max-width: 28px; border-radius: 6px 6px 2px 2px; background: var(--plum-300); position: relative; }
   .spark span:last-child { background: var(--plum-700); }
@@ -219,6 +221,9 @@ const title = a ? `Better You Corner | ${a.name} Health` : "Betteryou corner- Ov
       const h = store[cfg.health];
       const sc = document.querySelector("[data-score]")!;
       ring(sc.querySelector("[data-ring]"), h?.overall ?? null);
+      // took the pain assessment, no health score yet: say why it's the next step
+      (sc.querySelector("[data-nudge]") as HTMLElement).hidden = !(pain && h?.overall == null);
+      sc.querySelector("[data-score-btn]")!.firstChild!.textContent = h?.overall != null ? "Update your health score " : "Check your health score ";
       if (h) {
         sc.querySelector("[data-bars]")!.innerHTML = [["Strength", h.strength], ["Balance", h.balance], ["Mobility", h.mobility]]
           .filter(([, v]) => v !== null && v !== undefined).map(([k, v]) => `<div><span>${k}</span><i><b style="width:${v * 10}%"></b></i><span>${v}/10</span></div>`).join("");

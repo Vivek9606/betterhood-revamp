@@ -139,7 +139,8 @@ export async function verifyCode(phone: string, code: string): Promise<{ signedI
   return { signedIn: true, role: r.role! };
 }
 
-export async function signUpPatient(input: { signupToken: string; name: string; age?: number; sex?: "F" | "M" | "O"; city?: string; consents: ReturnType<typeof consentItem>[] }) {
+/** `via`: where the account was made, e.g. "assessment:assessment-lower-back-pain" (shown on the admin dashboard). */
+export async function signUpPatient(input: { signupToken: string; name: string; age?: number; sex?: "F" | "M" | "O"; city?: string; email?: string; via?: string; consents: ReturnType<typeof consentItem>[] }) {
   const r = await call<{ token: string; role: Role; userId: string }>("/auth/signup-patient", { body: { ...input, channel: "web" } });
   try { sessionStorage.removeItem(SIGNUP_KEY); } catch {}
   await startSession({ token: r.token, role: r.role, userId: r.userId });
