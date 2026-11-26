@@ -3,7 +3,7 @@
 // Scoring is identical to the old site (see scripts/quiz-engine.ts). Results are kept on the
 // visitor's device (localStorage) for the result pages and betterYou corner.
 import Icon from "./Icon.astro";
-import { mediaHtml } from "../lib/site";
+import { areas, mediaHtml } from "../lib/site";
 import { bySlug, cornerSlugs } from "../lib/assessments";
 import { createHash } from "node:crypto";
 
@@ -16,12 +16,14 @@ const form = forms[`../data/forms/${slug}.json`];
 const prepared = { ...form, fields: form.fields.map((f: any) => ({ ...f, html: f.html ? mediaHtml(f.html) : f.html, default: f.default ? mediaHtml(f.default) : f.default })) };
 // Which version of the questions was asked: changes whenever a question, choice or rule changes.
 const formVersion = `${form.formId}-${createHash("sha1").update(JSON.stringify([form.fields.map((f: any) => [f.id, f.label, f.choices]), form.logic, form.formulas])).digest("hex").slice(0, 8)}`;
-const config = { ...a, corner: `/${cornerSlugs[a.area]}/`, formVersion };
+const area = areas.find((x) => x.key === a.area);
+// pain assessment → the matching health score, the next step we nudge them to
+const config = { ...a, corner: `/${cornerSlugs[a.area]}/`, formVersion, healthHref: a.kind === "pain" ? area?.health : undefined };
 const steps = Math.max(...form.fields.map((f: any) => f.page));
 ---
 <section class="qz" data-quiz>
   <div class="wrap qz-wrap">
-    <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> will see your result once you save it at the end.</span></p>
+    <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> will see your result as soon as you finish.</span></p>
     <div class="qz-top">
       <a class="qz-back-link" href="/quiz-landing-page/" data-embed-hide><Icon name="arrow-left" size={18} /> <span><span class="lbl-long">All </span>assessments</span></a>
       <button type="button" class="qz-jump" data-jump hidden>How to test <span aria-hidden="true">↓</span></button>
@@ -105,6 +107,16 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   .qz-scale-desc { padding: 10px 14px; border-radius: var(--r-md); background: var(--plum-50); font-weight: 550; }
   .qz-scale-ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-mute); }
   .qz-inputs { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  /* account made with the assessment: consent tick on the contact step, WhatsApp code step */
+  .qz-acct { display: flex; gap: 10px; align-items: flex-start; margin-top: 16px; padding: 14px 16px; border-radius: var(--r-md); background: var(--plum-50); font-size: 14.5px; color: var(--ink-soft); cursor: pointer; }
+  .qz-acct input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--plum-700); flex: none; }
+  .qz-acct.invalid { outline: 2px solid #c2410c; }
+  .qz-acct-why { margin-top: 12px; font-size: 14px; color: var(--ink-mute); }
+  .qz-otp { display: grid; gap: 14px; max-width: 460px; }
+  .qz-otp .input { font: 700 24px var(--font-display); letter-spacing: 0.3em; text-align: center; max-width: 240px; }
+  .qz-otp-links { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+  .qz-otp-links button { color: var(--plum-700); text-decoration: underline; font-weight: 600; cursor: pointer; background: none; border: 0; padding: 0; }
+  .qz-otp-err { color: #c2410c; font-weight: 600; font-size: 14.5px; }
 
   .qz-html .assessment_heading, .qz-html h2 { font: 700 clamp(28px, 3.6vw, 42px)/1.08 var(--font-display); letter-spacing: -0.03em; margin-bottom: 10px; }
   .qz-html .assessment_heading span, .qz-html h2 span, .qz-html h3 span { color: var(--plum-600); font-style: italic; font-weight: 500; }
@@ -191,7 +203,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   import { fromApp, isEmbedded, toApp, waitForApp } from "../scripts/embed";
   import { href } from "../scripts/base";
   import { appLink } from "../scripts/app-link";
-  import { accountHref, accountsOn, invite, openApp, saveResult, session } from "../scripts/account";
+  import { accountsOn, cleanPhone, consentItem, invite, openApp, requestCode, saveResult, session, signUpPatient, summary, validPhone, verifyCode, SIGNUP_CONSENT, type ApiError } from "../scripts/account";
 
   const root = document.querySelector<HTMLElement>("[data-quiz]")!;
   const form: FormDef = JSON.parse(root.querySelector("[data-form-def]")!.textContent!);
@@ -216,12 +228,23 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
   const maxPage = Math.max(...form.fields.map((f) => f.page));
   // Inside the Betterhood app the patient is signed in: no contact questions, and the app logs the result.
   const embedded = isEmbedded();
-  const askContact = (f: Field) => !(embedded && CONTACT.test(f.label));
+  // Signed in on the website as a patient: we already know who they are, so no contact questions either.
+  const signedInPatient = () => accountsOn() && session()?.role === "patient";
+  const askContact = (f: Field) => !((embedded || signedInPatient()) && CONTACT.test(f.label));
+  // Not signed in: finishing the assessment creates their free betterhood account (phone verified with a WhatsApp
+  // code), so the result is saved to it and everything after (health score, physio, app) carries on from there.
+  const makeAccount = () => accountsOn() && !embedded && !session();
+  const phoneField = form.fields.find((f) => /^phone number$/i.test(f.label));
+  const nameField = form.fields.find((f) => /^(first name|full name)$/i.test(f.label));
+  const onContactPage = () => !!phoneField && phoneField.page === pages[idx];
   const pages = [...Array(maxPage).keys()].map((i) => i + 1);
   const total = pages.length;
   $("[data-steps]").textContent = String(total);
 
   let idx = 0;
+  let acctConsent = false;
+  let otpPhone = ""; // set while the WhatsApp code step is showing
+  const prevHtml = prev.innerHTML;
   const consent = form.fields.filter((f) => f.type === "html" && /consent/.test(f.css)).map((f) => f.html).join("");
   note.innerHTML = consent;
   note.hidden = !consent;
@@ -277,8 +300,11 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
         else if (/dyk_html/.test(f.css)) belowHtml += html;
         else mainHtml += html;
       } else if (isQuestion(f)) mainHtml += renderQuestion(f);
-      else if (isInput(f) && askContact(f)) mainHtml += renderInput(f);
+      else if (isInput(f) && askContact(f)) mainHtml += renderInput(f, f.required || (makeAccount() && (f === phoneField || f === nameField)));
     }
+    if (makeAccount() && onContactPage())
+      mainHtml += `<label class="qz-acct" data-acct-consent><input type="checkbox" ${acctConsent ? "checked" : ""}><span>${esc(SIGNUP_CONSENT)}</span></label>
+        <p class="qz-acct-why">We'll send a code to your WhatsApp to confirm your number. That creates your free betterhood account, so your result, your health score and your progress stay with you on the website and in the app.</p>`;
     main.innerHTML = mainHtml;
     // group stray inputs (final contact step on pain forms) into a grid
     const loose = [...main.querySelectorAll<HTMLElement>(":scope > .field")];
@@ -295,7 +321,7 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     $(".qz-bar").setAttribute("aria-valuenow", String(pct));
     prev.hidden = idx === 0;
     const last = after(idx) >= total;
-    next.textContent = idx === 0 ? "Start Assessment" : last ? "Submit Assessment" : "Next";
+    next.textContent = idx === 0 ? "Start Assessment" : last ? (makeAccount() ? "Submit & get my result" : "Submit Assessment") : "Next";
     if (idx > 0) (main.querySelector("input, select") as HTMLElement | null)?.focus({ preventScroll: true });
   }
 
@@ -327,6 +353,12 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     for (const i of main.querySelectorAll<HTMLInputElement>("input.input")) {
       if (!i.checkValidity()) { const box = i.closest<HTMLElement>(".field")!; flag(box, i.validity.valueMissing ? "This field is required." : i.validationMessage || "Please check this field."); first ??= box; }
     }
+    if (makeAccount() && onContactPage()) {
+      const ph = main.querySelector<HTMLInputElement>(`#i${phoneField!.id}`);
+      if (ph && ph.value.trim() && !validPhone(cleanPhone(ph.value))) { const box = ph.closest<HTMLElement>(".field")!; if (!box.classList.contains("invalid")) flag(box, "Enter a 10-digit Indian mobile number."); first ??= box; }
+      const tick = main.querySelector<HTMLElement>("[data-acct-consent]");
+      if (tick && !acctConsent) { flag(tick, "Please tick this to create your account."); first ??= tick; }
+    }
     if (!first) return true;
     const r = first.getBoundingClientRect();
     if (r.top < 80 || r.bottom > innerHeight) first.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -337,17 +369,19 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     const t = e.target as HTMLInputElement;
     if (t.dataset.desc !== undefined) main.querySelector("[data-scale-desc]")!.textContent = t.dataset.desc!;
     // "None of the above" clears the other ticks, and vice versa
-    if (t.type === "checkbox") {
+    if (t.type === "checkbox" && t.closest(".qz-opts")) {
       const box = t.closest(".qz-opts")!;
       const none = (x: HTMLInputElement) => /^none of the above/i.test(x.value);
       if (t.checked && none(t)) box.querySelectorAll<HTMLInputElement>("input").forEach((x) => x !== t && (x.checked = false));
       else if (t.checked) box.querySelectorAll<HTMLInputElement>("input").forEach((x) => none(x) && (x.checked = false));
     }
-    clearErrors(t.closest(".qz-field, .field") ?? main);
+    if (t.closest("[data-acct-consent]")) acctConsent = t.checked;
+    clearErrors(t.closest(".qz-field, .field, .qz-acct") ?? main);
   });
 
   $<HTMLFormElement>("[data-form]").addEventListener("submit", (e) => {
     e.preventDefault();
+    if (otpPhone) { verifyOtp(); return; }
     read();
     if (!validate()) return;
     const n = after(idx);
@@ -355,9 +389,11 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       idx = n;
       render();
       frameIntoView();
-    } else finish();
+    } else if (makeAccount()) sendOtp();
+    else finish();
   });
   prev.addEventListener("click", () => {
+    if (otpPhone) { otpPhone = ""; prev.innerHTML = prevHtml; render(); frameIntoView(); return; }
     read();
     idx = before(idx);
     render();
@@ -404,10 +440,74 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
     return "as_w" + [...b].map((x) => (x % 36).toString(36)).join("").slice(0, 20);
   }
 
-  function finish() {
-    const name = String(engine.values[(byLabel(/^(first name|full name)$/i) ?? { id: -1 }).id] ?? "").trim();
+  // ---------- the free account, made with the assessment ----------
+  const contactValue = (f?: Field) => String((f && engine.values[f.id]) ?? "").trim();
+  async function sendOtp(resend = false) {
+    const phone = cleanPhone(contactValue(phoneField));
+    next.disabled = true;
+    try {
+      await requestCode(phone);
+      otpPhone = phone;
+      if (!resend) showOtp();
+      else setOtpMsg("We've sent a new code.", false);
+    } catch (e) {
+      if (resend) setOtpMsg((e as Error).message, true);
+      else { const box = main.querySelector<HTMLElement>(`[data-id="${phoneField!.id}"]`); if (box) { clearErrors(box); flag(box, (e as Error).message); } }
+    } finally { next.disabled = false; }
+  }
+  function setOtpMsg(msg: string, bad: boolean) {
+    const el = main.querySelector<HTMLElement>("[data-otp-msg]");
+    if (!el) return;
+    el.textContent = msg; el.hidden = !msg; el.classList.toggle("qz-otp-err", bad);
+  }
+  function showOtp() {
+    card.classList.remove("has-side"); side.hidden = true; below.hidden = true; jump.hidden = true;
+    main.innerHTML = `<div class="qz-otp">
+      <div class="qz-html"><h2>One last step: <span>confirm your number</span></h2>
+      <p>We've sent a 6-digit code to your WhatsApp on <b>+91 ${otpPhone.slice(0, 5)} ${otpPhone.slice(5)}</b>. Enter it to see your result. This also creates your free betterhood account.</p></div>
+      <div class="field"><label for="qz-code">6-digit code</label><input class="input" id="qz-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}"></div>
+      <p data-otp-msg hidden></p>
+      <div class="qz-otp-links"><button type="button" data-resend>Send the code again</button></div>
+    </div>`;
+    main.querySelector("[data-resend]")!.addEventListener("click", () => sendOtp(true));
+    prev.innerHTML = "Change number"; prev.hidden = false;
+    next.textContent = "Verify & see my result";
+    main.querySelector<HTMLInputElement>("#qz-code")!.focus({ preventScroll: true });
+    frameIntoView();
+  }
+  async function verifyOtp() {
+    const code = (main.querySelector<HTMLInputElement>("#qz-code")?.value || "").replace(/\D/g, "");
+    if (code.length !== 6) { setOtpMsg("Enter the 6-digit code from WhatsApp.", true); return; }
+    next.disabled = true; prev.disabled = true;
+    setOtpMsg("", false);
+    try {
+      const r = await verifyCode(otpPhone, code);
+      if (!r.signedIn) {
+        const email = contactValue(form.fields.find((f) => /^email$/i.test(f.label)));
+        await signUpPatient({
+          signupToken: r.signupToken, name: contactValue(nameField) || "betterhood member", email: /^\S+@\S+\.\S+$/.test(email) ? email : undefined,
+          via: `assessment:${cfg.slug}`,
+          consents: [consentItem("terms", true, SIGNUP_CONSENT), consentItem("share_with_physio", true, SIGNUP_CONSENT)],
+        });
+      }
+      otpPhone = "";
+      prev.innerHTML = prevHtml;
+      await finish();
+    } catch (e) {
+      setOtpMsg((e as ApiError).message || "That code didn't work. Please try again.", true);
+    } finally { next.disabled = false; prev.disabled = false; }
+  }
+
+  async function finish() {
+    let name = String(engine.values[(byLabel(/^(first name|full name)$/i) ?? { id: -1 }).id] ?? "").trim();
     const email = String(engine.values[(byLabel(/^email$/i) ?? { id: -1 }).id] ?? "");
-    const phone = String(engine.values[(byLabel(/^phone number$/i) ?? { id: -1 }).id] ?? "");
+    let phone = String(engine.values[(byLabel(/^phone number$/i) ?? { id: -1 }).id] ?? "");
+    // Signed in (before, or just now with the code): their account knows who they are.
+    if (signedInPatient()) {
+      const me = await Promise.race([summary().catch(() => null), new Promise<null>((r) => setTimeout(() => r(null), 3000))]);
+      name ||= (me?.name || session()?.name || "").split(/\s+/)[0] || "";
+      phone ||= me?.phone || "";
+    }
     const store = JSON.parse(localStorage.getItem("bh_results") || "{}");
     const date = new Date().toISOString();
     const detail = { id: newResultId(), answers: answers(), painScore: painScore(), advisoryReasons: advisoryReasons(), formVersion: cfg.formVersion };
@@ -529,11 +629,10 @@ const steps = Math.max(...form.fields.map((f: any) => f.page));
       <div class="qz-bars">${bars.map(([k, v]) => `<div><span>${k}</span><i><b style="width:${(v / 10) * 100}%"></b></i><span>${v}</span></div>`).join("")}</div>
       <p class="qz-scale-note">Shown on a 0–10 scale. This is a snapshot to track your progress over time, not a test you pass or fail.</p>
       ${signedIn
-        ? `<p class="qz-saved" data-saved hidden>✓ Saved to your betterhood account</p>
-           <div class="qz-actions"><button type="button" class="btn btn-lg btn-sun" data-open-in-app>Track your progress in the app →</button><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner</a><a class="btn btn-ghost btn-lg" href="${location.pathname}">Check in again</a></div>`
+        ? `<p class="qz-saved" data-saved hidden>✓ Saved to your betterYou corner and your betterhood account</p>
+           <div class="qz-actions"><a class="btn btn-lg btn-sun" href="${href(cfg.corner)}">See my score in betterYou corner →</a><button type="button" class="btn btn-ghost btn-lg" data-open-in-app>Open the betterhood app</button></div>`
         : `<p class="qz-saved">✓ Saved to your betterYou corner</p>
-           ${accounts ? `<div class="qz-keep"><div><strong>See your progress on every device</strong><span>It's saved on this device. Sign in with your mobile number to keep it in your free betterhood account, on the website and in the app.</span></div><a class="btn btn-sun" href="${accountHref(cfg.corner)}">Sign in to keep it everywhere →</a></div>` : ""}
-           <div class="qz-actions">${toAppHref ? `<a class="btn btn-lg" href="${toAppHref}">Track your progress in the betterhood app →</a><a class="btn btn-ghost btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner</a>` : `<a class="btn btn-lg" href="${href(cfg.corner)}">See my next steps in betterYou corner →</a>`}<a class="btn btn-ghost btn-lg" href="${location.pathname}">Check in again</a></div>`}
+           <div class="qz-actions"><a class="btn btn-lg btn-sun" href="${href(cfg.corner)}">See my score in betterYou corner →</a>${toAppHref && !accounts ? `<a class="btn btn-ghost btn-lg" href="${toAppHref}">Open the betterhood app</a>` : ""}</div>`}
     </div>`;
     $(".qz-nav").remove();
     $("[data-step]").textContent = String(total);

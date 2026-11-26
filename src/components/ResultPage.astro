@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard.astro";
 import CareSections from "./CareSections.astro";
 import Faq from "./Faq.astro";
 import recommendations from "../data/recommendations.json";
-import { resultPages, cornerSlugs, type Cat } from "../lib/assessments";
+import { resultPages, cornerSlugs, healthFor, type Cat } from "../lib/assessments";
 import { productsByHandle } from "../lib/data";
 import { mediaHtml, areas, SHOP } from "../lib/site";
 import { resultFaqs } from "../lib/care";
@@ -26,6 +26,7 @@ const area = areas.find((x) => x.key === a.area)!;
 const products = productsByHandle((recommendations as Record<string, string[]>)[slug] ?? []);
 const shopHref = `${SHOP}/collections/all?shop_by_health_issue=${encodeURIComponent(area.label)}`;
 const corner = `/${cornerSlugs[a.area]}/`;
+const health = healthFor(a.area);
 const condition = a.conditions[r.cat];
 ---
 <Base title={`Result ${a.title} | ${condition}`} description={`Your betterhood ${a.title.toLowerCase()} assessment result: ${condition}. Understand the cause and get your personalized ${area.name.toLowerCase()}-care toolkit.`} noindex>
@@ -46,24 +47,18 @@ const condition = a.conditions[r.cat];
     </div>
   </section>
 
-  <section class="section-tight" data-app-cta data-embed-hide hidden>
+  <section class="section-tight" data-next-step data-embed-hide>
     <div class="wrap">
       <div class="rs-app">
-        <div data-out>
-          <p class="eyebrow">Your free betterhood account</p>
-          <h2 class="h3" data-out-h>Keep this result and get matched with a physio near you</h2>
-          <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> asked for this result. Save it to your free account and it goes straight to them.</span></p>
-          <p class="rs-app-sub" data-out-sub>Your {condition.toLowerCase()} result is already in your betterYou corner on this device. Sign in with your mobile number to keep it on every device and in the app, get matched with a physio near you and book a session. Free to use.</p>
-        </div>
-        <div data-in hidden>
-          <p class="eyebrow">✓ Saved to your account</p>
-          <h2 class="h3">Your next step is waiting in the app</h2>
-          <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> can now see this result in their patient list.</span></p>
-          <p class="rs-app-sub" data-in-sub>We've added this {condition.toLowerCase()} result to your betterhood account. Open the app to see the physio we suggest, follow your plan and book a session.</p>
+        <div>
+          <p class="eyebrow">Your next step</p>
+          <h2 class="h3" data-ns-h>Because you took the {a.title.toLowerCase()} assessment, check your {area.name.toLowerCase()} health score</h2>
+          <p class="rs-app-sub" data-ns-sub>Your result tells us the likely cause. Your health score shows where you stand today: a few simple strength, balance and mobility tests, about 3 minutes. It goes into your betterYou corner next to this result, so you can see where to start and watch it improve.</p>
+          <p class="invite-note" data-invite hidden><span aria-hidden="true">👋</span> <span><strong data-invite-name>Your physio</strong> can see this result in their patient list.</span></p>
         </div>
         <div class="rs-app-acts">
-          <a class="btn btn-lg" data-account-link href="/account/" hidden>Sign in to keep it everywhere <Icon name="arrow" class="arrow" /></a>
-          <a class="btn btn-lg btn-ghost" data-app-link href="#">Get the app <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-lg btn-sun" data-ns-go href={health.slug ? `/${health.slug}/` : corner}>Check my {area.name.toLowerCase()} health score <Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn-lg btn-ghost" href="#" data-open-app="/me" data-ns-app hidden>Open the betterhood app</a>
         </div>
       </div>
     </div>
@@ -95,12 +90,12 @@ const condition = a.conditions[r.cat];
   <section class="section-tight">
     <div class="wrap">
       <div class="rs-later">
-        <div><p class="eyebrow">Need more time to make a decision?</p><h2 class="h3">No worries. You can access your diagnosis and recommended toolkit anytime in ‘betterYou corner'.</h2></div>
-        <a class="btn btn-sun btn-lg" href={corner}>Save your recommendations for later <Icon name="arrow" class="arrow" /></a>
+        <div><p class="eyebrow">Need more time to make a decision?</p><h2 class="h3">No worries. Your diagnosis and recommended toolkit are saved in your betterYou corner, whenever you're ready.</h2></div>
+        <a class="btn btn-ghost btn-lg" href={corner}>Open my betterYou corner <Icon name="arrow" class="arrow" /></a>
       </div>
     </div>
   </section>
-  <script type="application/json" data-rs set:html={JSON.stringify({ assessment: a.slug, result: slug })} />
+  <script type="application/json" data-rs set:html={JSON.stringify({ assessment: a.slug, result: slug, health: health.slug, area: area.name.toLowerCase() })} />
 </Base>
 
 <style>
@@ -137,8 +132,7 @@ const condition = a.conditions[r.cat];
 </style>
 
 <script>
-  import { appLink } from "../scripts/app-link";
-  import { accountHref, accountsOn, invite, openApp, session, shortName } from "../scripts/account";
+  import { accountsOn, session, shortName, wireAppLinks } from "../scripts/account";
   import { fromApp, isEmbedded, toApp as tellApp } from "../scripts/embed";
   const meta = JSON.parse(document.querySelector("[data-rs]")!.textContent!);
   let store: Record<string, any> = {};
@@ -167,40 +161,25 @@ const condition = a.conditions[r.cat];
     });
     tellApp({ type: "bh:ready", flow: "result" });
   }
-  // Keep this result: signed in → it's already in the account (AssessmentRunner saved it), open the app signed in.
-  // Signed out → save it to a free account (synced on sign-in), or carry it to the app in the link.
-  const mine = rec?.result === meta.result ? rec : null;
-  const toApp = appLink(meta.assessment, mine);
-  const cta = document.querySelector<HTMLElement>("[data-app-cta]")!;
-  const appA = cta.querySelector<HTMLAnchorElement>("[data-app-link]")!;
-  const acctA = cta.querySelector<HTMLAnchorElement>("[data-account-link]")!;
+  // One next step: the health score for the same area. Already taken → show it and offer to update it.
+  // Signed in → the app is one tap away too.
+  const ns = document.querySelector<HTMLElement>("[data-next-step]")!;
   const paint = () => {
-    const signedIn = accountsOn() && session()?.role === "patient";
-    cta.querySelector<HTMLElement>("[data-out]")!.hidden = signedIn;
-    cta.querySelector<HTMLElement>("[data-in]")!.hidden = !signedIn;
-    acctA.hidden = signedIn || !accountsOn();
-    // came from a physio's invite link: the result is for them, not for matching
-    const inv = invite();
-    if (inv?.name) {
-      cta.querySelector<HTMLElement>("[data-out-h]")!.textContent = `Send this result to ${inv.name}`;
-      cta.querySelector<HTMLElement>("[data-out-sub]")!.hidden = true;
-      cta.querySelector<HTMLElement>("[data-in-sub]")!.textContent = `It's in your betterhood account and in ${inv.name}'s patient list. Open the app to follow your plan and book your session.`;
-      acctA.innerHTML = `Save &amp; send to ${inv.name.replace(/[<>&"]/g, "")} →`;
+    const h = store[meta.health];
+    if (h?.overall != null) {
+      ns.querySelector("[data-ns-h]")!.textContent = `Your ${meta.area} health score is ${h.overall}/10. Update it as you go`;
+      ns.querySelector("[data-ns-sub]")!.textContent = "Take the health score again every couple of weeks. Your betterYou corner shows how your strength, balance and mobility change alongside this result.";
+      ns.querySelector("[data-ns-go]")!.firstChild!.textContent = `Update my ${meta.area} health score `;
     }
-    acctA.href = accountHref(location.pathname);
-    appA.innerHTML = signedIn ? "Open it in the app →" : "Get the app →";
-    appA.classList.toggle("btn-ghost", !signedIn && accountsOn());
-    if (toApp) appA.href = toApp;
-    cta.hidden = !(toApp || accountsOn());
+    ns.querySelector<HTMLElement>("[data-ns-app]")!.hidden = !(accountsOn() && session());
   };
-  appA.addEventListener("click", (e) => { if (accountsOn() && session()) { e.preventDefault(); openApp("/me"); } });
   paint();
+  wireAppLinks(ns);
   document.addEventListener("bh:account", paint);
-  document.addEventListener("bh:invite", paint);
   if (rec?.result === meta.result && rec.advisory) document.querySelector<HTMLElement>("[data-advisory]")!.hidden = false;
   // The result was saved the moment they finished (this browser; the account too when signed in). Say so, so nobody
   // thinks there's a save step left.
-  if (mine && !isEmbedded()) {
+  if (rec?.result === meta.result && !isEmbedded()) {
     const saved = document.querySelector<HTMLElement>("[data-saved]")!;
     const sayWhere = () => {
       saved.querySelector("[data-saved-text]")!.textContent = accountsOn() && session()?.role === "patient" ? "Saved to your betterYou corner and your betterhood account" : "Saved to your betterYou corner";
