@@ -1,0 +1,147 @@
+---
+// The page behind the WhatsApp catch link (/slouch-catcher/c/?code=XXXX). The caught person sees their animal,
+// signs in with their betterhood account to unlock the full report, and the catcher earns points.
+import Base from "../../layouts/Base.astro";
+---
+<Base title="You've been caught slouching! · Slouch Catcher" description="A friend caught you with Slouch Catcher. See your posture animal and your full report." noindex>
+  <section class="cp">
+    <div class="wrap cp-wrap">
+      <p class="sc-loading" data-loading>Finding the evidence...</p>
+
+      <div class="sc-tool cp-box" data-error hidden>
+        <span class="sc-big">🕵️</span>
+        <h1 class="h3">Case not found</h1>
+        <p class="muted" data-error-msg></p>
+        <a class="btn" href="/slouch-catcher/">Catch a sloucher yourself</a>
+      </div>
+
+      <article class="sc-tool cp-box" data-card hidden>
+        <p class="sc-verdict" data-head></p>
+        <div class="cp-emoji" data-emoji></div>
+        <p class="sc-kicker" data-kicker></p>
+        <h1 class="sc-name" data-name></h1>
+        <div class="sc-score">
+          <div class="sc-score-row"><span>Posture score</span><strong data-score></strong></div>
+          <div class="sc-meter"><i data-meter></i></div>
+        </div>
+        <p class="sc-pattern" data-pattern></p>
+        <p class="sc-roast" data-remark></p>
+      </article>
+
+      <section class="sc-tool cp-box" data-join hidden></section>
+
+      <section class="sc-tool cp-box" data-report hidden>
+        <h2 class="h3">Your full report</h2>
+        <ul class="sc-zones" data-zones aria-label="Score by zone, out of 9"></ul>
+        <p class="sc-summary" data-summary></p>
+        <ul class="sc-chips" data-issues></ul>
+      </section>
+
+      <p class="cp-foot" data-foot hidden><a class="link" href="/slouch-catcher/">Not them? Catch your own sloucher</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cp { padding: clamp(28px, 5vw, 64px) 0 80px; min-height: 78vh; background: radial-gradient(70% 90% at 85% 10%, var(--sun-200), transparent 60%), var(--sun-100); }
+  .cp-wrap { max-width: 560px; display: grid; gap: 18px; }
+  .cp-box { display: grid; gap: 14px; }
+  .cp-box[hidden] { display: none; }
+  .cp-emoji { font-size: 84px; line-height: 1; text-align: center; }
+  .cp-foot { text-align: center; }
+  [data-card] .sc-name, [data-card] .sc-kicker { text-align: center; }
+  [data-card] .sc-verdict { justify-self: center; text-align: center; }
+</style>
+
+<script>
+  import { esc, loadPersonas, scoreColor, sc, signInInline, signedIn, zonesHtml, type Zones } from "../../scripts/slouch";
+  import { href } from "../../scripts/base";
+
+  interface Catch { catcher: string; target: string; persona: string; verdict: string; score: number; joined: boolean; viewer: null | "catcher" | "target" | "other"; joinPoints: number; welcomePoints: number; report?: Report }
+  interface Report { zones: Zones | null; summary: string | null; issues: string[] | null }
+  const $ = <T extends Element = HTMLElement>(s: string) => document.querySelector<T>(s)!;
+  const code = (new URLSearchParams(location.search).get("code") || "").replace(/[^A-Za-z0-9]/g, "").slice(0, 12);
+  let c: Catch;
+
+  const fail = (msg: string) => { $("[data-loading]").hidden = true; $("[data-error-msg]").textContent = msg; $("[data-error]").hidden = false; };
+  const btn = (text: string, to: string, ghost = false) => `<a class="btn btn-block btn-lg${ghost ? " btn-ghost" : ""}" href="${href(to)}">${esc(text)}</a>`;
+
+  async function renderCard() {
+    const p = (await loadPersonas()).find((x) => x.id === c.persona);
+    $("[data-head]").className = "sc-verdict " + c.verdict;
+    $("[data-head]").textContent = c.verdict === "bad" ? `🚨 ${c.catcher} caught ${c.target} slouching!` : `🏆 ${c.catcher} caught ${c.target} standing tall!`;
+    $("[data-emoji]").textContent = p?.emoji || "🕵️";
+    $("[data-kicker]").textContent = `${c.target}'s posture animal`;
+    $("[data-name]").textContent = p?.name || c.persona;
+    $("[data-score]").textContent = `${c.score}/10`;
+    const m = $("[data-meter]");
+    m.style.background = scoreColor(c.score);
+    requestAnimationFrame(() => requestAnimationFrame(() => (m.style.width = c.score * 10 + "%")));
+    $("[data-pattern]").textContent = p?.pattern || "";
+    $("[data-remark]").textContent = p ? `"${p.remark}"` : "";
+    $("[data-loading]").hidden = true;
+    $("[data-card]").hidden = false;
+  }
+
+  function renderReport(r?: Report) {
+    if (!r) return;
+    $("[data-zones]").innerHTML = r.zones ? zonesHtml(r.zones) : "";
+    $("[data-summary]").textContent = r.summary || "";
+    $("[data-issues]").innerHTML = (r.issues || []).map((x) => `<li>${esc(x)}</li>`).join("");
+    $("[data-report]").hidden = false;
+  }
+
+  function joinBox(state: "catcher" | "target" | "taken" | "signedIn" | "invite", welcomed = 0) {
+    const box = $("[data-join]");
+    box.hidden = false;
+    $("[data-foot]").hidden = state !== "invite" && state !== "signedIn";
+    if (state === "catcher") {
+      box.innerHTML = `<h2 class="h3">This is your catch</h2><p class="muted">${c.joined ? `${esc(c.target)} joined from your link, so you got your ${c.joinPoints} points. Nice catch!` : `You'll get ${c.joinPoints} points when ${esc(c.target)} opens this link and joins. Make sure they see it!`}</p>${btn("See my points", "/account/#points")}`;
+    } else if (state === "target") {
+      box.innerHTML = `<h2 class="h3">You're in, ${esc(c.target)}!${welcomed ? ` +${welcomed} points for joining.` : ""}</h2><p class="muted">Now it's your turn. Catch ${esc(c.catcher)} slouching and earn points of your own. 1000 points gets you a ₹200 shop coupon.</p>${btn(`Catch ${c.catcher} back`, "/slouch-catcher/#catch")}${btn("See my points", "/account/#points", true)}`;
+    } else if (state === "taken") {
+      box.innerHTML = `<h2 class="h3">${esc(c.target)} has already joined</h2><p class="muted">This catch belongs to them. You can still catch your own sloucher and earn points.</p>${btn("Catch a sloucher", "/slouch-catcher/#catch")}`;
+    } else if (state === "signedIn") {
+      box.innerHTML = `<h2 class="h3">Are you ${esc(c.target)}?</h2><p class="muted">See your full report and catch ${esc(c.catcher)} back.</p><button class="btn btn-block btn-lg" type="button" data-yes>Yes, I'm ${esc(c.target)}: show my report</button><p class="form-note err" data-err hidden></p>`;
+      box.querySelector<HTMLButtonElement>("[data-yes]")!.addEventListener("click", async (e) => {
+        (e.currentTarget as HTMLButtonElement).disabled = true;
+        await join(0);
+      });
+    } else {
+      signInInline(box, {
+        askName: true, name: c.target, submit: "Show my report",
+        title: `Are you ${c.target}? Get your full report`,
+        sub: `Sign in with your WhatsApp number to see your full posture report, get ${c.welcomePoints} points and catch ${c.catcher} back. New here? This creates your free betterhood account.`,
+      }).then(async () => {
+        // Signing in for the first time pays the welcome points (their balance is exactly that).
+        const now = await sc<{ points?: number }>("/slouch/me").catch(() => ({ points: 0 }));
+        await join(now.points === c.welcomePoints ? c.welcomePoints : 0);
+      });
+    }
+  }
+
+  async function join(pointsNow: number) {
+    try {
+      const r = await sc<{ status: string; report?: Report }>(`/slouch/catches/${code}/join`, {});
+      if (r.status === "self") { c.viewer = "catcher"; return joinBox("catcher"); }
+      if (r.status === "taken") return joinBox("taken");
+      c.viewer = "target"; c.joined = true;
+      renderReport(r.report);
+      joinBox("target", pointsNow);
+    } catch (e) {
+      const box = $("[data-join]");
+      box.insertAdjacentHTML("beforeend", `<p class="form-note err">${esc((e as Error).message)}</p>`);
+    }
+  }
+
+  (async () => {
+    if (!code) return fail("This link is missing its catch code.");
+    try { c = await sc<Catch>(`/slouch/catches/${code}`); }
+    catch (e) { return fail((e as { status?: number }).status === 404 ? "We couldn't find this catch. The link may be incomplete." : (e as Error).message); }
+    await renderCard();
+    if (c.viewer === "catcher") return joinBox("catcher");
+    if (c.viewer === "target") { renderReport(c.report); return joinBox("target"); }
+    if (c.joined) return joinBox("taken");
+    joinBox(signedIn() ? "signedIn" : "invite");
+  })();
+</script>
