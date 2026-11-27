@@ -276,7 +276,7 @@ const physioTools = [
     const { sc } = await import("../scripts/slouch");
     const box = $("[data-points]");
     let m: any;
-    try { m = await sc("/api/me"); } catch { return; }
+    try { m = await sc("/slouch/me"); } catch { return; }
     if (!m?.user || !m.betterhood) return;
     const cfg = m.config, pts = m.points ?? 0;
     box.hidden = false;
@@ -290,7 +290,7 @@ const physioTools = [
       red.disabled = true;
       const n = $("[data-redeem-note]");
       try {
-        const r: any = await sc("/api/rewards/redeem", {});
+        const r: any = await sc("/slouch/redeem", {});
         n.className = "form-note ok"; n.textContent = `Your coupon: ${r.code}. Use it at checkout on the betterhood shop.`;
         await paintPoints();
       } catch (e) { n.className = "form-note err"; n.textContent = (e as Error).message; }

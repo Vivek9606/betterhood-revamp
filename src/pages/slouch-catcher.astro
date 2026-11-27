@@ -347,7 +347,7 @@ const faqs = [
     t.textContent = LINES[0];
     const timer = setInterval(() => (t.textContent = LINES[Math.min(++i, LINES.length - 1)]), 1800);
     try {
-      const [r] = await Promise.all([sc<Result>("/api/analyze", { image: photo }), loadPersonas()]);
+      const [r] = await Promise.all([sc<Result>("/slouch/analyze", { image: photo }), loadPersonas()]);
       render(r);
     } catch (e) { fail((e as Error).message); }
     finally { clearInterval(timer); }
@@ -452,7 +452,7 @@ const faqs = [
     if (withPoints && last?.r.catchToken) {
       body.innerHTML = `<p class="sc-loading">Saving your catch...</p>`;
       try {
-        caught = await sc("/api/catches", { token: last.r.catchToken, targetName: who.target, catcherName: who.catcher });
+        caught = await sc("/slouch/catches", { token: last.r.catchToken, targetName: who.target, catcherName: who.catcher });
         await refreshAccount();
       } catch (e) { console.warn("[slouch] catch not saved:", (e as Error).message); }
     }

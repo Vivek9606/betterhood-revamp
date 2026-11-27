@@ -1,11 +1,8 @@
-// Slouch Catcher on the betterhood website. The AI, the points and the coupons live in the Slouch Catcher
-// service (slouch-catcher repo, DigitalOcean). This page is its front-end: people stay on betterhood.in and
-// sign in with their betterhood account (WhatsApp OTP, same account as the app). The website sends that
-// session to Slouch Catcher as a Bearer token, so points, catches and coupons belong to the betterhood account.
-import { accountsOn, call, cleanPhone, consentItem, requestCode, session, signUpPatient, validPhone, verifyCode, SIGNUP_CONSENT } from "./account";
+// Slouch Catcher on the betterhood website. The photo check, points, catches and coupons are in the Betterhood API
+// (/slouch/*, capacitor-app-backend). People sign in with their betterhood account (WhatsApp OTP, same account as
+// the app), so points, catches and coupons belong to that account.
+import { accountsOn, API, call, cleanPhone, consentItem, requestCode, session, signOut, signUpPatient, validPhone, verifyCode, SIGNUP_CONSENT } from "./account";
 import { href } from "./base";
-
-export const SLOUCH: string = String(import.meta.env.PUBLIC_SLOUCH_API || "https://orca-app-bg34h.ondigitalocean.app").replace(/\/+$/, "");
 
 export interface Persona { id: string; name: string; emoji: string; tier: "good" | "average" | "bad"; pattern: string; remark: string }
 export type Zones = { N: number; S: number; B: number; K: number };
@@ -30,27 +27,29 @@ export async function sc<T = any>(path: string, body?: unknown): Promise<T> {
   const s = accountsOn() ? session() : null;
   let res: Response;
   try {
-    res = await fetch(SLOUCH + path, {
+    if (!API) throw new Error("Slouch Catcher isn't available right now.");
+    res = await fetch(API + path, {
       method: body === undefined ? "GET" : "POST",
       headers: { ...(body !== undefined ? { "Content-Type": "application/json" } : {}), ...(s ? { Authorization: `Bearer ${s.token}` } : {}) },
       body: body === undefined ? undefined : JSON.stringify(body),
     });
   } catch {
-    throw Object.assign(new Error("Can't reach Slouch Catcher. Check your connection and try again."), { status: 0 });
+    throw Object.assign(new Error("Can't reach betterhood. Check your connection and try again."), { status: 0 });
   }
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw Object.assign(new Error(data.error || "Something went wrong. Please try again."), { status: res.status });
+  if (res.status === 401 && s) signOut(); // the betterhood session expired: sign in again
+  if (!res.ok) throw Object.assign(new Error(data.message || "Something went wrong. Please try again."), { status: res.status });
   return data as T;
 }
 
 let personas: Promise<Persona[]> | null = null;
-export const loadPersonas = () => (personas ||= sc<{ personas: Persona[] }>("/api/personas").then((r) => r.personas).catch(() => { personas = null; return []; }));
-export const me = () => sc<Me>("/api/me");
+export const loadPersonas = () => (personas ||= sc<{ personas: Persona[] }>("/slouch/personas").then((r) => r.personas).catch(() => { personas = null; return []; }));
+export const me = () => sc<Me>("/slouch/me");
 export const shortName = (p: Persona) => p.name.replace(/^The /, "");
 export const scoreColor = (s: number) => (s >= 7 ? "var(--mint-600)" : s >= 4.5 ? "var(--sun-500)" : "var(--coral-500)");
 export const catchUrl = (code: string) => `${location.origin}${href("/slouch-catcher/c/")}?code=${encodeURIComponent(code)}`;
 export const pageUrl = () => `${location.origin}${href("/slouch-catcher/")}`;
-export const shopLink = (id?: string) => `${SLOUCH}/go/${encodeURIComponent(id || "shop")}`;
+export const shopLink = (id?: string) => `${API}/slouch/go/${encodeURIComponent(id || "shop")}`;
 
 export function zonesHtml(z: Zones) {
   return ZONES.map(([k, label]) => {
