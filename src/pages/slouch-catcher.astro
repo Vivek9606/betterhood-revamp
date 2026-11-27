@@ -4,6 +4,9 @@ import Icon from "../components/Icon.astro";
 import Faq from "../components/Faq.astro";
 import AccountCta from "../components/AccountCta.astro";
 
+// The working tool (slouch-catcher repo, hosted on Render)
+const TOOL = "https://slouch-catcher.onrender.com/?utm_source=betterhood.in&utm_medium=website&utm_campaign=slouch-catcher-page";
+
 const personas = [
   ["🦐", "Shrimp", "0-40", "Full curl mode! Time to straighten up and fix that slouch"],
   ["❓", "Question Mark", "41-55", "Even your posture is confused! Let's fix this"],
@@ -45,14 +48,14 @@ const faqs = [
   { q: "Can I use this for office challenges?", a: "Perfect for it! Create a “Slouch of the Week” board, run posture improvement contests, or just keep colleagues on their toes. Offices love gamifying health!" },
 ];
 ---
-<Base title="Slouch Catcher: Caught Your Friend Slouching?" description="Upload their photo and reveal their posture animal. Warning: they might turn out to be a shrimp. Join the Slouch Catcher waitlist from betterhood.">
+<Base title="Slouch Catcher: Caught Your Friend Slouching?" description="Upload their photo and reveal their posture animal. Warning: they might turn out to be a shrimp. Try Slouch Catcher free from betterhood.">
   <section class="sc-hero">
     <div class="wrap sc-grid">
       <div class="stack" style="--stack:20px">
         <span class="badge badge-dark">🚨 Posture Police · Free to roast</span>
         <h1 class="display">Caught your friend <span class="wiggle">slouching?</span></h1>
         <p class="lead">Upload their photo and reveal their posture animal. Warning: they might turn out to be a shrimp. 🦐</p>
-        <button class="btn btn-lg" data-open-waitlist>Join the waitlist <Icon name="arrow" class="arrow" /></button>
+        <a class="btn btn-lg" href={TOOL}>Catch a sloucher now <Icon name="arrow" class="arrow" /></a>
       </div>
       <div class="phone" aria-hidden="true">
         <div class="screen">
@@ -108,7 +111,7 @@ const faqs = [
       <div class="ready">
         <h2 class="h2">Ready to catch a sloucher?</h2>
         <p class="lead">Join 12,000+ people spreading posture awareness the fun way</p>
-        <button class="btn btn-dark btn-lg" data-open-waitlist>Catch your first friend <Icon name="arrow" class="arrow" /></button>
+        <a class="btn btn-dark btn-lg" href={TOOL}>Catch your first friend <Icon name="arrow" class="arrow" /></a>
       </div>
     </div>
   </section>
@@ -117,18 +120,6 @@ const faqs = [
 
   <section class="section"><div class="wrap"><Faq items={faqs} /></div></section>
 
-  <dialog class="wl" id="waitlist" aria-labelledby="wl-t">
-    <form class="wl-form" data-bh-form="slouch-catcher-waitlist" data-success="You're on the list! We'll WhatsApp you the moment Slouch Catcher goes live. 🦚">
-      <button type="button" class="wl-x" aria-label="Close" data-close-waitlist><Icon name="close" /></button>
-      <span class="e">🦐</span>
-      <h2 class="h3" id="wl-t">Join the waitlist</h2>
-      <div class="field"><label for="wl-n">Your name *</label><input class="input" id="wl-n" name="name" required autocomplete="name" placeholder="Your Name" /></div>
-      <div class="field"><label for="wl-p">Phone *</label><input class="input" id="wl-p" name="phone" type="tel" required pattern="[0-9+ ]{10,15}" autocomplete="tel" placeholder="Your Phone Number" /></div>
-      <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
-      <button class="btn btn-block btn-lg" type="submit">Join the waitlist</button>
-      <p data-note hidden></p>
-    </form>
-  </dialog>
 </Base>
 
 <style>
@@ -166,20 +157,11 @@ const faqs = [
   .tile.alt { background: var(--cream); }
   .ready { text-align: center; display: grid; gap: 14px; justify-items: center; padding: clamp(32px, 5vw, 64px); border-radius: var(--r-xl); background: var(--sun-500); }
   .ready .lead { color: var(--plum-900); }
-  .wl { border: 0; padding: 0; border-radius: var(--r-xl); width: min(440px, 92vw); box-shadow: var(--shadow-lg); }
-  .wl::backdrop { background: rgba(27, 8, 32, 0.6); backdrop-filter: blur(3px); }
-  .wl-form { padding: 32px; display: grid; gap: 14px; position: relative; }
-  .wl-x { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--plum-50); display: grid; place-items: center; }
   @media (max-width: 1100px) { .personas { grid-template-columns: repeat(4, 1fr); } }
   @media (max-width: 860px) { .sc-grid, .steps { grid-template-columns: 1fr; } .sc-stats { grid-template-columns: 1fr 1fr; } .personas { grid-template-columns: repeat(2, 1fr); } .phone { width: 240px; } }
 </style>
 
 <script>
-  const dlg = document.getElementById("waitlist") as HTMLDialogElement;
-  document.querySelectorAll("[data-open-waitlist]").forEach((b) => b.addEventListener("click", () => dlg.showModal()));
-  dlg.querySelector("[data-close-waitlist]")!.addEventListener("click", () => dlg.close());
-  dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
-
   // the demo phone cycles through personas
   const P = [["🦐", "Shrimp", 34], ["❓", "Question Mark", 49], ["🐢", "Turtle", 61], ["🦩", "Flamingo", 74], ["🦒", "Giraffe", 86], ["🦦", "Meerkat", 93], ["🦚", "Peacock", 98]] as const;
   const em = document.querySelector<HTMLElement>("[data-emoji]")!, pn = document.querySelector<HTMLElement>("[data-persona]")!, sc = document.querySelector<HTMLElement>("[data-score]")!;
