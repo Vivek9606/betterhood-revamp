@@ -99,6 +99,18 @@ const physioTools = [
           </div>
         </div>
 
+        <!-- Slouch Catcher points (both roles) -->
+        <div class="ac-panel ac-pts" id="points" data-points hidden>
+          <div class="ac-panel-h"><h2 class="h3">Slouch Catcher points</h2><a class="link" href="/slouch-catcher/#catch">Catch a sloucher <Icon name="arrow" /></a></div>
+          <div class="ac-pts-top"><b data-pts>0</b><span data-pts-next></span></div>
+          <div class="ac-pts-bar"><i data-pts-bar></i></div>
+          <div class="ac-acts"><button class="btn btn-sun" type="button" data-redeem hidden></button></div>
+          <p class="form-note" data-redeem-note hidden></p>
+          <ul class="ac-plist" data-coupons></ul>
+          <p class="muted" data-pts-how></p>
+          <ul class="ac-plist" data-catches></ul>
+        </div>
+
         <!-- patient -->
         <div data-role-only="patient" hidden>
           <div class="ac-panel ac-claim" data-claim hidden>
@@ -211,6 +223,16 @@ const physioTools = [
   .ac-app .eyebrow { color: var(--sun-500); }
   .ac-app .muted { color: rgba(255, 255, 255, 0.75); }
   .ac-sub { margin-top: 6px; }
+  .ac-plist { list-style: none; display: grid; gap: 10px; }
+  .ac-plist:empty { display: none; }
+  .ac-pts-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+  .ac-pts-top b { font: 700 44px var(--font-display); color: var(--plum-800); }
+  .ac-pts-top span { color: var(--ink-mute); }
+  .ac-pts-bar { height: 10px; border-radius: 10px; background: var(--plum-50); overflow: hidden; }
+  .ac-pts-bar i { display: block; height: 100%; border-radius: 10px; background: var(--sun-500); transition: width 0.9s ease-in-out; }
+  .ac-pts :global(.ac-coupon) { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 16px; border-radius: var(--r-md); background: var(--mint-100); }
+  .ac-pts :global(.ac-coupon code) { font: 700 18px var(--font-display); letter-spacing: 0.05em; color: var(--mint-700); }
+  .ac-pts :global(.ac-catch) { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: var(--r-md); background: var(--plum-50); font-size: 14.5px; }
   .ac-invite .muted { color: var(--ink-mute); max-width: 720px; }
   .ac-link { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: var(--r-md); background: var(--plum-50); }
   .ac-link code { font: 600 14.5px/1.4 var(--font-body); color: var(--plum-800); overflow-wrap: anywhere; min-width: 0; }
@@ -249,8 +271,39 @@ const physioTools = [
     await paintIn();
   }
 
+  // Slouch Catcher points live in the Slouch Catcher service, keyed to this betterhood account.
+  async function paintPoints() {
+    const { sc } = await import("../scripts/slouch");
+    const box = $("[data-points]");
+    let m: any;
+    try { m = await sc("/api/me"); } catch { return; }
+    if (!m?.user || !m.betterhood) return;
+    const cfg = m.config, pts = m.points ?? 0;
+    box.hidden = false;
+    $("[data-pts]").textContent = `${pts} points`;
+    $("[data-pts-next]").textContent = pts >= cfg.couponPoints ? `Enough for a ₹${cfg.couponValue} coupon!` : `${cfg.couponPoints - pts} more to a ₹${cfg.couponValue} shop coupon`;
+    requestAnimationFrame(() => ($("[data-pts-bar]").style.width = `${Math.min(100, (pts / cfg.couponPoints) * 100)}%`));
+    const red = $<HTMLButtonElement>("[data-redeem]");
+    red.hidden = pts < cfg.couponPoints;
+    red.textContent = `Swap ${cfg.couponPoints} points for a ₹${cfg.couponValue} coupon`;
+    red.onclick = async () => {
+      red.disabled = true;
+      const n = $("[data-redeem-note]");
+      try {
+        const r: any = await sc("/api/rewards/redeem", {});
+        n.className = "form-note ok"; n.textContent = `Your coupon: ${r.code}. Use it at checkout on the betterhood shop.`;
+        await paintPoints();
+      } catch (e) { n.className = "form-note err"; n.textContent = (e as Error).message; }
+      n.hidden = false; red.disabled = false;
+    };
+    $("[data-coupons]").innerHTML = (m.coupons || []).map((c: any) => `<li class="ac-coupon"><span><code>${esc(c.code)}</code><br><small>₹${c.value} off · ${fmtDate(c.at)}</small></span><a class="btn btn-sm" href="https://shop.betterhood.in/" target="_blank" rel="noopener">Shop now</a></li>`).join("");
+    $("[data-pts-how]").textContent = `${cfg.snap} points for each catch you share (up to ${cfg.snapDailyCap} a day), ${cfg.join} when the person you caught opens your link and joins.`;
+    $("[data-catches]").innerHTML = (m.catches || []).slice(0, 8).map((c: any) => `<li class="ac-catch"><span>Caught <strong>${esc(c.target)}</strong> · ${c.score}/10</span><small>${c.joined ? "Joined ✓" : fmtDate(c.at)}</small></li>`).join("");
+  }
+
   async function paintIn() {
     view("in");
+    paintPoints();
     wireAppLinks(root);
     const s = session()!;
     $("[data-who]").textContent = s.role === "physio" ? "Your physio account" : "Your betterhood account";

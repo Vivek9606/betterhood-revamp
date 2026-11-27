@@ -4,22 +4,10 @@ import Icon from "../components/Icon.astro";
 import Faq from "../components/Faq.astro";
 import AccountCta from "../components/AccountCta.astro";
 
-// The working tool (slouch-catcher repo, hosted on DigitalOcean App Platform)
-const TOOL = "https://orca-app-bg34h.ondigitalocean.app/?utm_source=betterhood.in&utm_medium=website&utm_campaign=slouch-catcher-page";
-
-const personas = [
-  ["🦐", "Shrimp", "0-40", "Full curl mode! Time to straighten up and fix that slouch"],
-  ["❓", "Question Mark", "41-55", "Even your posture is confused! Let's fix this"],
-  ["🐢", "Turtle", "56-65", "Hiding in your shell? Time to come out strong"],
-  ["🦩", "Flamingo", "66-80", "Standing tall and looking good! Almost there"],
-  ["🦒", "Giraffe", "81-90", "Reaching for the stars with that spine!"],
-  ["🦦", "Meerkat", "91-95", "Always on lookout, always standing tall!"],
-  ["🦚", "Peacock", "96-100", "Posture royalty! Your spine is a work of art"],
-];
 const steps = [
   ["📸", "Catch Them Red-Handed", "Snap a photo of your friend, colleague, or partner when they're slouching (they never see it coming!)"],
-  ["🦐", "Watch Them Get Roasted", "Our algorithm analyses their posture and assigns them a hilarious animal persona (Shrimp, Turtle, or Peacock) with a fun roast message"],
-  ["💬", "Share the Shame (or Glory)", "Send their “Caught Card” via WhatsApp and spread the playful posture awareness"],
+  ["🦐", "Watch Them Get Roasted", "Our posture AI rates their neck, shoulders, back and knees, then names their posture animal (Shrimp, Sloth or Horse?) with a fun roast"],
+  ["💬", "Share the Shame and Earn Points", "Send their “Caught Card” on WhatsApp. You earn points for every catch, and more when they open your link. 1000 points = ₹200 off at the betterhood shop"],
 ];
 const why = [
   ["😂", "It's Hilariously Fun", "Catching someone as a “Shrimp” or “Question Mark” creates laugh-out-loud moments while spreading awareness."],
@@ -30,11 +18,11 @@ const why = [
   ["🎮", "Gamified Awareness", "When health becomes a game, people pay attention. You're spreading wellness without being preachy."],
 ];
 const features = [
-  ["🎭", "7 Hilarious Personas", "From Shrimp to Peacock – each persona comes with a fun roast that's shareable and memorable"],
-  ["⚡", "Instant Catch & Expose", "Snap a photo, get results in 10 seconds. No waiting, no signup – just pure catching action"],
+  ["🎭", "20 Posture Animals", "From Horse to Shrimp – each animal comes with a fun roast that's shareable and memorable"],
+  ["⚡", "Instant Catch & Expose", "Snap a photo, get results in seconds. No signup needed to see the result"],
   ["📲", "WhatsApp Ready", "One-tap sharing to WhatsApp with pre-written roast message. Your friend gets their report card instantly"],
-  ["🏆", "Challenge Mode", "“Can you beat my 67/100 score?” creates viral challenges that spread organically"],
-  ["📊", "Detailed Shame Report", "Neck, shoulders, back, hips – each area gets exposed with star ratings they can't ignore"],
+  ["🏆", "Points & Rewards", "Every catch earns points in your betterhood account. Reach 1000 and swap them for a ₹200 shop coupon"],
+  ["📊", "Detailed Shame Report", "Neck, shoulders, back, knees – each area gets a score out of 9 they can't ignore"],
   ["🛡️", "Privacy Protected", "Photos are analyzed and deleted instantly. We don't store anyone's embarrassing moments!"],
 ];
 const faqs = [
@@ -55,16 +43,70 @@ const faqs = [
         <span class="badge badge-dark">🚨 Posture Police · Free to roast</span>
         <h1 class="display">Caught your friend <span class="wiggle">slouching?</span></h1>
         <p class="lead">Upload their photo and reveal their posture animal. Warning: they might turn out to be a shrimp. 🦐</p>
-        <a class="btn btn-lg" href={TOOL}>Catch a sloucher now <Icon name="arrow" class="arrow" /></a>
+        <p class="lead sc-earn">Share the catch on WhatsApp to earn points. <strong>1000 points = ₹200 off</strong> at the betterhood shop.</p>
+        <a class="sc-points" href="/account/" data-points-line hidden></a>
+        <ul class="sc-strip" aria-hidden="true"><li>🦐</li><li>🐢</li><li>🦒</li><li>🦍</li><li>🐧</li><li>🦢</li><li>🐎</li></ul>
       </div>
-      <div class="phone" aria-hidden="true">
-        <div class="screen">
-          <p class="caught">CAUGHT!</p>
-          <p class="emoji" data-emoji>🦐</p>
-          <p class="persona" data-persona>Shrimp</p>
-          <p class="score"><span data-score>34</span>/100</p>
-          <div class="bars"><span style="--w:30%">Neck</span><span style="--w:42%">Shoulders</span><span style="--w:25%">Back</span><span style="--w:55%">Hips</span></div>
-          <span class="wa"><Icon name="whatsapp" size={16} /> Share the shame</span>
+
+      <div class="sc-tool" id="catch" data-tool>
+        <div class="sc-state" data-state="upload">
+          <div class="sc-drop" data-drop>
+            <span class="sc-big">📸</span>
+            <strong>Snap or upload a photo of the suspect</strong>
+            <small>Side-on, with head, shoulders and back in frame works best. Photos are checked and never stored.</small>
+            <div class="sc-pick">
+              <label class="btn btn-lg" for="sc-cam" tabindex="0">Take a photo</label>
+              <label class="btn btn-lg btn-ghost" for="sc-file" tabindex="0">Upload a photo</label>
+            </div>
+            <input type="file" id="sc-cam" accept="image/*" capture="environment" class="sr-only" />
+            <input type="file" id="sc-file" accept="image/jpeg,image/png,image/webp,image/*" class="sr-only" />
+          </div>
+        </div>
+
+        <div class="sc-state sc-wait" data-state="loading" hidden>
+          <img class="sc-shot" data-loading-img alt="" />
+          <p class="sc-loading" data-loading-text role="status">Interrogating the suspect...</p>
+        </div>
+
+        <div class="sc-state" data-state="result" hidden>
+          <article class="sc-result" data-result>
+            <p class="sc-verdict" data-verdict></p>
+            <div class="sc-id">
+              <img class="sc-thumb" data-result-img alt="Your photo" />
+              <div>
+                <p class="sc-kicker" data-kicker>Posture animal</p>
+                <h2 class="sc-name"><span data-emoji></span> <span data-name></span></h2>
+                <p class="sc-pattern" data-pattern></p>
+              </div>
+            </div>
+            <div class="sc-score" data-score-block>
+              <div class="sc-score-row"><span>Posture score</span><strong data-score></strong></div>
+              <div class="sc-meter"><i data-meter></i></div>
+            </div>
+            <p class="sc-roast" data-roast></p>
+            <ul class="sc-zones" data-zones aria-label="Score by zone, out of 9"></ul>
+            <p class="sc-summary" data-summary></p>
+            <ul class="sc-chips" data-issues></ul>
+            <p class="form-note" data-demo hidden></p>
+          </article>
+          <div class="sc-acts">
+            <button class="btn btn-lg btn-wa btn-block" type="button" data-share><Icon name="whatsapp" size={18} /> <span data-share-label>Roast on WhatsApp</span></button>
+            <p class="sc-fine center" data-share-perk hidden></p>
+            <div class="sc-row">
+              <button class="btn btn-ghost" type="button" data-download>Download card</button>
+              <button class="btn btn-ghost" type="button" data-again>Catch another</button>
+            </div>
+          </div>
+          <div class="sc-products" data-products hidden>
+            <p class="eyebrow no-line" data-products-label>Physio-recommended fixes</p>
+            <ul data-product-list></ul>
+          </div>
+        </div>
+
+        <div class="sc-state sc-error" data-state="error" hidden>
+          <span class="sc-big">🕵️</span>
+          <p class="sc-err" data-error-msg></p>
+          <div class="sc-row"><button class="btn" type="button" data-retry>Try again</button><button class="btn btn-ghost" type="button" data-again>Use another photo</button></div>
         </div>
       </div>
     </div>
@@ -85,10 +127,8 @@ const faqs = [
 
   <section class="section bg-plum">
     <div class="wrap">
-      <div class="section-head"><div><p class="eyebrow">Discover your posture persona</p><h2 class="h2">From Shrimp to Peacock – which one are you?</h2></div></div>
-      <ol class="personas">
-        {personas.map(([e, n, s, d]) => <li><span class="pe">{e}</span><strong>{n}</strong><span class="ps">Score: {s}</span><p>{d}</p></li>)}
-      </ol>
+      <div class="section-head"><div><p class="eyebrow">Discover your posture animal</p><h2 class="h2">From Horse to Shrimp – which one are you?</h2></div></div>
+      <ol class="personas" data-personas></ol>
     </div>
   </section>
 
@@ -110,8 +150,8 @@ const faqs = [
     <div class="wrap">
       <div class="ready">
         <h2 class="h2">Ready to catch a sloucher?</h2>
-        <p class="lead">Join 12,000+ people spreading posture awareness the fun way</p>
-        <a class="btn btn-dark btn-lg" href={TOOL}>Catch your first friend <Icon name="arrow" class="arrow" /></a>
+        <p class="lead">Join 12,000+ people spreading posture awareness the fun way, and earn points while you do it</p>
+        <a class="btn btn-dark btn-lg" href="#catch">Catch your first friend <Icon name="arrow" class="arrow" /></a>
       </div>
     </div>
   </section>
@@ -120,24 +160,18 @@ const faqs = [
 
   <section class="section"><div class="wrap"><Faq items={faqs} /></div></section>
 
+  <dialog class="sc-dlg" data-dlg aria-label="Share your catch">
+    <button type="button" class="sc-x" aria-label="Close" data-close><Icon name="close" /></button>
+    <div data-dlg-body></div>
+  </dialog>
 </Base>
 
 <style>
   .sc-hero { padding: clamp(40px, 6vw, 80px) 0 40px; background: radial-gradient(70% 90% at 85% 20%, var(--sun-200), transparent 60%), var(--sun-100); overflow: hidden; }
-  .sc-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; }
+  .sc-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: start; }
   .wiggle { display: inline-block; color: var(--plum-600); transform-origin: 50% 100%; animation: slouch 3.2s var(--ease) infinite; }
   @keyframes slouch { 0%, 60%, 100% { transform: none; } 70% { transform: skewX(-12deg) translateY(4px); } 85% { transform: skewX(4deg); } }
-  .phone { justify-self: center; width: 280px; padding: 14px; border-radius: 44px; background: var(--plum-900); box-shadow: var(--shadow-lg); transform: rotate(4deg); }
-  .screen { border-radius: 32px; background: #fff; padding: 28px 22px; text-align: center; display: grid; gap: 6px; }
-  .caught { font: 800 14px var(--font-display); letter-spacing: 0.3em; color: var(--coral-500); }
-  .emoji { font-size: 84px; line-height: 1.1; transition: transform 0.4s var(--ease); }
-  .persona { font: 700 28px var(--font-display); }
-  .score { font: 700 18px var(--font-display); color: var(--plum-600); }
-  .bars { display: grid; gap: 8px; margin: 14px 0; text-align: left; font-size: 12.5px; }
-  .bars span { position: relative; padding: 4px 10px; border-radius: 8px; background: var(--plum-50); overflow: hidden; }
-  .bars span::before { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--sun-200); z-index: 0; transition: width 0.6s var(--ease); }
-  .bars span { isolation: isolate; } .bars span::before { z-index: -1; }
-  .wa { display: inline-flex; gap: 6px; justify-content: center; align-items: center; padding: 10px; border-radius: var(--r-pill); background: #25d366; color: #fff; font-weight: 600; font-size: 14px; }
+  .sc-earn strong { color: var(--plum-700); }
   .sc-stats { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 48px; }
   .sc-stats li { background: #fff; border-radius: var(--r-lg); padding: 18px 22px; display: grid; }
   .sc-stats strong { font: 700 32px var(--font-display); color: var(--plum-700); }
@@ -146,31 +180,341 @@ const faqs = [
   .steps li { padding: 28px; display: grid; gap: 10px; position: relative; }
   .steps .n { position: absolute; top: 20px; right: 22px; font: 800 54px var(--font-display); color: var(--plum-100); }
   .e { font-size: 40px; line-height: 1; }
-  .personas { list-style: none; display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
-  .personas li { display: grid; gap: 6px; align-content: start; padding: 20px 16px; border-radius: var(--r-lg); background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); text-align: center; transition: transform 0.3s var(--ease), background 0.3s; }
-  .personas li:hover { transform: translateY(-6px) rotate(-1.5deg); background: rgba(255, 255, 255, 0.12); }
-  .pe { font-size: 46px; }
-  .personas strong { font-family: var(--font-display); font-size: 18px; }
-  .ps { font-size: 12.5px; color: var(--sun-500); font-weight: 700; }
-  .personas p { font-size: 13.5px; color: rgba(255, 255, 255, 0.72); }
   .tile { padding: 26px; display: grid; gap: 10px; align-content: start; }
   .tile.alt { background: var(--cream); }
   .ready { text-align: center; display: grid; gap: 14px; justify-items: center; padding: clamp(32px, 5vw, 64px); border-radius: var(--r-xl); background: var(--sun-500); }
   .ready .lead { color: var(--plum-900); }
+  @media (max-width: 860px) { .sc-grid, .steps { grid-template-columns: 1fr; } .sc-stats { grid-template-columns: 1fr 1fr; } }
+</style>
+
+<style is:global>
+  /* Slouch Catcher tool (much of it is drawn by the script, so these are global; every class starts with sc-) */
+  .sc-points { display: inline-flex; align-self: start; justify-self: start; gap: 8px; align-items: center; padding: 8px 16px; border-radius: var(--r-pill); background: var(--plum-900); color: #fff; font-weight: 600; font-size: 15px; }
+  .sc-points[hidden] { display: none; }
+  .sc-strip { list-style: none; display: flex; gap: 10px; font-size: 34px; }
+  .sc-tool { background: #fff; border-radius: var(--r-xl); box-shadow: var(--shadow-lg); padding: clamp(18px, 2.6vw, 28px); scroll-margin-top: 90px; }
+  .sc-state { display: grid; gap: 16px; }
+  .sc-state[hidden] { display: none; }
+  .sc-drop { display: grid; gap: 10px; justify-items: center; text-align: center; padding: clamp(24px, 4vw, 44px) 18px; border: 2px dashed var(--plum-300); border-radius: var(--r-lg); background: var(--plum-50); transition: background 0.25s ease-in-out, border-color 0.25s ease-in-out; }
+  .sc-drop.drag { background: var(--sun-100); border-color: var(--sun-500); }
+  .sc-drop strong { font: 700 20px var(--font-display); }
+  .sc-drop small { color: var(--ink-mute); max-width: 340px; }
+  .sc-big { font-size: 52px; line-height: 1; }
+  .sc-pick { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 8px; }
+  .sc-pick label { cursor: pointer; }
+  .sc-wait { justify-items: center; text-align: center; }
+  .sc-shot { width: 100%; max-height: 340px; object-fit: contain; border-radius: var(--r-lg); background: var(--plum-50); animation: scpulse 1.6s ease-in-out infinite; }
+  @keyframes scpulse { 50% { opacity: 0.6; } }
+  .sc-loading { font-weight: 600; color: var(--plum-700); }
+  .sc-result { display: grid; gap: 14px; }
+  .sc-verdict { justify-self: start; padding: 6px 14px; border-radius: var(--r-pill); font-weight: 700; font-size: 14px; background: var(--plum-100); color: var(--plum-800); }
+  .sc-verdict.bad { background: #ffe3de; color: #a3321f; }
+  .sc-verdict.good { background: var(--mint-100); color: var(--mint-700); }
+  .sc-id { display: flex; gap: 16px; align-items: center; }
+  .sc-thumb { flex: none; width: 96px; height: 96px; object-fit: cover; border-radius: var(--r-md); border: 3px solid var(--sun-500); }
+  .sc-kicker { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute); }
+  .sc-name { font: 700 clamp(26px, 3vw, 34px)/1.1 var(--font-display); }
+  .sc-pattern { color: var(--plum-700); font-weight: 600; }
+  .sc-score-row { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 6px; }
+  .sc-score-row strong { font: 700 20px var(--font-display); color: var(--plum-800); }
+  .sc-meter { height: 10px; border-radius: 10px; background: var(--plum-50); overflow: hidden; }
+  .sc-meter i { display: block; height: 100%; width: 0; border-radius: 10px; transition: width 0.9s ease-in-out; }
+  .sc-roast { font-style: italic; color: var(--ink-soft); padding: 12px 16px; border-left: 4px solid var(--sun-500); background: var(--sun-100); border-radius: 0 var(--r-md) var(--r-md) 0; }
+  .sc-zones { list-style: none; display: grid; gap: 8px; }
+  .sc-zones[hidden] { display: none; }
+  .sc-zone { display: grid; grid-template-columns: 74px 1fr 22px 54px; gap: 10px; align-items: center; font-size: 14.5px; }
+  .sc-zbar { height: 8px; border-radius: 8px; background: var(--plum-50); overflow: hidden; }
+  .sc-zbar i { display: block; height: 100%; border-radius: 8px; background: var(--plum-500); }
+  .sc-zone.strong .sc-zbar i { background: var(--mint-600); }
+  .sc-zone.decent .sc-zbar i { background: var(--sun-500); }
+  .sc-zone.poor .sc-zbar i { background: var(--coral-500); }
+  .sc-zone small { color: var(--ink-mute); text-transform: capitalize; }
+  .sc-summary { color: var(--ink-soft); }
+  .sc-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .sc-chips li { padding: 4px 12px; border-radius: var(--r-pill); background: var(--plum-100); color: var(--plum-800); font-size: 13.5px; font-weight: 600; }
+  .sc-acts { display: grid; gap: 10px; }
+  .sc-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .sc-row .btn { flex: 1; }
+  .sc-fine { font-size: 13px; color: var(--ink-mute); }
+  .sc-fine.center { text-align: center; }
+  .sc-fine[hidden] { display: none; }
+  .btn-wa { --b-bg: #1fa855; --b-bd: #1fa855; --b-fg: #fff; }
+  .sc-products { display: grid; gap: 10px; padding-top: 6px; border-top: 1px solid var(--line); }
+  .sc-products[hidden] { display: none; }
+  .sc-products ul { list-style: none; display: grid; gap: 10px; }
+  .sc-products li a { display: flex; gap: 12px; align-items: center; padding: 10px; border-radius: var(--r-md); background: var(--cream); }
+  .sc-products img { width: 64px; height: 64px; object-fit: cover; border-radius: var(--r-sm, 10px); background: #fff; }
+  .sc-products strong { display: block; font-size: 15px; }
+  .sc-products small { color: var(--ink-mute); font-size: 13px; }
+  .sc-products b { color: var(--plum-800); }
+  .sc-products s { color: var(--ink-mute); font-size: 13px; margin-left: 6px; }
+  .sc-error { justify-items: center; text-align: center; }
+  .sc-err { font-weight: 600; }
+  .sc-dlg { border: 0; padding: 0; border-radius: var(--r-xl); width: min(460px, 94vw); max-height: 92vh; box-shadow: var(--shadow-lg); }
+  .sc-dlg::backdrop { background: rgba(27, 8, 32, 0.6); backdrop-filter: blur(3px); }
+  .sc-dlg > div { padding: 30px 26px 26px; }
+  .sc-x { position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--plum-50); display: grid; place-items: center; cursor: pointer; z-index: 1; }
+  .sc-step { display: grid; gap: 14px; }
+  .sc-phone { display: flex; }
+  .sc-phone span { display: grid; place-items: center; padding: 0 12px; border: 1.5px solid var(--line-strong); border-right: 0; border-radius: var(--r-md) 0 0 var(--r-md); background: var(--plum-50); font-weight: 600; color: var(--ink-soft); }
+  .sc-phone .input { border-radius: 0 var(--r-md) var(--r-md) 0; flex: 1; min-width: 0; }
+  .sc-code { letter-spacing: 0.4em; font-size: 20px; font-weight: 700; }
+  .sc-check { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; line-height: 1.45; color: var(--ink-soft); cursor: pointer; }
+  .sc-check input { flex: none; width: 18px; height: 18px; margin-top: 2px; accent-color: var(--plum-700); }
+  .sc-link { border: 0; background: none; padding: 0; color: var(--plum-700); font-weight: 600; cursor: pointer; text-decoration: underline; }
+  .sc-preview { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r-lg); background: var(--plum-50); }
+  .sc-earned { padding: 12px 16px; border-radius: var(--r-md); background: var(--mint-100); color: var(--mint-700); font-weight: 600; }
+  .personas { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .personas li { display: grid; gap: 6px; align-content: start; padding: 20px 16px; border-radius: var(--r-lg); background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); text-align: center; transition: transform 0.3s var(--ease), background 0.3s; }
+  .personas li:hover { transform: translateY(-6px) rotate(-1.5deg); background: rgba(255, 255, 255, 0.12); }
+  .personas .pe { font-size: 46px; }
+  .personas strong { font-family: var(--font-display); font-size: 18px; }
+  .personas .ps { font-size: 12.5px; color: var(--sun-500); font-weight: 700; }
+  .personas p { font-size: 13.5px; color: rgba(255, 255, 255, 0.72); }
   @media (max-width: 1100px) { .personas { grid-template-columns: repeat(4, 1fr); } }
-  @media (max-width: 860px) { .sc-grid, .steps { grid-template-columns: 1fr; } .sc-stats { grid-template-columns: 1fr 1fr; } .personas { grid-template-columns: repeat(2, 1fr); } .phone { width: 240px; } }
+  @media (max-width: 860px) { .personas { grid-template-columns: repeat(2, 1fr); } }
 </style>
 
 <script>
-  // the demo phone cycles through personas
-  const P = [["🦐", "Shrimp", 34], ["❓", "Question Mark", 49], ["🐢", "Turtle", 61], ["🦩", "Flamingo", 74], ["🦒", "Giraffe", 86], ["🦦", "Meerkat", 93], ["🦚", "Peacock", 98]] as const;
-  const em = document.querySelector<HTMLElement>("[data-emoji]")!, pn = document.querySelector<HTMLElement>("[data-persona]")!, sc = document.querySelector<HTMLElement>("[data-score]")!;
-  const bars = [...document.querySelectorAll<HTMLElement>(".bars span")];
-  let i = 0;
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(() => {
-    i = (i + 1) % P.length;
-    const [e, n, s] = P[i];
-    em.textContent = e; pn.textContent = n; sc.textContent = String(s);
-    bars.forEach((b, j) => b.style.setProperty("--w", `${Math.min(100, s - 10 + j * 7)}%`));
-  }, 2200);
+  import { drawCard, esc, loadPersonas, me, pageUrl, catchUrl, personalLine, sc, scoreColor, shopLink, shortName, signInInline, signedIn, toJpeg, zonesHtml, type Me, type Persona, type Result } from "../scripts/slouch";
+  import { accountsOn } from "../scripts/account";
+  import { href } from "../scripts/base";
+
+  const tool = document.querySelector<HTMLElement>("[data-tool]")!;
+  const $ = <T extends Element = HTMLElement>(s: string, root: ParentNode = tool) => root.querySelector<T>(s)!;
+  const show = (name: string) => tool.querySelectorAll<HTMLElement>("[data-state]").forEach((el) => (el.hidden = el.dataset.state !== name));
+  const dlg = document.querySelector<HTMLDialogElement>("[data-dlg]")!;
+  const body = $("[data-dlg-body]", dlg);
+  const LINES = ["Interrogating the suspect...", "Measuring how far that neck has wandered...", "Checking for shrimp tendencies...", "Inspecting the shoulders for evidence...", "Choosing their posture animal..."];
+  const NAME_KEY = "sc_catcher";
+
+  let byId: Record<string, Persona> = {};
+  let account: Me | null = null;
+  let photo = "";
+  let last: { r: Result; p: Persona | null } | null = null;
+  let people: { catcher: string; target: string } | null = null;
+  let caught: { code: string; pointsEarned: number; points: number; joinPoints: number } | null = null;
+  let card: Promise<File | null> | null = null;
+  let pointsBefore = 0; // balance before this share, so the card says everything earned (welcome + catch)
+
+  // ---------- personas (from the Slouch Catcher service, so the 20 animals live in one place) ----------
+  loadPersonas().then((list) => {
+    byId = Object.fromEntries(list.map((p) => [p.id, p]));
+    document.querySelector("[data-personas]")!.innerHTML = list.map((p) => `<li><span class="pe">${p.emoji}</span><strong>${esc(shortName(p))}</strong><span class="ps">${esc(p.pattern)}</span><p>${esc(p.remark)}</p></li>`).join("");
+  });
+
+  // ---------- points ----------
+  const pointsOn = () => accountsOn() && !!account?.enabled && !!account?.betterhood;
+  async function refreshAccount() {
+    try { account = await me(); } catch { account = null; }
+    const line = document.querySelector<HTMLAnchorElement>("[data-points-line]")!;
+    line.hidden = !(account?.user && pointsOn());
+    if (account?.user) line.textContent = `⭐ You have ${account.points ?? 0} points · ${Math.max(0, account.config.couponPoints - (account.points ?? 0))} to your ₹${account.config.couponValue} coupon`;
+    line.href = href("/account/#points");
+  }
+  refreshAccount();
+  document.addEventListener("bh:account", refreshAccount);
+
+  // ---------- photo in ----------
+  const onFile = (f?: File | null) => { if (!f) return; if (!f.type.startsWith("image/")) return fail("Please choose an image file (JPG, PNG or WebP)."); analyse(f); };
+  for (const id of ["sc-cam", "sc-file"]) {
+    const input = document.getElementById(id) as HTMLInputElement;
+    input.addEventListener("change", () => { const f = input.files?.[0]; input.value = ""; onFile(f); });
+  }
+  tool.querySelectorAll<HTMLLabelElement>("label[for]").forEach((l) => l.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); document.getElementById(l.htmlFor)!.click(); } }));
+  const drop = $("[data-drop]");
+  ["dragenter", "dragover"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("drag"); }));
+  ["dragleave", "drop"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("drag"); }));
+  drop.addEventListener("drop", (e) => onFile((e as DragEvent).dataTransfer?.files[0]));
+  document.addEventListener("paste", (e) => { if (!$("[data-state=upload]").hidden && !dlg.open) onFile([...(e.clipboardData?.files || [])].find((f) => f.type.startsWith("image/"))); });
+  tool.querySelectorAll("[data-again]").forEach((b) => b.addEventListener("click", () => { show("upload"); tool.scrollIntoView({ behavior: "smooth", block: "start" }); }));
+  $("[data-retry]").addEventListener("click", () => (photo ? send() : show("upload")));
+
+  function fail(msg: string) { $("[data-error-msg]").textContent = msg; show("error"); }
+
+  async function analyse(f: File) {
+    try { photo = await toJpeg(f); }
+    catch { return fail("We couldn't open that photo. Try a JPG or PNG (iPhone HEIC photos can be shared as 'Most Compatible')."); }
+    send();
+  }
+
+  async function send() {
+    $<HTMLImageElement>("[data-loading-img]").src = photo;
+    show("loading");
+    tool.scrollIntoView({ behavior: "smooth", block: "start" });
+    let i = 0;
+    const t = $("[data-loading-text]");
+    t.textContent = LINES[0];
+    const timer = setInterval(() => (t.textContent = LINES[Math.min(++i, LINES.length - 1)]), 1800);
+    try {
+      const [r] = await Promise.all([sc<Result>("/api/analyze", { image: photo }), loadPersonas()]);
+      render(r);
+    } catch (e) { fail((e as Error).message); }
+    finally { clearInterval(timer); }
+  }
+
+  // ---------- result ----------
+  const inr = (n: number) => "₹" + Number(n).toLocaleString("en-IN");
+  function render(r: Result) {
+    const p = (r.persona && byId[r.persona]) || null;
+    const v = $("[data-verdict]");
+    v.className = "sc-verdict " + r.verdict;
+    v.textContent = r.verdict === "good" ? "✓ Caught standing tall" : r.verdict === "bad" ? "🚨 Slouch caught!" : "🕵️ Suspect escaped";
+    $<HTMLImageElement>("[data-result-img]").src = photo;
+    $("[data-kicker]").textContent = p ? "Posture animal" : "Case unsolved";
+    $("[data-emoji]").textContent = p ? p.emoji : "🕵️";
+    $("[data-name]").textContent = p ? p.name : "No ID yet";
+    $("[data-pattern]").textContent = p ? p.pattern : "";
+    $("[data-roast]").textContent = p ? `"${p.remark}"` : "We need a clearer shot of the suspect: side-on, with head, shoulders and back in frame.";
+    const hasScore = !!p && typeof r.score === "number";
+    $("[data-score-block]").hidden = !hasScore;
+    if (hasScore) {
+      $("[data-score]").textContent = `${r.score}/10`;
+      const m = $("[data-meter]");
+      m.style.width = "0"; m.style.background = scoreColor(r.score!);
+      requestAnimationFrame(() => requestAnimationFrame(() => (m.style.width = r.score! * 10 + "%")));
+    }
+    $("[data-zones]").hidden = !r.zones;
+    $("[data-zones]").innerHTML = r.zones ? zonesHtml(r.zones) : "";
+    $("[data-summary]").textContent = r.summary;
+    $("[data-issues]").innerHTML = (r.issues || []).map((x) => `<li>${esc(x)}</li>`).join("");
+    const demo = $("[data-demo]");
+    demo.hidden = !r.demo;
+    demo.textContent = r.test ? "Test mode: this is a sample result. No AI looked at the photo." : "Demo mode: this is a sample result.";
+
+    const products = r.products || [];
+    $("[data-products]").hidden = !products.length;
+    $("[data-products-label]").textContent = p ? `${p.tier === "good" ? "Keep it that way" : "Physio-recommended fixes"} for ${p.name.toLowerCase()}` : "Physio-recommended fixes";
+    $("[data-product-list]").innerHTML = products.map((x) => {
+      const u = new URL(x.url); u.searchParams.set("utm_source", "slouch-catcher"); u.searchParams.set("utm_medium", "website");
+      return `<li><a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(x.image)}" alt="" loading="lazy"><span><strong>${esc(x.name)}</strong><small>${esc(x.why || "")}</small><span><b>${inr(x.price)}</b>${x.mrp > x.price ? `<s>${inr(x.mrp)}</s>` : ""}</span></span></a></li>`;
+    }).join("");
+
+    last = { r, p }; people = null; caught = null; card = null;
+    $("[data-share-label]").textContent = r.verdict === "good" ? "Brag on WhatsApp" : "Roast on WhatsApp";
+    const perk = $("[data-share-perk]");
+    perk.hidden = !(pointsOn() && r.catchToken);
+    if (account) perk.textContent = `Earn ${account.config.snap} points now and ${account.config.join} more when they open your link.`;
+    show("result");
+    tool.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // ---------- share: names → (sign in) → save the catch → card + WhatsApp ----------
+  const savedName = () => { try { return localStorage.getItem(NAME_KEY) || ""; } catch { return ""; } };
+  $("[data-share]").addEventListener("click", () => (people ? readyStep() : namesStep()));
+  $("[data-download]").addEventListener("click", async () => { const f = await makeCard(); if (f) download(f); });
+  dlg.querySelector("[data-close]")!.addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+  const open = () => { if (!dlg.open) dlg.showModal(); };
+
+  function namesStep() {
+    const earn = pointsOn() && !!last?.r.catchToken;
+    body.innerHTML = `<form class="sc-step" novalidate>
+      <h2 class="h3">Who caught whom?</h2>
+      <p class="muted">We put both names on the Caught Card.${earn ? ` You earn <b>${account!.config.snap} points</b> for this catch and <b>${account!.config.join}</b> more when they open your link. ${account!.config.couponPoints} points = ${inr(account!.config.couponValue)} off at the betterhood shop.` : ""}</p>
+      <div class="field"><label for="sc-me">Your name</label><input class="input" id="sc-me" maxlength="30" autocomplete="given-name" value="${esc(savedName() || account?.user?.name || "")}"></div>
+      <div class="field"><label for="sc-them">Who did you catch?</label><input class="input" id="sc-them" maxlength="30" placeholder="Their name"></div>
+      <p class="form-note err" data-err hidden></p>
+      <button class="btn btn-block btn-lg" type="submit">${earn && !signedIn() ? "Next: collect my points" : "Make my card"}</button>
+      ${earn && !signedIn() ? `<button class="sc-link" type="button" data-nopoints>Skip points, just make the card</button>` : ""}
+    </form>`;
+    open();
+    const f = body.querySelector("form")!;
+    const read = () => {
+      const catcher = f.querySelector<HTMLInputElement>("#sc-me")!.value.trim().slice(0, 30);
+      const target = f.querySelector<HTMLInputElement>("#sc-them")!.value.trim().slice(0, 30);
+      const err = f.querySelector<HTMLElement>("[data-err]")!;
+      if (!catcher || !target) { err.textContent = !catcher ? "Tell us your name." : "Who did you catch? Add their name."; err.hidden = false; return null; }
+      try { localStorage.setItem(NAME_KEY, catcher); } catch {}
+      return { catcher, target };
+    };
+    f.querySelector("[data-nopoints]")?.addEventListener("click", () => { const who = read(); if (who) finish(who, false); });
+    f.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const who = read();
+      if (!who) return;
+      if (!earn) return finish(who, false);
+      pointsBefore = account?.user ? account.points ?? 0 : 0;
+      if (!signedIn()) {
+        await signInInline(body, {
+          name: who.catcher, title: "Collect your points",
+          sub: "Points go into your free betterhood account. Sign in with your WhatsApp number. New here? This creates your account.",
+        });
+        await refreshAccount();
+      }
+      finish(who, true);
+    });
+    f.querySelector<HTMLInputElement>(savedName() ? "#sc-them" : "#sc-me")!.focus();
+  }
+
+  async function finish(who: { catcher: string; target: string }, withPoints: boolean) {
+    people = who; caught = null; card = null;
+    if (withPoints && last?.r.catchToken) {
+      body.innerHTML = `<p class="sc-loading">Saving your catch...</p>`;
+      try {
+        caught = await sc("/api/catches", { token: last.r.catchToken, targetName: who.target, catcherName: who.catcher });
+        await refreshAccount();
+      } catch (e) { console.warn("[slouch] catch not saved:", (e as Error).message); }
+    }
+    readyStep();
+  }
+
+  function makeCard() {
+    if (!last) return Promise.resolve(null);
+    const name = people?.target || last.p?.name || "slouch";
+    return (card ||= drawCard(photo, last.r, last.p, people)
+      .then((b) => new File([b], `caught-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.jpg`, { type: "image/jpeg" }))
+      .catch(() => null));
+  }
+
+  function message() {
+    const { r, p } = last!;
+    const { catcher, target } = people!;
+    const link = caught ? catchUrl(caught.code) : pageUrl();
+    const lines = !p
+      ? [`🕵️ *${target}* just dodged ${catcher}'s Slouch Catcher. For now.`, "", "Think you can catch them? Snap them mid-slouch and find out which of 20 posture animals they really are."]
+      : [
+          ...(r.verdict === "bad" ? ["🚨 *SLOUCH ALERT!*", `${catcher} just caught *${target}* slouching.`] : ["🏆 *POSTURE GOALS!*", `${catcher} caught *${target}* sitting tall.`]),
+          "", `${p.emoji} ${target} is *${p.name}* with *${r.score}/10*`, `_"${p.remark}"_`, "",
+          r.verdict === "bad"
+            ? "👀 Who's next? Catch someone in this group slouching and find out which of 20 posture animals they are. It's free and takes 10 seconds."
+            : "😏 Bet nobody else here can beat that. Catch a friend (or yourself) and see which of 20 posture animals they are.",
+        ];
+    const invite = caught ? ["", `🔓 *${target}*, tap to see your full report and catch ${catcher} back:`] : [];
+    const fix = p ? ["", `${r.verdict === "bad" ? "🛠️ Fix the slouch" : "🛠️ Keep it that way"}: ${shopLink(r.products?.[0]?.id)}`] : [];
+    return [...lines, ...invite, `👉 ${link}`, ...fix].join("\n");
+  }
+
+  async function readyStep() {
+    const text = message();
+    const earned = caught ? `${caught.points > pointsBefore ? `+${caught.points - pointsBefore} points! ` : ""}You'll get ${caught.joinPoints} more when ${people!.target} opens your link. You have ${caught.points} points.` : "";
+    body.innerHTML = `<div class="sc-step">
+      <h2 class="h3">Your Caught Card is ready</h2>
+      ${earned ? `<p class="sc-earned">${esc(earned)}</p>` : ""}
+      <img class="sc-preview" alt="Caught Card preview" data-preview>
+      <a class="btn btn-lg btn-wa btn-block" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener" data-send>Send on WhatsApp</a>
+      <p class="sc-fine center" data-hint hidden></p>
+      ${caught ? `<a class="btn btn-ghost btn-block" href="${href("/account/#points")}">See my points</a>` : ""}
+    </div>`;
+    open();
+    const file = await makeCard();
+    if (file) body.querySelector<HTMLImageElement>("[data-preview]")!.src = URL.createObjectURL(file);
+    body.querySelector("[data-send]")!.addEventListener("click", (e) => {
+      if (!file) return;
+      if (navigator.canShare?.({ files: [file] })) {
+        e.preventDefault();
+        navigator.share({ files: [file], text }).catch((err) => { if (err.name !== "AbortError") window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener"); });
+        return;
+      }
+      download(file);
+      const h = body.querySelector<HTMLElement>("[data-hint]")!;
+      h.textContent = "Card saved. Attach it in the WhatsApp chat for the full roast!"; h.hidden = false;
+    });
+  }
+
+  function download(f: File) {
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(f), download: f.name });
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
 </script>
